@@ -18,7 +18,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Reverse;
 
         /// <summary>The Reverse property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Reversed)]
+        [ObjectStringMappable(ObjectParameter.Reversed, false)]
         public bool Reverse
         {
             get => TriggerBools[3];

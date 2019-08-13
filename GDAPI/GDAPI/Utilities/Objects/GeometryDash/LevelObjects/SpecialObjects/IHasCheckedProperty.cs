@@ -12,7 +12,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public interface IHasCheckedProperty
     {
         /// <summary>Represents the Checked property of the special object.</summary>
-        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked)]
+        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked, null, true)]
         bool Checked { get; set; }
     }
 }

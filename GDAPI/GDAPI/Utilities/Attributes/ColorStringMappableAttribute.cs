@@ -14,7 +14,7 @@ namespace GDAPI.Utilities.Attributes
         /// <summary>The key the property represents in the color string.</summary>
         public int Key { get; }
 
-        /// <summary>Initializes a new instance of the <seealso cref="ColorStringMappableAttribute"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ColorStringMappableAttribute"/> attribute.</summary>
         /// <param name="key">The key the property represents in the color string.</param>
         public ColorStringMappableAttribute(int key)
         {

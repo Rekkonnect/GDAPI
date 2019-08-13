@@ -12,7 +12,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasDuration
     {
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         double Duration { get; set; }
     }
 }

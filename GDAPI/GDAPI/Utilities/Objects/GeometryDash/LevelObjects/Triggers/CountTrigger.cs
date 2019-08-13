@@ -20,14 +20,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Count;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Item ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ItemID)]
+        [ObjectStringMappable(ObjectParameter.ItemID, 0)]
         public int ItemID
         {
             get => itemID;
@@ -40,17 +40,17 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => ItemID = value;
         }
         /// <summary>The Target Count property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Count)]
+        [ObjectStringMappable(ObjectParameter.Count, 0)]
         public int TargetCount { get; set; }
         /// <summary>The Activate Group property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup)]
+        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
         public bool ActivateGroup
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Multi Activate property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MultiActivate)]
+        [ObjectStringMappable(ObjectParameter.MultiActivate, false)]
         public bool MultiActivate
         {
             get => TriggerBools[4];

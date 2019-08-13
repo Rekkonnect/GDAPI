@@ -412,14 +412,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         }
         /// <summary>Removes the empty elements of a string array and returns the new array.</summary>
         /// <param name="a">The array of strings.</param>
-        public static string[] RemoveEmptyElements(this string[] a)
-        {
-            List<string> result = new List<string>();
-            for (int i = 0; i < a.Length; i++)
-                if (a[i].Length > 0)
-                    result.Add(a[i]);
-            return result.ToArray();
-        }
+        public static string[] RemoveEmptyElements(this string[] a) => RemoveEmptyElements(a.ToList()).ToArray();
         /// <summary>Determines whether there is at least one occurrence of a string in a string of the string array.</summary>
         /// <param name="a">The array of strings.</param>
         /// <param name="match">The string to match.</param>
@@ -476,6 +469,26 @@ namespace GDAPI.Utilities.Functions.Extensions
                 separated.Add(s[i].Split(separator));
             return separated.ToTwoDimensionalArray();
         }
+        #endregion
+
+        #region List<string>
+        /// <summary>Removes the empty elements of a string list and returns the new list.</summary>
+        /// <param name="a">The list of strings.</param>
+        public static List<string> RemoveEmptyElements(this List<string> a)
+        {
+            List<string> result = new List<string>();
+            for (int i = 0; i < a.Count; i++)
+                if (a[i].Length > 0)
+                    result.Add(a[i]);
+            return result;
+        }
+        #endregion
+
+        #region IEnumerable<string>
+        /// <summary>Aggregates the provided items with the provided aggregator function if the items' count is greater than 0, otherwise returns an empty string.</summary>
+        /// <param name="strings">The strings to aggregate.</param>
+        /// <param name="aggregator">The aggregator function to use when aggregating the strings.</param>
+        public static string AggregateIfContains(this IEnumerable<string> strings, Func<string, string, string> aggregator) => strings.Count() > 0 ? strings.Aggregate(aggregator) : "";
         #endregion
     }
 }

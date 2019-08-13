@@ -22,45 +22,44 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.StaticCamera;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The secondary Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
         public int SecondaryGroupID
         {
             get => TargetPosGroupID;
             set => TargetPosGroupID = (short)value;
         }
         /// <summary>The Target Pos Group ID property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetPosGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetPosGroupID, 0)]
         public int TargetPosGroupID
         {
             get => targetPosGroupID;
             set => targetPosGroupID = (short)value;
         }
         /// <summary>The easing of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Easing)]
+        [ObjectStringMappable(ObjectParameter.Easing, Easing.None)]
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.EasingRate)]
+        [ObjectStringMappable(ObjectParameter.EasingRate, 2d)]
         public double EasingRate
         {
             get => easingRate;
             set => easingRate = (float)value;
         }
         /// <summary>The Exit Static property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ExitStatic)]
+        [ObjectStringMappable(ObjectParameter.ExitStatic, false)]
         public bool ExitStatic
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Target Pos coordinates property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetPosCoordinates)]
+        [ObjectStringMappable(ObjectParameter.TargetPosCoordinates, TargetPosCoordinates.Both)]
         public TargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="StaticCameraTrigger"/> class.</summary>

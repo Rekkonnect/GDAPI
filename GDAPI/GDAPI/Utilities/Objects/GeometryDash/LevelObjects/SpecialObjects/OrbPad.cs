@@ -14,14 +14,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public abstract class OrbPad : ConstantIDSpecialObject, IHasCheckedProperty
     {
         /// <summary>Represents the Switch Player Direction property of the orb or pad.</summary>
-        [ObjectStringMappable(ObjectParameter.SwitchPlayerDirection)]
+        [ObjectStringMappable(ObjectParameter.SwitchPlayerDirection, false)]
         public bool SwitchPlayerDirection
         {
             get => SpecialObjectBools[0];
             set => SpecialObjectBools[0] = value;
         }
         /// <summary>Represents the Checked property of the orb or pad.</summary>
-        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked)]
+        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked, false)]
         public bool Checked
         {
             get => SpecialObjectBools[1];

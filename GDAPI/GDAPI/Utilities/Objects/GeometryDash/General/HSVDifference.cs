@@ -10,6 +10,8 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
     /// <summary>Represents the HSV adjustment in an object's color or a trigger's copied color HSV adjustment.</summary>
     public class HSVAdjustment
     {
+        public const string DefaultHSVString = "0a1a1a0a0";
+
         private H h;
         private SV s, v;
         private SVAdjustmentMode saturationMode;

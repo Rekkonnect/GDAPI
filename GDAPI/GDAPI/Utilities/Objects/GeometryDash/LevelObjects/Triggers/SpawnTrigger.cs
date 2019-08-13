@@ -21,21 +21,21 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Spawn;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Delay property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SpawnDelay)]
+        [ObjectStringMappable(ObjectParameter.SpawnDelay, 0d)]
         public double Delay
         {
             get => delay;
             set => delay = (float)value;
         }
         /// <summary>The Editor Disable property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.EditorDisable)]
+        [ObjectStringMappable(ObjectParameter.EditorDisable, false)]
         public bool EditorDisable
         {
             get => TriggerBools[3];

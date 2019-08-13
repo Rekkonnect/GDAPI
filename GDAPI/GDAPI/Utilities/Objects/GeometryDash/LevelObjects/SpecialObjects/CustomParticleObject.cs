@@ -19,12 +19,47 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <summary>Represents the infinite duration constant for the Duration property.</summary>
         public const double InfiniteDuration = -1;
 
-        private byte maxParticles, emission, texture;
-        private float duration;
+        #region Default Constants
+        // The following are constants because they are subject to change
+        private const int defaultMaxParticles = 30;
+        private const int defaultEmission = 30;
+
+        private const double defaultDuration = InfiniteDuration;
+
+        private const int defaultStartSize = 2;
+        private const int defaultStartSizeAdjustment = 1;
+        private const int defaultEndSize = 1;
+        private const int defaultEndSizeAdjustment = 1;
+
+        private const double defaultLifetime = 1;
+        private const double defaultLifetimeAdjustment = 0.3f;
+        private const double defaultAngle = -90;
+        private const double defaultAngleAdjustment = 90;
+        private const double defaultSpeed = 29; // one would assume the default is 30
+        private const double defaultSpeedAdjustment = 0;
+
+        private const double defaultColorComponent = 1;
+        private const double defaultColorAdjustmentComponent = 0;
+        #endregion
+
+        private byte maxParticles = defaultMaxParticles;
+        private byte emission = defaultEmission;
+        private byte texture;
+        private float duration = (float)defaultDuration;
         private Point posVar, gravity;
-        private SymmetricalRange<int> startSize, endSize, startSpin, endSpin;
-        private SymmetricalRange<float> lifetime, angle, speed, accelRad, accelTan, fadeIn, fadeOut;
-        private SymmetricalRange<Color> start, end;
+        private SymmetricalRange<int> startSize = new SymmetricalRange<int>(defaultStartSize, defaultStartSizeAdjustment);
+        private SymmetricalRange<int> endSize = new SymmetricalRange<int>(defaultEndSize, defaultEndSizeAdjustment);
+        private SymmetricalRange<int> startSpin = new SymmetricalRange<int>(0, 0);
+        private SymmetricalRange<int> endSpin = new SymmetricalRange<int>(0, 0);
+        private SymmetricalRange<float> lifetime = new SymmetricalRange<float>((float)defaultLifetime, (float)defaultLifetimeAdjustment);
+        private SymmetricalRange<float> angle = new SymmetricalRange<float>((float)defaultAngle, (float)defaultAngleAdjustment);
+        private SymmetricalRange<float> speed = new SymmetricalRange<float>((float)defaultSpeed, (float)defaultSpeedAdjustment);
+        private SymmetricalRange<float> accelRad = new SymmetricalRange<float>(0, 0);
+        private SymmetricalRange<float> accelTan = new SymmetricalRange<float>(0, 0);
+        private SymmetricalRange<float> fadeIn = new SymmetricalRange<float>(0, 0);
+        private SymmetricalRange<float> fadeOut = new SymmetricalRange<float>(0, 0);
+        private SymmetricalRange<Color> start = new SymmetricalRange<Color>(Color.White, Color.Zero);
+        private SymmetricalRange<Color> end = new SymmetricalRange<Color>(Color.White, Color.Zero);
 
         /// <summary>The object ID of the custom particle object.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
@@ -33,122 +68,122 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         #region Motion
         // TODO: Figure out what this does
         /// <summary>The property 1 of the custom particles.</summary>
-        [ObjectStringMappable(ObjectParameter.Property1)]
+        [ObjectStringMappable(ObjectParameter.Property1, CustomParticleProperty1.Gravity)]
         public CustomParticleProperty1 Property1 { get; set; }
         /// <summary>The maximum number of particles that will be alive simultaneously.</summary>
-        [ObjectStringMappable(ObjectParameter.MaxParticles)]
+        [ObjectStringMappable(ObjectParameter.MaxParticles, defaultMaxParticles)]
         public int MaxParticles
         {
             get => maxParticles;
             set => UpdateLinkedProperties(ref emission, maxParticles = (byte)value);
         }
         /// <summary>The duration of the particle creation.</summary>
-        [ObjectStringMappable(ObjectParameter.CustomParticleDuration)]
+        [ObjectStringMappable(ObjectParameter.CustomParticleDuration, defaultDuration)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The lifetime of the particle creation.</summary>
-        [ObjectStringMappable(ObjectParameter.Lifetime)]
+        [ObjectStringMappable(ObjectParameter.Lifetime, defaultLifetime)]
         public double Lifetime
         {
             get => lifetime.MiddleValue;
             set => lifetime.MiddleValue = (float)value;
         }
         /// <summary>The Lifetime +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.LifetimeAdjustment)]
+        [ObjectStringMappable(ObjectParameter.LifetimeAdjustment, defaultLifetimeAdjustment)]
         public double LifetimeAdjustment
         {
             get => lifetime.MaximumDistance;
             set => lifetime.MaximumDistance = (float)value;
         }
         /// <summary>The Emission property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.Emission)]
+        [ObjectStringMappable(ObjectParameter.Emission, defaultEmission)]
         public int Emission
         {
             get => emission;
             set => UpdateLinkedProperties(ref maxParticles, emission = (byte)value);
         }
         /// <summary>The angle of the particles and the center.</summary>
-        [ObjectStringMappable(ObjectParameter.Angle)]
+        [ObjectStringMappable(ObjectParameter.Angle, defaultAngle)]
         public double Angle
         {
             get => angle.MiddleValue;
             set => angle.MiddleValue = (float)value;
         }
         /// <summary>The Angle +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.AngleAdjustment)]
+        [ObjectStringMappable(ObjectParameter.AngleAdjustment, defaultAngleAdjustment)]
         public double AngleAdjustment
         {
             get => angle.MaximumDistance;
             set => angle.MaximumDistance = (float)value;
         }
         /// <summary>The speed at which the particles move.</summary>
-        [ObjectStringMappable(ObjectParameter.CustomParticleSpeed)]
+        [ObjectStringMappable(ObjectParameter.CustomParticleSpeed, defaultSpeed)]
         public double Speed
         {
             get => speed.MiddleValue;
             set => speed.MiddleValue = (float)value;
         }
         /// <summary>The Speed +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.SpeedAdjustment)]
+        [ObjectStringMappable(ObjectParameter.SpeedAdjustment, defaultSpeedAdjustment)]
         public double SpeedAdjustment
         {
             get => speed.MaximumDistance;
             set => speed.MaximumDistance = (float)value;
         }
         /// <summary>The PosVarX property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.PosVarX)]
+        [ObjectStringMappable(ObjectParameter.PosVarX, 0d)]
         public double PosVarX
         {
             get => posVar.X;
             set => posVar.X = (float)value;
         }
         /// <summary>The PosVarY +- property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.PosVarY)]
+        [ObjectStringMappable(ObjectParameter.PosVarY, 0d)]
         public double PosVarY
         {
             get => posVar.Y;
             set => posVar.Y = (float)value;
         }
         /// <summary>The GravityX property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.GravityX)]
+        [ObjectStringMappable(ObjectParameter.GravityX, 0d)]
         public double GravityX
         {
             get => gravity.X;
             set => gravity.X = (float)value;
         }
         /// <summary>The GravityY +- property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.GravityY)]
+        [ObjectStringMappable(ObjectParameter.GravityY, 0d)]
         public double GravityY
         {
             get => gravity.Y;
             set => gravity.Y = (float)value;
         }
         /// <summary>The AccelRad property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.AccelRad)]
+        [ObjectStringMappable(ObjectParameter.AccelRad, 0d)]
         public double AccelRad
         {
             get => accelRad.MiddleValue;
             set => accelRad.MiddleValue = (float)value;
         }
         /// <summary>The AccelRad +- property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.AccelRadAdjustment)]
+        [ObjectStringMappable(ObjectParameter.AccelRadAdjustment, 0d)]
         public double AccelRadAdjustment
         {
             get => accelRad.MaximumDistance;
             set => accelRad.MaximumDistance = (float)value;
         }
         /// <summary>The AccelTan property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.AccelTan)]
+        [ObjectStringMappable(ObjectParameter.AccelTan, 0d)]
         public double AccelTan
         {
             get => accelTan.MiddleValue;
             set => accelTan.MiddleValue = (float)value;
         }
         /// <summary>The AccelTan +- property (unknown functionality).</summary>
-        [ObjectStringMappable(ObjectParameter.AccelTanAdjustment)]
+        [ObjectStringMappable(ObjectParameter.AccelTanAdjustment, 0d)]
         public double AccelTanAdjustment
         {
             get => accelTan.MaximumDistance;
@@ -157,168 +192,168 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         #endregion
         #region Visual
         /// <summary>The size during the start of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.StartSize)]
+        [ObjectStringMappable(ObjectParameter.StartSize, defaultStartSize)]
         public int StartSize
         {
             get => startSize.MiddleValue;
             set => startSize.MiddleValue = value;
         }
         /// <summary>The StartSize +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.StartSizeAdjustment)]
+        [ObjectStringMappable(ObjectParameter.StartSizeAdjustment, defaultStartSizeAdjustment)]
         public int StartSizeAdjustment
         {
             get => startSize.MaximumDistance;
             set => startSize.MaximumDistance = value;
         }
         /// <summary>The size during the end of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.EndSize)]
+        [ObjectStringMappable(ObjectParameter.EndSize, defaultEndSize)]
         public int EndSize
         {
             get => endSize.MiddleValue;
             set => endSize.MiddleValue = value;
         }
         /// <summary>The EndSize +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.EndSizeAdjustment)]
+        [ObjectStringMappable(ObjectParameter.EndSizeAdjustment, defaultEndSizeAdjustment)]
         public int EndSizeAdjustment
         {
             get => endSize.MaximumDistance;
             set => endSize.MaximumDistance = value;
         }
         /// <summary>The rotation during the start of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.StartSpin)]
+        [ObjectStringMappable(ObjectParameter.StartSpin, 0)]
         public int StartSpin
         {
             get => startSpin.MiddleValue;
             set => startSpin.MiddleValue = value;
         }
         /// <summary>The StartSpin +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.StartSpinAdjustment)]
+        [ObjectStringMappable(ObjectParameter.StartSpinAdjustment, 0)]
         public int StartSpinAdjustment
         {
             get => startSpin.MaximumDistance;
             set => startSpin.MaximumDistance = value;
         }
         /// <summary>The rotation during the end of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.EndSpin)]
+        [ObjectStringMappable(ObjectParameter.EndSpin, 0)]
         public int EndSpin
         {
             get => endSpin.MiddleValue;
             set => endSpin.MiddleValue = value;
         }
         /// <summary>The EndSpin +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.EndSpinAdjustment)]
+        [ObjectStringMappable(ObjectParameter.EndSpinAdjustment, 0)]
         public int EndSpinAdjustment
         {
             get => endSpin.MaximumDistance;
             set => endSpin.MaximumDistance = value;
         }
         /// <summary>The alpha value of the color during the start of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.StartA)]
+        [ObjectStringMappable(ObjectParameter.StartA, defaultColorComponent)]
         public double StartA
         {
             get => start.MiddleValue.A;
             set => start.MiddleValue.A = (float)value;
         }
         /// <summary>The Start_A +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.StartAAdjustment)]
+        [ObjectStringMappable(ObjectParameter.StartAAdjustment, defaultColorAdjustmentComponent)]
         public double StartAAdjustment
         {
             get => start.MaximumDistance.A;
             set => start.MaximumDistance.A = (float)value;
         }
         /// <summary>The red value of the color during the start of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.StartR)]
+        [ObjectStringMappable(ObjectParameter.StartR, defaultColorComponent)]
         public double StartR
         {
             get => start.MiddleValue.R;
             set => start.MiddleValue.R = (float)value;
         }
         /// <summary>The Start_R +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.StartRAdjustment)]
+        [ObjectStringMappable(ObjectParameter.StartRAdjustment, defaultColorAdjustmentComponent)]
         public double StartRAdjustment
         {
             get => start.MaximumDistance.R;
             set => start.MaximumDistance.R = (float)value;
         }
         /// <summary>The green value of the color during the start of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.StartG)]
+        [ObjectStringMappable(ObjectParameter.StartG, defaultColorComponent)]
         public double StartG
         {
             get => start.MiddleValue.G;
             set => start.MiddleValue.G = (float)value;
         }
         /// <summary>The Start_G +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.StartGAdjustment)]
+        [ObjectStringMappable(ObjectParameter.StartGAdjustment, defaultColorAdjustmentComponent)]
         public double StartGAdjustment
         {
             get => start.MaximumDistance.G;
             set => start.MaximumDistance.G = (float)value;
         }
         /// <summary>The blue value of the color during the start of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.StartB)]
+        [ObjectStringMappable(ObjectParameter.StartB, defaultColorComponent)]
         public double StartB
         {
             get => start.MiddleValue.B;
             set => start.MiddleValue.B = (float)value;
         }
         /// <summary>The Start_B +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.StartBAdjustment)]
+        [ObjectStringMappable(ObjectParameter.StartBAdjustment, defaultColorAdjustmentComponent)]
         public double StartBAdjustment
         {
             get => start.MaximumDistance.B;
             set => start.MaximumDistance.B = (float)value;
         }
         /// <summary>The alpha value of the color during the end of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.EndA)]
+        [ObjectStringMappable(ObjectParameter.EndA, defaultColorComponent)]
         public double EndA
         {
             get => end.MiddleValue.A;
             set => end.MiddleValue.A = (float)value;
         }
         /// <summary>The End_A +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.EndAAdjustment)]
+        [ObjectStringMappable(ObjectParameter.EndAAdjustment, defaultColorAdjustmentComponent)]
         public double EndAAdjustment
         {
             get => end.MaximumDistance.A;
             set => end.MaximumDistance.A = (float)value;
         }
         /// <summary>The red value of the color during the end of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.EndR)]
+        [ObjectStringMappable(ObjectParameter.EndR, defaultColorComponent)]
         public double EndR
         {
             get => end.MiddleValue.R;
             set => end.MiddleValue.R = (float)value;
         }
         /// <summary>The End_R +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.EndRAdjustment)]
+        [ObjectStringMappable(ObjectParameter.EndRAdjustment, defaultColorAdjustmentComponent)]
         public double EndRAdjustment
         {
             get => end.MaximumDistance.R;
             set => end.MaximumDistance.R = (float)value;
         }
         /// <summary>The green value of the color during the end of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.EndG)]
+        [ObjectStringMappable(ObjectParameter.EndG, defaultColorComponent)]
         public double EndG
         {
             get => end.MiddleValue.G;
             set => end.MiddleValue.G = (float)value;
         }
         /// <summary>The End_G +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.EndGAdjustment)]
+        [ObjectStringMappable(ObjectParameter.EndGAdjustment, defaultColorAdjustmentComponent)]
         public double EndGAdjustment
         {
             get => end.MaximumDistance.G;
             set => end.MaximumDistance.G = (float)value;
         }
         /// <summary>The blue value of the color during the end of the particle's life.</summary>
-        [ObjectStringMappable(ObjectParameter.EndB)]
+        [ObjectStringMappable(ObjectParameter.EndB, defaultColorComponent)]
         public double EndB
         {
             get => end.MiddleValue.B;
             set => end.MiddleValue.B = (float)value;
         }
         /// <summary>The End_B +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.EndBAdjustment)]
+        [ObjectStringMappable(ObjectParameter.EndBAdjustment, defaultColorAdjustmentComponent)]
         public double EndBAdjustment
         {
             get => end.MaximumDistance.B;
@@ -327,87 +362,87 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         #endregion
         #region Extra
         /// <summary>The grouping of the custom particles.</summary>
-        [ObjectStringMappable(ObjectParameter.Grouping)]
+        [ObjectStringMappable(ObjectParameter.Grouping, CustomParticleGrouping.Free)]
         public CustomParticleGrouping Grouping { get; set; }
         /// <summary>The Fade In property.</summary>
-        [ObjectStringMappable(ObjectParameter.CustomParticleFadeIn)]
+        [ObjectStringMappable(ObjectParameter.CustomParticleFadeIn, 0d)]
         public double FadeIn
         {
             get => fadeIn.MiddleValue;
             set => fadeIn.MiddleValue = (float)value;
         }
         /// <summary>The Fade In +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.FadeInAdjustment)]
+        [ObjectStringMappable(ObjectParameter.FadeInAdjustment, 0d)]
         public double FadeInAdjustment
         {
             get => fadeIn.MaximumDistance;
             set => fadeIn.MaximumDistance = (float)value;
         }
         /// <summary>The Fade Out property.</summary>
-        [ObjectStringMappable(ObjectParameter.CustomParticleFadeOut)]
+        [ObjectStringMappable(ObjectParameter.CustomParticleFadeOut, 0d)]
         public double FadeOut
         {
             get => fadeOut.MiddleValue;
             set => fadeOut.MiddleValue = (float)value;
         }
         /// <summary>The Fade Out +- property.</summary>
-        [ObjectStringMappable(ObjectParameter.FadeOutAdjustment)]
+        [ObjectStringMappable(ObjectParameter.FadeOutAdjustment, 0d)]
         public double FadeOutAdjustment
         {
             get => fadeOut.MaximumDistance;
             set => fadeOut.MaximumDistance = (float)value;
         }
         /// <summary>Represents the Additive property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.Additive)]
+        [ObjectStringMappable(ObjectParameter.Additive, false)]
         public bool Additive
         {
             get => SpecialObjectBools[0];
             set => SpecialObjectBools[0] = value;
         }
         /// <summary>Represents the Start Size = End property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.StartSizeEqualsEnd)]
+        [ObjectStringMappable(ObjectParameter.StartSizeEqualsEnd, false)]
         public bool StartSizeEqualsEnd
         {
             get => SpecialObjectBools[1];
             set => SpecialObjectBools[1] = value;
         }
         /// <summary>Represents the Start Spin = End property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.StartSpinEqualsEnd)]
+        [ObjectStringMappable(ObjectParameter.StartSpinEqualsEnd, false)]
         public bool StartSpinEqualsEnd
         {
             get => SpecialObjectBools[2];
             set => SpecialObjectBools[2] = value;
         }
         /// <summary>Represents the Start Radius = End property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.StartRadiusEqualsEnd)]
+        [ObjectStringMappable(ObjectParameter.StartRadiusEqualsEnd, false)]
         public bool StartRadiusEqualsEnd
         {
             get => SpecialObjectBools[3];
             set => SpecialObjectBools[3] = value;
         }
         /// <summary>Represents the Start Rotation Is Dir property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.StartRotationIsDir)]
+        [ObjectStringMappable(ObjectParameter.StartRotationIsDir, false)]
         public bool StartRotationIsDir
         {
             get => SpecialObjectBools[4];
             set => SpecialObjectBools[4] = value;
         }
         /// <summary>Represents the Dynamic Rotation property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.DynamicRotation)]
+        [ObjectStringMappable(ObjectParameter.DynamicRotation, false)]
         public bool DynamicRotation
         {
             get => SpecialObjectBools[5];
             set => SpecialObjectBools[5] = value;
         }
         /// <summary>Represents the Use Object Color property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.UseObjectColor)]
+        [ObjectStringMappable(ObjectParameter.UseObjectColor, false)]
         public bool UseObjectColor
         {
             get => SpecialObjectBools[6];
             set => SpecialObjectBools[6] = value;
         }
         /// <summary>Represents the Uniform Object Color property of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectParameter.UniformObjectColor)]
+        [ObjectStringMappable(ObjectParameter.UniformObjectColor, false)]
         public bool UniformObjectColor
         {
             get => SpecialObjectBools[7];
@@ -416,7 +451,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         #endregion
 
         /// <summary>The texture of the particles.</summary>
-        [ObjectStringMappable(ObjectParameter.Texture)]
+        [ObjectStringMappable(ObjectParameter.Texture, 0)]
         public int Texture
         {
             get => texture;

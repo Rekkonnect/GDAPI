@@ -21,14 +21,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Move;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -41,73 +41,75 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => TargetPosGroupID = value;
         }
         /// <summary>The easing of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Easing)]
+        [ObjectStringMappable(ObjectParameter.Easing, Easing.None)]
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.EasingRate)]
+        [ObjectStringMappable(ObjectParameter.EasingRate, 2d)]
         public double EasingRate
         {
             get => easingRate;
             set => easingRate = (float)value;
         }
         /// <summary>The Move X property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.OffsetX)]
+        [ObjectStringMappable(ObjectParameter.OffsetX, 0d)]
         public double MoveX
         {
             get => moveX;
             set => moveX = (float)value;
         }
         /// <summary>The Move Y property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.OffsetY)]
+        [ObjectStringMappable(ObjectParameter.OffsetY, 0d)]
         public double MoveY
         {
             get => moveY;
             set => moveY = (float)value;
         }
         /// <summary>The Lock to Player X property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockToPlayerX)]
+        [ObjectStringMappable(ObjectParameter.LockToPlayerX, false)]
         public bool LockToPlayerX
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Lock to Player Y property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockToPlayerY)]
+        [ObjectStringMappable(ObjectParameter.LockToPlayerY, false)]
         public bool LockToPlayerY
         {
             get => TriggerBools[4];
             set => TriggerBools[4] = value;
         }
         /// <summary>The Enable Use Target property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.EnableUseTarget)]
+        [ObjectStringMappable(ObjectParameter.EnableUseTarget, false)]
         public bool EnableUseTarget
         {
             get => TriggerBools[5];
             set => TriggerBools[5] = value;
         }
         /// <summary>The Lock to Camera X property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockToCameraX)]
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.LockToCameraX, false)]
         public bool LockToCameraX
         {
             get => TriggerBools[6];
             set => TriggerBools[6] = value;
         }
         /// <summary>The Lock to Camera Y property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockToCameraY)]
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.LockToCameraY, false)]
         public bool LockToCameraY
         {
             get => TriggerBools[7];
             set => TriggerBools[7] = value;
         }
         /// <summary>The Target Pos Group ID property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetPosGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetPosGroupID, 0)]
         public int TargetPosGroupID
         {
             get => targetPosGroupID;
             set => targetPosGroupID = (short)value;
         }
         /// <summary>The Target Pos coordinates property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetPosCoordinates)]
+        [ObjectStringMappable(ObjectParameter.TargetPosCoordinates, TargetPosCoordinates.Both)]
         public TargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="MoveTrigger"/> class.</summary>

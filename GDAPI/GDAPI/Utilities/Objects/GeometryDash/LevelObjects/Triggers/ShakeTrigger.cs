@@ -20,21 +20,21 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Shake;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The Strength property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Strength)]
+        [ObjectStringMappable(ObjectParameter.Strength, 0d)]
         public double Strength
         {
             get => strength;
             set => strength = (float)value;
         }
         /// <summary>The Interval property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Interval)]
+        [ObjectStringMappable(ObjectParameter.Interval, 0d)]
         public double Interval
         {
             get => interval;

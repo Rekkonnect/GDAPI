@@ -21,7 +21,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public override int ObjectID => (int)SpecialObjectType.TextObject;
 
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>
-        [ObjectStringMappable(ObjectParameter.TextObjectText)]
+        [ObjectStringMappable(ObjectParameter.TextObjectText, "")]
         public string Base64Text
         {
             get => ToBase64String(UTF8.GetBytes(Text));

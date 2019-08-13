@@ -21,38 +21,38 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.CameraOffset;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The easing of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Easing)]
+        [ObjectStringMappable(ObjectParameter.Easing, Easing.None)]
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.EasingRate)]
+        [ObjectStringMappable(ObjectParameter.EasingRate, 2d)]
         public double EasingRate
         {
             get => easingRate;
             set => easingRate = (float)value;
         }
         /// <summary>The Offset X property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.OffsetX)]
+        [ObjectStringMappable(ObjectParameter.OffsetX, 0d)]
         public double OffsetX
         {
             get => offsetX;
             set => offsetX = (float)value;
         }
         /// <summary>The Offset Y property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.OffsetY)]
+        [ObjectStringMappable(ObjectParameter.OffsetY, 0d)]
         public double OffsetY
         {
             get => offsetY;
             set => offsetY = (float)value;
         }
         /// <summary>The Target Pos coordinates property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetPosCoordinates)]
+        [ObjectStringMappable(ObjectParameter.TargetPosCoordinates, TargetPosCoordinates.Both)]
         public TargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="CameraOffsetTrigger"/> class.</summary>

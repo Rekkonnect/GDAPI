@@ -20,14 +20,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Pickup;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ItemID)]
+        [ObjectStringMappable(ObjectParameter.ItemID, 0)]
         public int TargetItemID
         {
             get => targetItemID;
             set => targetItemID = (short)value;
         }
         /// <summary>The Count property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Count)]
+        [ObjectStringMappable(ObjectParameter.Count, 0)]
         public int Count { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="PickupTrigger"/> class.</summary>

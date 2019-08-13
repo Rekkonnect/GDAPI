@@ -20,7 +20,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public override int ObjectID => (int)SpecialObjectType.CollisionBlock;
 
         /// <summary>The Block ID of the collision block.</summary>
-        [ObjectStringMappable(ObjectParameter.BlockID)]
+        [ObjectStringMappable(ObjectParameter.BlockID, 0)]
         public int BlockID
         {
             get => blockID;
@@ -33,7 +33,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             set => BlockID = value;
         }
         /// <summary>The Dynamic Block property of the collision block.</summary>
-        [ObjectStringMappable(ObjectParameter.DynamicBlock)]
+        [ObjectStringMappable(ObjectParameter.DynamicBlock, false)]
         public bool DynamicBlock
         {
             get => SpecialObjectBools[0];

@@ -16,21 +16,21 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected BitArray8 TriggerBools = new BitArray8();
         
         /// <summary>The Touch Triggered property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TouchTriggered)]
+        [ObjectStringMappable(ObjectParameter.TouchTriggered, false)]
         public bool TouchTriggered
         {
             get => TriggerBools[0];
             set => TriggerBools[0] = value;
         }
         /// <summary>The Spawn Triggered property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SpawnTriggered)]
+        [ObjectStringMappable(ObjectParameter.SpawnTriggered, false)]
         public bool SpawnTriggered
         {
             get => TriggerBools[1];
             set => TriggerBools[1] = value;
         }
         /// <summary>The Multi Trigger property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MultiTrigger)]
+        [ObjectStringMappable(ObjectParameter.MultiTrigger, false)]
         public bool MultiTrigger
         {
             get => TriggerBools[2];

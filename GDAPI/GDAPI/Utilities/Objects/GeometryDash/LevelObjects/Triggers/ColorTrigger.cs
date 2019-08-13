@@ -26,7 +26,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public virtual bool HasConstantTargetColorID => false;
 
         /// <summary>The target Color ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetColorID)]
+        [ObjectStringMappable(ObjectParameter.TargetColorID, 0)]
         public int TargetColorID
         {
             get => targetColorID;
@@ -37,35 +37,35 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             }
         }
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The red part of the color.</summary>
-        [ObjectStringMappable(ObjectParameter.Red)]
+        [ObjectStringMappable(ObjectParameter.Red, 255)]
         public int Red
         {
             get => red;
             set => red = (byte)value;
         }
         /// <summary>The green part of the color.</summary>
-        [ObjectStringMappable(ObjectParameter.Green)]
+        [ObjectStringMappable(ObjectParameter.Green, 255)]
         public int Green
         {
             get => green;
             set => green = (byte)value;
         }
         /// <summary>The blue part of the color.</summary>
-        [ObjectStringMappable(ObjectParameter.Blue)]
+        [ObjectStringMappable(ObjectParameter.Blue, 255)]
         public int Blue
         {
             get => blue;
             set => blue = (byte)value;
         }
         /// <summary>The Opacity property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Opacity)]
+        [ObjectStringMappable(ObjectParameter.Opacity, 1d)]
         public double Opacity
         {
             get => opacity;
@@ -73,49 +73,49 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         // IMPORTANT: The Player 1 and Player 2 setters are not implemented to avoid unnecessary assignments
         /// <summary>The Player 1 Color property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor1)]
+        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor1, false)]
         public bool Player1Color
         {
             get => CopiedColorID == (int)SpecialColorID.P1;
             set { }
         }
         /// <summary>The Player 2 Color property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor2)]
+        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor2, false)]
         public bool Player2Color
         {
             get => CopiedColorID == (int)SpecialColorID.P2;
             set { }
         }
         /// <summary>The copied Color ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.CopiedColorID)]
+        [ObjectStringMappable(ObjectParameter.CopiedColorID, 0)]
         public int CopiedColorID
         {
             get => copiedColorID;
             set => copiedColorID = (short)value;
         }
         /// <summary>The Blending property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Blending)]
+        [ObjectStringMappable(ObjectParameter.Blending, false)]
         public bool Blending
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Copy Opacity property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.CopyOpacity)]
+        [ObjectStringMappable(ObjectParameter.CopyOpacity, false)]
         public bool CopyOpacity
         {
             get => TriggerBools[4];
             set => TriggerBools[4] = value;
         }
         /// <summary>The Tint Ground property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TintGround)]
+        [ObjectStringMappable(ObjectParameter.TintGround, false)]
         public bool TintGround
         {
             get => TriggerBools[5];
             set => TriggerBools[5] = value;
         }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
-        [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
+        [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues, HSVAdjustment.DefaultHSVString)]
         public string HSV
         {
             get => HSVAdjustment.ToString();

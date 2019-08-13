@@ -19,7 +19,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         // Right now, according to the sneak peek of 25/05/2019, there might as well be a new Random trigger offering that complex functionality
         // However, the normal trigger that was showcased earlier offers the exact same functionality in perhaps a more confusing way.
 
-        private byte chance;
+        private byte chance = 50;
         private short groupID1, groupID2;
         private ChancePoolInfo chancePool;
 
@@ -28,7 +28,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Random;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => GroupID1;
@@ -42,7 +42,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>The Chance property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Chance)]
+        [ObjectStringMappable(ObjectParameter.Chance, 50)]
         public int Chance
         {
             get => chance;
@@ -52,21 +52,21 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         [ObjectStringMappable(ObjectParameter.ChanceLots)] // This implementation is such a wild guess
         public ChancePoolInfo ChancePool => chancePool;
         /// <summary>The Group ID 1 of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int GroupID1
         {
             get => groupID1;
             set => groupID1 = (short)value;
         }
         /// <summary>The Group ID 2 of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
+        [ObjectStringMappable(ObjectParameter.SecondaryGroupID, 0)]
         public int GroupID2
         {
             get => groupID2;
             set => groupID2 = (short)value;
         }
         /// <summary>The Activate Group property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup)]
+        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
         public bool ActivateGroup
         {
             get => TriggerBools[3];

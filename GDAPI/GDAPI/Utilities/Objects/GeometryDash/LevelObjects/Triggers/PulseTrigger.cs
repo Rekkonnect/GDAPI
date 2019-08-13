@@ -27,7 +27,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public bool IsTargetingGroup => PulseTargetType == PulseTargetType.Group;
 
         /// <summary>The target ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetID
         {
             get => targetID;
@@ -46,83 +46,83 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => SetTargetID(PulseTargetType.ColorChannel, value);
         }
         /// <summary>The red part of the color.</summary>
-        [ObjectStringMappable(ObjectParameter.Red)]
+        [ObjectStringMappable(ObjectParameter.Red, 255)]
         public int Red
         {
             get => red;
             set => red = (byte)value;
         }
         /// <summary>The green part of the color.</summary>
-        [ObjectStringMappable(ObjectParameter.Green)]
+        [ObjectStringMappable(ObjectParameter.Green, 255)]
         public int Green
         {
             get => green;
             set => green = (byte)value;
         }
         /// <summary>The blue part of the color.</summary>
-        [ObjectStringMappable(ObjectParameter.Blue)]
+        [ObjectStringMappable(ObjectParameter.Blue, 255)]
         public int Blue
         {
             get => blue;
             set => blue = (byte)value;
         }
         /// <summary>The Fade In property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.FadeIn)]
+        [ObjectStringMappable(ObjectParameter.FadeIn, 0d)]
         public double FadeIn
         {
             get => fadeIn;
             set => fadeIn = (float)value;
         }
         /// <summary>The Hold property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Hold)]
+        [ObjectStringMappable(ObjectParameter.Hold, 0d)]
         public double Hold
         {
             get => hold;
             set => hold = (float)value;
         }
         /// <summary>The Fade Out property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.FadeOut)]
+        [ObjectStringMappable(ObjectParameter.FadeOut, 0d)]
         public double FadeOut
         {
             get => fadeOut;
             set => fadeOut = (float)value;
         }
         /// <summary>The copied Color ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.CopiedColorID)]
+        [ObjectStringMappable(ObjectParameter.CopiedColorID, 0)]
         public int CopiedColorID
         {
             get => copiedColorID;
             set => copiedColorID = (short)value;
         }
         /// <summary>The Pulse Mode of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.PulseMode)]
+        [ObjectStringMappable(ObjectParameter.PulseMode, PulseMode.Color)]
         public PulseMode PulseMode { get; set; }
         /// <summary>The Pulse Target Type of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetType)]
+        [ObjectStringMappable(ObjectParameter.TargetType, PulseTargetType.ColorChannel)]
         public PulseTargetType PulseTargetType { get; set; }
         /// <summary>The Main Only property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MainOnly)]
+        [ObjectStringMappable(ObjectParameter.MainOnly, false)]
         public bool MainOnly
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Detail Only property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.DetailOnly)]
+        [ObjectStringMappable(ObjectParameter.DetailOnly, false)]
         public bool DetailOnly
         {
             get => TriggerBools[4];
             set => TriggerBools[4] = value;
         }
         /// <summary>The Exclusive property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Exclusive)]
+        [ObjectStringMappable(ObjectParameter.Exclusive, false)]
         public bool Exclusive
         {
             get => TriggerBools[5];
             set => TriggerBools[5] = value;
         }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
-        [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
+        [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues, HSVAdjustment.DefaultHSVString)]
         public string HSV
         {
             get => HSVAdjustment.ToString();

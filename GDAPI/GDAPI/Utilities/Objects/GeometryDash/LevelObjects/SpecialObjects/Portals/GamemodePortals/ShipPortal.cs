@@ -11,21 +11,13 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Porta
 {
     /// <summary>Represents a ship portal.</summary>
     [ObjectID(PortalType.Ship)]
-    public class ShipPortal : GamemodePortal, IHasCheckedProperty
+    public class ShipPortal : CheckableGamemodePortal
     {
         /// <summary>The object ID of the ship portal.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)PortalType.Ship;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Ship;
-
-        /// <summary>The checked property of the ship portal that determines whether the borders of the player's gamemode will be shown or not.</summary>
-        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked)]
-        public bool Checked
-        {
-            get => SpecialObjectBools[0];
-            set => SpecialObjectBools[0] = value;
-        }
 
         /// <summary>Initializes a new instance of the <seealso cref="ShipPortal"/> class.</summary>
         public ShipPortal() : base() { }

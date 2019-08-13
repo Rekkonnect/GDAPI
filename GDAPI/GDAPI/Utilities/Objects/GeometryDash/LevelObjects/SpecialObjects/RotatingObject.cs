@@ -20,14 +20,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         protected override string SpecialObjectTypeName => "rotating object";
 
         /// <summary>Represents the Disable Rotation property of the rotating object.</summary>
-        [ObjectStringMappable(ObjectParameter.DisableRotation)]
+        [ObjectStringMappable(ObjectParameter.DisableRotation, false)]
         public bool DisableRotation
         {
             get => SpecialObjectBools[0];
             set => SpecialObjectBools[0] = value;
         }
         /// <summary>Represents the Custom Rotation Speed property of the rotating object.</summary>
-        [ObjectStringMappable(ObjectParameter.CustomRotationSpeed)]
+        [ObjectStringMappable(ObjectParameter.CustomRotationSpeed, 0d)]
         public double CustomRotationSpeed
         {
             get => customRotationSpeed;

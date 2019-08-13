@@ -9,6 +9,11 @@ namespace GDAPI.Utilities.Objects.General
     /// <summary>Represents an ARGB color.</summary>
     public struct Color
     {
+        public static readonly Color White = new Color(1f);
+        public static readonly Color Black = new Color(0, 0, 0);
+        public static readonly Color BlackTransparent = new Color(0);
+        public static readonly Color Zero = new Color(0);
+
         private ColorValue r, g, b, a;
 
         /// <summary>The red value of the color.</summary>
@@ -60,15 +65,15 @@ namespace GDAPI.Utilities.Objects.General
             set => a = GetFloatValue(value);
         }
 
-        /// <summary>Initializes a new instance of the <seealso cref="Color"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="Color"/> struct.</summary>
         /// <param name="all">The value for all the color values (R, G, B, A).</param>
         public Color(float all) : this(all, all, all, all) { }
-        /// <summary>Initializes a new instance of the <seealso cref="Color"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="Color"/> struct.</summary>
         /// <param name="red">The red value of the color.</param>
         /// <param name="green">The green value of the color.</param>
         /// <param name="blue">The blue value of the color.</param>
         public Color(float red, float green, float blue) : this(red, green, blue, 1) { }
-        /// <summary>Initializes a new instance of the <seealso cref="Color"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="Color"/> struct.</summary>
         /// <param name="red">The red value of the color.</param>
         /// <param name="green">The green value of the color.</param>
         /// <param name="blue">The blue value of the color.</param>
@@ -80,15 +85,15 @@ namespace GDAPI.Utilities.Objects.General
             b = blue;
             a = alpha;
         }
-        /// <summary>Initializes a new instance of the <seealso cref="Color"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="Color"/> struct.</summary>
         /// <param name="all">The 8-bit value for all the color values (R, G, B, A).</param>
         public Color(int all) : this(all, all, all, all) { }
-        /// <summary>Initializes a new instance of the <seealso cref="Color"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="Color"/> struct.</summary>
         /// <param name="red">The 8-bit red value of the color.</param>
         /// <param name="green">The 8-bit green value of the color.</param>
         /// <param name="blue">The 8-bit blue value of the color.</param>
         public Color(int red, int green, int blue) : this(GetFloatValue(red), GetFloatValue(green), GetFloatValue(blue)) { }
-        /// <summary>Initializes a new instance of the <seealso cref="Color"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="Color"/> struct.</summary>
         /// <param name="red">The 8-bit red value of the color.</param>
         /// <param name="green">The 8-bit green value of the color.</param>
         /// <param name="blue">The 8-bit blue value of the color.</param>

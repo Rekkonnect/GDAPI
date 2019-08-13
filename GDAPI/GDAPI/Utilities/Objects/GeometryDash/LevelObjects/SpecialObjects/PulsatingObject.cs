@@ -21,14 +21,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         protected override string SpecialObjectTypeName => "pulsating object";
 
         /// <summary>The animation speed of the pulsating object as a ratio.</summary>
-        [ObjectStringMappable(ObjectParameter.AnimationSpeed)]
+        [ObjectStringMappable(ObjectParameter.AnimationSpeed, 1d)]
         public double AnimationSpeed
         {
             get => animationSpeed;
             set => animationSpeed = (float)value;
         }
         /// <summary>The Randomize Start property of the pulsating object.</summary>
-        [ObjectStringMappable(ObjectParameter.RandomizeStart)]
+        [ObjectStringMappable(ObjectParameter.RandomizeStart, false)]
         public bool RandomizeStart
         {
             get => SpecialObjectBools[0];

@@ -12,7 +12,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasTargetGroupID
     {
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         int TargetGroupID { get; set; }
     }
 }

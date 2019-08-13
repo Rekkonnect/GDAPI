@@ -22,14 +22,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Scale;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -42,45 +42,45 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => CenterGroupID = value;
         }
         /// <summary>The easing of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Easing)]
+        [ObjectStringMappable(ObjectParameter.Easing, Easing.None)]
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.EasingRate)]
+        [ObjectStringMappable(ObjectParameter.EasingRate, 2d)]
         public double EasingRate
         {
             get => easingRate;
             set => easingRate = (float)value;
         }
         /// <summary>The Scaling Multiplier property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ScaleX)]
+        [ObjectStringMappable(ObjectParameter.ScaleX, 1d)]
         public double ScaleX
         {
             get => scaleX;
             set => scaleX = (float)value;
         }
         /// <summary>The Scaling Multiplier property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ScaleY)]
+        [ObjectStringMappable(ObjectParameter.ScaleY, 1d)]
         public double ScaleY
         {
             get => scaleY;
             set => scaleY = (float)value;
         }
         /// <summary>The Center Group ID property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.CenterGroupID)]
+        [ObjectStringMappable(ObjectParameter.CenterGroupID, 0)]
         public int CenterGroupID
         {
             get => centerGroupID;
             set => centerGroupID = (short)value;
         }
         /// <summary>The Lock Object Scale property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockObjectScale)]
+        [ObjectStringMappable(ObjectParameter.LockObjectScale, false)]
         public bool LockObjectScale
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Only Move Scale property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.OnlyMoveScale)]
+        [ObjectStringMappable(ObjectParameter.OnlyMoveScale, false)]
         public bool OnlyMoveScale
         {
             get => TriggerBools[4];

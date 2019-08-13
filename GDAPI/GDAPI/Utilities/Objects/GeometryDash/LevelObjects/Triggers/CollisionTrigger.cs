@@ -20,35 +20,35 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Collision;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The primary Block ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.BlockAID)]
+        [ObjectStringMappable(ObjectParameter.BlockAID, 0)]
         public int PrimaryBlockID
         {
             get => primaryBlockID;
             set => primaryBlockID = (short)value;
         }
         /// <summary>The secondary Block ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.BlockBID)]
+        [ObjectStringMappable(ObjectParameter.BlockBID, 0)]
         public int SecondaryBlockID
         {
             get => secondaryBlockID;
             set => secondaryBlockID = (short)value;
         }
         /// <summary>The Activate Group property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup)]
+        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
         public bool ActivateGroup
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Trigger On Exit property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TriggerOnExit)]
+        [ObjectStringMappable(ObjectParameter.TriggerOnExit, false)]
         public bool TriggerOnExit
         {
             get => TriggerBools[4];

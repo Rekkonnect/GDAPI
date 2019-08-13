@@ -21,21 +21,21 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.End;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Reversed property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Reversed)]
+        [ObjectStringMappable(ObjectParameter.Reversed, false)]
         public bool Reversed
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Lock Y property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockY)]
+        [ObjectStringMappable(ObjectParameter.LockY, false)]
         public bool LockY
         {
             get => TriggerBools[4];

@@ -21,42 +21,42 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.FollowPlayerY;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration)]
+        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Speed property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Speed)]
+        [ObjectStringMappable(ObjectParameter.Speed, 1d)]
         public double Speed
         {
             get => speed;
             set => speed = (float)value;
         }
         /// <summary>The Delay property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.FollowDelay)]
+        [ObjectStringMappable(ObjectParameter.FollowDelay, 0d)]
         public double Delay
         {
             get => delay;
             set => delay = (float)value;
         }
         /// <summary>The Max Speed property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MaxSpeed)]
+        [ObjectStringMappable(ObjectParameter.MaxSpeed, 0d)]
         public double MaxSpeed
         {
             get => maxSpeed;
             set => maxSpeed = (float)value;
         }
         /// <summary>The Offset property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.YOffset)]
+        [ObjectStringMappable(ObjectParameter.YOffset, 0)]
         public int Offset { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="FollowPlayerYTrigger"/> class.</summary>

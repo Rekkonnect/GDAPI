@@ -21,7 +21,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         protected override string SpecialObjectTypeName => "pickup item";
 
         /// <summary>Represents the Pickup Mode property of the pickup item.</summary>
-        [ObjectStringMappable(ObjectParameter.PickupMode)]
+        [ObjectStringMappable(ObjectParameter.PickupMode, PickupItemPickupMode.None)]
         public PickupItemPickupMode PickupMode { get; set; }
         /// <summary>Represents the Target Item ID of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.ItemID)]
@@ -31,21 +31,21 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             set => targetItemID = (short)value;
         }
         /// <summary>Represents the Subtract Count property of the pickup item.</summary>
-        [ObjectStringMappable(ObjectParameter.SubtractCount)]
+        [ObjectStringMappable(ObjectParameter.SubtractCount, false)]
         public bool SubtractCount
         {
             get => SpecialObjectBools[0];
             set => SpecialObjectBools[0] = value;
         }
         /// <summary>Represents the Target Group ID property of the pickup item.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>Represents the Enable Group property of the pickup item.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup)]
+        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
         public bool EnableGroup
         {
             get => SpecialObjectBools[1];
