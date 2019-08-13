@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>GDAPI</AssemblyName>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <SignAssembly>false</SignAssembly>
+    <LangVersion>7.3</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Main\Panels\ObjSelection\**" />
+    <EmbeddedResource Remove="Main\Panels\ObjSelection\**" />
+    <None Remove="Main\Panels\ObjSelection\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System" />
+    <PackageReference Include="System.CodeDom" />
+    <PackageReference Include="System.Core" />
+    <PackageReference Include="System.Xml.Linq" />
+    <PackageReference Include="System.Data.DataSetExtensions" />
+    <PackageReference Include="Microsoft.CSharp" />
+    <PackageReference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Editor\Functions\" />
+  </ItemGroup>
+
+</Project>
