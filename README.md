@@ -33,7 +33,7 @@ Aside from code performance and functionality, we care about [Code Style](CodeSt
 
 # Officialities and such
 
-GDEdit is not endorsed by RobTop. Geometry Dash is a registered trademark of RobTop Games AB.
+GDAPI is not endorsed by RobTop. Geometry Dash is a registered trademark of RobTop Games AB.
 
 # [Features to be added](FeaturesToBeAdded.md)
 
