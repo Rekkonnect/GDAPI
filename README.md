@@ -12,7 +12,7 @@
 
 # Contributing
 
-Aside from code performance and functionality, we care about [Code Style](CodeStyle.md) as well, it's important that you check it out, as during PR approvals abiding to those rules is also taken into consideration. Refusing to comply with those will result in forced pushes from project admins.
+Aside from code performance and functionality, we care about [Code Style](CodeStyle.md) as well, it's important that you check it out, as, during PR approvals, abiding to those rules is also taken into consideration. Refusing to comply with those will result in forced pushes from project admins.
 
 # Current features
 
