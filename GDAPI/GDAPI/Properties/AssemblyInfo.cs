@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GDAPI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("GDEdit")]
+[assembly: AssemblyCompany("Zyran")]
 [assembly: AssemblyProduct("GDAPI")]
 [assembly: AssemblyCopyright("Copyright © GDEdit 2019")]
 [assembly: AssemblyTrademark("")]
