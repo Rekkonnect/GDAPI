@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Zyran")]
 [assembly: AssemblyProduct("GDAPI")]
-[assembly: AssemblyCopyright("Copyright © GDEdit 2019")]
+[assembly: AssemblyCopyright("Copyright © Zyran 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
