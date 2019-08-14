@@ -7,6 +7,10 @@
     <SignAssembly>false</SignAssembly>
     <LangVersion>7.3</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Authors>AlFas</Authors>
+    <PackageProjectUrl>https://github.com/gd-edit/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gd-edit/GDAPI</RepositoryUrl>
+    <PackageTags>Geometry Dash, GD, GMD, Editor, API, GDE, GDEdit</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
