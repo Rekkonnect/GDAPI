@@ -129,7 +129,7 @@ namespace GDAPI.Application
         public int UserLevelCount => UserLevels.Count;
         #endregion
 
-        #region Contsructors
+        #region Constructors
         /// <summary>Initializes a new instance of the <seealso cref="Database"/> class from the default database file paths.</summary>
         public Database() : this(GDGameManager, GDLocalLevels) { }
         /// <summary>Initializes a new instance of the <seealso cref="Database"/> class from custom database file paths.</summary>
