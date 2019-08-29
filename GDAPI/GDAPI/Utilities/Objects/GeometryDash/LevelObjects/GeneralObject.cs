@@ -566,11 +566,19 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
 
         /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
-        public static List<PropertyAccessInfo> GetCommonProperties(LevelObjectCollection collection)
+        public static List<PropertyAccessInfo> GetCommonProperties(IEnumerable<GeneralObject> collection) => GetCommonProperties(collection, null);
+        /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/> from a starting list of common properties.</summary>
+        /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
+        /// <param name="startingList">The starting list of common properties that will be merged with the resulting list.</param>
+        public static List<PropertyAccessInfo> GetCommonProperties(IEnumerable<GeneralObject> collection, List<PropertyAccessInfo> startingList)
         {
             var objectTypes = GetCollectionObjectTypeInfo(collection);
 
-            var result = new List<PropertyAccessInfo>(objectTypes.First().Properties);
+            List<PropertyAccessInfo> result;
+            if (collection != null)
+                result = new List<PropertyAccessInfo>(startingList);
+            else
+                result = new List<PropertyAccessInfo>(objectTypes.First().Properties);
 
             foreach (var t in objectTypes)
                 foreach (var p in result)
@@ -581,19 +589,27 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>Returns all the available object properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="collection">The collection whose all available object properties will be evaluated and returned.</param>
-        public static List<PropertyAccessInfo> GetAllAvailableProperties(LevelObjectCollection collection)
+        public static HashSet<PropertyAccessInfo> GetAllAvailableProperties(IEnumerable<GeneralObject> collection) => GetAllAvailableProperties(collection, null);
+        /// <summary>Returns all the available object properties found in the specified <seealso cref="LevelObjectCollection"/> from a starting hash set of available properties.</summary>
+        /// <param name="collection">The collection whose all available object properties will be evaluated and returned.</param>
+        /// <param name="startingHashSet">The starting hash set of available properties that will be merged with the resulting hash set.</param>
+        public static HashSet<PropertyAccessInfo> GetAllAvailableProperties(IEnumerable<GeneralObject> collection, HashSet<PropertyAccessInfo> startingHashSet)
         {
             var objectTypes = GetCollectionObjectTypeInfo(collection);
 
-            var result = new HashSet<PropertyAccessInfo>();
+            HashSet<PropertyAccessInfo> result;
+            if (collection != null)
+                result = new HashSet<PropertyAccessInfo>(startingHashSet);
+            else
+                result = new HashSet<PropertyAccessInfo>();
 
             foreach (var t in objectTypes)
                 foreach (var p in t.Properties)
                     result.Add(p);
 
-            return result.ToList();
+            return result;
         }
-        private static HashSet<ObjectTypeInfo> GetCollectionObjectTypeInfo(LevelObjectCollection collection)
+        private static HashSet<ObjectTypeInfo> GetCollectionObjectTypeInfo(IEnumerable<GeneralObject> collection)
         {
             return new HashSet<ObjectTypeInfo>(collection.Select(o => initializableObjectTypes.Where(i => o.GetType() == i.ObjectType).FirstOrDefault()));
         }
