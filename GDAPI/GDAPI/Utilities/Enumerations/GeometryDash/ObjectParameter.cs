@@ -10,6 +10,7 @@ using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 
 namespace GDAPI.Utilities.Enumerations.GeometryDash
 {
+    // TODO: Rename to ObjectProperty to consistenize terminology
     /// <summary>This enumeration provides values for the parameters of a <see cref="LevelObject"/>.</summary>
     public enum ObjectParameter
     {

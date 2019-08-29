@@ -22,9 +22,18 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
     {
         private static Type[] objectTypes;
         private static ObjectTypeInfo[] initializableObjectTypes;
+        private static Dictionary<int, Type> propertyTypeInfo;
 
         static GeneralObject()
         {
+            // Get object property types from the attributes that are assigned to the enum fields
+            var fields = typeof(ObjectParameter).GetFields();
+            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(null), i.GetCustomAttribute<ObjectParameterTypeAttribute>()?.Type));
+            propertyTypeInfo = new Dictionary<int, Type>();
+            foreach (var i in info)
+                propertyTypeInfo.Add(i.Key, i.Value);
+            // I added those 5 lines of code only to realize that I actually do not necessarily need them, hopefully they'll turn out any useful in the near future:tm:
+
             objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToArray();
             initializableObjectTypes = objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)).ToArray();
         }
@@ -497,6 +506,8 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
 
+        public List<PropertyAccessInfo> GetObjectProperties() => initializableObjectTypes.Where(i => i.ObjectType == GetType()).FirstOrDefault()?.Properties?.ToList();
+
         /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
         /// <param name="other">The other object to check whether it equals this object's properties.</param>
         protected virtual bool EqualsInherited(GeneralObject other)
@@ -551,6 +562,40 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
                 return new PulsatingObject(objectID);
 
             return new GeneralObject(objectID);
+        }
+
+        /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
+        public static List<PropertyAccessInfo> GetCommonProperties(LevelObjectCollection collection)
+        {
+            var objectTypes = GetCollectionObjectTypeInfo(collection);
+
+            var result = new List<PropertyAccessInfo>(objectTypes.First().Properties);
+
+            foreach (var t in objectTypes)
+                foreach (var p in result)
+                    if (!t.Properties.Contains(p))
+                        result.Remove(p);
+
+            return result;
+        }
+        /// <summary>Returns all the available object properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="collection">The collection whose all available object properties will be evaluated and returned.</param>
+        public static List<PropertyAccessInfo> GetAllAvailableProperties(LevelObjectCollection collection)
+        {
+            var objectTypes = GetCollectionObjectTypeInfo(collection);
+
+            var result = new HashSet<PropertyAccessInfo>();
+
+            foreach (var t in objectTypes)
+                foreach (var p in t.Properties)
+                    result.Add(p);
+
+            return result.ToList();
+        }
+        private static HashSet<ObjectTypeInfo> GetCollectionObjectTypeInfo(LevelObjectCollection collection)
+        {
+            return new HashSet<ObjectTypeInfo>(collection.Select(o => initializableObjectTypes.Where(i => o.GetType() == i.ObjectType).FirstOrDefault()));
         }
 
         public override string ToString()

@@ -2,6 +2,7 @@
 using GDAPI.Utilities.Functions.Extensions;
 using GDAPI.Utilities.Functions.General;
 using GDAPI.Utilities.Information.GeometryDash;
+using GDAPI.Utilities.Objects.General;
 using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using System;
 using System.Collections;
@@ -225,6 +226,14 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
                     result.Add(o);
             return result;
         }
+
+        #region Properties
+        // TODO: Consider further optimizing by storing the result temporarily and only evaluate the newly added objects' properties
+        /// <summary>Returns the common object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
+        public List<PropertyAccessInfo> GetCommonProperties() => GeneralObject.GetCommonProperties(this);
+        /// <summary>Returns all the available object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
+        public List<PropertyAccessInfo> GetAllAvailableProperties() => GeneralObject.GetAllAvailableProperties(this);
+        #endregion
 
         #region Dictionaries
         // Keep in mind, those functions' performance is really low
