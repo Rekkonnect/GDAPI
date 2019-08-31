@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDAPI.Utilities.Enumerations
+namespace GDAPI.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Represents the mode of an ID migration operation.</summary>
     public enum IDMigrationMode
