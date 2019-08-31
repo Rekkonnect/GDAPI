@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using static GDAPI.Utilities.Enumerations.Memory.MemoryPageProtection;
 using static System.BitConverter;
@@ -43,82 +44,81 @@ namespace GDAPI.Utilities.Functions.General.Memory
         public static extern int EnumProcessModules(IntPtr hProcess, [Out] IntPtr lphModule, uint cb, out uint lpcbNeeded);
 
         /// <summary>Returns a byte buffer at the specified address with the specified size from a specified process.</summary>
-        /// <param name="address">The starting address of the buffer.</param>
-        /// <param name="processSize">The size of the buffer.</param>
         /// <param name="processHandle">The process containing the returned buffer.</param>
-        public static byte[] ReadMemory(int address, int processSize, int processHandle)
+        /// <param name="bufferSize">The size of the buffer.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static byte[] ReadMemory(int processHandle, int bufferSize, int address)
         {
-            byte[] buffer = new byte[processSize];
+            byte[] buffer = new byte[bufferSize];
             uint shit = 0;
-            ReadProcessMemory(new IntPtr(processHandle), new IntPtr(address), buffer, (uint)processSize, ref shit);
+            ReadProcessMemory(new IntPtr(processHandle), new IntPtr(address), buffer, (uint)bufferSize, ref shit);
             return buffer;
         }
         /// <summary>Writes a byte buffer at the specified address to a specified process.</summary>
-        /// <param name="address">The starting address of the buffer.</param>
-        /// <param name="processBytes">The bytes to write.</param>
         /// <param name="processHandle">The process whose memory will be written.</param>
-        public static void WriteMemory(int address, byte[] processBytes, int processHandle)
+        /// <param name="processBytes">The bytes to write.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static void WriteMemory(int processHandle, byte[] processBytes, int address)
         {
             uint shit = 0;
-            ChangeMemoryProtection(address, (uint)processBytes.Length, processHandle);
+            ChangeMemoryProtection(processHandle, address, (uint)processBytes.Length);
             WriteProcessMemory(processHandle, address, processBytes, processBytes.Length, ref shit);
         }
         /// <summary>Changes a memory page's protection to <seealso cref="ReadWrite"/> at the specified address to a specified process.</summary>
         /// <param name="address">The starting address of the page.</param>
         /// <param name="size">The size of the page whose protection to change.</param>
         /// <param name="processHandle">The process whose memory page protection will be changed.</param>
-        public static void ChangeMemoryProtection(int address, uint size, int processHandle)
+        public static void ChangeMemoryProtection(int processHandle, int address, uint size)
         {
             VirtualProtectEx(new IntPtr(processHandle), new IntPtr(address), new UIntPtr(size), (uint)ReadWrite, out _);
         }
 
-        // TODO: Consider following the following ordering: `int processHandle, ..., int baseAddress, params int[] offsets`
         // TODO: Add documentation
-        public static int GetAddressFromPointers(int baseAddress, int processHandle, params int[] offsets)
+        public static int GetAddressFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
-            int value = ToInt32(ReadMemory(baseAddress, 4, processHandle), 0);
+            int value = ToInt32(ReadMemory(processHandle, 4, baseAddress), 0);
             for (int i = 0; i < offsets.Length - 1; i++)
-                value = ToInt32(ReadMemory(value + offsets[i], 4, processHandle), 0);
+                value = ToInt32(ReadMemory(processHandle, 4, value + offsets[i]), 0);
             return value + offsets[offsets.Length - 1];
         }
 
-        public static byte[] GetValueFromPointers(int baseAddress, int size, int processHandle, params int[] offsets)
+        public static byte[] GetValueFromPointers(int processHandle, int size, int baseAddress, params int[] offsets)
         {
-            return ReadMemory(GetAddressFromPointers(baseAddress, processHandle, offsets), size, processHandle);
+            return ReadMemory(processHandle, size, GetAddressFromPointers(processHandle, baseAddress, offsets));
         }
-        public static int GetIntFromPointers(int baseAddress, int processHandle, params int[] offsets)
+        public static int GetIntFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
-            return ToInt32(GetValueFromPointers(baseAddress, sizeof(int), processHandle, offsets), 0);
+            return ToInt32(GetValueFromPointers(processHandle, sizeof(int), baseAddress, offsets), 0);
         }
-        public static float GetFloatFromPointers(int baseAddress, int processHandle, params int[] offsets)
+        public static float GetFloatFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
-            return ToSingle(GetValueFromPointers(baseAddress, sizeof(float), processHandle, offsets), 0);
+            return ToSingle(GetValueFromPointers(processHandle, sizeof(float), baseAddress, offsets), 0);
         }
-        public static bool GetBoolFromPointers(int baseAddress, int processHandle, params int[] offsets)
+        public static bool GetBoolFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
-            return ToBoolean(GetValueFromPointers(baseAddress, sizeof(bool), processHandle, offsets), 0);
-        }
-
-        public static void SetValueFromPointers(int baseAddress, int processHandle, byte[] bytes, params int[] offsets)
-        {
-            WriteMemory(GetAddressFromPointers(baseAddress, processHandle, offsets), bytes, processHandle);
-        }
-        public static void SetIntFromPointers(int baseAddress, int processHandle, int value, params int[] offsets)
-        {
-            SetValueFromPointers(baseAddress, processHandle, GetBytes(value), offsets);
-        }
-        public static void SetFloatFromPointers(int baseAddress, int processHandle, float value, params int[] offsets)
-        {
-            SetValueFromPointers(baseAddress, processHandle, GetBytes(value), offsets);
+            return ToBoolean(GetValueFromPointers(processHandle, sizeof(bool), baseAddress, offsets), 0);
         }
 
-        public static void EditInt(int baseAddress, int processHandle, int value, params int[] offsets)
+        public static void SetValueFromPointers(int processHandle, byte[] bytes, int baseAddress, params int[] offsets)
         {
-            SetValueFromPointers(baseAddress, processHandle, GetBytes(GetIntFromPointers(baseAddress, processHandle, offsets) + value), offsets);
+            WriteMemory(processHandle, bytes, GetAddressFromPointers(processHandle, baseAddress, offsets));
         }
-        public static void EditFloat(int baseAddress, int processHandle, float value, params int[] offsets)
+        public static void SetIntFromPointers(int processHandle, int value, int baseAddress, params int[] offsets)
         {
-            SetValueFromPointers(baseAddress, processHandle, GetBytes(GetIntFromPointers(baseAddress, processHandle, offsets) + value), offsets);
+            SetValueFromPointers(processHandle, GetBytes(value), baseAddress, offsets);
+        }
+        public static void SetFloatFromPointers(int processHandle, float value, int baseAddress, params int[] offsets)
+        {
+            SetValueFromPointers(processHandle, GetBytes(value), baseAddress, offsets);
+        }
+
+        public static void EditInt(int processHandle, int value, int baseAddress, params int[] offsets)
+        {
+            SetValueFromPointers(processHandle, GetBytes(GetIntFromPointers(baseAddress, processHandle, offsets) + value), baseAddress, offsets);
+        }
+        public static void EditFloat(int processHandle, float value, int baseAddress, params int[] offsets)
+        {
+            SetValueFromPointers(processHandle, GetBytes(GetIntFromPointers(baseAddress, processHandle, offsets) + value), baseAddress, offsets);
         }
     }
 }
