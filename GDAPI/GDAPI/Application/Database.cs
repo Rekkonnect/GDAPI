@@ -1,19 +1,13 @@
-﻿using System;
+﻿using GDAPI.Utilities.Functions.Extensions;
+using GDAPI.Utilities.Objects.GeometryDash;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using GDAPI.Utilities.Functions.Extensions;
-using GDAPI.Utilities.Functions.General;
-using GDAPI.Utilities.Functions.GeometryDash;
-using GDAPI.Utilities.Objects.GeometryDash;
-using static System.Convert;
-using static System.Environment;
-using static GDAPI.Utilities.Functions.GeometryDash.Gamesave;
 using System.Threading;
-using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
+using static GDAPI.Utilities.Functions.GeometryDash.Gamesave;
+using static System.Environment;
 
 namespace GDAPI.Application
 {
