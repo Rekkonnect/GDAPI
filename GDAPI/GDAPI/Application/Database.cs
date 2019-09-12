@@ -403,12 +403,6 @@ namespace GDAPI.Application
             LevelDataSetCompleted?.Invoke();
         }
 
-        private async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
-        {
-            task.ContinueWith(_ => invocableEvent?.Invoke());
-            await task;
-        }
-
         private async Task SetDecryptedGamesaveField(string gamesave) => decryptedGamesave = await GetDecryptedResult(TryDecryptGamesaveAsync(gamesave));
         private async Task SetDecryptedLevelDataField(string levelData) => decryptedLevelData = await GetDecryptedResult(TryDecryptLevelDataAsync(levelData));
 
@@ -635,6 +629,12 @@ namespace GDAPI.Application
         /// <summary>Retrieves the custom song location of the song with the specified ID.</summary>
         /// <param name="ID">The ID of the song.</param>
         public static string GetCustomSongLocation(int ID) => $@"{GDLocalData}\{ID}.mp3";
+
+        private static async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
+        {
+            task.ContinueWith(_ => invocableEvent?.Invoke());
+            await task;
+        }
         #endregion
     }
 }
