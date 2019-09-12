@@ -215,39 +215,43 @@ namespace GDAPI.Application
             UpdateLevelData();
         }
         /// <summary>Creates a new level with the name "Unnamed {n}" and adds it to the start of the level list.</summary>
-        public void CreateLevel() => CreateLevel($"Unnamed {GetNextUnnamedNumber()}", "", DefaultLevelString);
+        public Level CreateLevel() => CreateLevel($"Unnamed {GetNextUnnamedNumber()}", "", DefaultLevelString);
         /// <summary>Creates a new level with a specified name and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
-        public void CreateLevel(string name) => CreateLevel(name, "", DefaultLevelString);
+        public Level CreateLevel(string name) => CreateLevel(name, "", DefaultLevelString);
         /// <summary>Creates a new level with a specified name and description and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
-        /// <param name="desc">The description of the new level to create.</param>
-        public void CreateLevel(string name, string desc) => CreateLevel(name, "", DefaultLevelString);
+        /// <param name="description">The description of the new level to create.</param>
+        public Level CreateLevel(string name, string description) => CreateLevel(name, description, DefaultLevelString);
         /// <summary>Creates a new level with a specified name, description and level string and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
-        /// <param name="desc">The description of the new level to create.</param>
+        /// <param name="description">The description of the new level to create.</param>
         /// <param name="levelString">The level string of the new level to create.</param>
-        public void CreateLevel(string name, string desc, string levelString)
+        public Level CreateLevel(string name, string description, string levelString)
         {
-            UserLevels.Insert(0, new Level(name, desc, levelString, UserName, GetNextAvailableRevision(name)));
+            var newLevel = new Level(name, description, levelString, UserName, GetNextAvailableRevision(name));
+            UserLevels.Insert(0, newLevel);
             UpdateLevelData();
+            return newLevel;
         }
         /// <summary>Creates a number of new levels with the names "Unnamed {n}" and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
-        public void CreateLevels(int numberOfLevels) => CreateLevels(numberOfLevels, new string[numberOfLevels], new string[numberOfLevels]);
+        public Level[] CreateLevels(int numberOfLevels) => CreateLevels(numberOfLevels, new string[numberOfLevels], new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         /// <param name="name">The names of the new levels to create.</param>
-        public void CreateLevels(int numberOfLevels, string[] names) => CreateLevels(numberOfLevels, names, new string[numberOfLevels]);
+        public Level[] CreateLevels(int numberOfLevels, string[] names) => CreateLevels(numberOfLevels, names, new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and descriptions and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
-        /// <param name="name">The names of the new levels to create.</param>
-        /// <param name="desc">The descriptions of the new levels to create.</param>
-        public void CreateLevels(int numberOfLevels, string[] names, string[] descs)
+        /// <param name="names">The names of the new levels to create.</param>
+        /// <param name="descriptions">The descriptions of the new levels to create.</param>
+        public Level[] CreateLevels(int numberOfLevels, string[] names, string[] descriptions)
         {
+            var levels = new Level[numberOfLevels];
             for (int i = 0; i < numberOfLevels; i++)
-                UserLevels.Insert(0, new Level(names[i], descs[i], DefaultLevelString, UserName, GetNextAvailableRevision(names[i])));
+                UserLevels.Insert(0, levels[i] = new Level(names[i], descriptions[i], DefaultLevelString, UserName, GetNextAvailableRevision(names[i])));
             UpdateLevelData();
+            return levels;
         }
         /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
