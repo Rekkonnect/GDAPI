@@ -1,18 +1,13 @@
-﻿using System;
+﻿using GDAPI.Utilities.Functions.Extensions;
+using GDAPI.Utilities.Objects.GeometryDash;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using GDAPI.Utilities.Functions.Extensions;
-using GDAPI.Utilities.Functions.General;
-using GDAPI.Utilities.Functions.GeometryDash;
-using GDAPI.Utilities.Objects.GeometryDash;
-using static System.Convert;
-using static System.Environment;
-using static GDAPI.Utilities.Functions.GeometryDash.Gamesave;
 using System.Threading;
+using System.Threading.Tasks;
+using static GDAPI.Utilities.Functions.GeometryDash.Gamesave;
+using static System.Environment;
 
 namespace GDAPI.Application
 {
@@ -38,8 +33,8 @@ namespace GDAPI.Application
         private Task getCustomObjects;
         private Task getSongMetadata;
         private Task getLevels;
-        private Task<(bool, string)> decryptGamesave;
-        private Task<(bool, string)> decryptLevelData;
+        private Task decryptGamesave;
+        private Task decryptLevelData;
 
         #region Database Status
         public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave?.Status ?? (TaskStatus)(-1);
@@ -51,6 +46,27 @@ namespace GDAPI.Application
         public TaskStatus GetLevelsStatus => getLevels?.Status ?? (TaskStatus)(-1);
         public TaskStatus DecryptGamesaveStatus => decryptGamesave?.Status ?? (TaskStatus)(-1);
         public TaskStatus DecryptLevelDataStatus => decryptLevelData?.Status ?? (TaskStatus)(-1);
+        #endregion
+
+        #region Database Async Operation Completion Events
+        /// <summary>Raised upon having finished analyzing the newly set gamesave string.</summary>
+        public event Action GamesaveSetCompleted;
+        /// <summary>Raised upon having finished analyzing the newly set level data string.</summary>
+        public event Action LevelDataSetCompleted;
+        /// <summary>Raised upon completion of the decryption of the gamesave string that was set.</summary>
+        public event Action GamesaveDecrypted;
+        /// <summary>Raised upon completion of the decryption of the level data string that was set.</summary>
+        public event Action LevelDataDecrypted;
+        /// <summary>Raised upon completion of retrieval of the folder names as specified in the newly set gamesave string.</summary>
+        public event Action FolderNamesRetrieved;
+        /// <summary>Raised upon completion of retrieval of the player name as specified in the newly set gamesave string.</summary>
+        public event Action PlayerNameRetrieved;
+        /// <summary>Raised upon completion of retrieval of the custom objects as specified in the newly set gamesave string.</summary>
+        public event Action CustomObjectsRetrieved;
+        /// <summary>Raised upon completion of retrieval of the song metadata as specified in the newly set gamesave string.</summary>
+        public event Action SongMetadataRetrieved;
+        /// <summary>Raised upon completion of retrieval of the levels as specified in the newly set level data string.</summary>
+        public event Action LevelsRetrieved;
         #endregion
 
         #region Constants
@@ -363,18 +379,28 @@ namespace GDAPI.Application
         #region Private Functions
         private async Task SetDecryptedGamesave(string gamesave)
         {
-            decryptedGamesave = (await (decryptGamesave = TryDecryptGamesaveAsync(gamesave))).Item2;
-            getFolderNames = GetFolderNames();
-            getPlayerName = GetPlayerName();
-            getCustomObjects = GetCustomObjects();
-            getSongMetadata = GetSongMetadata();
+            await PerformTaskWithInvocableEvent(decryptGamesave = SetDecryptedGamesaveField(gamesave), GamesaveDecrypted);
+
+            await PerformTaskWithInvocableEvent(getFolderNames = GetFolderNames(), FolderNamesRetrieved);
+            await PerformTaskWithInvocableEvent(getPlayerName = GetPlayerName(), PlayerNameRetrieved);
+            await PerformTaskWithInvocableEvent(getCustomObjects = GetCustomObjects(), CustomObjectsRetrieved);
+            await PerformTaskWithInvocableEvent(getSongMetadata = GetSongMetadata(), SongMetadataRetrieved);
+
+            GamesaveSetCompleted?.Invoke();
         }
         private async Task SetDecryptedLevelData(string levelData)
         {
-            decryptedLevelData = (await (decryptLevelData = TryDecryptLevelDataAsync(levelData))).Item2;
-            await (getLevels = GetLevels(false));
+            await PerformTaskWithInvocableEvent(decryptLevelData = SetDecryptedLevelDataField(levelData), LevelDataDecrypted);
+            await PerformTaskWithInvocableEvent(getLevels = GetLevels(false), LevelsRetrieved);
             LoadLevelsInOrder();
+
+            LevelDataSetCompleted?.Invoke();
         }
+
+        private async Task SetDecryptedGamesaveField(string gamesave) => decryptedGamesave = await GetDecryptedResult(TryDecryptGamesaveAsync(gamesave));
+        private async Task SetDecryptedLevelDataField(string levelData) => decryptedLevelData = await GetDecryptedResult(TryDecryptLevelDataAsync(levelData));
+
+        private async Task<string> GetDecryptedResult(Task<(bool, string)> task) => (await task).Item2;
 
         private void LoadLevelsInOrder()
         {
@@ -597,6 +623,12 @@ namespace GDAPI.Application
         /// <summary>Retrieves the custom song location of the song with the specified ID.</summary>
         /// <param name="ID">The ID of the song.</param>
         public static string GetCustomSongLocation(int ID) => $@"{GDLocalData}\{ID}.mp3";
+
+        private static async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
+        {
+            task.ContinueWith(_ => invocableEvent?.Invoke());
+            await task;
+        }
         #endregion
     }
 }
