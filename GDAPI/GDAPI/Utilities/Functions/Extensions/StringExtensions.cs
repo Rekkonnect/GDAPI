@@ -469,6 +469,38 @@ namespace GDAPI.Utilities.Functions.Extensions
                 separated.Add(s[i].Split(separator));
             return separated.ToTwoDimensionalArray();
         }
+
+        /// <summary>Returns the words of a string in PascalCase.</summary>
+        /// <param name="s">The string in PascalCase whose words to get.</param>
+        public static string[] GetPascalCaseWords(this string s)
+        {
+            var indices = new List<int>(s.Length / 7) { 0 }; // estimated word count
+
+            bool wasLastCharacterUpper = true;
+            bool isCurrentCharacterUpper;
+            int continuousUpperCases = 0;
+            for (int i = 1; i < s.Length; i++)
+            {
+                isCurrentCharacterUpper = s[i].IsUpperCaseLetter();
+
+                if (!wasLastCharacterUpper && isCurrentCharacterUpper)
+                    indices.Add(i);
+                else if (continuousUpperCases > 1 && !isCurrentCharacterUpper)
+                    indices.Add(i - 1);
+
+                if (isCurrentCharacterUpper)
+                    continuousUpperCases++;
+                else
+                    continuousUpperCases = 0;
+
+                wasLastCharacterUpper = isCurrentCharacterUpper;
+            }
+
+            string[] words = new string[indices.Count];
+            for (int i = 0; i < indices.Count; i++)
+                words[i] = s.Substring(indices[i], (i + 1 < indices.Count ? indices[i + 1] : s.Length) - indices[i]);
+            return words;
+        }
         #endregion
 
         #region List<string>
