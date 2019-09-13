@@ -166,7 +166,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash
         /// <summary>Returns the guideline string of the <seealso cref="GuidelineCollection"/>.</summary>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             foreach (var g in g)
                 result.Append($"{g}~");
             return result.ToString();

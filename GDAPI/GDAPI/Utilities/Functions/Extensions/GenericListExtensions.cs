@@ -15,7 +15,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="l">The list to clone.</param>
         public static List<T> Clone<T>(this List<T> l)
         {
-            List<T> result = new List<T>();
+            var result = new List<T>();
             for (int i = 0; i < l.Count; i++)
                 result.Add(l[i]);
             return result;
@@ -25,7 +25,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="l">The list of lists to clone.</param>
         public static List<List<T>> Clone<T>(this List<List<T>> l)
         {
-            List<List<T>> result = new List<List<T>>();
+            var result = new List<List<T>>();
             for (int i = 0; i < l.Count; i++)
             {
                 result.Add(new List<T>());
@@ -45,8 +45,8 @@ namespace GDAPI.Utilities.Functions.Extensions
         {
             if (containedList.Count != list.Count)
                 return false;
-            List<T> tempList = list.Clone();
-            List<T> tempContained = containedList.Clone();
+            var tempList = list.Clone();
+            var tempContained = containedList.Clone();
             for (int i = 0; i < tempContained.Count; i++)
                 if (!tempList.Remove(tempContained[i]))
                     return false;
@@ -58,8 +58,8 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="containedList">The list other list to check.</param>
         public static bool ContainsUnordered<T>(this List<T> list, List<T> containedList)
         {
-            List<T> tempList = containedList.Clone();
-            List<T> tempContained = containedList.Clone();
+            var tempList = containedList.Clone();
+            var tempContained = containedList.Clone();
             for (int i = 0; i < tempList.Count; i++)
                 tempList.Remove(tempContained[i]);
             return list.Count - containedList.Count == tempList.Count;
@@ -82,7 +82,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="l">The list of arrays to convert.</param>
         public static T[,] ToTwoDimensionalArray<T>(this List<T[]> l)
         {
-            T[,] ar = new T[l.Count, l.GetLengths().Max()];
+            var ar = new T[l.Count, l.GetLengths().Max()];
             for (int i = 0; i < l.Count; i++)
                 for (int j = 0; j < l[i].Length; j++)
                     ar[i, j] = l[i][j];
