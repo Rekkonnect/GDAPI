@@ -161,7 +161,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="a">The array whose negative integer values will be removed.</param>
         public static int[] RemoveNegatives(this int[] a)
         {
-            List<int> result = new List<int>();
+            var result = new List<int>();
             for (int i = 0; i < a.Length; i++)
                 if (a[i] >= 0)
                     result.Add(a[i]);
@@ -171,7 +171,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="a">The array whose integer values matching their respective indices will be removed.</param>
         public static int[] RemoveElementsMatchingIndices(this int[] a)
         {
-            List<int> result = new List<int>();
+            var result = new List<int>();
             for (int i = 0; i < a.Length; i++)
                 if (a[i] != i)
                     result.Add(a[i]);
@@ -181,7 +181,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="a">The array whose integer values matching their respective indices counting from the last index will be removed.</param>
         public static int[] RemoveElementsMatchingIndicesFromEnd(this int[] a, int length)
         {
-            List<int> result = new List<int>();
+            var result = new List<int>();
             for (int i = 0; i < a.Length; i++)
                 if (a[i] != length - a.Length + i)
                     result.Add(a[i]);
@@ -192,7 +192,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="value">The value to match.</param>
         public static int[] GetIndicesOfMatchingValues(this int[] a, int value)
         {
-            List<int> indices = new List<int>();
+            var indices = new List<int>();
             for (int i = 0; i < a.Length; i++)
                 if (a[i] == value)
                     indices.Add(i);
