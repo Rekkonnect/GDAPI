@@ -298,8 +298,10 @@ namespace GDAPI.Application
             LevelKeyStartIndices = LevelKeyStartIndices.InsertAtStart(LevelKeyStartIndices[0]); // Add the new key start position in the array
             for (int i = 1; i < LevelKeyStartIndices.Count; i++)
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
-            // Insert the imported level's parameters
-            UserLevels.Insert(0, new Level(level));
+            // Insert the imported level and initialize its analysis
+            var newLevel = new Level(level);
+            newLevel.InitializeLoadingLevelString();
+            UserLevels.Insert(0, newLevel);
         }
         /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
         /// <param name="levelPath">The path of the level to import.</param>
