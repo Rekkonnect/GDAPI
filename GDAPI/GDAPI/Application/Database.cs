@@ -1,5 +1,6 @@
 ﻿using GDAPI.Utilities.Functions.Extensions;
 using GDAPI.Utilities.Objects.GeometryDash;
+using GDAPI.Utilities.Objects.GeometryDash.LevelObjects;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -272,6 +273,7 @@ namespace GDAPI.Application
             UpdateLevelData();
         }
 
+        #region Level exporting/importing
         /// <summary>Exports the level at the specified index in the database to a .dat file in the specified folder.</summary>
         /// <param name="index">The index of the level to export.</param>
         /// <param name="folderPath">The path of the folder to export the level at.</param>
@@ -319,6 +321,44 @@ namespace GDAPI.Application
                 levels[i] = File.ReadAllText(levelPaths[i]);
             ImportLevels(levels);
         }
+        #endregion
+
+        #region Custom Object exporting/importing
+        /// <summary>Exports the custom object at the specified index in the database to a .dat file in the specified folder.</summary>
+        /// <param name="index">The index of the custom object to export.</param>
+        /// <param name="folderPath">The path of the folder to export the custom object at.</param>
+        public void ExportCustomObject(int index, string folderPath) => File.WriteAllText($@"{folderPath}\Custom Object {index}.dat", CustomObjects[index].ToString());
+        /// <summary>Exports the custom objects at the specified indices in the database to a .dat file in the specified folder.</summary>
+        /// <param name="indices">The indices of the custom objects to export.</param>
+        /// <param name="folderPath">The path of the folder to export the custom objects at.</param>
+        public void ExportCustomObjects(int[] indices, string folderPath)
+        {
+            for (int i = 0; i < indices.Length; i++)
+                File.WriteAllText($@"{folderPath}\Custom Object {i}.dat", CustomObjects[indices[i]].ToString());
+        }
+        /// <summary>Imports a custom object into the database and adds it to the start of the custom object list.</summary>
+        /// <param name="customObject">The raw custom object to import.</param>
+        public void ImportCustomObject(string customObject) => CustomObjects.Insert(0, new CustomLevelObject(GetObjects(customObject)));
+        /// <summary>Imports a custom object from the specified file path and adds it to the start of the custom object list.</summary>
+        /// <param name="customObjectPath">The path of the custom object to import.</param>
+        public void ImportCustomObjectFromFile(string customObjectPath) => ImportCustomObject(File.ReadAllText(customObjectPath));
+        /// <summary>Imports a number of custom objects into the database and adds them to the start of the custom object list.</summary>
+        /// <param name="customObjects">The raw custom objects to import.</param>
+        public void ImportCustomObjects(string[] customObjects)
+        {
+            for (int i = 0; i < customObjects.Length; i++)
+                ImportCustomObject(customObjects[i]);
+        }
+        /// <summary>Imports a number of custom objects from the specified file path and adds them to the start of the custom object list.</summary>
+        /// <param name="customObjectPaths">The paths of the custom objects to import.</param>
+        public void ImportCustomObjectsFromFiles(string[] customObjectPaths)
+        {
+            string[] customObjects = new string[customObjectPaths.Length];
+            for (int i = 0; i < customObjectPaths.Length; i++)
+                customObjects[i] = File.ReadAllText(customObjectPaths[i]);
+            ImportCustomObjects(customObjects);
+        }
+        #endregion
 
         /// <summary>Moves the selected levels down by one position.</summary>
         /// <param name="indices">The indices of the levels to move down.</param>
