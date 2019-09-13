@@ -288,7 +288,7 @@ namespace GDAPI.Application
         }
         /// <summary>Imports a level into the database and adds it to the start of the level list.</summary>
         /// <param name="level">The raw level to import.</param>
-        public void ImportLevel(string level)
+        public void ImportLevel(string level, bool initializeLoading = true)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
                 decryptedLevelData = decryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
@@ -300,28 +300,29 @@ namespace GDAPI.Application
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level and initialize its analysis
             var newLevel = new Level(level);
-            newLevel.InitializeLoadingLevelString();
+            if (initializeLoading)
+                newLevel.InitializeLoadingLevelString();
             UserLevels.Insert(0, newLevel);
         }
         /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
         /// <param name="levelPath">The path of the level to import.</param>
-        public void ImportLevelFromFile(string levelPath) => ImportLevel(File.ReadAllText(levelPath));
+        public void ImportLevelFromFile(string levelPath, bool initializeLoading = true) => ImportLevel(File.ReadAllText(levelPath), initializeLoading);
         /// <summary>Imports a number of levels into the database and adds them to the start of the level list.</summary>
-        /// <param name="lvls">The raw levels to import.</param>
-        public void ImportLevels(string[] lvls)
+        /// <param name="levels">The raw levels to import.</param>
+        public void ImportLevels(string[] levels, bool initializeLoading = true)
         {
-            for (int i = 0; i < lvls.Length; i++)
-                ImportLevel(lvls[i]);
+            for (int i = 0; i < levels.Length; i++)
+                ImportLevel(levels[i], initializeLoading);
             UpdateLevelData();
         }
         /// <summary>Imports a number of levels from the specified file path and adds them to the start of the level list.</summary>
         /// <param name="levelPaths">The paths of the levels to import.</param>
-        public void ImportLevelsFromFiles(string[] levelPaths)
+        public void ImportLevelsFromFiles(string[] levelPaths, bool initializeLoading = true)
         {
             string[] levels = new string[levelPaths.Length];
             for (int i = 0; i < levelPaths.Length; i++)
                 levels[i] = File.ReadAllText(levelPaths[i]);
-            ImportLevels(levels);
+            ImportLevels(levels, initializeLoading);
         }
         #endregion
 
