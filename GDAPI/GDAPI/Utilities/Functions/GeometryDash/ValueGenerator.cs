@@ -12,35 +12,53 @@ namespace GDAPI.Utilities.Functions.GeometryDash
     public static class ValueGenerator
     {
         #region Easing
-        public static int GenerateEasingValue(int easingType, bool enableIn, bool enableOut)
+        private const EasingMethod LastEasingMethod = EasingMethod.Back;
+
+        /// <summary>Generates an easing value from the easing type properties.</summary>
+        /// <param name="easingMethod">The easing method.</param>
+        /// <param name="enableIn">Determines whether the easing will be applied at the start of the transformation.</param>
+        /// <param name="enableOut">Determines whether the easing will be applied at the end of the transformation.</param>
+        public static int GenerateEasingValue(EasingMethod easingMethod, bool enableIn, bool enableOut) => GenerateEasingType(easingMethod, enableIn, enableOut, EasingToEasingValue);
+        /// <summary>Generates an <seealso cref="Easing"/> from the easing type properties.</summary>
+        /// <param name="easingMethod">The easing method.</param>
+        /// <param name="enableIn">Determines whether the easing will be applied at the start of the transformation.</param>
+        /// <param name="enableOut">Determines whether the easing will be applied at the end of the transformation.</param>
+        public static Easing GenerateEasing(EasingMethod easingMethod, bool enableIn, bool enableOut) => (Easing)GenerateEasingType(easingMethod, enableIn, enableOut, EasingToEasingValue);
+        /// <summary>Generates an <seealso cref="EasingType"/> from the easing type properties.</summary>
+        /// <param name="easingMethod">The easing method.</param>
+        /// <param name="enableIn">Determines whether the easing will be applied at the start of the transformation.</param>
+        /// <param name="enableOut">Determines whether the easing will be applied at the end of the transformation.</param>
+        public static EasingType GenerateEasingType(EasingMethod easingMethod, bool enableIn, bool enableOut) => GenerateEasingType(easingMethod, enableIn, enableOut, EasingToEasingType);
+
+        /// <summary>Gets the <seealso cref="EasingMethod"/> of the <seealso cref="Easing"/>.</summary>
+        /// <param name="easing">The <seealso cref="Easing"/> whose <seealso cref="EasingMethod"/> to retrieve.</param>
+        public static EasingMethod GetEasingMethod(Easing easing) => easing > Easing.None ? (EasingMethod)(((int)easing - 1) / 3 + 1) : EasingMethod.None;
+        /// <summary>Determines whether an <seealso cref="Easing"/> has easing in.</summary>
+        /// <param name="easing">The <seealso cref="Easing"/> to analyze.</param>
+        public static bool HasEasingIn(Easing easing) => ((int)easing - 1) % 3 != 2;
+        /// <summary>Determines whether an <seealso cref="Easing"/> has easing out.</summary>
+        /// <param name="easing">The <seealso cref="Easing"/> to analyze.</param>
+        public static bool HasEasingOut(Easing easing) => ((int)easing - 1) % 3 != 1;
+
+        private static int EasingToEasingValue(EasingMethod easingMethod, bool enableIn, bool enableOut) => ((int)easingMethod - 1) * 3 + 1 + (enableIn ? 0 : 2) + (enableOut ? 0 : 1);
+        private static EasingType EasingToEasingType(EasingMethod easingMethod, bool enableIn, bool enableOut) => (EasingType)(1 << ((int)easingMethod + 3)) | (enableIn ? EasingType.In : EasingType.None) | (enableOut ? EasingType.Out : EasingType.None);
+
+        private static T GenerateEasingType<T>(EasingMethod easingMethod, bool enableIn, bool enableOut, EasingTypeConverter<T> converter, T defaultValue = default)
         {
-            if (easingType > 0 && easingType < 7)
+            if (easingMethod > EasingMethod.None && easingMethod <= LastEasingMethod)
             {
                 if (enableIn || enableOut)
-                    return (easingType - 1) * 3 + 1 + (enableIn ? 0 : 2) + (enableOut ? 0 : 1);
+                    return converter(easingMethod, enableIn, enableOut);
                 else
                     throw new ArgumentException("The easing in and out parameters were both false which is invalid.");
             }
-            else if (easingType == 0)
-                return 0;
+            else if (easingMethod == EasingMethod.None)
+                return defaultValue;
             else
                 throw new ArgumentException("The easing type value was beyond the easing type range.");
         }
 
-        public static EasingType GenerateEasingType(int easingType, bool enableIn, bool enableOut)
-        {
-            if (easingType > 0 && easingType < 7)
-            {
-                if (enableIn || enableOut)
-                    return (EasingType)(1 << (easingType + 3)) | (enableIn ? EasingType.In : EasingType.None) | (enableOut ? EasingType.Out : EasingType.None);
-                else
-                    throw new ArgumentException("The easing in and out parameters were both false which is invalid.");
-            }
-            else if (easingType == 0)
-                return EasingType.None;
-            else
-                throw new ArgumentException("The easing type value was beyond the easing type range.");
-        }
+        private delegate T EasingTypeConverter<T>(EasingMethod easingMethod, bool enableIn, bool enableOut);
         #endregion
 
         #region Z Layer
