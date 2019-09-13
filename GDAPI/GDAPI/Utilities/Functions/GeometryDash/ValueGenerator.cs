@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace GDAPI.Utilities.Functions.GeometryDash
 {
     /// <summary>Provides helpful functions for conversion involving the enum value of the respective easing type in the game.</summary>
-    public static class EasingHelper
+    public static class ValueGenerator
     {
-        public static int GetEasingValue(int easingType, bool enableIn, bool enableOut)
+        public static int GenerateEasingValue(int easingType, bool enableIn, bool enableOut)
         {
             if (easingType > 0 && easingType < 7)
             {
@@ -25,12 +25,12 @@ namespace GDAPI.Utilities.Functions.GeometryDash
                 throw new ArgumentException("The easing type value was beyond the easing type range.");
         }
 
-        public static EasingType GetEasingType(int easingType, bool enableIn, bool enableOut)
+        public static EasingType GenerateEasingType(int easingType, bool enableIn, bool enableOut)
         {
             if (easingType > 0 && easingType < 7)
             {
                 if (enableIn || enableOut)
-                    return (EasingType)(1 << (easingType + 3)) | (enableIn ? EasingType.In : EasingType.None) | (enableIn ? EasingType.In : EasingType.None);
+                    return (EasingType)(1 << (easingType + 3)) | (enableIn ? EasingType.In : EasingType.None) | (enableOut ? EasingType.Out : EasingType.None);
                 else
                     throw new ArgumentException("The easing in and out parameters were both false which is invalid.");
             }
