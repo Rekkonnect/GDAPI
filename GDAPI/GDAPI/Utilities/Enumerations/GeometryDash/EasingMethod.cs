@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GDAPI.Utilities.Enumerations.GeometryDash
+﻿namespace GDAPI.Utilities.Enumerations.GeometryDash
 {
     /// <summary>This enumeration provides values for the Easing method of a movement command of a trigger.</summary>
     public enum EasingMethod : byte
