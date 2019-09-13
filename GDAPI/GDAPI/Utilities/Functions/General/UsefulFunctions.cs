@@ -11,7 +11,7 @@ namespace GDAPI.Utilities.Functions.General
     {
         public static void WriteAllLinesWithoutUselessNewLine(string path, string[] contents)
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             for (int i = 0; i < contents.Length; i++)
                 result.Append(contents[i] + "\n");
             result.Remove(result.Length - 1, 1);
@@ -19,7 +19,7 @@ namespace GDAPI.Utilities.Functions.General
         }
         public static void WriteAllLinesWithoutUselessNewLine(string path, StringBuilder[] contents)
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             for (int i = 0; i < contents.Length; i++)
                 result.Append(contents[i] + "\n");
             result.Remove(result.Length - 1, 1);
@@ -27,7 +27,7 @@ namespace GDAPI.Utilities.Functions.General
         }
         public static void WriteAllLinesWithoutUselessNewLine(string path, List<string> contents)
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             for (int i = 0; i < contents.Count; i++)
                 result.Append(contents[i] + "\n");
             result.Remove(result.Length - 1, 1);
@@ -35,7 +35,7 @@ namespace GDAPI.Utilities.Functions.General
         }
         public static void WriteAllLinesWithoutUselessNewLine(string path, List<StringBuilder> contents)
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             for (int i = 0; i < contents.Count; i++)
                 result.Append(contents[i] + "\n");
             result.Remove(result.Length - 1, 1);
