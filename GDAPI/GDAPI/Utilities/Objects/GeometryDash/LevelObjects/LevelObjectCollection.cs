@@ -26,7 +26,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
 
         private int commonPropertiesUnevaluatedIndex;
         private int allAvailablePropertiesUnevaluatedIndex;
-        private ListList<GeneralObject> unevaluatedObjects = new ListList<GeneralObject>();
+        private NestedLists<GeneralObject> unevaluatedObjects = new NestedLists<GeneralObject>();
 
         private List<GeneralObject> objects;
 

@@ -8,7 +8,7 @@ namespace GDAPI.Utilities.Objects.General
 {
     /// <summary>Represents a list of lists of objects of type <seealso cref="T"/>.</summary>
     /// <typeparam name="T">The type of the objects to store in the lists.</typeparam>
-    public class ListList<T> : IEnumerable<T>
+    public class NestedLists<T> : IEnumerable<T>
     {
         private List<List<T>> lists = new List<List<T>>();
 
