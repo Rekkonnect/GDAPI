@@ -1,18 +1,14 @@
-﻿using System;
+﻿using GDAPI.Utilities.Functions.Extensions;
+using GDAPI.Utilities.Objects.GeometryDash;
+using GDAPI.Utilities.Objects.GeometryDash.LevelObjects;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using GDAPI.Utilities.Functions.Extensions;
-using GDAPI.Utilities.Functions.General;
-using GDAPI.Utilities.Functions.GeometryDash;
-using GDAPI.Utilities.Objects.GeometryDash;
-using static System.Convert;
-using static System.Environment;
-using static GDAPI.Utilities.Functions.GeometryDash.Gamesave;
 using System.Threading;
+using System.Threading.Tasks;
+using static GDAPI.Utilities.Functions.GeometryDash.Gamesave;
+using static System.Environment;
 
 namespace GDAPI.Application
 {
@@ -38,8 +34,8 @@ namespace GDAPI.Application
         private Task getCustomObjects;
         private Task getSongMetadata;
         private Task getLevels;
-        private Task<(bool, string)> decryptGamesave;
-        private Task<(bool, string)> decryptLevelData;
+        private Task decryptGamesave;
+        private Task decryptLevelData;
 
         #region Database Status
         public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave?.Status ?? (TaskStatus)(-1);
@@ -51,6 +47,27 @@ namespace GDAPI.Application
         public TaskStatus GetLevelsStatus => getLevels?.Status ?? (TaskStatus)(-1);
         public TaskStatus DecryptGamesaveStatus => decryptGamesave?.Status ?? (TaskStatus)(-1);
         public TaskStatus DecryptLevelDataStatus => decryptLevelData?.Status ?? (TaskStatus)(-1);
+        #endregion
+
+        #region Database Async Operation Completion Events
+        /// <summary>Raised upon having finished analyzing the newly set gamesave string.</summary>
+        public event Action GamesaveSetCompleted;
+        /// <summary>Raised upon having finished analyzing the newly set level data string.</summary>
+        public event Action LevelDataSetCompleted;
+        /// <summary>Raised upon completion of the decryption of the gamesave string that was set.</summary>
+        public event Action GamesaveDecrypted;
+        /// <summary>Raised upon completion of the decryption of the level data string that was set.</summary>
+        public event Action LevelDataDecrypted;
+        /// <summary>Raised upon completion of retrieval of the folder names as specified in the newly set gamesave string.</summary>
+        public event Action FolderNamesRetrieved;
+        /// <summary>Raised upon completion of retrieval of the player name as specified in the newly set gamesave string.</summary>
+        public event Action PlayerNameRetrieved;
+        /// <summary>Raised upon completion of retrieval of the custom objects as specified in the newly set gamesave string.</summary>
+        public event Action CustomObjectsRetrieved;
+        /// <summary>Raised upon completion of retrieval of the song metadata as specified in the newly set gamesave string.</summary>
+        public event Action SongMetadataRetrieved;
+        /// <summary>Raised upon completion of retrieval of the levels as specified in the newly set level data string.</summary>
+        public event Action LevelsRetrieved;
         #endregion
 
         #region Constants
@@ -199,39 +216,43 @@ namespace GDAPI.Application
             UpdateLevelData();
         }
         /// <summary>Creates a new level with the name "Unnamed {n}" and adds it to the start of the level list.</summary>
-        public void CreateLevel() => CreateLevel($"Unnamed {GetNextUnnamedNumber()}", "", DefaultLevelString);
+        public Level CreateLevel() => CreateLevel($"Unnamed {GetNextUnnamedNumber()}", "", DefaultLevelString);
         /// <summary>Creates a new level with a specified name and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
-        public void CreateLevel(string name) => CreateLevel(name, "", DefaultLevelString);
+        public Level CreateLevel(string name) => CreateLevel(name, "", DefaultLevelString);
         /// <summary>Creates a new level with a specified name and description and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
-        /// <param name="desc">The description of the new level to create.</param>
-        public void CreateLevel(string name, string desc) => CreateLevel(name, "", DefaultLevelString);
+        /// <param name="description">The description of the new level to create.</param>
+        public Level CreateLevel(string name, string description) => CreateLevel(name, description, DefaultLevelString);
         /// <summary>Creates a new level with a specified name, description and level string and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
-        /// <param name="desc">The description of the new level to create.</param>
+        /// <param name="description">The description of the new level to create.</param>
         /// <param name="levelString">The level string of the new level to create.</param>
-        public void CreateLevel(string name, string desc, string levelString)
+        public Level CreateLevel(string name, string description, string levelString)
         {
-            UserLevels.Insert(0, new Level(name, desc, levelString, UserName, GetNextAvailableRevision(name)));
+            var newLevel = new Level(name, description, levelString, UserName, GetNextAvailableRevision(name));
+            UserLevels.Insert(0, newLevel);
             UpdateLevelData();
+            return newLevel;
         }
         /// <summary>Creates a number of new levels with the names "Unnamed {n}" and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
-        public void CreateLevels(int numberOfLevels) => CreateLevels(numberOfLevels, new string[numberOfLevels], new string[numberOfLevels]);
+        public Level[] CreateLevels(int numberOfLevels) => CreateLevels(numberOfLevels, new string[numberOfLevels], new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         /// <param name="name">The names of the new levels to create.</param>
-        public void CreateLevels(int numberOfLevels, string[] names) => CreateLevels(numberOfLevels, names, new string[numberOfLevels]);
+        public Level[] CreateLevels(int numberOfLevels, string[] names) => CreateLevels(numberOfLevels, names, new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and descriptions and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
-        /// <param name="name">The names of the new levels to create.</param>
-        /// <param name="desc">The descriptions of the new levels to create.</param>
-        public void CreateLevels(int numberOfLevels, string[] names, string[] descs)
+        /// <param name="names">The names of the new levels to create.</param>
+        /// <param name="descriptions">The descriptions of the new levels to create.</param>
+        public Level[] CreateLevels(int numberOfLevels, string[] names, string[] descriptions)
         {
+            var levels = new Level[numberOfLevels];
             for (int i = 0; i < numberOfLevels; i++)
-                UserLevels.Insert(0, new Level(names[i], descs[i], DefaultLevelString, UserName, GetNextAvailableRevision(names[i])));
+                UserLevels.Insert(0, levels[i] = new Level(names[i], descriptions[i], DefaultLevelString, UserName, GetNextAvailableRevision(names[i])));
             UpdateLevelData();
+            return levels;
         }
         /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
@@ -252,6 +273,7 @@ namespace GDAPI.Application
             UpdateLevelData();
         }
 
+        #region Level exporting/importing
         /// <summary>Exports the level at the specified index in the database to a .dat file in the specified folder.</summary>
         /// <param name="index">The index of the level to export.</param>
         /// <param name="folderPath">The path of the folder to export the level at.</param>
@@ -266,7 +288,7 @@ namespace GDAPI.Application
         }
         /// <summary>Imports a level into the database and adds it to the start of the level list.</summary>
         /// <param name="level">The raw level to import.</param>
-        public void ImportLevel(string level)
+        public void ImportLevel(string level, bool initializeLoading = true)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
                 decryptedLevelData = decryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
@@ -276,29 +298,70 @@ namespace GDAPI.Application
             LevelKeyStartIndices = LevelKeyStartIndices.InsertAtStart(LevelKeyStartIndices[0]); // Add the new key start position in the array
             for (int i = 1; i < LevelKeyStartIndices.Count; i++)
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
-            // Insert the imported level's parameters
-            UserLevels.Insert(0, new Level(level));
+            // Insert the imported level and initialize its analysis
+            var newLevel = new Level(level);
+            if (initializeLoading)
+                newLevel.InitializeLoadingLevelString();
+            UserLevels.Insert(0, newLevel);
         }
         /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
         /// <param name="levelPath">The path of the level to import.</param>
-        public void ImportLevelFromFile(string levelPath) => ImportLevel(File.ReadAllText(levelPath));
+        public void ImportLevelFromFile(string levelPath, bool initializeLoading = true) => ImportLevel(File.ReadAllText(levelPath), initializeLoading);
         /// <summary>Imports a number of levels into the database and adds them to the start of the level list.</summary>
-        /// <param name="lvls">The raw levels to import.</param>
-        public void ImportLevels(string[] lvls)
+        /// <param name="levels">The raw levels to import.</param>
+        public void ImportLevels(string[] levels, bool initializeLoading = true)
         {
-            for (int i = 0; i < lvls.Length; i++)
-                ImportLevel(lvls[i]);
+            for (int i = 0; i < levels.Length; i++)
+                ImportLevel(levels[i], initializeLoading);
             UpdateLevelData();
         }
         /// <summary>Imports a number of levels from the specified file path and adds them to the start of the level list.</summary>
         /// <param name="levelPaths">The paths of the levels to import.</param>
-        public void ImportLevelsFromFiles(string[] levelPaths)
+        public void ImportLevelsFromFiles(string[] levelPaths, bool initializeLoading = true)
         {
             string[] levels = new string[levelPaths.Length];
             for (int i = 0; i < levelPaths.Length; i++)
                 levels[i] = File.ReadAllText(levelPaths[i]);
-            ImportLevels(levels);
+            ImportLevels(levels, initializeLoading);
         }
+        #endregion
+
+        #region Custom Object exporting/importing
+        /// <summary>Exports the custom object at the specified index in the database to a .dat file in the specified folder.</summary>
+        /// <param name="index">The index of the custom object to export.</param>
+        /// <param name="folderPath">The path of the folder to export the custom object at.</param>
+        public void ExportCustomObject(int index, string folderPath) => File.WriteAllText($@"{folderPath}\Custom Object {index}.dat", CustomObjects[index].ToString());
+        /// <summary>Exports the custom objects at the specified indices in the database to a .dat file in the specified folder.</summary>
+        /// <param name="indices">The indices of the custom objects to export.</param>
+        /// <param name="folderPath">The path of the folder to export the custom objects at.</param>
+        public void ExportCustomObjects(int[] indices, string folderPath)
+        {
+            for (int i = 0; i < indices.Length; i++)
+                File.WriteAllText($@"{folderPath}\Custom Object {i}.dat", CustomObjects[indices[i]].ToString());
+        }
+        /// <summary>Imports a custom object into the database and adds it to the start of the custom object list.</summary>
+        /// <param name="customObject">The raw custom object to import.</param>
+        public void ImportCustomObject(string customObject) => CustomObjects.Insert(0, new CustomLevelObject(GetObjects(customObject)));
+        /// <summary>Imports a custom object from the specified file path and adds it to the start of the custom object list.</summary>
+        /// <param name="customObjectPath">The path of the custom object to import.</param>
+        public void ImportCustomObjectFromFile(string customObjectPath) => ImportCustomObject(File.ReadAllText(customObjectPath));
+        /// <summary>Imports a number of custom objects into the database and adds them to the start of the custom object list.</summary>
+        /// <param name="customObjects">The raw custom objects to import.</param>
+        public void ImportCustomObjects(string[] customObjects)
+        {
+            for (int i = 0; i < customObjects.Length; i++)
+                ImportCustomObject(customObjects[i]);
+        }
+        /// <summary>Imports a number of custom objects from the specified file path and adds them to the start of the custom object list.</summary>
+        /// <param name="customObjectPaths">The paths of the custom objects to import.</param>
+        public void ImportCustomObjectsFromFiles(string[] customObjectPaths)
+        {
+            string[] customObjects = new string[customObjectPaths.Length];
+            for (int i = 0; i < customObjectPaths.Length; i++)
+                customObjects[i] = File.ReadAllText(customObjectPaths[i]);
+            ImportCustomObjects(customObjects);
+        }
+        #endregion
 
         /// <summary>Moves the selected levels down by one position.</summary>
         /// <param name="indices">The indices of the levels to move down.</param>
@@ -363,18 +426,28 @@ namespace GDAPI.Application
         #region Private Functions
         private async Task SetDecryptedGamesave(string gamesave)
         {
-            decryptedGamesave = (await (decryptGamesave = TryDecryptGamesaveAsync(gamesave))).Item2;
-            getFolderNames = GetFolderNames();
-            getPlayerName = GetPlayerName();
-            getCustomObjects = GetCustomObjects();
-            getSongMetadata = GetSongMetadata();
+            await PerformTaskWithInvocableEvent(decryptGamesave = SetDecryptedGamesaveField(gamesave), GamesaveDecrypted);
+
+            await PerformTaskWithInvocableEvent(getFolderNames = GetFolderNames(), FolderNamesRetrieved);
+            await PerformTaskWithInvocableEvent(getPlayerName = GetPlayerName(), PlayerNameRetrieved);
+            await PerformTaskWithInvocableEvent(getCustomObjects = GetCustomObjects(), CustomObjectsRetrieved);
+            await PerformTaskWithInvocableEvent(getSongMetadata = GetSongMetadata(), SongMetadataRetrieved);
+
+            GamesaveSetCompleted?.Invoke();
         }
         private async Task SetDecryptedLevelData(string levelData)
         {
-            decryptedLevelData = (await (decryptLevelData = TryDecryptLevelDataAsync(levelData))).Item2;
-            await (getLevels = GetLevels(false));
+            await PerformTaskWithInvocableEvent(decryptLevelData = SetDecryptedLevelDataField(levelData), LevelDataDecrypted);
+            await PerformTaskWithInvocableEvent(getLevels = GetLevels(false), LevelsRetrieved);
             LoadLevelsInOrder();
+
+            LevelDataSetCompleted?.Invoke();
         }
+
+        private async Task SetDecryptedGamesaveField(string gamesave) => decryptedGamesave = await GetDecryptedResult(TryDecryptGamesaveAsync(gamesave));
+        private async Task SetDecryptedLevelDataField(string levelData) => decryptedLevelData = await GetDecryptedResult(TryDecryptLevelDataAsync(levelData));
+
+        private async Task<string> GetDecryptedResult(Task<(bool, string)> task) => (await task).Item2;
 
         private void LoadLevelsInOrder()
         {
@@ -597,6 +670,12 @@ namespace GDAPI.Application
         /// <summary>Retrieves the custom song location of the song with the specified ID.</summary>
         /// <param name="ID">The ID of the song.</param>
         public static string GetCustomSongLocation(int ID) => $@"{GDLocalData}\{ID}.mp3";
+
+        private static async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
+        {
+            task.ContinueWith(_ => invocableEvent?.Invoke());
+            await task;
+        }
         #endregion
     }
 }

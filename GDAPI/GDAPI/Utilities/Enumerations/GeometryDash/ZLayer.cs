@@ -32,6 +32,9 @@ namespace GDAPI.Utilities.Enumerations.GeometryDash
         /// <summary>Represents the value for the Top Z Layer. This has been renamed to T1 since 2.1.</summary>
         Top = 5,
         /// <summary>Represents the value for the Top+ Z Layer. This has been renamed to T2 since 2.1.</summary>
-        TopPlus = 7
+        TopPlus = 7,
+
+        /// <summary>Represents the absolute zero Z Layer which is between B1 and T1. This value is theoretical and should only be used for calculations.</summary>
+        AbsoluteZero = 4,
     }
 }

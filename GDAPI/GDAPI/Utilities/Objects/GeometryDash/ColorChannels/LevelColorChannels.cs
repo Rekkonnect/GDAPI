@@ -67,7 +67,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.ColorChannels
         /// <summary>Returns the string of the <seealso cref="LevelColorChannels"/>.</summary>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             foreach (var c in colors)
             {
                 if (c == null)

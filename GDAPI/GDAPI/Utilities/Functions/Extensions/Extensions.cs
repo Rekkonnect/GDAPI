@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GDAPI.Utilities.Functions.Extensions
 {
@@ -16,10 +13,7 @@ namespace GDAPI.Utilities.Functions.Extensions
                     return true;
             return false;
         }
-        public static bool Contains(this Enum e, int value)
-        {
-            return ((int[])Enum.GetValues(e.GetType())).Contains(value);
-        }
+        public static bool Contains(this Enum e, int value) => Enum.IsDefined(e.GetType(), value);
 
         public static bool MatchIndices(this List<int> l)
         {
@@ -42,17 +36,10 @@ namespace GDAPI.Utilities.Functions.Extensions
                     return i;
             return -1;
         }
-        public static List<int> RemoveDuplicates(this List<int> l)
-        {
-            List<int> newList = new List<int>();
-            for (int i = 0; i < l.Count; i++)
-                if (!newList.Contains(l[i]))
-                    newList.Add(l[i]);
-            return newList;
-        }
+        public static List<int> RemoveDuplicates(this List<int> l) => new HashSet<int>(l).ToList();
         public static List<int> RemoveNegatives(this List<int> l)
         {
-            List<int> newList = new List<int>();
+            var newList = new List<int>();
             for (int i = 0; i < l.Count; i++)
                 if (l[i] >= 0)
                     newList.Add(l[i]);
@@ -102,10 +89,10 @@ namespace GDAPI.Utilities.Functions.Extensions
 
         public static List<List<decimal>> Copy(this List<List<decimal>> l)
         {
-            List<List<decimal>> result = new List<List<decimal>>();
+            var result = new List<List<decimal>>();
             for (int i = 0; i < l.Count; i++)
             {
-                List<decimal> newItem = new List<decimal>();
+                var newItem = new List<decimal>();
                 for (int j = 0; j < l[i].Count; j++)
                     newItem.Add(l[i][j]);
                 result.Add(newItem);
@@ -113,27 +100,9 @@ namespace GDAPI.Utilities.Functions.Extensions
             return result;
         }
 
-        public static int OneOrGreater(this double d)
-        {
-            int i = (int)d;
-            if (d < 1)
-                i = 1;
-            return i;
-        }
-        public static int OneOrGreater(this int a)
-        {
-            int i = a;
-            if (a < 1)
-                i = 1;
-            return i;
-        }
-        public static int ZeroOrGreater(this int a)
-        {
-            int i = a;
-            if (a < 0)
-                i = 0;
-            return i;
-        }
+        public static int OneOrGreater(this double d) => d < 1 ? 1 : (int)d;
+        public static int OneOrGreater(this int a) => a < 1 ? 1 : a;
+        public static int ZeroOrGreater(this int a) => a < 0 ? 0 : a;
         public static int WithinBounds(this int i, int min, int max)
         {
             if (i < min)
@@ -244,7 +213,7 @@ namespace GDAPI.Utilities.Functions.Extensions
 
         public static int[] GetIndicesOfMatchingValues(this bool[] a, bool value)
         {
-            List<int> indices = new List<int>();
+            var indices = new List<int>();
             for (int i = 0; i < a.Length; i++)
                 if (a[i] == value)
                     indices.Add(i);
@@ -279,8 +248,8 @@ namespace GDAPI.Utilities.Functions.Extensions
         }
         public static int[,] ToInt32Array(this string[,] s)
         {
-            int a = s.Length;
-            int b = s.GetLengths().Max();
+            int a = s.GetLength(0);
+            int b = s.GetLength(1);
             int[,] ar = new int[a, b];
             for (int i = 0; i < a; i++)
                 for (int j = 0; j < b; j++)
@@ -289,8 +258,8 @@ namespace GDAPI.Utilities.Functions.Extensions
         }
         public static double[,] ToDoubleArray(this string[,] s)
         {
-            int a = s.Length;
-            int b = s.GetLengths().Max();
+            int a = s.GetLength(0);
+            int b = s.GetLength(1);
             double[,] ar = new double[a, b];
             for (int i = 0; i < a; i++)
                 for (int j = 0; j < b; j++)
@@ -328,21 +297,7 @@ namespace GDAPI.Utilities.Functions.Extensions
                 ar[i] = Convert.ToBoolean(a[i]);
             return ar;
         }
-        public static string[] ToStringArray(this int[] a)
-        {
-            string[] result = new string[a.Length];
-            for (int i = 0; i < a.Length; i++)
-                result[i] = a[i].ToString();
-            return result;
-        }
-        public static string[] ToStringArray(this decimal[] a)
-        {
-            string[] result = new string[a.Length];
-            for (int i = 0; i < a.Length; i++)
-                result[i] = a[i].ToString();
-            return result;
-        }
-        public static string[] ToStringArray(this double[] a)
+        public static string[] ToStringArray<T>(this T[] a)
         {
             string[] result = new string[a.Length];
             for (int i = 0; i < a.Length; i++)
@@ -351,10 +306,10 @@ namespace GDAPI.Utilities.Functions.Extensions
         }
         public static List<List<T>> ToList<T>(this T[,] ar)
         {
-            List<List<T>> l = new List<List<T>>();
+            var l = new List<List<T>>();
             for (int i = 0; i < ar.GetLength(0); i++)
             {
-                List<T> temp = new List<T>();
+                var temp = new List<T>();
                 for (int j = 0; j < ar.GetLength(1); j++)
                     temp.Add(ar[i, j]);
                 l.Add(temp);
@@ -363,7 +318,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         }
         public static List<int> ToInt32List(this string[] s)
         {
-            List<int> result = new List<int>();
+            var result = new List<int>();
             for (int i = 0; i < s.Length; i++)
                 result.Add(Convert.ToInt32(s[i]));
             return result;

@@ -150,7 +150,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="a">The original array whose duplicate elements will be removed.</param>
         public static T[] RemoveDuplicates<T>(this T[] a)
         {
-            List<T> result = new List<T>();
+            var result = new List<T>();
             for (int i = 0; i < a.Length; i++)
                 if (!result.Contains(a[i]))
                     result.Add(a[i]);
@@ -170,7 +170,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="ar">The original array to sort.</param>
         public static T[] Sort<T>(this T[] ar)
         {
-            List<T> sorted = ar.ToList();
+            var sorted = ar.ToList();
             sorted.Sort();
             return sorted.ToArray();
         }

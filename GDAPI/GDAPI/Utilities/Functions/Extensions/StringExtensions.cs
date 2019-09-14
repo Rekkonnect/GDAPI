@@ -129,7 +129,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="match">The substring to match from the original string.</param>
         public static int[] FindAll(this string s, string match)
         {
-            List<int> indices = new List<int>();
+            var indices = new List<int>();
             for (int i = 0; i <= s.Length - match.Length; i++)
             {
                 string sub = s.Substring(i, match.Length);
@@ -145,7 +145,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="end">The ending index to perform the search.</param>
         public static int[] FindAll(this string s, string match, int start, int end)
         {
-            List<int> indices = new List<int>();
+            var indices = new List<int>();
             for (int i = start; i <= end - match.Length; i++)
             {
                 string sub = s.Substring(i, match.Length);
@@ -372,7 +372,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         {
             if (a != null)
             {
-                List<int> occurrences = new List<int>();
+                var occurrences = new List<int>();
                 for (int i = 0; i < a.Length; i++)
                     if (a[i] == match)
                         occurrences.Add(i);
@@ -441,7 +441,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="s">The array of strings.</param>
         public static string Combine(this string[] s)
         {
-            StringBuilder str = new StringBuilder();
+            var str = new StringBuilder();
             for (int i = 0; i < s.Length; i++)
                 str = str.Append(s[i]);
             return str.ToString();
@@ -453,7 +453,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         {
             if (s.Length == 0)
                 return "";
-            StringBuilder str = new StringBuilder();
+            var str = new StringBuilder();
             for (int i = 0; i < s.Length; i++)
                 str = str.Append(s[i] + separator);
             str = str.Remove(str.Length - separator.Length, separator.Length);
@@ -464,10 +464,42 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="separator">The separator of the strings.</param>
         public static string[,] Split(this string[] s, char separator)
         {
-            List<string[]> separated = new List<string[]>();
+            var separated = new List<string[]>();
             for (int i = 0; i < s.Length; i++)
                 separated.Add(s[i].Split(separator));
             return separated.ToTwoDimensionalArray();
+        }
+
+        /// <summary>Returns the words of a string in PascalCase.</summary>
+        /// <param name="s">The string in PascalCase whose words to get.</param>
+        public static string[] GetPascalCaseWords(this string s)
+        {
+            var indices = new List<int>(s.Length / 7) { 0 }; // estimated word count
+
+            bool wasLastCharacterUpper = true;
+            bool isCurrentCharacterUpper;
+            int continuousUpperCases = 0;
+            for (int i = 1; i < s.Length; i++)
+            {
+                isCurrentCharacterUpper = s[i].IsUpperCaseLetter();
+
+                if (!wasLastCharacterUpper && isCurrentCharacterUpper)
+                    indices.Add(i);
+                else if (continuousUpperCases > 1 && !isCurrentCharacterUpper)
+                    indices.Add(i - 1);
+
+                if (isCurrentCharacterUpper)
+                    continuousUpperCases++;
+                else
+                    continuousUpperCases = 0;
+
+                wasLastCharacterUpper = isCurrentCharacterUpper;
+            }
+
+            string[] words = new string[indices.Count];
+            for (int i = 0; i < indices.Count; i++)
+                words[i] = s.Substring(indices[i], (i + 1 < indices.Count ? indices[i + 1] : s.Length) - indices[i]);
+            return words;
         }
         #endregion
 
@@ -476,7 +508,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <param name="a">The list of strings.</param>
         public static List<string> RemoveEmptyElements(this List<string> a)
         {
-            List<string> result = new List<string>();
+            var result = new List<string>();
             for (int i = 0; i < a.Count; i++)
                 if (a[i].Length > 0)
                     result.Add(a[i]);

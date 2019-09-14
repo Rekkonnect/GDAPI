@@ -508,6 +508,17 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
 
         public List<PropertyAccessInfo> GetObjectProperties() => initializableObjectTypes.Where(i => i.ObjectType == GetType()).FirstOrDefault()?.Properties?.ToList();
 
+        /// <summary>Returns the name of the object type.</summary>
+        /// <param name="lowerLastWord">Determines whether the last word will be converted to lower case.</param>
+        public virtual string GetObjectTypeName(bool lowerLastWord)
+        {
+            // TODO: Consider caching the object type names?
+            var words = GetType().Name.GetPascalCaseWords();
+            if (lowerLastWord)
+                words[words.Length - 1] = words[words.Length - 1].ToLower();
+            return words.Combine(" ");
+        }
+
         /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
         /// <param name="other">The other object to check whether it equals this object's properties.</param>
         protected virtual bool EqualsInherited(GeneralObject other)

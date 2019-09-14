@@ -31,6 +31,9 @@ namespace GDAPI.Utilities.Objects.GeometryDash
         /// <summary>Indicates if the entire level has been successfully loaded.</summary>
         public bool IsFullyLoaded => loadLS?.Status >= TaskStatus.RanToCompletion;
 
+        /// <summary>Raised upon having finished analyzing the newly set level string.</summary>
+        public event Action LevelStringLoaded;
+
         #region Properties
         // Metadata
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
@@ -334,14 +337,12 @@ namespace GDAPI.Utilities.Objects.GeometryDash
         public override string ToString() => RawLevel;
 
         #region Private stuff
-        private async Task LoadLevelStringData()
+        private async Task LoadLevelStringData() => await PerformTaskWithInvocableEvent(loadLS = RunLoadLevelStringData(), LevelStringLoaded);
+        private async Task RunLoadLevelStringData()
         {
-            await (loadLS = Task.Run(() =>
-            {
-                TryDecryptLevelString(unprocessedLevelString, out var decryptedLevelString);
-                GetLevelStringInformation(cachedLevelString = decryptedLevelString);
-                unprocessedLevelString = null; // Free some memory; not too bad
-            }));
+            TryDecryptLevelString(unprocessedLevelString, out var decryptedLevelString);
+            GetLevelStringInformation(cachedLevelString = decryptedLevelString);
+            unprocessedLevelString = null; // Free some memory; not too bad
         }
 
         private void GetLevelStringInformation(string levelString)
@@ -482,5 +483,11 @@ namespace GDAPI.Utilities.Objects.GeometryDash
         }
         private string GetBoolPropertyString(string key, bool value) => value ? $"<k>{key}</k><t />" : "";
         #endregion
+
+        private static async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
+        {
+            task.ContinueWith(_ => invocableEvent?.Invoke());
+            await task;
+        }
     }
 }
