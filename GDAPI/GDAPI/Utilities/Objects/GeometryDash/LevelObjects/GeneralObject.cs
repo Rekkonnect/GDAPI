@@ -506,6 +506,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
 
+        /// <summary>Retrieves the properties of this object's type.</summary>
         public List<PropertyAccessInfo> GetObjectProperties() => initializableObjectTypes.Where(i => i.ObjectType == GetType()).FirstOrDefault()?.Properties?.ToList();
 
         /// <summary>Returns the name of the object type.</summary>
