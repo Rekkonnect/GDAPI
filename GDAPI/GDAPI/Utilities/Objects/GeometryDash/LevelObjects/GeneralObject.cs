@@ -22,9 +22,18 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
     {
         private static Type[] objectTypes;
         private static ObjectTypeInfo[] initializableObjectTypes;
+        private static Dictionary<int, Type> propertyTypeInfo;
 
         static GeneralObject()
         {
+            // Get object property types from the attributes that are assigned to the enum fields
+            var fields = typeof(ObjectParameter).GetFields();
+            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(null), i.GetCustomAttribute<ObjectParameterTypeAttribute>()?.Type));
+            propertyTypeInfo = new Dictionary<int, Type>();
+            foreach (var i in info)
+                propertyTypeInfo.Add(i.Key, i.Value);
+            // I added those 5 lines of code only to realize that I actually do not necessarily need them, hopefully they'll turn out any useful in the near future:tm:
+
             objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToArray();
             initializableObjectTypes = objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)).ToArray();
         }
@@ -497,6 +506,9 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
 
+        /// <summary>Retrieves the properties of this object's type.</summary>
+        public List<PropertyAccessInfo> GetObjectProperties() => initializableObjectTypes.Where(i => i.ObjectType == GetType()).FirstOrDefault()?.Properties?.ToList();
+
         /// <summary>Returns the name of the object type.</summary>
         /// <param name="lowerLastWord">Determines whether the last word will be converted to lower case.</param>
         public virtual string GetObjectTypeName(bool lowerLastWord)
@@ -564,6 +576,56 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
             return new GeneralObject(objectID);
         }
 
+        /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
+        public static List<PropertyAccessInfo> GetCommonProperties(IEnumerable<GeneralObject> collection) => GetCommonProperties(collection, null);
+        /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/> from a starting list of common properties.</summary>
+        /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
+        /// <param name="startingList">The starting list of common properties that will be merged with the resulting list.</param>
+        public static List<PropertyAccessInfo> GetCommonProperties(IEnumerable<GeneralObject> collection, List<PropertyAccessInfo> startingList)
+        {
+            var objectTypes = GetCollectionObjectTypeInfo(collection);
+
+            List<PropertyAccessInfo> result;
+            if (collection != null)
+                result = new List<PropertyAccessInfo>(startingList);
+            else
+                result = new List<PropertyAccessInfo>(objectTypes.First().Properties);
+
+            foreach (var t in objectTypes)
+                foreach (var p in result)
+                    if (!t.Properties.Contains(p))
+                        result.Remove(p);
+
+            return result;
+        }
+        /// <summary>Returns all the available object properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="collection">The collection whose all available object properties will be evaluated and returned.</param>
+        public static HashSet<PropertyAccessInfo> GetAllAvailableProperties(IEnumerable<GeneralObject> collection) => GetAllAvailableProperties(collection, null);
+        /// <summary>Returns all the available object properties found in the specified <seealso cref="LevelObjectCollection"/> from a starting hash set of available properties.</summary>
+        /// <param name="collection">The collection whose all available object properties will be evaluated and returned.</param>
+        /// <param name="startingHashSet">The starting hash set of available properties that will be merged with the resulting hash set.</param>
+        public static HashSet<PropertyAccessInfo> GetAllAvailableProperties(IEnumerable<GeneralObject> collection, HashSet<PropertyAccessInfo> startingHashSet)
+        {
+            var objectTypes = GetCollectionObjectTypeInfo(collection);
+
+            HashSet<PropertyAccessInfo> result;
+            if (collection != null)
+                result = new HashSet<PropertyAccessInfo>(startingHashSet);
+            else
+                result = new HashSet<PropertyAccessInfo>();
+
+            foreach (var t in objectTypes)
+                foreach (var p in t.Properties)
+                    result.Add(p);
+
+            return result;
+        }
+        private static HashSet<ObjectTypeInfo> GetCollectionObjectTypeInfo(IEnumerable<GeneralObject> collection)
+        {
+            return new HashSet<ObjectTypeInfo>(collection.Select(o => initializableObjectTypes.Where(i => o.GetType() == i.ObjectType).FirstOrDefault()));
+        }
+
         public override string ToString()
         {
             var s = new StringBuilder();
@@ -604,6 +666,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
             return thing.ToString();
         }
 
+        // TODO: Make public?
         private abstract class ObjectTypeInfo
         {
             private static Func<Type, Type, PropertyInfo, PropertyAccessInfo> GetAppropriateGenericA;
@@ -745,57 +808,6 @@ namespace GDAPI.Special
                 s.Remove(s.Length - 2, 2);
                 return s.ToString();
             }
-        }
-
-        // The following TODOs contain instructions to be executed when self-compiling code can be made
-
-        // TODO: Make this abstract
-        private class PropertyAccessInfo
-        {
-            public PropertyInfo PropertyInfo { get; }
-
-            protected Type GenericFunc, GenericAction;
-
-            // TODO: Remove these
-            public Delegate GetMethodDelegate { get; }
-            public Delegate SetMethodDelegate { get; }
-
-            public ObjectStringMappableAttribute ObjectStringMappableAttribute { get; }
-            public int? Key => ObjectStringMappableAttribute?.Key;
-            
-            public PropertyAccessInfo(PropertyInfo info)
-            {
-                PropertyInfo = info;
-                // You have to be kidding me right now
-                var propertyType = info.PropertyType;
-                var objectType = info.DeclaringType;
-                GenericFunc = typeof(Func<,>).MakeGenericType(objectType, propertyType);
-                GenericAction = typeof(Action<,>).MakeGenericType(objectType, propertyType);
-                ObjectStringMappableAttribute = info.GetCustomAttribute<ObjectStringMappableAttribute>();
-
-                // TODO: Remove these
-                GetMethodDelegate = info.GetGetMethod().CreateDelegate(GenericFunc);
-                SetMethodDelegate = info.GetSetMethod()?.CreateDelegate(GenericAction);
-            }
-
-            // TODO: Make these abstract
-            public virtual object Get(object instance) => GetMethodDelegate?.DynamicInvoke(instance);
-            public virtual void Set(object instance, object newValue) => SetMethodDelegate?.DynamicInvoke(instance, newValue);
-        }
-        private class PropertyAccessInfo<TObject, TProperty> : PropertyAccessInfo
-        {
-            public Func<TObject, TProperty> GetMethod { get; }
-            public Action<TObject, TProperty> SetMethod { get; }
-
-            public PropertyAccessInfo(PropertyInfo info)
-                : base(info)
-            {
-                GetMethod = info.GetGetMethod().CreateDelegate(GenericFunc) as Func<TObject, TProperty>;
-                SetMethod = info.GetSetMethod()?.CreateDelegate(GenericAction) as Action<TObject, TProperty>;
-            }
-
-            public override object Get(object instance) => GetMethod((TObject)instance);
-            public override void Set(object instance, object newValue) => SetMethod?.Invoke((TObject)instance, (TProperty)newValue);
         }
     }
 }

@@ -2,11 +2,14 @@
 using GDAPI.Utilities.Functions.Extensions;
 using GDAPI.Utilities.Functions.General;
 using GDAPI.Utilities.Information.GeometryDash;
+using GDAPI.Utilities.Objects.General;
 using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +20,13 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
     {
         private int triggerCount = -1;
         private int colorTriggerCount = -1;
+
+        private List<PropertyAccessInfo> commonProperties;
+        private HashSet<PropertyAccessInfo> allAvailableProperties;
+
+        private int commonPropertiesUnevaluatedIndex;
+        private int allAvailablePropertiesUnevaluatedIndex;
+        private NestedLists<GeneralObject> unevaluatedObjects = new NestedLists<GeneralObject>();
 
         private List<GeneralObject> objects;
 
@@ -33,6 +43,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
                 objects = value;
                 ObjectCounts.Clear();
                 GroupCounts.Clear();
+                ClearPropertyCache();
             }
         }
 
@@ -134,15 +145,16 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         {
             AddToCounters(o);
             objects.Add(o);
+            RegisterUnevaluatedObject(o);
             return this;
         }
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
-        /// <param name="objects">The objects to add.</param>
-        public LevelObjectCollection AddRange(List<GeneralObject> objects)
+        /// <param name="addedObjects">The objects to add.</param>
+        public LevelObjectCollection AddRange(List<GeneralObject> addedObjects)
         {
-            foreach (var o in objects)
-                AddToCounters(o);
-            objects.AddRange(objects);
+            AddToCounters(addedObjects);
+            objects.AddRange(addedObjects);
+            RegisterUnevaluatedObjects(addedObjects);
             return this;
         }
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
@@ -155,14 +167,30 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         {
             AddToCounters(o);
             objects.Insert(index, o);
+            RegisterUnevaluatedObject(o);
             return this;
         }
+        /// <summary>Inserts a collection of objects to the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="index">The index of the first object to insert at.</param>
+        /// <param name="insertedObjects">The objects to insert.</param>
+        public LevelObjectCollection InsertRange(int index, List<GeneralObject> insertedObjects)
+        {
+            AddToCounters(insertedObjects);
+            objects.InsertRange(index, insertedObjects);
+            RegisterUnevaluatedObjects(insertedObjects);
+            return this;
+        }
+        /// <summary>Inserts a collection of objects to the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="index">The index of the first object to insert at.</param>
+        /// <param name="objects">The objects to insert.</param>
+        public LevelObjectCollection InsertRange(int index, LevelObjectCollection objects) => InsertRange(index, objects.Objects);
         /// <summary>Removes an object from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="o">The object to remove.</param>
         public LevelObjectCollection Remove(GeneralObject o)
         {
             RemoveFromCounters(o);
             objects.Remove(o);
+            ClearPropertyCache();
             return this;
         }
         /// <summary>Removes an object from the <seealso cref="LevelObjectCollection"/>.</summary>
@@ -171,17 +199,19 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         {
             RemoveFromCounters(objects[index]);
             objects.RemoveAt(index);
+            ClearPropertyCache();
             return this;
         }
         /// <summary>Removes a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
-        /// <param name="objects">The objects to remove.</param>
-        public LevelObjectCollection RemoveRange(List<GeneralObject> objects)
+        /// <param name="removedObjects">The objects to remove.</param>
+        public LevelObjectCollection RemoveRange(List<GeneralObject> removedObjects)
         {
-            foreach (var o in objects)
+            foreach (var o in removedObjects)
             {
                 RemoveFromCounters(o);
                 objects.Remove(o);
             }
+            ClearPropertyCache();
             return this;
         }
         /// <summary>Removes a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
@@ -193,6 +223,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
             ObjectCounts.Clear();
             GroupCounts.Clear();
             objects.Clear();
+            SetPropertyCacheToDefault();
             return this;
         }
         /// <summary>Clones the <seealso cref="LevelObjectCollection"/> and returns the cloned instance.</summary>
@@ -202,6 +233,8 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
             result.ObjectCounts = ObjectCounts.Clone();
             result.GroupCounts = GroupCounts.Clone();
             result.objects = objects.Clone();
+            result.allAvailableProperties = allAvailableProperties.Clone();
+            result.commonProperties = commonProperties.Clone();
             return result;
         }
 
@@ -225,6 +258,43 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
                     result.Add(o);
             return result;
         }
+
+        #region Object Property Metadata
+        /// <summary>Returns the common object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
+        public List<PropertyAccessInfo> GetCommonProperties()
+        {
+            if (commonProperties == null)
+                commonProperties = GeneralObject.GetCommonProperties(this);
+            else
+            {
+                for (; commonPropertiesUnevaluatedIndex < unevaluatedObjects.ListCount; commonPropertiesUnevaluatedIndex++)
+                    commonProperties = GeneralObject.GetCommonProperties(unevaluatedObjects[commonPropertiesUnevaluatedIndex], commonProperties);
+                RemoveEvaluatedObjects();
+            }
+            return commonProperties;
+        }
+        /// <summary>Returns all the available object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
+        public HashSet<PropertyAccessInfo> GetAllAvailableProperties()
+        {
+            if (allAvailableProperties == null)
+                allAvailableProperties = GeneralObject.GetAllAvailableProperties(this);
+            else
+            {
+                for (; allAvailablePropertiesUnevaluatedIndex < unevaluatedObjects.ListCount; allAvailablePropertiesUnevaluatedIndex++)
+                    allAvailableProperties = GeneralObject.GetAllAvailableProperties(unevaluatedObjects[allAvailablePropertiesUnevaluatedIndex], allAvailableProperties);
+                RemoveEvaluatedObjects();
+            }
+            return allAvailableProperties;
+        }
+
+        private void RemoveEvaluatedObjects()
+        {
+            int count = Math.Min(commonPropertiesUnevaluatedIndex, allAvailablePropertiesUnevaluatedIndex);
+            unevaluatedObjects.RemoveFirst(count);
+            commonPropertiesUnevaluatedIndex -= count;
+            allAvailablePropertiesUnevaluatedIndex -= count;
+        }
+        #endregion
 
         #region Dictionaries
         // Keep in mind, those functions' performance is really low
@@ -273,6 +343,11 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+        private void AddToCounters(IEnumerable<GeneralObject> objects)
+        {
+            foreach (var o in objects)
+                AddToCounters(o);
+        }
         private void AddToCounters(GeneralObject o)
         {
             AdjustCounters(o, 1);
@@ -305,6 +380,36 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         {
             colorTriggerCount = -1;
             triggerCount = -1;
+        }
+
+        private void RegisterUnevaluatedObject(GeneralObject o)
+        {
+            if (ShouldRegisterUnevaluatedObjects())
+                unevaluatedObjects.Add(o);
+        }
+        private void RegisterUnevaluatedObjects(List<GeneralObject> objects)
+        {
+            if (ShouldRegisterUnevaluatedObjects())
+                unevaluatedObjects.Add(objects);
+        }
+        private bool ShouldRegisterUnevaluatedObjects() => commonProperties != null || allAvailableProperties != null;
+        private void SetPropertyCacheToDefault()
+        {
+            commonProperties = new List<PropertyAccessInfo>();
+            allAvailableProperties = new HashSet<PropertyAccessInfo>();
+            ResetUnevaluatedObjects();
+        }
+        private void ClearPropertyCache()
+        {
+            commonProperties = null;
+            allAvailableProperties = null;
+            ResetUnevaluatedObjects();
+        }
+        private void ResetUnevaluatedObjects()
+        {
+            unevaluatedObjects.Clear();
+            commonPropertiesUnevaluatedIndex = 0;
+            allAvailablePropertiesUnevaluatedIndex = 0;
         }
 
         private static void HandleEntryInsertion<TKey>(Dictionary<TKey, LevelObjectCollection> dictionary, TKey key, GeneralObject o)

@@ -13,13 +13,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         /// <summary>Clones a list.</summary>
         /// <typeparam name="T">The type of the list elements.</typeparam>
         /// <param name="l">The list to clone.</param>
-        public static List<T> Clone<T>(this List<T> l)
-        {
-            var result = new List<T>();
-            for (int i = 0; i < l.Count; i++)
-                result.Add(l[i]);
-            return result;
-        }
+        public static List<T> Clone<T>(this List<T> l) => new List<T>(l);
         /// <summary>Clones a list of lists.</summary>
         /// <typeparam name="T">The type of the list elements.</typeparam>
         /// <param name="l">The list of lists to clone.</param>
@@ -27,11 +21,7 @@ namespace GDAPI.Utilities.Functions.Extensions
         {
             var result = new List<List<T>>();
             for (int i = 0; i < l.Count; i++)
-            {
-                result.Add(new List<T>());
-                for (int j = 0; j < l[i].Count; j++)
-                    result[i].Add(l[i][j]);
-            }
+                result.Add(new List<T>(l[i]));
             return result;
         }
         #endregion
