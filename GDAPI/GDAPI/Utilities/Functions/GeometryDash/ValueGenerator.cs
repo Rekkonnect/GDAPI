@@ -80,7 +80,7 @@ namespace GDAPI.Utilities.Functions.GeometryDash
         /// <param name="zLayer">The <seealso cref="ZLayer"/> whose <seealso cref="ZLayerPosition"/> to get.</param>
         public static ZLayerPosition GetZLayerPosition(ZLayer zLayer) => zLayer < ZLayer.T1 ? ZLayerPosition.Bottom : ZLayerPosition.Top;
         /// <summary>Gets the absolute layer of the <seealso cref="ZLayer"/>.</summary>
-        /// <param name="zLayer">The <seealso cref="ZLayer"/> whole absolute layer to get.</param>
+        /// <param name="zLayer">The <seealso cref="ZLayer"/> whose absolute layer to get.</param>
         public static int GetAbsoluteZLayer(ZLayer zLayer)
         {
             var position = GetZLayerPosition(zLayer);
