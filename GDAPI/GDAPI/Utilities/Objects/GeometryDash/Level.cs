@@ -96,7 +96,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash
         public bool Unlisted { get; set; }
         /// <summary>The length of the level.</summary>
         [LevelStringMappable("k23")]
-        public LevelLength Length => LevelLengthConversion.GetLevelLength(TimeLength.TotalSeconds);
+        public LevelLength Length => EnumConverters.GetLevelLength(TimeLength.TotalSeconds);
         /// <summary>The length of the level as a <seealso cref="TimeSpan"/> object.</summary>
         public TimeSpan TimeLength
         {
