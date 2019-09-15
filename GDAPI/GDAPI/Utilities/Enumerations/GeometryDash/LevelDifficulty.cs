@@ -33,5 +33,8 @@ namespace GDAPI.Utilities.Enumerations.GeometryDash
         ExtremeDemon,
         /// <summary>Represents the Auto difficulty.</summary>
         Auto,
+
+        /// <summary>Represents the simple Demon difficulty.</summary>
+        Demon = EasyDemon,
     }
 }

@@ -11,6 +11,7 @@ namespace GDAPI.Utilities.Functions.GeometryDash
     /// <summary>Provides functions to convert values based on level lengths.</summary>
     public static class EnumConverters
     {
+        #region LevelLength
         /// <summary>Returns the <seealso cref="LevelLength"/> of a level from the seconds.</summary>
         /// <param name="seconds">The seconds of the length of the level to get the <seealso cref="LevelLength"/> value of.</param>
         public static LevelLength GetLevelLength(double seconds)
@@ -44,5 +45,37 @@ namespace GDAPI.Utilities.Functions.GeometryDash
                     return TinyLengthRange;
             }
         }
+        #endregion
+
+        #region LevelDifficulty
+        /// <summary>Returns the <seealso cref="LevelDifficulty"/> of a level from the specified star rating.</summary>
+        /// <param name="stars">The star rating of the level to get the <seealso cref="LevelDifficulty"/> value of.</param>
+        public static LevelDifficulty GetLevelDifficulty(int stars)
+        {
+            switch (stars)
+            {
+                case 0:
+                default:
+                    return LevelDifficulty.NA;
+                case 1:
+                    return LevelDifficulty.Auto;
+                case 2:
+                    return LevelDifficulty.Easy;
+                case 3:
+                    return LevelDifficulty.Normal;
+                case 4:
+                case 5:
+                    return LevelDifficulty.Hard;
+                case 6:
+                case 7:
+                    return LevelDifficulty.Harder;
+                case 8:
+                case 9:
+                    return LevelDifficulty.Insane;
+                case 10:
+                    return LevelDifficulty.Demon;
+            }
+        }
+        #endregion
     }
 }
