@@ -23,7 +23,7 @@ Aside from code performance and functionality, we care about [Code Style](CodeSt
 ## Level data
 
 - Level data loading
-- Support for all object types (including some 2.2 features foun in SubZero and sneak peeks)
+- Support for all object types (including some 2.2 features found in SubZero and sneak peeks)
 
 ## Editor
 
