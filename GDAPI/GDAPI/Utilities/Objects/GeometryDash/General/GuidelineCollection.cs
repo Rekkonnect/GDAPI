@@ -1,11 +1,10 @@
-﻿using GDAPI.Utilities.Objects.GeometryDash.General;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using static System.Convert;
 
-namespace GDAPI.Utilities.Objects.GeometryDash
+namespace GDAPI.Utilities.Objects.GeometryDash.General
 {
     /// <summary>Represents a collection of guidelines.</summary>
     public class GuidelineCollection : IEnumerable<Guideline>

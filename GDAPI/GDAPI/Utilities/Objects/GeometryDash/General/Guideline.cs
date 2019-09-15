@@ -1,6 +1,4 @@
-﻿using GDAPI.Utilities.Objects.GeometryDash.General;
-
-namespace GDAPI.Utilities.Objects.GeometryDash
+﻿namespace GDAPI.Utilities.Objects.GeometryDash.General
 {
     /// <summary>Contains information about a level guideline.</summary>
     public class Guideline
