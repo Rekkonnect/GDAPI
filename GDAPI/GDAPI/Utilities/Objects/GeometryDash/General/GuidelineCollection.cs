@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GDAPI.Utilities.Functions.Extensions;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -192,9 +193,10 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
         public static GuidelineCollection Parse(string guidelineString)
         {
             var guidelines = new GuidelineCollection();
-            if (guidelineString != null && guidelineString != "")
+            if (!string.IsNullOrEmpty(guidelineString))
             {
-                guidelineString = guidelineString.Remove(guidelineString.Length - 1);
+                if (guidelineString.EndsWith("~"))
+                    guidelineString = guidelineString.Remove(guidelineString.Length - 1);
                 string[] s = guidelineString.Split('~');
                 for (int i = 0; i < s.Length; i += 2)
                     guidelines.Add(ToDouble(s[i]), ToDouble(s[i + 1]));
@@ -216,7 +218,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
             var result = new StringBuilder();
             foreach (var g in guidelines)
                 result.Append($"{g}~");
-            return result.ToString();
+            return result.RemoveLast().ToString();
         }
     }
 }

@@ -11,6 +11,7 @@ using GDAPI.Utilities.Functions.General;
 using GDAPI.Utilities.Functions.GeometryDash;
 using GDAPI.Utilities.Objects.General;
 using GDAPI.Utilities.Objects.GeometryDash.ColorChannels;
+using GDAPI.Utilities.Objects.GeometryDash.General;
 using GDAPI.Utilities.Objects.GeometryDash.LevelObjects;
 using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
 using static System.Convert;
