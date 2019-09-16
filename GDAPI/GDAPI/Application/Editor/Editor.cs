@@ -1266,11 +1266,11 @@ namespace GDAPI.Application.Editor
             {
                 double time = segments.ConvertXToTime(t.X);
                 int index = Level.Guidelines.GetFirstIndexAfterTimeStamp(time);
-                double a = Level.Guidelines[index - 1].TimeStamp;
+                double a = index > 0 ? Level.Guidelines[index - 1].TimeStamp : double.NegativeInfinity;
                 double b = Level.Guidelines[index].TimeStamp;
-                if (index > 0 && Abs(a - time) <= maxDifference)
+                if (time - a <= maxDifference)
                     MoveToX(t, segments.ConvertTimeToX(a));
-                else if (Abs(b - time) <= maxDifference)
+                else if (b - time <= maxDifference)
                     MoveToX(t, segments.ConvertTimeToX(b));
             }
             levelActions.MultipleActionToggle = false;
