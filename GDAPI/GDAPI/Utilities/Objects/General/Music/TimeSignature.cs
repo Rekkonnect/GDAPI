@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDAPI.Utilities.Objects.General
+namespace GDAPI.Utilities.Objects.General.Music
 {
     /// <summary>Represents a time signature.</summary>
     public struct TimeSignature
