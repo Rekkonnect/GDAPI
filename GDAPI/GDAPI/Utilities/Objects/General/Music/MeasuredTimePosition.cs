@@ -69,8 +69,8 @@ namespace GDAPI.Utilities.Objects.General.Music
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the beat fraction.</param>
         public void AdvanceFraction(float fraction, TimeSignature timeSignature)
         {
-            AdvanceFraction(fraction);
-            FixBeats(timeSignature);
+            f += fraction;
+            FixFraction(timeSignature);
         }
 
         /// <summary>Advances the beat by one based on the provided <seealso cref="TimeSignature"/>.</summary>
@@ -81,7 +81,7 @@ namespace GDAPI.Utilities.Objects.General.Music
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the beat.</param>
         public void AdvanceBeat(int beats, TimeSignature timeSignature)
         {
-            AdvanceBeat(beats);
+            b += (ushort)beats;
             FixBeats(timeSignature);
         }
 
@@ -100,13 +100,20 @@ namespace GDAPI.Utilities.Objects.General.Music
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the beat.</param>
         public void AdvanceValue(RhythmicalValue value, TimeSignature timeSignature) => AdvanceFraction((float)value.TotalValue * timeSignature.Denominator, timeSignature);
 
-        private void AdvanceFraction(float fraction)
+        /// <summary>Resets the beat fraction to 0, which is the start of the beat.</summary>
+        public void ResetToBeatStart() => f = 0;
+        /// <summary>Resets the beat to 1 and the beat fraction to 0, which is the start of the measure.</summary>
+        public void ResetToMeasureStart()
         {
-            f += fraction;
-            FixFraction();
+            ResetToBeatStart();
+            b = 1;
         }
-        private void AdvanceBeat() => b++;
-        private void AdvanceBeat(int beats) => b += (ushort)beats;
+        /// <summary>Resets the measure to 1, the beat to 1 and the beat fraction to 0, which is the start of the composition.</summary>
+        public void ResetToCompositionStart()
+        {
+            ResetToMeasureStart();
+            m = 1;
+        }
 
         private void FixFraction()
         {

@@ -10,7 +10,7 @@ namespace GDAPI.Utilities.Objects.General.Music
     {
         /// <summary>The musical note value.</summary>
         public MusicalNoteValue NoteValue;
-        /// <summary>The dots that multiplty the rhythmical value.</summary>
+        /// <summary>The dots that multiply the rhythmical value.</summary>
         public int Dots;
         /// <summary>The count of notes that add up the rhythmical value.</summary>
         public int Count;
