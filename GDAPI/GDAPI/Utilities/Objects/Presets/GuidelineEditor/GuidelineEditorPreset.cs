@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using static System.Convert;
 
-namespace GDAPI.Utilities.Objects.Presets
+namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
 {
     /// <summary>Represents a preset for the guideline editor.</summary>
     public class GuidelineEditorPreset : Preset

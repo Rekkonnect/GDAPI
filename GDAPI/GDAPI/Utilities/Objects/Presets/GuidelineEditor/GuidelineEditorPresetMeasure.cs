@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using static System.Convert;
 
-namespace GDAPI.Utilities.Objects.Presets
+namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
 {
-    /// <summary>Contains information about a measure in a <seealso cref="GuidelineEditorPreset"/>.</summary>
+    /// <summary>Contains information about a measure in a <seealso cref="GuidelineEditorPresetPattern"/>.</summary>
     public class GuidelineEditorPresetMeasure
     {
         /// <summary>The colors of the guideline.</summary>
