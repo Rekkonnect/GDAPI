@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Editor\Functions\" />
+    <Folder Include="Application\Editors\Functions\" />
   </ItemGroup>
 
 </Project>
