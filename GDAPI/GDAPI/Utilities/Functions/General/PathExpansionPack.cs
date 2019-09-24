@@ -12,8 +12,6 @@ namespace GDAPI.Utilities.Functions.General
     /// <summary>This limited edition expansion pack provides more useful functions for path handling.</summary>
     public static class PathExpansionPack
     {
-        // .EndsWith(DirectorySeparatorChar) does not work here because string.EndsWith(char) is not defined in .NET Standard 2.0 probably
-
         /// <summary>Fixes the path by making the directory separators consistent depending on the platform and returns the replaced string.</summary>
         /// <param name="path">The path to fix.</param>
         public static string FixPath(string path) => path.Replace('/', DirectorySeparatorChar).Replace('\\', DirectorySeparatorChar);
@@ -24,7 +22,7 @@ namespace GDAPI.Utilities.Functions.General
             if (dirPath.Length == 0)
                 return dirPath;
             var result = FixPath(dirPath);
-            if (!result.EndsWith(DirectorySeparatorChar.ToString())) 
+            if (!result.EndsWith(DirectorySeparatorChar)) 
                 result += DirectorySeparatorChar;
             return result;
         }
@@ -92,9 +90,9 @@ namespace GDAPI.Utilities.Functions.General
 
         /// <summary>Determines whether a path ends with the platform-specific directory separator character.</summary>
         /// <param name="path">The path to determine whether it ends with the platform-specific directory separator.</param>
-        public static bool EndsWithDirectorySeparator(string path) => path.EndsWith(DirectorySeparatorChar.ToString());
+        public static bool EndsWithDirectorySeparator(string path) => path.EndsWith(DirectorySeparatorChar);
         /// <summary>Determines whether a path ends with the platform-specific volume separator character.</summary>
         /// <param name="path">The path to determine whether it ends with the platform-specific volume separator.</param>
-        public static bool EndsWithVolumeSeparator(string path) => path.EndsWith(VolumeSeparatorChar.ToString());
+        public static bool EndsWithVolumeSeparator(string path) => path.EndsWith(VolumeSeparatorChar);
     }
 }
