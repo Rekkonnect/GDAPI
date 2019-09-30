@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>GDAPI</AssemblyName>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <SignAssembly>false</SignAssembly>
     <LangVersion>7.3</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -11,6 +11,7 @@
     <PackageProjectUrl>https://github.com/gd-edit/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gd-edit/GDAPI</RepositoryUrl>
     <PackageTags>Geometry Dash, GD, GMD, Editor, API, GDE, GDEdit</PackageTags>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="System" />
     <PackageReference Include="System.CodeDom" />
     <PackageReference Include="System.Core" />
@@ -35,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Editor\Functions\" />
+    <Folder Include="Application\Editors\Functions\" />
   </ItemGroup>
 
 </Project>
