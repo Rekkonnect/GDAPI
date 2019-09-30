@@ -3,7 +3,7 @@ using System;
 
 namespace GDAPI.Utilities.Objects.General.TimingPoints
 {
-    /// <summary>Represents a timing point in a <seealso cref="GuidelineEditorPreset"/>.</summary>
+    /// <summary>Represents a timing point.</summary>
     public abstract class TimingPoint : IComparable<TimingPoint>
     {
         /// <summary>The BPM of the timing point.</summary>
@@ -47,7 +47,7 @@ namespace GDAPI.Utilities.Objects.General.TimingPoints
         /// <param name="other">The other timing point to compare to.</param>
         protected abstract int CompareTimePosition(TimingPoint other);
     }
-    /// <summary>Represents a timing point in a <seealso cref="GuidelineEditorPreset"/>.</summary>
+    /// <summary>Represents a timing point with a time position of a specified type.</summary>
     /// <typeparam name="T">The type of the time position.</typeparam>
     public abstract class TimingPoint<T> : TimingPoint, IComparable<TimingPoint<T>>
         where T : struct, IComparable<T>

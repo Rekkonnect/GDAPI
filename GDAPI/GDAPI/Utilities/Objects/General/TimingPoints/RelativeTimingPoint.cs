@@ -4,7 +4,7 @@ using static System.Convert;
 
 namespace GDAPI.Utilities.Objects.General.TimingPoints
 {
-    /// <summary>Represents a relative timing point in a <seealso cref="GuidelineEditorPreset"/>. The relative timing point only affects measure calculation. It will reset the measure if the beat is not acceptable from this timing point's time signature.</summary>
+    /// <summary>Represents a relative timing point. The relative timing point only affects measure calculation. It will reset the measure if the beat is not acceptable from this timing point's time signature.</summary>
     public class RelativeTimingPoint : TimingPoint<MeasuredTimePosition>
     {
         /// <summary>Represents the absolute time position, as calculated from a previous <seealso cref="TimingPoint"/>.</summary>

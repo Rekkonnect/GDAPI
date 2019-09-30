@@ -4,7 +4,7 @@ using static System.Convert;
 
 namespace GDAPI.Utilities.Objects.General.TimingPoints
 {
-    /// <summary>Represents an absolute timing point in a <seealso cref="GuidelineEditorPreset"/>. The absolute timing point resets the measure of the composition and starts from scratch.</summary>
+    /// <summary>Represents an absolute timing point. The absolute timing point resets the measure of the composition and starts from scratch.</summary>
     public class AbsoluteTimingPoint : TimingPoint<TimeSpan>
     {
         private MeasuredTimePosition relativeTimePosition;

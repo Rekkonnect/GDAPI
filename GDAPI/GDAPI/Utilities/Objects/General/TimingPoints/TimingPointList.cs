@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GDAPI.Utilities.Objects.General.TimingPoints
 {
-    /// <summary>Contains information about an event track in a <seealso cref="GuidelineEditorPresetPattern"/>.</summary>
+    /// <summary>Contains a list of <seealso cref="TimingPoint"/>s.</summary>
     public class TimingPointList
     {
         private SortedList<TimingPoint> timingPoints;
@@ -16,13 +16,13 @@ namespace GDAPI.Utilities.Objects.General.TimingPoints
         /// <summary>Creates a new empty instance of the <seealso cref="TimingPointList"/> class.</summary>
         public TimingPointList() { }
         /// <summary>Creates a new instance of the <seealso cref="TimingPointList"/> class.</summary>
-        /// <param name="presetTimingPoints">The list of tracks that are contained.</param>
+        /// <param name="presetTimingPoints">The list of timing points that are contained.</param>
         public TimingPointList(List<TimingPoint> presetTimingPoints)
         {
             timingPoints = ConvertToSortedList(presetTimingPoints);
         }
         /// <summary>Creates a new instance of the <seealso cref="TimingPointList"/> class.</summary>
-        /// <param name="presetTimingPoints">The list of tracks that are contained.</param>
+        /// <param name="presetTimingPoints">The list of timing points that are contained.</param>
         public TimingPointList(SortedList<TimingPoint> presetTimingPoints)
         {
             timingPoints = new SortedList<TimingPoint>(presetTimingPoints);
@@ -64,7 +64,7 @@ namespace GDAPI.Utilities.Objects.General.TimingPoints
                 timingPoints[i].CalculateTimePosition(timingPoints[i - 1]);
         }
 
-        /// <summary>Gets the string representation of this <seealso cref="GuidelineEditorPresetTrackList"/> that will be used in the preset data.</summary>
+        /// <summary>Gets the string representation of this <seealso cref="TimingPointList"/>.</summary>
         public override string ToString()
         {
             var result = new StringBuilder();

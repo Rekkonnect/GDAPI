@@ -4,7 +4,7 @@ using System;
 
 namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
 {
-    /// <summary>Contains information about a measure in a <seealso cref="GuidelineEditorPresetMeasure"/>.</summary>
+    /// <summary>Represents a note in a <seealso cref="GuidelineEditorPresetMeasure"/>.</summary>
     public struct GuidelineEditorPresetNote : IComparable<GuidelineEditorPresetNote>
     {
         /// <summary>The position of this note.</summary>
@@ -29,6 +29,8 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
             return new GuidelineEditorPresetNote(MeasuredTimePosition.ParseAsBeatWithFraction(m[0]), float.Parse(m[1]));
         }
 
+        /// <summary>Compares this <seealso cref="GuidelineEditorPresetNote"/> with another and returns the comparison result based on their positions' <seealso cref="MeasuredTimePosition.BeatWithFraction"/>.</summary>
+        /// <param name="other">The other <seealso cref="GuidelineEditorPresetNote"/> to compare this with.</param>
         public int CompareTo(GuidelineEditorPresetNote other) => Position.BeatWithFraction.CompareTo(other.Position.BeatWithFraction);
 
         /// <summary>Gets the string representation of this <seealso cref="GuidelineEditorPresetNote"/> that will be used in the preset data.</summary>

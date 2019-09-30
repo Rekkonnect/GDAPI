@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
 {
-    /// <summary>Contains information about an event track in a <seealso cref="GuidelineEditorPresetPattern"/>.</summary>
+    /// <summary>Contains a list of <seealso cref="GuidelineEditorPresetTrack"/>s.</summary>
     public class GuidelineEditorPresetTrackList
     {
         private List<GuidelineEditorPresetTrack> tracks;
