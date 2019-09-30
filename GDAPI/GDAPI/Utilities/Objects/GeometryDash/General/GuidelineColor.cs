@@ -53,6 +53,10 @@
         public static bool operator ==(GuidelineColor left, GuidelineColor right) => left.col == right.col;
         public static bool operator !=(GuidelineColor left, GuidelineColor right) => left.col != right.col;
 
+        /// <summary>Parses the <seealso cref="GuidelineColor"/> from a string representation of a <seealso cref="float"/>.</summary>
+        /// <param name="s">The string to parse.</param>
+        public static GuidelineColor Parse(string s) => float.Parse(s);
+
         public override bool Equals(object obj) => col.Equals(((GuidelineColor)obj).col);
         public override int GetHashCode() => col.GetHashCode();
         public override string ToString() => col.ToString();
