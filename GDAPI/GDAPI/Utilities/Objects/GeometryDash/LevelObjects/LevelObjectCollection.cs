@@ -3,6 +3,7 @@ using GDAPI.Utilities.Functions.Extensions;
 using GDAPI.Utilities.Functions.General;
 using GDAPI.Utilities.Information.GeometryDash;
 using GDAPI.Utilities.Objects.General;
+using GDAPI.Utilities.Objects.General.DataStructures;
 using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using System;
 using System.Collections;

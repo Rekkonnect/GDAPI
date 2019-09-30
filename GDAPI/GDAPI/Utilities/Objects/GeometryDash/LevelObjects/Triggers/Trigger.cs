@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GDAPI.Utilities.Attributes;
-using GDAPI.Utilities.Objects.General;
 using GDAPI.Utilities.Enumerations.GeometryDash;
+using GDAPI.Utilities.Objects.General.DataStructures;
 
 namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {

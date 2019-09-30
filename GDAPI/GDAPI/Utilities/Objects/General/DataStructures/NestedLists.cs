@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace GDAPI.Utilities.Objects.General
+namespace GDAPI.Utilities.Objects.General.DataStructures
 {
     /// <summary>Represents a list of lists of objects of type <seealso cref="T"/>.</summary>
     /// <typeparam name="T">The type of the objects to store in the lists.</typeparam>
