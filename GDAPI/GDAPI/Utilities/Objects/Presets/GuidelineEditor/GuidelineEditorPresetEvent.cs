@@ -1,7 +1,6 @@
-﻿using GDAPI.Utilities.Objects.General.Music;
-using System;
+﻿using GDAPI.Utilities.Functions.Extensions;
+using GDAPI.Utilities.Objects.General.Music;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
 {
@@ -13,40 +12,48 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
         /// <summary>The duration of the event.</summary>
         public MeasuredDuration Duration;
         /// <summary>Contains information about the preset that's used.</summary>
-        public GuidelineEditorPresetPatternEventInfo EventInfo;
-        /// <summary>Determines whether this event forces a new measure.</summary>
-        public bool ForceNewMeasure;
+        public GuidelineEditorPresetEventPatternInfo EventPatternInfo;
 
-        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetPatternEventInfo"/> class from a given time position and pattern. The event's duration defaults to the pattern's measure count.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetEvent"/> class from a given time position and pattern. The event's duration defaults to the pattern's measure count.</summary>
         /// <param name="timePosition">The starting time position of the pattern.</param>
         /// <param name="pattern">The pattern that this event will use.</param>
-        /// <param name="forceNewMeasure">Determines whether this event forces a new measure.</param>
-        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetPattern pattern, bool forceNewMeasure = false)
-            : this(timePosition, new GuidelineEditorPresetPatternEventInfo(pattern), new MeasuredDuration(pattern.Measures.Count), forceNewMeasure) { }
-        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetPatternEventInfo"/> class from a given time position, pattern and duration.</summary>
+        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetPattern pattern)
+            : this(timePosition, new GuidelineEditorPresetEventPatternInfo(pattern), new MeasuredDuration(pattern.Measures.Count)) { }
+        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetEvent"/> class from a given time position, pattern and duration.</summary>
         /// <param name="timePosition">The starting time position of the pattern.</param>
         /// <param name="pattern">The pattern that this event will use.</param>
         /// <param name="duration">The duration of the event.</param>
-        /// <param name="forceNewMeasure">Determines whether this event forces a new measure.</param>
-        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetPattern pattern, MeasuredDuration duration, bool forceNewMeasure = false)
-            : this(timePosition, new GuidelineEditorPresetPatternEventInfo(pattern), duration, forceNewMeasure) { }
-        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetPatternEventInfo"/> class from a given time position and event info. The event's duration defaults to the pattern's measure count.</summary>
+        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetPattern pattern, MeasuredDuration duration)
+            : this(timePosition, new GuidelineEditorPresetEventPatternInfo(pattern), duration) { }
+        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetEvent"/> class from a given time position and event pattern info. The event's duration defaults to the pattern's measure count.</summary>
         /// <param name="timePosition">The starting time position of the pattern.</param>
-        /// <param name="eventInfo">The <seealso cref="GuidelineEditorPresetPatternEventInfo"/> to use in the event.</param>
-        /// <param name="forceNewMeasure">Determines whether this event forces a new measure.</param>
-        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetPatternEventInfo eventInfo, bool forceNewMeasure = false)
-            : this(timePosition, eventInfo, new MeasuredDuration(eventInfo.Pattern.Measures.Count), forceNewMeasure) { }
-        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetPatternEventInfo"/> class from a given time position, event info and duration.</summary>
+        /// <param name="eventPatternInfo">The <seealso cref="GuidelineEditorPresetEventPatternInfo"/> to use in the event.</param>
+        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetEventPatternInfo eventPatternInfo)
+            : this(timePosition, eventPatternInfo, new MeasuredDuration(eventPatternInfo.Pattern.Measures.Count)) { }
+        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditorPresetEvent"/> class from a given time position, event pattern info and duration.</summary>
         /// <param name="timePosition">The starting time position of the pattern.</param>
-        /// <param name="eventInfo">The <seealso cref="GuidelineEditorPresetPatternEventInfo"/> to use in the event.</param>
+        /// <param name="eventPatternInfo">The <seealso cref="GuidelineEditorPresetEventPatternInfo"/> to use in the event.</param>
         /// <param name="duration">The duration of the event.</param>
-        /// <param name="forceNewMeasure">Determines whether this event forces a new measure.</param>
-        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetPatternEventInfo eventInfo, MeasuredDuration duration, bool forceNewMeasure = false)
+        public GuidelineEditorPresetEvent(MeasuredTimePosition timePosition, GuidelineEditorPresetEventPatternInfo eventPatternInfo, MeasuredDuration duration)
         {
             TimePosition = timePosition;
             Duration = duration;
-            EventInfo = eventInfo;
-            ForceNewMeasure = forceNewMeasure;
+            EventPatternInfo = eventPatternInfo;
         }
+
+        /// <summary>Parses a <seealso cref="GuidelineEditorPresetEvent"/> from raw data.</summary>
+        /// <param name="s">The raw data of the event that will be parsed.</param>
+        /// <param name="patternPool">The pattern pool from which to retrieve the pattern object that is referred.</param>
+        public static GuidelineEditorPresetEvent Parse(string s, List<GuidelineEditorPresetPattern> patternPool)
+        {
+            var split = s.Split(", ");
+            var position = MeasuredTimePosition.Parse(split[0]);
+            var duration = MeasuredDuration.Parse(split[1]);
+            var eventInfo = GuidelineEditorPresetEventPatternInfo.Parse($"{split[2]}, {split[3]}", patternPool);
+            return new GuidelineEditorPresetEvent(position, eventInfo, duration);
+        }
+
+        /// <summary>Gets the string representation of this event that will be used for saving the contents in a file.</summary>
+        public override string ToString() => $"{TimePosition}, {Duration}, {EventPatternInfo}";
     }
 }
