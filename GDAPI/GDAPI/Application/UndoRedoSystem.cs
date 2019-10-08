@@ -1,4 +1,4 @@
-﻿using GDAPI.Application.Editor.Actions;
+﻿using GDAPI.Application.Editors.Actions;
 using System;
 using System.Collections.Generic;
 using static System.Math;

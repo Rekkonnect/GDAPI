@@ -29,10 +29,12 @@ namespace GDAPI.Utilities.Objects.GeometryDash.LevelObjects
         {
             // Get object property types from the attributes that are assigned to the enum fields
             var fields = typeof(ObjectParameter).GetFields();
-            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(null), i.GetCustomAttribute<ObjectParameterTypeAttribute>()?.Type));
+            // default(ObjectParameter) is necessary otherwise an exception will be thrown
+            // Reflection really sucks dick when it comes to enums
+            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(default(ObjectParameter)), i.GetCustomAttribute<ObjectParameterTypeAttribute>()?.Type));
             propertyTypeInfo = new Dictionary<int, Type>();
             foreach (var i in info)
-                propertyTypeInfo.Add(i.Key, i.Value);
+                propertyTypeInfo.TryAdd(i.Key, i.Value);
             // I added those 5 lines of code only to realize that I actually do not necessarily need them, hopefully they'll turn out any useful in the near future:tm:
 
             objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToArray();
