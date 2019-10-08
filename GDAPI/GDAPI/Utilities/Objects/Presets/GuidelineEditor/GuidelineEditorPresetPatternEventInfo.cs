@@ -25,6 +25,9 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
             PatternStart = patternStart;
         }
 
+        /// <summary>Clones this <seealso cref="GuidelineEditorPresetEventPatternInfo"/> instance and returns the new instance.</summary>
+        public GuidelineEditorPresetEventPatternInfo Clone() => new GuidelineEditorPresetEventPatternInfo(Pattern, PatternStart);
+
         /// <summary>Parses a <seealso cref="GuidelineEditorPresetEventPatternInfo"/> from raw data.</summary>
         /// <param name="s">The raw data of the pattern that will be parsed.</param>
         /// <param name="patternPool">The pattern pool from which to retrieve the pattern object that is referred.</param>
