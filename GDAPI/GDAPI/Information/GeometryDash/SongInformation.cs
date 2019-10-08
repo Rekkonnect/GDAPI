@@ -1,4 +1,5 @@
 ﻿using GDAPI.Objects.GeometryDash;
+using GDAPI.Objects.GeometryDash.General;
 
 namespace GDAPI.Information.GeometryDash
 {

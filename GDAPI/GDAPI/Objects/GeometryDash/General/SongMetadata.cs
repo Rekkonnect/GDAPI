@@ -2,7 +2,7 @@
 using GDAPI.Objects.General;
 using static System.Convert;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.General
 {
     // TODO: Consider making it a struct?
     /// <summary>Contains the metadata of a song.</summary>

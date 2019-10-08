@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
+using GDAPI.Objects.GeometryDash.General;
 
 namespace GDAPI.Objects.GeometryDash.ColorChannels
 {

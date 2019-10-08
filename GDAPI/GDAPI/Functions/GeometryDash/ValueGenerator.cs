@@ -1,6 +1,7 @@
 ﻿using System;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Objects.GeometryDash.General;
+using GDAPI.Objects.GeometryDash.PropertyAnalysis;
 
 namespace GDAPI.Functions.GeometryDash
 {

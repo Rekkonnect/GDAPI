@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.General
 {
     /// <summary>Contains the folder names of the gamesave.</summary>
     public class FolderNameCollection : Dictionary<int, string>

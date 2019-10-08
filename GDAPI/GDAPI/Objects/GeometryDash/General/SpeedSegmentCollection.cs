@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static GDAPI.Information.GeometryDash.Speeds;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.General
 {
     /// <summary>Represents a sorted speed segment collection.</summary>
     public class SpeedSegmentCollection : SortedSet<SpeedSegment>

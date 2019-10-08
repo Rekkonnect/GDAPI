@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.General
 {
     /// <summary>Contains multiple song metadata information.</summary>
     public class SongMetadataCollection : List<SongMetadata>

@@ -7,7 +7,7 @@ using GDAPI.Information.GeometryDash;
 using static GDAPI.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.General
 {
     public class LevelObject
     {

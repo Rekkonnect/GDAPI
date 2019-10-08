@@ -1,7 +1,7 @@
 ﻿using GDAPI.Enumerations.GeometryDash;
 using static GDAPI.Functions.GeometryDash.ValueGenerator;
 
-namespace GDAPI.Objects.GeometryDash.General
+namespace GDAPI.Objects.GeometryDash.PropertyAnalysis
 {
     /// <summary>Contains detailed information about a Z Layer.</summary>
     public struct ZLayerInformation

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using GDAPI.Attributes;
+﻿using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.GeometryDash.LevelObjects.Interfaces;

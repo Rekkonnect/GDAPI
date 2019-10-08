@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
     /// <summary>Represents a collection of <seealso cref="CustomLevelObject"/>s.</summary>
     public class CustomLevelObjectCollection : List<CustomLevelObject>

@@ -1,7 +1,7 @@
 ﻿using System;
 using GDAPI.Enumerations.GeometryDash;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.General
 {
     /// <summary>Rerpesents a speed segment in the level.</summary>
     public class SpeedSegment : IComparable<SpeedSegment>

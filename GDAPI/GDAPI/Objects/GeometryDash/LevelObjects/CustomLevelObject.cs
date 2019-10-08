@@ -1,6 +1,4 @@
-﻿using GDAPI.Objects.GeometryDash.LevelObjects;
-
-namespace GDAPI.Objects.GeometryDash
+﻿namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
     /// <summary>Represents a custom level object.</summary>
     public class CustomLevelObject

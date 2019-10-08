@@ -11,6 +11,7 @@ using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash;
 using GDAPI.Objects.GeometryDash.ColorChannels;
+using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects;
 using GDAPI.Objects.GeometryDash.LevelObjects.Interfaces;
 using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects;

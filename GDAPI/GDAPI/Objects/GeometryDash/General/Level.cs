@@ -11,14 +11,13 @@ using GDAPI.Functions.Extensions;
 using GDAPI.Functions.GeometryDash;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.ColorChannels;
-using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects;
 using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
 using static System.Convert;
 using static GDAPI.Functions.GeometryDash.Gamesave;
 using static GDAPI.Information.GeometryDash.SongInformation;
 
-namespace GDAPI.Objects.GeometryDash
+namespace GDAPI.Objects.GeometryDash.General
 {
     /// <summary>Represents a level in the game.</summary>
     public class Level

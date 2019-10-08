@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.GeometryDash;
+using GDAPI.Objects.GeometryDash.General;
+using GDAPI.Objects.GeometryDash.LevelObjects;
 using static GDAPI.Functions.GeometryDash.Gamesave;
 using static System.Environment;
 
