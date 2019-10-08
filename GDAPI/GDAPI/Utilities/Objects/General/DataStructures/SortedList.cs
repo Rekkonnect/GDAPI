@@ -18,6 +18,11 @@ namespace GDAPI.Utilities.Objects.General.DataStructures
         /// <summary>The count of the objects in the list.</summary>
         public int Count => list.Count;
 
+        /// <summary>Gets the minimum element in the list.</summary>
+        public T Minimum => list[0];
+        /// <summary>Gets the maximum element in the list.</summary>
+        public T Maximum => list[list.Count - 1];
+
         /// <summary>Initializes a new instance of the <seealso cref="SortedList{T}"/> class using the default <seealso cref="Comparison{T}"/> for the element type.</summary>
         public SortedList()
             : this(DefaultComparison) { }
@@ -115,10 +120,27 @@ namespace GDAPI.Utilities.Objects.General.DataStructures
 
         /// <summary>Clears the list.</summary>
         public void Clear() => list.Clear();
+        /// <summary>Returns a new <seealso cref="SortedList{T}"/> which contains this <seealso cref="SortedList{T}"/>'s distinct elements.</summary>
+        public SortedList<T> RemoveDuplicates()
+        {
+            var result = new SortedList<T>(Count, comparison);
+            result.list.Add(list[0]);
+            for (int i = 1; i < Count; i++)
+                if (result.Maximum.CompareTo(list[i]) < 0)
+                    result.list.Add(list[i]);
+            return result;
+        }
 
-        /// <summary>Performs binary search in the sorted list and returns the index of the element if found, otherwise -1.</summary>
+        /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the index of the element if found, otherwise -1.</summary>
         /// <param name="element">The element to search for in the list.</param>
-        public int BinarySearch(T element)
+        public int BinarySearch(T element) => BinarySearch(element, comparison);
+        /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the index that the element would have, if added to the sorted list.</summary>
+        /// <param name="element">The element whose appropriate index to insert at.</param>
+        public int IndexToInsert(T element) => IndexToInsert(element, comparison);
+        /// <summary>Performs binary search in the sorted list using a custom <seealso cref="Comparison{T}"/> and returns the index of the element if found, otherwise -1.</summary>
+        /// <param name="element">The element to search for in the list.</param>
+        /// <param name="customComparison">A custom <seealso cref="Comparison{T}"/> to use for the binary search in the list. This does not affect the way the elements are sorted.</param>
+        public int BinarySearch(T element, Comparison<T> customComparison)
         {
             int min = 0;
             int max = Count - 1;
@@ -126,7 +148,7 @@ namespace GDAPI.Utilities.Objects.General.DataStructures
             while (min <= max)
             {
                 mid = (min + max) / 2;
-                int comparisonResult = comparison(element, list[mid]);
+                int comparisonResult = customComparison(element, list[mid]);
 
                 if (comparisonResult == 0) // element == list[mid]
                     return mid;
@@ -137,16 +159,17 @@ namespace GDAPI.Utilities.Objects.General.DataStructures
             }
             return -1;
         }
-        /// <summary>Performs binary search in the sorted list and returns the index that the element would have, if added to the sorted list.</summary>
+        /// <summary>Performs binary search in the sorted list using a custom <seealso cref="Comparison{T}"/> and returns the index that the element would have, if added to the sorted list.</summary>
         /// <param name="element">The element whose appropriate index to insert at.</param>
-        public int IndexToInsert(T element)
+        /// <param name="customComparison">A custom <seealso cref="Comparison{T}"/> to use for the binary search in the list. This does not affect the way the elements are sorted.</param>
+        public int IndexToInsert(T element, Comparison<T> customComparison)
         {
             int min = 0;
             int max = Count - 1;
             int mid = (min + max) / 2;
             while (min <= max)
             {
-                int comparisonResult = comparison(element, list[mid]);
+                int comparisonResult = customComparison(element, list[mid]);
 
                 if (comparisonResult < 0) // element < list[mid]
                 {
@@ -166,18 +189,34 @@ namespace GDAPI.Utilities.Objects.General.DataStructures
             // Normally, this should never happen, however the compiler complains, therefore at least insert the element at a "reasonable" place
             return Count;
         }
-        /// <summary>Performs binary search in the sorted list and returns the index of the element that would be before the specified one, if contained in the sorted list.</summary>
+        /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the index of the element that would be before the specified one, if contained in the sorted list.</summary>
         /// <param name="element">The element whose sequential previous to get the index of.</param>
         public int IndexBefore(T element) => IndexToInsert(element) - 1;
-        /// <summary>Performs binary search in the sorted list and returns the index of the element that would be after the specified one, if contained in the sorted list.</summary>
+        /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the index of the element that would be after the specified one, if contained in the sorted list.</summary>
         /// <param name="element">The element whose sequential next to get the index of.</param>
         public int IndexAfter(T element) => IndexToInsert(element) + 1;
-        /// <summary>Performs binary search in the sorted list and returns the element that would be before the specified one, if contained in the sorted list.</summary>
+        /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the element that would be before the specified one, if contained in the sorted list.</summary>
         /// <param name="element">The element whose sequential previous to get.</param>
         public T ElementBefore(T element) => list[IndexBefore(element)];
-        /// <summary>Performs binary search in the sorted list and returns the element that would be after the specified one, if contained in the sorted list.</summary>
+        /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the element that would be after the specified one, if contained in the sorted list.</summary>
         /// <param name="element">The element whose sequential next to get.</param>
         public T ElementAfter(T element) => list[IndexAfter(element)];
+        /// <summary>Performs binary search in the sorted list using a custom <seealso cref="Comparison{T}"/> and returns the index of the element that would be before the specified one, if contained in the sorted list.</summary>
+        /// <param name="element">The element whose sequential previous to get the index of.</param>
+        /// <param name="customComparison">A custom <seealso cref="Comparison{T}"/> to use for the binary search in the list. This does not affect the way the elements are sorted.</param>
+        public int IndexBefore(T element, Comparison<T> customComparison) => IndexToInsert(element, customComparison) - 1;
+        /// <summary>Performs binary search in the sorted list using a custom <seealso cref="Comparison{T}"/> and returns the index of the element that would be after the specified one, if contained in the sorted list.</summary>
+        /// <param name="element">The element whose sequential next to get the index of.</param>
+        /// <param name="customComparison">A custom <seealso cref="Comparison{T}"/> to use for the binary search in the list. This does not affect the way the elements are sorted.</param>
+        public int IndexAfter(T element, Comparison<T> customComparison) => IndexToInsert(element, customComparison) + 1;
+        /// <summary>Performs binary search in the sorted list using a custom <seealso cref="Comparison{T}"/> and returns the element that would be before the specified one, if contained in the sorted list.</summary>
+        /// <param name="element">The element whose sequential previous to get.</param>
+        /// <param name="customComparison">A custom <seealso cref="Comparison{T}"/> to use for the binary search in the list. This does not affect the way the elements are sorted.</param>
+        public T ElementBefore(T element, Comparison<T> customComparison) => list[IndexBefore(element, customComparison)];
+        /// <summary>Performs binary search in the sorted list using a custom <seealso cref="Comparison{T}"/> and returns the element that would be after the specified one, if contained in the sorted list.</summary>
+        /// <param name="element">The element whose sequential next to get.</param>
+        /// <param name="customComparison">A custom <seealso cref="Comparison{T}"/> to use for the binary search in the list. This does not affect the way the elements are sorted.</param>
+        public T ElementAfter(T element, Comparison<T> customComparison) => list[IndexAfter(element, customComparison)];
 
         /// <summary>Returns the element at the specified index.</summary>
         /// <param name="index">The index of the element to get.</param>
