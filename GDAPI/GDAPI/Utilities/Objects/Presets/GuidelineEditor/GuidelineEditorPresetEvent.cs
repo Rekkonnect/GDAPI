@@ -1,11 +1,11 @@
-﻿using GDAPI.Utilities.Functions.Extensions;
-using GDAPI.Utilities.Objects.General.Music;
+﻿using GDAPI.Utilities.Objects.General.Music;
+using System;
 using System.Collections.Generic;
 
 namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
 {
     /// <summary>Represents an event in the <seealso cref="GuidelineEditorPreset"/>.</summary>
-    public class GuidelineEditorPresetEvent
+    public class GuidelineEditorPresetEvent : IComparable<GuidelineEditorPresetEvent>
     {
         /// <summary>The measured time position of the event.</summary>
         public MeasuredTimePosition TimePosition;
@@ -40,6 +40,14 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
             Duration = duration;
             EventPatternInfo = eventPatternInfo;
         }
+
+        /// <summary>Gets the end time position of this event based on the used <seealso cref="TimeSignature"/>.</summary>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to calculate the end time position of the event.</param>
+        public MeasuredTimePosition GetEnd(TimeSignature timeSignature) => TimePosition.Add(Duration, timeSignature);
+
+        /// <summary>Compares this <seealso cref="GuidelineEditorPresetEvent"/>'s time position with another's.</summary>
+        /// <param name="other">The other <seealso cref="GuidelineEditorPresetEvent"/> whose time position to compare this event's to.</param>
+        public int CompareTo(GuidelineEditorPresetEvent other) => TimePosition.CompareTo(other.TimePosition);
 
         /// <summary>Parses a <seealso cref="GuidelineEditorPresetEvent"/> from raw data.</summary>
         /// <param name="s">The raw data of the event that will be parsed.</param>
