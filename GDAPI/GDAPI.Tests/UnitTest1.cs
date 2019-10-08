@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Tests
+namespace GDAPI.Tests
 {
     public class Tests
     {
