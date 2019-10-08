@@ -3,6 +3,7 @@ using GDAPI.Utilities.Enumerations.GeometryDash;
 using GDAPI.Utilities.Functions.Extensions;
 using GDAPI.Utilities.Information.GeometryDash;
 using GDAPI.Utilities.Objects.General;
+using GDAPI.Utilities.Objects.General.DataStructures;
 using GDAPI.Utilities.Objects.GeometryDash.General;
 using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using Microsoft.CSharp;

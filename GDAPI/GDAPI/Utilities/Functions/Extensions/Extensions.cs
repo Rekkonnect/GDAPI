@@ -100,18 +100,6 @@ namespace GDAPI.Utilities.Functions.Extensions
             return result;
         }
 
-        public static int OneOrGreater(this double d) => d < 1 ? 1 : (int)d;
-        public static int OneOrGreater(this int a) => a < 1 ? 1 : a;
-        public static int ZeroOrGreater(this int a) => a < 0 ? 0 : a;
-        public static int WithinBounds(this int i, int min, int max)
-        {
-            if (i < min)
-                return min;
-            else if (i > max)
-                return max;
-            return i;
-        }
-
         public static T[] GetInnerArray<T>(this T[,] ar, int innerArrayIndex)
         {
             T[] innerAr = new T[ar.GetLength(1)];

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDAPI.Utilities.Objects.General
+namespace GDAPI.Utilities.Objects.General.DataStructures
 {
     /// <summary>Represents a collection of objects in the 9 directions (top left, top center, top right, middle left, center, middle right, bottom left, bottom center, bottom right).</summary>
     /// <typeparam name="T">The type of the objects in the collection.</typeparam>
@@ -96,9 +96,12 @@ namespace GDAPI.Utilities.Objects.General
             }
         }
 
-        private (int x, int y) GetDirectionVector(Direction d) => ((int)d >> 2, (int)d & ((1 << 4) - 1));
+        private (int x, int y) GetDirectionVector(Direction d) => ((int)d >> 2, (int)d & (1 << 4) - 1);
     }
+}
 
+namespace GDAPI.Utilities.Objects.General
+{
     /// <summary>Represents a direction.</summary>
     public enum Direction
     {
@@ -115,7 +118,7 @@ namespace GDAPI.Utilities.Objects.General
         HorizontalMiddle = 1,
         /// <summary>Represents the right direction.</summary>
         Right = 2,
-        
+
         /// <summary>Represents the top left direction.</summary>
         TopLeft = Top | Left,
         /// <summary>Represents the top center direction.</summary>

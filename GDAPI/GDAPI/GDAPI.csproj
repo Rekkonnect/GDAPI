@@ -11,6 +11,7 @@
     <PackageProjectUrl>https://github.com/gd-edit/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gd-edit/GDAPI</RepositoryUrl>
     <PackageTags>Geometry Dash, GD, GMD, Editor, API, GDE, GDEdit</PackageTags>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="System" />
     <PackageReference Include="System.CodeDom" />
     <PackageReference Include="System.Core" />

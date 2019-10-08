@@ -501,6 +501,9 @@ namespace GDAPI.Utilities.Functions.Extensions
                 words[i] = s.Substring(indices[i], (i + 1 < indices.Count ? indices[i + 1] : s.Length) - indices[i]);
             return words;
         }
+        /// <summary>Returns the lines of a string.</summary>
+        /// <param name="s">The string whose lines to get.</param>
+        public static string[] GetLines(this string s) => s.Split('\n');
         #endregion
 
         #region List<string>
