@@ -58,6 +58,21 @@ namespace GDAPI.Utilities.Objects.General.TimingPoints
         /// <summary>Clones this instance and returns the new instance.</summary>
         public TimingPointList Clone() => new TimingPointList(timingPoints);
 
+        /// <summary>Gets the timing point that is applied at the specified absolute time.</summary>
+        /// <param name="absoluteTime">The absolute time at which the current timing point applies.</param>
+        public TimingPoint TimingPointAtTime(TimeSpan absoluteTime) => timingPoints.ElementBefore(new AbsoluteTimingPoint(absoluteTime, 120, new TimeSignature()), TimingPoint.AbsoluteComparison);
+        /// <summary>Gets the timing point that is applied at the specified relative time.</summary>
+        /// <param name="relativeTime">The relative time at which the current timing point applies.</param>
+        public TimingPoint TimingPointAtTime(MeasuredTimePosition relativeTime) => timingPoints.ElementBefore(new RelativeTimingPoint(relativeTime, 120, new TimeSignature()), TimingPoint.RelativeComparison);
+
+        /// <summary>Returns the index of the specified <seealso cref="TimingPoint"/> in the list.</summary>
+        /// <param name="timingPoint">The <seealso cref="TimingPoint"/> whose index in the list to get.</param>
+        public int IndexOf(TimingPoint timingPoint) => timingPoints.BinarySearch(timingPoint);
+
+        /// <summary>Gets the <seealso cref="TimingPoint"/> at the specified index.</summary>
+        /// <param name="index">The index of the <seealso cref="TimingPoint"/> to get.</param>
+        public TimingPoint this[int index] => timingPoints[index];
+
         private void RecalculateTimePositions(int firstIndex)
         {
             for (int i = firstIndex; i < timingPoints.Count; i++)
