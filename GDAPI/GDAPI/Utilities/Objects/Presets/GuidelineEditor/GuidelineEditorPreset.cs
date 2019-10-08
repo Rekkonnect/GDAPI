@@ -1,11 +1,8 @@
 ﻿using GDAPI.Utilities.Functions.Extensions;
-using GDAPI.Utilities.Objects.General;
 using GDAPI.Utilities.Objects.General.Music;
 using GDAPI.Utilities.Objects.General.TimingPoints;
-using GDAPI.Utilities.Objects.GeometryDash.General;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Convert;
 

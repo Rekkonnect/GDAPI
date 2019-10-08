@@ -87,12 +87,12 @@ namespace GDAPI.Utilities.Objects.General.Music
             return true;
         }
 
-        /// <summary>Returns the string representation of this <seealso cref="TimeSignature"/> in the form {Beats}/{Denominator}.</summary>
-        public override string ToString() => $"{Beats}/{Denominator}";
         /// <summary>Determines whether this <seealso cref="TimeSignature"/> equals another object.</summary>
         /// <param name="obj">The other object to determine equality with.</param>
         public override bool Equals(object obj) => all == ((TimeSignature)obj).all;
         /// <summary>Gets the hash code of this <seealso cref="TimeSignature"/>.</summary>
         public override int GetHashCode() => all.GetHashCode();
+        /// <summary>Returns the string representation of this <seealso cref="TimeSignature"/> in the form {Beats}/{Denominator}.</summary>
+        public override string ToString() => $"{Beats}/{Denominator}";
     }
 }

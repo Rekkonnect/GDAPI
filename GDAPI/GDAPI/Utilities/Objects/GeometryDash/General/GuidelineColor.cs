@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace GDAPI.Utilities.Objects.GeometryDash.General
 {
@@ -64,8 +63,12 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
         /// <param name="s">The string to parse.</param>
         public static GuidelineColor Parse(string s) => float.Parse(s);
 
-        public override bool Equals(object obj) => col.Equals(((GuidelineColor)obj).col);
-        public override int GetHashCode() => col.GetHashCode();
+        /// <summary>Returns the string representation of this <seealso cref="GuidelineColor"/>'s raw color value.</summary>
         public override string ToString() => col.ToString();
+        /// <summary>Determines whether this <seealso cref="GuidelineColor"/> equals another object.</summary>
+        /// <param name="obj">The other object to determine equality with.</param>
+        public override bool Equals(object obj) => col.Equals(((GuidelineColor)obj).col);
+        /// <summary>Gets the hash code of this <seealso cref="GuidelineColor"/> based on the raw color value.</summary>
+        public override int GetHashCode() => col.GetHashCode();
     }
 }
