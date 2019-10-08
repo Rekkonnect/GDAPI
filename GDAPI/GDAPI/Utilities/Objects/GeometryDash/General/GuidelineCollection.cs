@@ -1,4 +1,5 @@
 ﻿using GDAPI.Utilities.Functions.Extensions;
+using GDAPI.Utilities.Objects.General.DataStructures;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
     /// <summary>Represents a collection of guidelines.</summary>
     public class GuidelineCollection : IEnumerable<Guideline>
     {
-        private List<Guideline> guidelines;
+        private SortedList<Guideline> guidelines;
         private Dictionary<GuidelineColor, int> colors;
 
         /// <summary>The count of the guideline collection.</summary>
@@ -56,7 +57,7 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
         /// <param name="analyzeColors">Determines whether the guideline color counts will be cached.</param>
         private GuidelineCollection(IEnumerable<Guideline> g, bool analyzeColors)
         {
-            guidelines = new List<Guideline>(g);
+            guidelines = new SortedList<Guideline>(g);
             if (analyzeColors)
                 AnalyzeColors();
         }
@@ -71,23 +72,20 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
         }
         /// <summary>Adds a collection of guidelines from the <seealso cref="GuidelineCollection"/>.</summary>
         /// <param name="g">The guidelines to add.</param>
-        public GuidelineCollection AddRange(List<Guideline> g)
+        public GuidelineCollection AddRange(IEnumerable<Guideline> g)
         {
-            guidelines.AddRange(g);
+            guidelines.Add(g);
             foreach (var guideline in g)
                 colors[guideline.Color]++;
             return this;
         }
         /// <summary>Adds a collection of guidelines from the <seealso cref="GuidelineCollection"/>.</summary>
         /// <param name="guidelines">The guidelines to add.</param>
-        public GuidelineCollection AddRange(GuidelineCollection guidelines) => AddRange(guidelines.guidelines);
-        /// <summary>Inserts a <seealso cref="Guideline"/> into the <seealso cref="GuidelineCollection"/> at a specified index and returns the instance of the <seealso cref="GuidelineCollection"/>.</summary>
-        /// <param name="index">The index to insert the <seealso cref="Guideline"/> at.</param>
-        /// <param name="guideline">The guideline to insert into the <seealso cref="GuidelineCollection"/>.</param>
-        public GuidelineCollection Insert(int index, Guideline guideline)
+        public GuidelineCollection AddRange(GuidelineCollection guidelines)
         {
-            guidelines.Insert(index, guideline);
-            colors[guideline.Color]++;
+            guidelines.AddRange(guidelines.guidelines);
+            foreach (var c in guidelines.colors)
+                colors[c.Key] += c.Value;
             return this;
         }
         /// <summary>Removes a <seealso cref="Guideline"/> from the <seealso cref="GuidelineCollection"/> and returns the instance of the <seealso cref="GuidelineCollection"/>.</summary>
@@ -118,19 +116,10 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
         /// <param name="timeStamp">The timestamp of the <seealso cref="Guideline"/>.</param>
         /// <param name="color">The color of the <seealso cref="Guideline"/>.</param>
         public GuidelineCollection Add(double timeStamp, double color) => Add(new Guideline(timeStamp, color));
-        /// <summary>Inserts a <seealso cref="Guideline"/> into the <seealso cref="GuidelineCollection"/> at a specified index and returns the instance of the <seealso cref="GuidelineCollection"/>.</summary>
-        /// <param name="index">The index to insert the <seealso cref="Guideline"/> at.</param>
-        /// <param name="timeStamp">The timestamp of the <seealso cref="Guideline"/>.</param>
-        /// <param name="color">The color of the <seealso cref="Guideline"/>.</param>
-        public GuidelineCollection Insert(int index, double timeStamp, double color) => Insert(index, new Guideline(timeStamp, color));
         /// <summary>Removes the duplicated guidelines and returns the instance of the <seealso cref="GuidelineCollection"/>.</summary>
         public GuidelineCollection RemoveDuplicatedGuidelines()
         {
-            var guidelines = new List<Guideline>();
-            foreach (var g in this.guidelines)
-                if (!guidelines.Contains(g))
-                    guidelines.Add(g);
-            this.guidelines = guidelines;
+            guidelines = guidelines.RemoveDuplicates();
             AnalyzeColors();
             return this;
         }
@@ -154,12 +143,8 @@ namespace GDAPI.Utilities.Objects.GeometryDash.General
             return mid;
         }
 
-        public IEnumerator<Guideline> GetEnumerator()
-        {
-            foreach (var g in guidelines)
-                yield return g;
-        }
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public IEnumerator<Guideline> GetEnumerator() => guidelines.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => guidelines.GetEnumerator();
 
         #region Private stuff
         private void AnalyzeColors()

@@ -1,7 +1,10 @@
-﻿namespace GDAPI.Utilities.Objects.GeometryDash.General
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace GDAPI.Utilities.Objects.GeometryDash.General
 {
     /// <summary>Represents the color of a guideline.</summary>
-    public struct GuidelineColor
+    public struct GuidelineColor : IComparable<GuidelineColor>
     {
         /// <summary>Represents the value of the orange color in the guideline.</summary>
         public const float TransparentValue = 0.7f;
@@ -41,6 +44,10 @@
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineColor"/> struct.</summary>
         /// <param name="color">The color value to use.</param>
         public GuidelineColor(decimal color) => col = (float)color;
+
+        /// <summary>Compares this <seealso cref="GuidelineColor"/> to another based on their color value.</summary>
+        /// <param name="other">The other <seealso cref="GuidelineColor"/> to compare this to.</param>
+        public int CompareTo(GuidelineColor other) => col.CompareTo(other.col);
 
         public static implicit operator GuidelineColor(float color) => new GuidelineColor(color);
         public static implicit operator GuidelineColor(double color) => new GuidelineColor(color);
