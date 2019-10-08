@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDAPI.Application;
 using GDAPI.Utilities.Attributes;
 using GDAPI.Utilities.Enumerations.GeometryDash;
 using GDAPI.Utilities.Functions.Extensions;
@@ -209,6 +210,8 @@ namespace GDAPI.Utilities.Objects.GeometryDash
                 return speedSegments;
             }
         }
+        /// <summary>Gets the location of the custom song that is used in this level.</summary>
+        public string CustomSongLocation => Database.GetCustomSongLocation(CustomSongID);
 
         // Editor stuff
         /// <summary>The X position of the camera.</summary>
@@ -297,6 +300,17 @@ namespace GDAPI.Utilities.Objects.GeometryDash
         public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{LevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k23</k><s>{(int)Length}</s><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX}</r><k>kI2</k><r>{CameraY}</r><k>kI3</k><r>{CameraZoom}</r>";
         /// <summary>Clears the cached level string data. This has to be manually called upon preparation for changes in the level.</summary>
         public void ClearCachedLevelStringData() => cachedLevelString = null;
+
+        /// <summary>Adds a <seealso cref="GuidelineCollection"/> to this level's <seealso cref="GuidelineCollection"/>.</summary>
+        /// <param name="guidelines">The <seealso cref="GuidelineCollection"/> to add.</param>
+        /// <param name="appendGuidelines">If <see langword="true"/>, the <seealso cref="GuidelineCollection"/> will be appended to the level and the previous ones will be preserved, otherwise the new ones will replace the old ones.</param>
+        public void AddGuidelines(GuidelineCollection guidelines, bool appendGuidelines = true)
+        {
+            if (appendGuidelines)
+                Guidelines.AddRange(guidelines);
+            else
+                Guidelines = guidelines;
+        }
         #endregion
 
         #region Static Functions
