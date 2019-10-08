@@ -20,15 +20,23 @@ namespace GDAPI.Utilities.Objects.General.TimingPoints
             TimeSignature = timeSignature;
         }
 
-        /// <summary>Attempts to parse a string representation of a timing point into a <seealso cref="TimingPoint"/> and returns the resulting parsed object, or <see langword="null"/>.</summary>
-        /// <param name="s">The string representation of a timing point to parse.</param>
-        public static TimingPoint Parse(string s)
+        /// <summary>Converts a relative time position into an absolute time position.</summary>
+        /// <param name="relativeTimePosition">The relative time position to convert to an absolute one.</param>
+        public TimeSpan ConvertTime(MeasuredTimePosition relativeTimePosition)
         {
-            if (AbsoluteTimingPoint.TryParse(s, out var absolute))
-                return absolute;
-            if (RelativeTimingPoint.TryParse(s, out var relative))
-                return relative;
-            return null;
+            var absolute = GetAbsoluteTimePosition();
+            var relative = GetRelativeTimePosition();
+            var distance = relativeTimePosition.DistanceFrom(relative, TimeSignature);
+            return absolute + distance.GetDurationTimeSpan(BPM, TimeSignature);
+        }
+        /// <summary>Converts a absolute time position into an relative time position.</summary>
+        /// <param name="absoluteTimePosition">The absolute time position to convert to an relative one.</param>
+        public MeasuredTimePosition ConvertTime(TimeSpan absoluteTimePosition)
+        {
+            var absolute = GetAbsoluteTimePosition();
+            var relative = GetRelativeTimePosition();
+            var duration = new MeasuredDuration(absoluteTimePosition - absolute, BPM, TimeSignature);
+            return relative.Add(duration, TimeSignature);
         }
 
         /// <summary>Compares this <seealso cref="TimingPoint"/>'s time position with another.</summary>
@@ -46,6 +54,26 @@ namespace GDAPI.Utilities.Objects.General.TimingPoints
         /// <summary>Compares the time position of this and another timing point's. It is defined so that inherited classes handle comparison.</summary>
         /// <param name="other">The other timing point to compare to.</param>
         protected abstract int CompareTimePosition(TimingPoint other);
+
+        /// <summary>Compares two <seealso cref="TimingPoint"/>s based on their relative time positions.</summary>
+        /// <param name="left">The left <seealso cref="TimingPoint"/> whose relative time position will be compared.</param>
+        /// <param name="right">The right <seealso cref="TimingPoint"/> whose relative time position will be compared.</param>
+        public static int RelativeComparison(TimingPoint left, TimingPoint right) => MeasuredTimePosition.CompareByAbsolutePosition(left.GetRelativeTimePosition(), right.GetRelativeTimePosition());
+        /// <summary>Compares two <seealso cref="TimingPoint"/>s based on their absolute time positions.</summary>
+        /// <param name="left">The left <seealso cref="TimingPoint"/> whose absolute time position will be compared.</param>
+        /// <param name="right">The right <seealso cref="TimingPoint"/> whose absolute time position will be compared.</param>
+        public static int AbsoluteComparison(TimingPoint left, TimingPoint right) => left.GetAbsoluteTimePosition().CompareTo(right.GetAbsoluteTimePosition());
+
+        /// <summary>Attempts to parse a string representation of a timing point into a <seealso cref="TimingPoint"/> and returns the resulting parsed object, or <see langword="null"/>.</summary>
+        /// <param name="s">The string representation of a timing point to parse.</param>
+        public static TimingPoint Parse(string s)
+        {
+            if (AbsoluteTimingPoint.TryParse(s, out var absolute))
+                return absolute;
+            if (RelativeTimingPoint.TryParse(s, out var relative))
+                return relative;
+            return null;
+        }
     }
     /// <summary>Represents a timing point with a time position of a specified type.</summary>
     /// <typeparam name="T">The type of the time position.</typeparam>
