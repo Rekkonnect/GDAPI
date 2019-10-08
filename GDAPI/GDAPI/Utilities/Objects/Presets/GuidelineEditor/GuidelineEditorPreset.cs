@@ -5,6 +5,7 @@ using GDAPI.Utilities.Objects.General.TimingPoints;
 using GDAPI.Utilities.Objects.GeometryDash.General;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Convert;
 
@@ -13,8 +14,6 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
     /// <summary>Represents a preset for the guideline editor.</summary>
     public class GuidelineEditorPreset : Preset
     {
-        private readonly List<TimingPoint> timingPoints = new List<TimingPoint>();
-
         /// <summary>The name of the preset.</summary>
         public string Name;
         /// <summary>The offset, in seconds, of the preset.</summary>
@@ -28,6 +27,11 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
         public GuidelineEditorPresetTrackList Tracks = new GuidelineEditorPresetTrackList();
         /// <summary>Gets the unique patterns that are used in this track.</summary>
         public HashSet<GuidelineEditorPresetPattern> UniquePatterns => Tracks.UniquePatterns;
+        /// <summary>The timing points of the preset.</summary>
+        public TimingPointList TimingPoints { get; } = new TimingPointList();
+
+        /// <summary>Determines whether the preset's ending position is the end of song, regardless of its measures.</summary>
+        public bool IsEndingPositionEndOfSong => EndingPosition == MeasuredTimePosition.UnknownEnd;
 
         /// <summary>Creates a new instance of the <seealso cref="GuidelineEditorPreset"/> class.</summary>
         public GuidelineEditorPreset()
@@ -57,7 +61,7 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
         public GuidelineEditorPreset(string name, double offset, MeasuredTimePosition start, MeasuredTimePosition end, AbsoluteTimingPoint startingPoint)
             : this(name, offset, start, end)
         {
-            timingPoints.Add(startingPoint);
+            TimingPoints.Add(startingPoint);
         }
         /// <summary>Creates a new instance of the <seealso cref="GuidelineEditorPreset"/> class.</summary>
         /// <param name="name">The name of the preset.</param>
@@ -66,15 +70,15 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
         /// <param name="end">The ending position at which to stop generating the guidelines.</param>
         /// <param name="presetTracks">The tracks of the preset.</param>
         /// <param name="presetTimingPoints">The timing points of the preset.</param>
-        public GuidelineEditorPreset(string name, double offset, MeasuredTimePosition start, MeasuredTimePosition end, GuidelineEditorPresetTrackList presetTracks, List<TimingPoint> presetTimingPoints)
+        public GuidelineEditorPreset(string name, double offset, MeasuredTimePosition start, MeasuredTimePosition end, GuidelineEditorPresetTrackList presetTracks, TimingPointList presetTimingPoints)
             : this(name, offset, start, end)
         {
             Tracks = presetTracks.Clone();
-            timingPoints = presetTimingPoints.Clone();
+            TimingPoints = presetTimingPoints;
         }
 
         /// <summary>Clones this instance of <seealso cref="GuidelineEditorPreset"/>.</summary>
-        public GuidelineEditorPreset Clone() => new GuidelineEditorPreset(Name, Offset, StartingPosition, EndingPosition, Tracks, timingPoints);
+        public GuidelineEditorPreset Clone() => new GuidelineEditorPreset(Name, Offset, StartingPosition, EndingPosition, Tracks, TimingPoints);
 
         /// <summary>Parses a <seealso cref="GuidelineEditorPreset"/> from raw data wtih a specified name.</summary>
         /// <param name="name">The name of the preset.</param>
@@ -83,7 +87,7 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
         {
             var patternPool = new List<GuidelineEditorPresetPattern>();
             var tracks = new GuidelineEditorPresetTrackList();
-            var timingPoints = new List<TimingPoint>();
+            var timingPoints = new TimingPointList();
 
             var lines = rawData.GetLines().ToList();
             lines.RemoveAll(s => s.StartsWith("//"));
@@ -136,7 +140,7 @@ namespace GDAPI.Utilities.Objects.Presets.GuidelineEditor
 
             result.AppendLine($"{Offset}|{StartingPosition}|{EndingPosition}").AppendLine();
 
-            result.AppendLine(timingPoints.ToString()); // TODO: Create new class called GuidelineEditorPresetTimingPointList, whose ToString should be used
+            result.AppendLine(TimingPoints.ToString()); // TODO: Create new class called GuidelineEditorPresetTimingPointList, whose ToString should be used
             result.AppendLine(Tracks.ToString());
 
             return result.RemoveLastIfEndsWith('\n').ToString();
