@@ -1,11 +1,11 @@
-﻿using GDAPI.Utilities.Objects.General.Music;
-using GDAPI.Utilities.Objects.General.TimingPoints;
-using GDAPI.Utilities.Objects.GeometryDash;
-using GDAPI.Utilities.Objects.GeometryDash.General;
-using GDAPI.Utilities.Objects.Presets.GuidelineEditor;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using System.Collections.Generic;
 using System.IO;
+using GDAPI.Objects.GeometryDash;
+using GDAPI.Objects.GeometryDash.General;
+using GDAPI.Objects.Music;
+using GDAPI.Objects.Presets.GuidelineEditor;
+using GDAPI.Objects.TimingPoints;
 
 namespace GDAPI.Application.Editors
 {

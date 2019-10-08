@@ -1,6 +1,5 @@
 ﻿using GDAPI.Application.Editors.Delegates;
-using GDAPI.Utilities.Objects.General;
-using GDAPI.Utilities.Objects.GeometryDash.LevelObjects;
+using GDAPI.Objects.General;
 
 namespace GDAPI.Application.Editors.Actions.LevelActions
 {
