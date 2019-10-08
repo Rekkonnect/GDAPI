@@ -95,6 +95,22 @@ namespace GDAPI.Utilities.Objects.General.Music
             b = beat;
             f = fraction;
         }
+        /// <summary>Initializes a new instance of the <seealso cref="MeasuredTimePosition"/> struct.</summary>
+        /// <param name="bytes">The bytes from which to initialize the struct.</param>
+        private MeasuredTimePosition(ulong bytes)
+            : this()
+        {
+            all = bytes;
+        }
+        /// <summary>Initializes a new instance of the <seealso cref="MeasuredTimePosition"/> struct.</summary>
+        /// <param name="measuredDuration">The <seealso cref="MeasuredDuration"/> from which to construct this instance.</param>
+        public MeasuredTimePosition(MeasuredDuration measuredDuration)
+            : this()
+        {
+            Measure = measuredDuration.Measures + 1;
+            Beat = measuredDuration.Beats + 1;
+            Fraction = measuredDuration.Fraction;
+        }
 
         /// <summary>Advances the beat fraction by a value based on the provided <seealso cref="TimeSignature"/>.</summary>
         /// <param name="fraction">The value to advance the beat fraction by.</param>
@@ -137,16 +153,47 @@ namespace GDAPI.Utilities.Objects.General.Music
 
         /// <summary>Advances this time position by a <seealso cref="MusicalNoteValue"/> based on the provided <seealso cref="TimeSignature"/>.</summary>
         /// <param name="value">The value to advance this time position by.</param>
-        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the beat.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the time position.</param>
         public void AdvanceValue(MusicalNoteValue value, TimeSignature timeSignature) => AdvanceFraction((float)value / timeSignature.Denominator, timeSignature);
         /// <summary>Advances this time position by a <seealso cref="RhythmicalValue"/> based on the provided <seealso cref="TimeSignature"/>.</summary>
         /// <param name="value">The value to advance this time position by.</param>
-        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the beat.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the time position.</param>
         public void AdvanceValue(RhythmicalValue value, TimeSignature timeSignature) => AdvanceFraction((float)value.TotalValue * timeSignature.Denominator, timeSignature);
         /// <summary>Advances this time position by a <seealso cref="MeasuredDuration"/> based on the provided <seealso cref="TimeSignature"/>.</summary>
         /// <param name="value">The value to advance this time position by.</param>
-        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the beat.</param>
-        public void AdvanceValue(MeasuredDuration value, TimeSignature timeSignature) => AdvanceFraction(value.BeatsWithFraction, timeSignature);
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the time position.</param>
+        public void AdvanceValue(MeasuredDuration value, TimeSignature timeSignature) => AdvanceFraction(value.TotalBeats(timeSignature), timeSignature);
+
+        /// <summary>Adds a <seealso cref="MusicalNoteValue"/> to this time position based on the provided <seealso cref="TimeSignature"/> and returns a new instance containing the result.</summary>
+        /// <param name="value">The value to add to this time position.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to add to the time position.</param>
+        public MeasuredTimePosition Add(MusicalNoteValue value, TimeSignature timeSignature)
+        {
+            var result = this;
+            result.AdvanceValue(value, timeSignature);
+            return result;
+        }
+        /// <summary>Adds a <seealso cref="RhythmicalValue"/> to this time position based on the provided <seealso cref="TimeSignature"/> and returns a new instance containing the result.</summary>
+        /// <param name="value">The value to add to this time position.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to add to the time position.</param>
+        public MeasuredTimePosition Add(RhythmicalValue value, TimeSignature timeSignature)
+        {
+            var result = this;
+            result.AdvanceValue(value, timeSignature);
+            return result;
+        }
+        /// <summary>Adds a <seealso cref="MeasuredDuration"/> to this time position based on the provided <seealso cref="TimeSignature"/> and returns a new instance containing the result.</summary>
+        /// <param name="value">The value to add to this time position.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to add to the time position.</param>
+        public MeasuredTimePosition Add(MeasuredDuration value, TimeSignature timeSignature)
+        {
+            var result = this;
+            result.AdvanceValue(value, timeSignature);
+            return result;
+        }
+
+        /// <summary>Clones this instance of <seealso cref="MeasuredTimePosition"/> and returns the new one.</summary>
+        public MeasuredTimePosition Clone() => new MeasuredTimePosition(all);
 
         /// <summary>Resets the beat fraction to 0, which is the start of the beat.</summary>
         public void ResetToBeatStart() => f = 0;
@@ -200,6 +247,10 @@ namespace GDAPI.Utilities.Objects.General.Music
 
         public static bool operator ==(MeasuredTimePosition left, MeasuredTimePosition right) => left.all == right.all;
         public static bool operator !=(MeasuredTimePosition left, MeasuredTimePosition right) => left.all == right.all;
+        public static bool operator <(MeasuredTimePosition left, MeasuredTimePosition right) => left.CompareTo(right) < 0;
+        public static bool operator >(MeasuredTimePosition left, MeasuredTimePosition right) => left.CompareTo(right) > 0;
+        public static bool operator <=(MeasuredTimePosition left, MeasuredTimePosition right) => left.CompareTo(right) <= 0;
+        public static bool operator >=(MeasuredTimePosition left, MeasuredTimePosition right) => left.CompareTo(right) >= 0;
 
         /// <summary>Parses a string of the form {Measure}:{Beat}.{Fraction} into a <seealso cref="MeasuredTimePosition"/>.</summary>
         /// <param name="s">The string to parse into a <seealso cref="MeasuredTimePosition"/>.</param>

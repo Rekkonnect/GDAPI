@@ -80,12 +80,37 @@ namespace GDAPI.Utilities.Objects.General.Music
             f = fraction;
         }
         /// <summary>Initializes a new instance of the <seealso cref="MeasuredDuration"/> struct.</summary>
+        /// <param name="duration">The duration as a <seealso cref="TimeSpan"/>.</param>
+        /// <param name="bpm">The <seealso cref="BPM"/> of the duration.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to calculate the beats and measures.</param>
+        public MeasuredDuration(TimeSpan duration, BPM bpm, TimeSignature timeSignature)
+            : this()
+        {
+            IncreaseFraction((float)(duration.TotalSeconds / bpm.BeatInterval), timeSignature);
+        }
+        /// <summary>Initializes a new instance of the <seealso cref="MeasuredDuration"/> struct.</summary>
         /// <param name="absoluteBeats">The absolute beats.</param>
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to calculate the beats and measures.</param>
         public MeasuredDuration(float absoluteBeats, TimeSignature timeSignature)
             : this()
         {
             IncreaseFraction(absoluteBeats, timeSignature);
+        }
+        /// <summary>Initializes a new instance of the <seealso cref="MeasuredDuration"/> struct.</summary>
+        /// <param name="bytes">The bytes from which to initialize the struct.</param>
+        private MeasuredDuration(ulong bytes)
+            : this()
+        {
+            all = bytes;
+        }
+        /// <summary>Initializes a new instance of the <seealso cref="MeasuredDuration"/> struct.</summary>
+        /// <param name="measuredTimePosition">The <seealso cref="MeasuredTimePosition"/> from which to construct this instance.</param>
+        public MeasuredDuration(MeasuredTimePosition measuredTimePosition)
+            : this()
+        {
+            Measures = measuredTimePosition.Measure - 1;
+            Beats = measuredTimePosition.Beat - 1;
+            Fraction = measuredTimePosition.Fraction;
         }
 
         /// <summary>Increases the beat fraction by a value based on the provided <seealso cref="TimeSignature"/>.</summary>
@@ -123,6 +148,23 @@ namespace GDAPI.Utilities.Objects.General.Music
         /// <param name="value">The value to increase this duration by.</param>
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to increase the duration.</param>
         public void IncreaseValue(RhythmicalValue value, TimeSignature timeSignature) => IncreaseFraction((float)value.TotalValue * timeSignature.Denominator, timeSignature);
+        /// <summary>Advances this duration by a <seealso cref="MeasuredDuration"/> based on the provided <seealso cref="TimeSignature"/>.</summary>
+        /// <param name="value">The value to advance this duration by.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the duration.</param>
+        public void IncreaseValue(MeasuredDuration value, TimeSignature timeSignature) => IncreaseFraction(value.TotalBeats(timeSignature), timeSignature);
+
+        /// <summary>Adds a <seealso cref="MeasuredDuration"/> to this duration based on the provided <seealso cref="TimeSignature"/> and returns a new instance containing the result.</summary>
+        /// <param name="value">The value to add to this duration.</param>
+        /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to add to the duration.</param>
+        public MeasuredDuration Add(MeasuredDuration value, TimeSignature timeSignature)
+        {
+            var result = this;
+            result.IncreaseValue(value, timeSignature);
+            return result;
+        }
+
+        /// <summary>Clones this instance of <seealso cref="MeasuredDuration"/> and returns the new one.</summary>
+        public MeasuredDuration Clone() => new MeasuredDuration(all);
 
         /// <summary>Resets the beat fraction to 0.</summary>
         public void ResetBeatFraction() => f = 0;
@@ -159,6 +201,12 @@ namespace GDAPI.Utilities.Objects.General.Music
         {
             b += (ushort)f;
             f %= 1;
+
+            if (f < 0)
+            {
+                b--;
+                f++;
+            }
         }
         private void FixFraction(TimeSignature timeSignature)
         {
@@ -167,8 +215,8 @@ namespace GDAPI.Utilities.Objects.General.Music
         }
         private void FixBeats(TimeSignature timeSignature)
         {
-            m += (short)((b - 1) / timeSignature.Beats);
-            b = (ushort)((b - 1) % timeSignature.Beats + 1);
+            m += (short)(b / timeSignature.Beats);
+            b = (ushort)(b % timeSignature.Beats);
         }
 
         public static bool operator ==(MeasuredDuration left, MeasuredDuration right) => left.all == right.all;
