@@ -12,12 +12,12 @@ namespace GDAPI.Objects.Music
         /// <summary>Denotes the starting position of a musical composition.</summary>
         public static readonly MeasuredTimePosition Start = new MeasuredTimePosition(1, 1, 0);
         /// <summary>A standarized constant that denotes the ending position of a musical composition, without knowing its length.</summary>
-        public static readonly MeasuredTimePosition UnknownEnd = new MeasuredTimePosition(short.MinValue, (ushort)0, 0);
+        public static readonly MeasuredTimePosition UnknownEnd = new MeasuredTimePosition(short.MinValue, (short)0, 0);
 
         [FieldOffset(0)]
         private short m;
         [FieldOffset(2)]
-        private ushort b;
+        private short b;
         [FieldOffset(4)]
         private float f;
 
@@ -34,7 +34,7 @@ namespace GDAPI.Objects.Music
         public int Beat
         {
             get => b;
-            set => b = (ushort)value;
+            set => b = (short)value;
         }
         /// <summary>The beat fraction of the time position. It has to be within the range [0, 1).</summary>
         public float Fraction
@@ -88,7 +88,7 @@ namespace GDAPI.Objects.Music
         /// <param name="measure">The measure of the time position.</param>
         /// <param name="beat">The beat of the time position.</param>
         /// <param name="fraction">The beat fraction of the time position. It has to be within the range [0, 1).</param>
-        public MeasuredTimePosition(short measure, ushort beat, float fraction)
+        public MeasuredTimePosition(short measure, short beat, float fraction)
         {
             all = 0;
             m = measure;
@@ -129,7 +129,7 @@ namespace GDAPI.Objects.Music
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the beat.</param>
         public void AdvanceBeat(int beats, TimeSignature timeSignature)
         {
-            b += (ushort)beats;
+            b += (short)beats;
             FixBeats(timeSignature);
         }
 
@@ -231,8 +231,14 @@ namespace GDAPI.Objects.Music
 
         private void FixFraction()
         {
-            b += (ushort)f;
+            b += (short)f;
             f %= 1;
+
+            if (f < 0)
+            {
+                b--;
+                f++;
+            }
         }
         private void FixFraction(TimeSignature timeSignature)
         {
@@ -242,7 +248,13 @@ namespace GDAPI.Objects.Music
         private void FixBeats(TimeSignature timeSignature)
         {
             m += (short)((b - 1) / timeSignature.Beats);
-            b = (ushort)((b - 1) % timeSignature.Beats + 1);
+            b = (short)((b - 1) % timeSignature.Beats + 1);
+
+            if (b < 1)
+            {
+                m--;
+                b += (short)timeSignature.Beats;
+            }
         }
 
         public static bool operator ==(MeasuredTimePosition left, MeasuredTimePosition right) => left.all == right.all;
