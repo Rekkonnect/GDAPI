@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.DataStructures;
 using GDAPI.Objects.Music;
@@ -9,12 +11,15 @@ using GDAPI.Objects.Music;
 namespace GDAPI.Objects.TimingPoints
 {
     /// <summary>Contains a list of <seealso cref="TimingPoint"/>s.</summary>
-    public class TimingPointList
+    public class TimingPointList : IEnumerable<TimingPoint>
     {
         private SortedList<TimingPoint> timingPoints;
 
+        /// <summary>Gets the count of timing points in this <seealso cref="TimingPointList"/>.</summary>
+        public int Count => timingPoints.Count;
+
         /// <summary>Creates a new empty instance of the <seealso cref="TimingPointList"/> class.</summary>
-        public TimingPointList() { }
+        public TimingPointList() => timingPoints = new SortedList<TimingPoint>();
         /// <summary>Creates a new instance of the <seealso cref="TimingPointList"/> class.</summary>
         /// <param name="presetTimingPoints">The list of timing points that are contained.</param>
         public TimingPointList(List<TimingPoint> presetTimingPoints)
@@ -30,7 +35,18 @@ namespace GDAPI.Objects.TimingPoints
 
         /// <summary>Adds a <seealso cref="TimingPoint"/> to the list.</summary>
         /// <param name="timingPoint">The <seealso cref="TimingPoint"/> to add to the list.</param>
-        public void Add(TimingPoint timingPoint) => RecalculateTimePositions(timingPoints.Insert(timingPoint) + 1);
+        public void Add(TimingPoint timingPoint)
+        {
+            if (Count == 0)
+            {
+                if (!(timingPoint is AbsoluteTimingPoint a))
+                    throw new InvalidOperationException("The first timing point in the list has to be an absolute timing point.");
+                a.SetAsInitialTimingPoint();
+            }
+            int index = timingPoints.Insert(timingPoint);
+            if (Count > 1)
+                RecalculateTimePositions(index);
+        }
         /// <summary>Adds a collection of <seealso cref="TimingPoint"/>s to the list.</summary>
         /// <param name="points">The <seealso cref="TimingPoint"/>s to add to the list.</param>
         public void AddRange(IEnumerable<TimingPoint> points)
@@ -72,6 +88,9 @@ namespace GDAPI.Objects.TimingPoints
         /// <summary>Gets the <seealso cref="TimingPoint"/> at the specified index.</summary>
         /// <param name="index">The index of the <seealso cref="TimingPoint"/> to get.</param>
         public TimingPoint this[int index] => timingPoints[index];
+
+        public IEnumerator<TimingPoint> GetEnumerator() => ((IEnumerable<TimingPoint>)timingPoints).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<TimingPoint>)timingPoints).GetEnumerator();
 
         private void RecalculateTimePositions(int firstIndex)
         {

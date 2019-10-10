@@ -164,6 +164,9 @@ namespace GDAPI.Objects.DataStructures
         /// <param name="customComparison">A custom <seealso cref="Comparison{T}"/> to use for the binary search in the list. This does not affect the way the elements are sorted.</param>
         public int IndexToInsert(T element, Comparison<T> customComparison)
         {
+            if (Count == 0)
+                return 0;
+
             int min = 0;
             int max = Count - 1;
             int mid = (min + max) / 2;
