@@ -12,11 +12,11 @@ namespace GDAPI.Objects.Music
         /// <summary>Represents the absolute zero duration.</summary>
         public static readonly MeasuredDuration Zero = new MeasuredDuration(0);
 
-        [FieldOffset(0)]
+        [FieldOffset(6)]
         private short m;
-        [FieldOffset(2)]
-        private short b;
         [FieldOffset(4)]
+        private short b;
+        [FieldOffset(0)]
         private float f;
 
         [FieldOffset(0)]
@@ -226,7 +226,11 @@ namespace GDAPI.Objects.Music
         }
 
         public static bool operator ==(MeasuredDuration left, MeasuredDuration right) => left.all == right.all;
-        public static bool operator !=(MeasuredDuration left, MeasuredDuration right) => left.all != right.all;
+        public static bool operator !=(MeasuredDuration left, MeasuredDuration right) => left.all == right.all;
+        public static bool operator <(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) < 0;
+        public static bool operator >(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) > 0;
+        public static bool operator <=(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) <= 0;
+        public static bool operator >=(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) >= 0;
 
         /// <summary>Parses a string of the form {Measures}:{Beats}.{Fraction} into a <seealso cref="MeasuredDuration"/>.</summary>
         /// <param name="s">The string to parse into a <seealso cref="MeasuredDuration"/>.</param>

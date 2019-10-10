@@ -14,11 +14,11 @@ namespace GDAPI.Objects.Music
         /// <summary>A standarized constant that denotes the ending position of a musical composition, without knowing its length.</summary>
         public static readonly MeasuredTimePosition UnknownEnd = new MeasuredTimePosition(short.MinValue, (short)0, 0);
 
-        [FieldOffset(0)]
+        [FieldOffset(6)]
         private short m;
-        [FieldOffset(2)]
-        private short b;
         [FieldOffset(4)]
+        private short b;
+        [FieldOffset(0)]
         private float f;
 
         [FieldOffset(0)]
@@ -154,7 +154,7 @@ namespace GDAPI.Objects.Music
         /// <summary>Advances this time position by a <seealso cref="MusicalNoteValue"/> based on the provided <seealso cref="TimeSignature"/>.</summary>
         /// <param name="value">The value to advance this time position by.</param>
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the time position.</param>
-        public void AdvanceValue(MusicalNoteValue value, TimeSignature timeSignature) => AdvanceFraction((float)value / timeSignature.Denominator, timeSignature);
+        public void AdvanceValue(MusicalNoteValue value, TimeSignature timeSignature) => AdvanceFraction(timeSignature.Denominator / (float)value, timeSignature);
         /// <summary>Advances this time position by a <seealso cref="RhythmicalValue"/> based on the provided <seealso cref="TimeSignature"/>.</summary>
         /// <param name="value">The value to advance this time position by.</param>
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to advance the time position.</param>
