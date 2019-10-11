@@ -96,10 +96,6 @@ namespace GDAPI.Tests.Objects.Music
             timePosition.AdvanceValue(new RhythmicalValue(MusicalNoteValue.Eighth, 0, 8), commonTimeSignature);
             Assert.AreEqual(timePosition, new MeasuredTimePosition(3, 1, 0), "Adding 8/8 to a 4/4 measure somehow doesn't add up to a single measure");
 
-
-            timePosition.AdvanceValue(new RhythmicalValue(MusicalNoteValue.Eighth, 0, 8), commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(3, 1, 0), "Adding 8/8 to a 4/4 measure somehow doesn't add up to a single measure");
-
             timePosition.AdvanceValue(new RhythmicalValue(MusicalNoteValue.Whole, 0, 7), commonTimeSignature);
             Assert.AreEqual(timePosition, new MeasuredTimePosition(10, 1, 0), "Adding 7 wholes to a 4/4 measure somehow does not make 7 measures");
         }
