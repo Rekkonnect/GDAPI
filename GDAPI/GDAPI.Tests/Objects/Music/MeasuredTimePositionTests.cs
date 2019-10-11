@@ -129,41 +129,25 @@ namespace GDAPI.Tests.Objects.Music
         [Test]
         public void Comparison()
         {
-            var a = new MeasuredTimePosition(1, 1, 0.5f);
-            var b = new MeasuredTimePosition(1, 2, 0.5f);
-            var c = new MeasuredTimePosition(2, 1, 0);
-            var d = new MeasuredTimePosition(2, 420, 0.1337f);
-            var e = new MeasuredTimePosition(3, 1, 0);
+            var timePositions = new MeasuredTimePosition[]
+            {
+                new MeasuredTimePosition(1, 1, 0.5f),
+                new MeasuredTimePosition(1, 2, 0.5f),
+                new MeasuredTimePosition(2, 1, 0),
+                new MeasuredTimePosition(2, 420, 0.1337f),
+                new MeasuredTimePosition(3, 1, 0),
+            };
 
-            Assert.IsTrue(a == a);
-            Assert.IsTrue(a < b);
-            Assert.IsTrue(a < c);
-            Assert.IsTrue(a < d);
-            Assert.IsTrue(a < e);
+            for (int i = 0; i < timePositions.Length; i++)
+            {
+                for (int j = 0; j < i; j++)
+                    Assert.IsTrue(timePositions[i] > timePositions[j]);
 
-            Assert.IsTrue(b > a);
-            Assert.IsTrue(b == b);
-            Assert.IsTrue(b < c);
-            Assert.IsTrue(b < d);
-            Assert.IsTrue(b < e);
+                Assert.IsTrue(timePositions[i] == timePositions[i]);
 
-            Assert.IsTrue(c > a);
-            Assert.IsTrue(c > b);
-            Assert.IsTrue(c == c);
-            Assert.IsTrue(c < d);
-            Assert.IsTrue(c < e);
-
-            Assert.IsTrue(d > a);
-            Assert.IsTrue(d > b);
-            Assert.IsTrue(d > c);
-            Assert.IsTrue(d == d);
-            Assert.IsTrue(d < e);
-
-            Assert.IsTrue(e > a);
-            Assert.IsTrue(e > b);
-            Assert.IsTrue(e > c);
-            Assert.IsTrue(e > d);
-            Assert.IsTrue(e == e);
+                for (int j = i + 1; j < timePositions.Length; j++)
+                    Assert.IsTrue(timePositions[i] < timePositions[j]);
+            }
         }
         [Test]
         public void Parse()
