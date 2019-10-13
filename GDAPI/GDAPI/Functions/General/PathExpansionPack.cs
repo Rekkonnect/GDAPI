@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using GDAPI.Enumerations;
 using GDAPI.Functions.Extensions;
@@ -40,6 +41,9 @@ namespace GDAPI.Functions.General
         /// <summary>Returns a concatenated string version of the provided directory collection including the directory separator character.</summary>
         /// <param name="directories">The directories to concatenate.</param>
         public static string ConcatenateDirectoryPath(IEnumerable<string> directories) => $@"{directories.ToList().ConvertAll(AddDirectorySuffix).AggregateIfContains(AggregateDirectories)}";
+        /// <summary>Returns a concatenated string version of the provided directory collection including the directory separator character.</summary>
+        /// <param name="directories">The directories to concatenate.</param>
+        public static string ConcatenateDirectoryPath(params string[] directories) => ConcatenateDirectoryPath((IEnumerable<string>)directories);
 
         /// <summary>Gets the deepest common directory path between two paths.</summary>
         /// <param name="pathA">The first path to get the deepest common directory of.</param>
@@ -53,7 +57,7 @@ namespace GDAPI.Functions.General
             for (int i = 0; i < min; i++)
                 if (splitA[i] == splitB[i])
                     result.Add(splitA[i]);
-            return result.Aggregate(AggregateDirectories);
+            return ConcatenateDirectoryPath(result);
         }
         // Fuck, this documentation seems confusing
         /// <summary>Gets the directory name of the directory in the previous path whose parent is the new path. For instance, <code>GetPreviousPathDirectoryInNewPath("C:\users\user\Desktop\", "C:\users\")</code> will return <code>"user"</code>.</summary>

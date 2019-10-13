@@ -1,11 +1,9 @@
-﻿using System;
-using GDAPI.Enumerations.GeometryDash;
+﻿using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.GeometryDash;
 using NUnit.Framework;
 
 namespace GDAPI.Tests.Functions.GeometryDash
 {
-    /// <summary>Provides helpful functions for generating values for several object properties that are enumerated.</summary>
     public class ValueGeneratorTests
     {
         [SetUp]
@@ -13,7 +11,7 @@ namespace GDAPI.Tests.Functions.GeometryDash
         {
         }
 
-        #region Z Layer
+        #region Easing
         [Test]
         public void GenerateEasing()
         {
