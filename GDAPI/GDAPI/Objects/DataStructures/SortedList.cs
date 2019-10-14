@@ -197,7 +197,7 @@ namespace GDAPI.Objects.DataStructures
         public int IndexBefore(T element) => IndexToInsert(element) - 1;
         /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the index of the element that would be after the specified one, if contained in the sorted list.</summary>
         /// <param name="element">The element whose sequential next to get the index of.</param>
-        public int IndexAfter(T element) => IndexToInsert(element) + 1;
+        public int IndexAfter(T element) => IndexToInsert(element);
         /// <summary>Performs binary search in the sorted list using the current sorting <seealso cref="Comparison{T}"/> and returns the element that would be before the specified one, if contained in the sorted list.</summary>
         /// <param name="element">The element whose sequential previous to get.</param>
         public T ElementBefore(T element) => list[IndexBefore(element)];
@@ -228,13 +228,9 @@ namespace GDAPI.Objects.DataStructures
         /// <param name="index">The index of the element to set.</param>
         public void SetElementAt(int index, T value) => list[index] = value;
 
-        /// <summary>Gets or sets the element at the specified index.</summary>
-        /// <param name="index">The index of the element to get or set.</param>
-        public T this[int index]
-        {
-            get => list[index];
-            set => list[index] = value;
-        }
+        /// <summary>Gets the element at the specified index.</summary>
+        /// <param name="index">The index of the element to get.</param>
+        public T this[int index] => list[index];
 
         public IEnumerator<T> GetEnumerator() => list.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
