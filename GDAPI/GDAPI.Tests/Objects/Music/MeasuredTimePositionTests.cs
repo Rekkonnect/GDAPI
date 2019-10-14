@@ -21,19 +21,19 @@ namespace GDAPI.Tests.Objects.Music
             var timePosition = MeasuredTimePosition.Start;
 
             timePosition.AdvanceBeat(commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(1, 2, 0), "Could not add two fucking numbers");
+            Assert.AreEqual(new MeasuredTimePosition(1, 2, 0), timePosition, "Could not add two fucking numbers");
 
             timePosition.AdvanceBeat(3, commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 1, 0), "Unexplainably failed to wrap to next measure on 4/4");
+            Assert.AreEqual(new MeasuredTimePosition(2, 1, 0), timePosition, "Unexplainably failed to wrap to next measure on 4/4");
 
             timePosition.AdvanceBeat(3, waltzTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(3, 1, 0), "3/4 hurts in the ass");
+            Assert.AreEqual(new MeasuredTimePosition(3, 1, 0), timePosition, "3/4 hurts in the ass");
 
             timePosition.AdvanceBeat(5, uncommonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(4, 1, 0), "5/4 is too uncommon for this struct");
+            Assert.AreEqual(new MeasuredTimePosition(4, 1, 0), timePosition, "5/4 is too uncommon for this struct");
 
             timePosition.AdvanceBeat(-5, commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 4, 0), "Going back in time fucks shit up?");
+            Assert.AreEqual(new MeasuredTimePosition(2, 4, 0), timePosition, "Going back in time fucks shit up?");
         }
         [Test]
         public void AdvanceFraction()
@@ -41,16 +41,16 @@ namespace GDAPI.Tests.Objects.Music
             var timePosition = MeasuredTimePosition.Start;
 
             timePosition.AdvanceFraction(0.5f, commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(1, 1, 0.5f), "Fractions seem to be hard to work with");
+            Assert.AreEqual(new MeasuredTimePosition(1, 1, 0.5f), timePosition, "Fractions seem to be hard to work with");
 
             timePosition.AdvanceFraction(1.5f, commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(1, 3, 0), "Adding full beats and the fraction itself");
+            Assert.AreEqual(new MeasuredTimePosition(1, 3, 0), timePosition, "Adding full beats and the fraction itself");
 
             timePosition.AdvanceFraction(2.5f, waltzTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 2, 0.5f), "Advancing to next measure from beat fraction is impossible");
+            Assert.AreEqual(new MeasuredTimePosition(2, 2, 0.5f), timePosition, "Advancing to next measure from beat fraction is impossible");
 
             timePosition.AdvanceFraction(-0.5f, uncommonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 2, 0), "Going back in time fucks shit up again?");
+            Assert.AreEqual(new MeasuredTimePosition(2, 2, 0), timePosition, "Going back in time fucks shit up again?");
         }
         [Test]
         public void AdvanceMeasure()
@@ -58,10 +58,10 @@ namespace GDAPI.Tests.Objects.Music
             var timePosition = MeasuredTimePosition.Start;
 
             timePosition.AdvanceMeasure(1);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 1, 0), "I cannot believe I wrote a test case for this");
+            Assert.AreEqual(new MeasuredTimePosition(2, 1, 0), timePosition, "I cannot believe I wrote a test case for this");
 
             timePosition.AdvanceMeasure(2);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(4, 1, 0), "I cannot believe I wrote a test case for this");
+            Assert.AreEqual(new MeasuredTimePosition(4, 1, 0), timePosition, "I cannot believe I wrote a test case for this");
         }
         [Test]
         public void AdvanceToStartOfNextMeasure()
@@ -77,13 +77,13 @@ namespace GDAPI.Tests.Objects.Music
             var timePosition = MeasuredTimePosition.Start;
 
             timePosition.AdvanceValue(MusicalNoteValue.Quarter, commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(1, 2, 0), "Looks like musical note values are a bit complicated");
+            Assert.AreEqual(new MeasuredTimePosition(1, 2, 0), timePosition, "Looks like musical note values are a bit complicated");
 
             timePosition.AdvanceValue(MusicalNoteValue.Eighth, commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(1, 2, 0.5f), "An eighth is half a quarter");
+            Assert.AreEqual(new MeasuredTimePosition(1, 2, 0.5f), timePosition, "An eighth is half a quarter");
 
             timePosition.AdvanceValue(MusicalNoteValue.Whole, commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 2, 0.5f), "Whole means entire measure in 4/4");
+            Assert.AreEqual(new MeasuredTimePosition(2, 2, 0.5f), timePosition, "Whole means entire measure in 4/4");
         }
         [Test]
         public void AdvanceValueRhythmicalValue()
@@ -91,13 +91,13 @@ namespace GDAPI.Tests.Objects.Music
             var timePosition = MeasuredTimePosition.Start;
 
             timePosition.AdvanceValue(new RhythmicalValue(MusicalNoteValue.Quarter, 0, 3), waltzTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 1, 0), "Adding 3/4 to a 3/4 measure somehow doesn't add up to a single measure");
+            Assert.AreEqual(new MeasuredTimePosition(2, 1, 0), timePosition, "Adding 3/4 to a 3/4 measure somehow doesn't add up to a single measure");
 
             timePosition.AdvanceValue(new RhythmicalValue(MusicalNoteValue.Eighth, 0, 8), commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(3, 1, 0), "Adding 8/8 to a 4/4 measure somehow doesn't add up to a single measure");
+            Assert.AreEqual(new MeasuredTimePosition(3, 1, 0), timePosition, "Adding 8/8 to a 4/4 measure somehow doesn't add up to a single measure");
 
             timePosition.AdvanceValue(new RhythmicalValue(MusicalNoteValue.Whole, 0, 7), commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(10, 1, 0), "Adding 7 wholes to a 4/4 measure somehow does not make 7 measures");
+            Assert.AreEqual(new MeasuredTimePosition(10, 1, 0), timePosition, "Adding 7 wholes to a 4/4 measure somehow does not make 7 measures");
         }
         [Test]
         public void AdvanceValueMeasuredDuration()
@@ -105,13 +105,13 @@ namespace GDAPI.Tests.Objects.Music
             var timePosition = MeasuredTimePosition.Start;
 
             timePosition.AdvanceValue(new MeasuredDuration(0, 2, 0.5f), waltzTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(1, 3, 0.5f), "1:1.000 + 0:2.500 in 3/4");
+            Assert.AreEqual(new MeasuredTimePosition(1, 3, 0.5f), timePosition, "1:1.000 + 0:2.500 in 3/4");
 
             timePosition.AdvanceValue(new MeasuredDuration(0, 1, 0.5f), waltzTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(2, 2, 0), "1:3.500 + 0:1.500 in 3/4");
+            Assert.AreEqual(new MeasuredTimePosition(2, 2, 0), timePosition, "1:3.500 + 0:1.500 in 3/4");
 
             timePosition.AdvanceValue(new MeasuredDuration(0, 3, 0), commonTimeSignature);
-            Assert.AreEqual(timePosition, new MeasuredTimePosition(3, 1, 0), "2:2.000 + 0:3.000 in 4/4");
+            Assert.AreEqual(new MeasuredTimePosition(3, 1, 0), timePosition, "2:2.000 + 0:3.000 in 4/4");
         }
         [Test]
         public void DistanceFrom()
@@ -160,8 +160,8 @@ namespace GDAPI.Tests.Objects.Music
         [Test]
         public void Stringify()
         {
-            Assert.AreEqual(new MeasuredTimePosition(1, 2, 0.3f).ToString(), "1:2.300", "Bad stringification");
-            Assert.AreEqual(new MeasuredTimePosition(1, 2, 0.34567f).ToString(), "1:2.346", "Bad rounded stringification");
+            Assert.AreEqual("1:2.300", new MeasuredTimePosition(1, 2, 0.3f).ToString(), "Bad stringification");
+            Assert.AreEqual("1:2.346", new MeasuredTimePosition(1, 2, 0.34567f).ToString(), "Bad rounded stringification");
         }
     }
 }

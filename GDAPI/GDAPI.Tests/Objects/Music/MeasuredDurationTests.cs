@@ -22,19 +22,19 @@ namespace GDAPI.Tests.Objects.Music
             var duration = MeasuredDuration.Zero;
 
             duration.IncreaseBeat(commonTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(0, 1, 0), "0 + 1 = ?");
+            Assert.AreEqual(new MeasuredDuration(0, 1, 0), duration, "0 + 1 = ?");
 
             duration.IncreaseBeat(3, commonTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(1, 0, 0), "/shrug Apparently 4 beats in 4/4 are not equal to a single measure in duration");
+            Assert.AreEqual(new MeasuredDuration(1, 0, 0), duration, "/shrug Apparently 4 beats in 4/4 are not equal to a single measure in duration");
 
             duration.IncreaseBeat(3, waltzTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(2, 0, 0), "Being honest, adding 4/4 and 3/4 is a bit illegal (not really)");
+            Assert.AreEqual(new MeasuredDuration(2, 0, 0), duration, "Being honest, adding 4/4 and 3/4 is a bit illegal (not really)");
 
             duration.IncreaseBeat(5, uncommonTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(3, 0, 0), "And 5/4 are here to save the day");
+            Assert.AreEqual(new MeasuredDuration(3, 0, 0), duration, "And 5/4 are here to save the day");
 
             duration.IncreaseBeat(-5, commonTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(1, 3, 0), "Subtraction time failed");
+            Assert.AreEqual(new MeasuredDuration(1, 3, 0), duration, "Subtraction time failed");
         }
         [Test]
         public void IncreaseFraction()
@@ -42,16 +42,16 @@ namespace GDAPI.Tests.Objects.Music
             var duration = MeasuredDuration.Zero;
 
             duration.IncreaseFraction(0.5f, commonTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(0, 0, 0.5f), "Fractions seem to be hard to work with");
+            Assert.AreEqual(new MeasuredDuration(0, 0, 0.5f), duration, "Fractions seem to be hard to work with");
 
             duration.IncreaseFraction(1.5f, commonTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(0, 2, 0), "Adding full beats and the fraction itself");
+            Assert.AreEqual(new MeasuredDuration(0, 2, 0), duration, "Adding full beats and the fraction itself");
 
             duration.IncreaseFraction(2.5f, waltzTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(1, 1, 0.5f), "Okay, adding part of a 4/4 measure and part of a 3/4 one is definitely illegal");
+            Assert.AreEqual(new MeasuredDuration(1, 1, 0.5f), duration, "Okay, adding part of a 4/4 measure and part of a 3/4 one is definitely illegal");
 
             duration.IncreaseFraction(-4, uncommonTimeSignature);
-            Assert.AreEqual(duration, new MeasuredDuration(0, 2, 0.5f), "I've honestly lost count");
+            Assert.AreEqual(new MeasuredDuration(0, 2, 0.5f), duration, "I've honestly lost count");
         }
         [Test]
         public void IncreaseMeasure()
@@ -59,13 +59,13 @@ namespace GDAPI.Tests.Objects.Music
             var duration = MeasuredDuration.Zero;
 
             duration.IncreaseMeasure(1);
-            Assert.AreEqual(duration, new MeasuredDuration(1, 0, 0), "I cannot believe I wrote a test case for this");
+            Assert.AreEqual(new MeasuredDuration(1, 0, 0), duration, "I cannot believe I wrote a test case for this");
 
             duration.IncreaseMeasure(3);
-            Assert.AreEqual(duration, new MeasuredDuration(4, 0, 0), "I cannot believe I wrote a test case for this");
+            Assert.AreEqual(new MeasuredDuration(4, 0, 0), duration, "I cannot believe I wrote a test case for this");
 
             duration.IncreaseMeasure(-4);
-            Assert.AreEqual(duration, MeasuredDuration.Zero, "Ekko R broke or something?");
+            Assert.AreEqual(MeasuredDuration.Zero, "Ekko R broke or something?");
         }
         [Test]
         public void Comparison()
@@ -101,8 +101,8 @@ namespace GDAPI.Tests.Objects.Music
         [Test]
         public void Stringify()
         {
-            Assert.AreEqual(new MeasuredDuration(1, 2, 0.3f).ToString(), "1:2.300", "Bad stringification");
-            Assert.AreEqual(new MeasuredDuration(1, 2, 0.34567f).ToString(), "1:2.346", "Bad rounded stringification");
+            Assert.AreEqual("1:2.300", new MeasuredDuration(1, 2, 0.3f).ToString(), "Bad stringification");
+            Assert.AreEqual("1:2.346", new MeasuredDuration(1, 2, 0.34567f).ToString(), "Bad rounded stringification");
         }
     }
 }
