@@ -107,6 +107,14 @@ namespace GDAPI.Objects.DataStructures
             get => ElementAt(index);
             set => SetElementAt(index, value);
         }
+        /// <summary>Gets or sets the element at the specified index.</summary>
+        /// <param name="listIndex">The index of the list whose element to get or set.</param>
+        /// <param name="elementIndex">The index of the element in the specified list to get or set.</param>
+        public T this[int listIndex, int elementIndex]
+        {
+            get => this[listIndex][elementIndex];
+            set => this[listIndex][elementIndex] = value;
+        }
 
         public IEnumerator<T> GetEnumerator()
         {
