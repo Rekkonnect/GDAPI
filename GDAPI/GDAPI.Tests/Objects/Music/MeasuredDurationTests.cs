@@ -65,7 +65,7 @@ namespace GDAPI.Tests.Objects.Music
             Assert.AreEqual(new MeasuredDuration(4, 0, 0), duration, "I cannot believe I wrote a test case for this");
 
             duration.IncreaseMeasure(-4);
-            Assert.AreEqual(MeasuredDuration.Zero, "Ekko R broke or something?");
+            Assert.AreEqual(MeasuredDuration.Zero, duration, "Ekko R broke or something?");
         }
         [Test]
         public void Comparison()

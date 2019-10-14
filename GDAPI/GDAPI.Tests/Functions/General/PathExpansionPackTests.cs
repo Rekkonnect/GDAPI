@@ -16,10 +16,10 @@ namespace GDAPI.Tests.Functions.General
         [Test]
         public void GetCommonDirectory()
         {
-            AreEqual(Combine("C:", "users", "user"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user", "Desktop"), Combine("C:", "users", "user")));
-            AreEqual(Combine("C:", "users", "user"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user"), Combine("C:", "users", "user", "Desktop")));
-            AreEqual(Combine("C:", "users"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user", "Desktop"), Combine("C:", "users", "Rekkon")));
-            AreEqual(Combine("C:", "users"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user"), Combine("C:", "users", "Rekkon", "Desktop")));
+            AreEqual(PathExpansionPack.ConcatenateDirectoryPath("C:", "users", "user"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user", "Desktop"), Combine("C:", "users", "user")));
+            AreEqual(PathExpansionPack.ConcatenateDirectoryPath("C:", "users", "user"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user"), Combine("C:", "users", "user", "Desktop")));
+            AreEqual(PathExpansionPack.ConcatenateDirectoryPath("C:", "users"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user", "Desktop"), Combine("C:", "users", "Rekkon")));
+            AreEqual(PathExpansionPack.ConcatenateDirectoryPath("C:", "users"), PathExpansionPack.GetCommonDirectory(Combine("C:", "users", "user"), Combine("C:", "users", "Rekkon", "Desktop")));
         }
 
         [Test]
