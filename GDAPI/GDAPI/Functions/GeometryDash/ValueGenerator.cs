@@ -38,7 +38,7 @@ namespace GDAPI.Functions.GeometryDash
         public static bool HasEasingOut(Easing easing) => ((int)easing - 1) % 3 != 1;
 
         private static int EasingToEasingValue(EasingMethod easingMethod, bool enableIn, bool enableOut) => ((int)easingMethod - 1) * 3 + 1 + (enableIn ? 0 : 2) + (enableOut ? 0 : 1);
-        private static EasingType EasingToEasingType(EasingMethod easingMethod, bool enableIn, bool enableOut) => (EasingType)(1 << ((int)easingMethod + 3)) | (enableIn ? EasingType.In : EasingType.None) | (enableOut ? EasingType.Out : EasingType.None);
+        private static EasingType EasingToEasingType(EasingMethod easingMethod, bool enableIn, bool enableOut) => (EasingType)(1 << ((int)easingMethod + 1)) | (enableIn ? EasingType.In : EasingType.None) | (enableOut ? EasingType.Out : EasingType.None);
 
         private static T GenerateEasingType<T>(EasingMethod easingMethod, bool enableIn, bool enableOut, EasingTypeConverter<T> converter, T defaultValue = default)
         {
@@ -83,7 +83,7 @@ namespace GDAPI.Functions.GeometryDash
             var position = GetZLayerPosition(zLayer);
             var layer = (zLayer - ZLayer.B1) / 2;
             if (position == ZLayerPosition.Bottom)
-                layer++;
+                layer--;
             return layer;
         }
         #endregion

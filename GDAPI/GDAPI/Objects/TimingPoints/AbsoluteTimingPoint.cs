@@ -52,6 +52,9 @@ namespace GDAPI.Objects.TimingPoints
         public void AdjustMeasure(int measures) => relativeTimePosition.Measure += measures;
 
         /// <inheritdoc/>
+        protected override int CompareTimePosition(TimingPoint other) => TimePosition.CompareTo(other.GetAbsoluteTimePosition());
+
+        /// <inheritdoc/>
         public override TimeSpan GetAbsoluteTimePosition() => TimePosition;
         /// <inheritdoc/>
         public override MeasuredTimePosition GetRelativeTimePosition() => relativeTimePosition;

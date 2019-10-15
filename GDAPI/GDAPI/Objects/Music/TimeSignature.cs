@@ -36,7 +36,7 @@ namespace GDAPI.Objects.Music
             {
                 if (value < 1)
                     throw new InvalidOperationException("Cannot set the denominator of the time signature to a non-positive integer.");
-                if (!d.IsPowerOfTwo())
+                if (!value.IsPowerOfTwo())
                     throw new InvalidOperationException("Cannot set the denominator of the time signature to anything but a power of two.");
                 d = (ushort)value;
             }

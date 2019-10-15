@@ -30,7 +30,7 @@ namespace GDAPI.Objects.Music
         /// <param name="value">The musical note value.</param>
         /// <param name="dots">The dots that multiply the rhythmical value.</param>
         /// <param name="count">The count of notes that add up the rhythmical value.</param>
-        public RhythmicalValue(MusicalNoteValue value, int dots, int count)
+        public RhythmicalValue(MusicalNoteValue value, int dots, int count = 1)
         {
             NoteValue = value;
             Dots = dots;

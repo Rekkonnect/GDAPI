@@ -98,7 +98,7 @@ namespace GDAPI.Objects.TimingPoints
         public int CompareTo(TimingPoint<T> other) => TimePosition.CompareTo(other.TimePosition);
 
         /// <inheritdoc/>
-        protected sealed override int CompareTimePosition(TimingPoint other) => CompareTo(other as TimingPoint<T>);
+        protected override int CompareTimePosition(TimingPoint other) => CompareTo(other as TimingPoint<T>);
 
         /// <summary>Returns the string representation of this timing point.</summary>
         public override string ToString() => $"{TimePosition}|{BPM}|{TimeSignature}";

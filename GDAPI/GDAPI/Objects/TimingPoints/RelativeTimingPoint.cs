@@ -26,6 +26,9 @@ namespace GDAPI.Objects.TimingPoints
         }
 
         /// <inheritdoc/>
+        protected override int CompareTimePosition(TimingPoint other) => TimePosition.CompareTo(other.GetRelativeTimePosition());
+
+        /// <inheritdoc/>
         public override TimeSpan GetAbsoluteTimePosition() => AbsoluteTimePosition;
         /// <inheritdoc/>
         public override MeasuredTimePosition GetRelativeTimePosition() => TimePosition;

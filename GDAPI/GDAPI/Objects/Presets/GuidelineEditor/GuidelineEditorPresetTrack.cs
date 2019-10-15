@@ -71,13 +71,9 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         /// <param name="timingPoints">The <seealso cref="TimingPointList"/> of the <seealso cref="GuidelineEditorPreset"/>.</param>
         public MeasuredDuration GetTrackDuration(TimingPointList timingPoints) => new MeasuredDuration(GetEnd(timingPoints));
 
-        /// <summary>Gets or sets the event of this track at the specified index.</summary>
-        /// <param name="index">The index of the event to get or set.</param>
-        public GuidelineEditorPresetEvent this[int index]
-        {
-            get => events[index];
-            set => events[index] = value;
-        }
+        /// <summary>Gets the event of this track at the specified index.</summary>
+        /// <param name="index">The index of the event to get.</param>
+        public GuidelineEditorPresetEvent this[int index] => events[index];
 
         /// <summary>Parses a <seealso cref="GuidelineEditorPresetTrack"/> from raw data.</summary>
         /// <param name="rawData">The raw data of the <seealso cref="GuidelineEditorPresetTrack"/> that will be parsed.</param>

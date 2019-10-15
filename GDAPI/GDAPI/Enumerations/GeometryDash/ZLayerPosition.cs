@@ -4,6 +4,6 @@
     public enum ZLayerPosition : sbyte
     {
         Top = 1,
-        Bottom = 1,
+        Bottom = -1,
     }
 }

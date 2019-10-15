@@ -12,11 +12,11 @@ namespace GDAPI.Objects.Music
         /// <summary>Represents the absolute zero duration.</summary>
         public static readonly MeasuredDuration Zero = new MeasuredDuration(0);
 
-        [FieldOffset(0)]
+        [FieldOffset(6)]
         private short m;
-        [FieldOffset(2)]
-        private ushort b;
         [FieldOffset(4)]
+        private short b;
+        [FieldOffset(0)]
         private float f;
 
         [FieldOffset(0)]
@@ -32,7 +32,7 @@ namespace GDAPI.Objects.Music
         public int Beats
         {
             get => b;
-            set => b = (ushort)value;
+            set => b = (short)value;
         }
         /// <summary>The beat fraction of the duration.</summary>
         public float Fraction
@@ -72,7 +72,7 @@ namespace GDAPI.Objects.Music
         /// <param name="measures">The measures of the duration.</param>
         /// <param name="beats">The beats of the duration.</param>
         /// <param name="fraction">The beat fraction of the duration. It has to be within the range [0, 1).</param>
-        public MeasuredDuration(short measures, ushort beats, float fraction)
+        public MeasuredDuration(short measures, short beats, float fraction)
         {
             all = 0;
             m = measures;
@@ -130,7 +130,7 @@ namespace GDAPI.Objects.Music
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> based on which to increase the beats.</param>
         public void IncreaseBeat(int beats, TimeSignature timeSignature)
         {
-            b += (ushort)beats;
+            b += (short)beats;
             FixBeats(timeSignature);
         }
 
@@ -199,7 +199,7 @@ namespace GDAPI.Objects.Music
 
         private void FixFraction()
         {
-            b += (ushort)f;
+            b += (short)f;
             f %= 1;
 
             if (f < 0)
@@ -216,11 +216,21 @@ namespace GDAPI.Objects.Music
         private void FixBeats(TimeSignature timeSignature)
         {
             m += (short)(b / timeSignature.Beats);
-            b = (ushort)(b % timeSignature.Beats);
+            b = (short)(b % timeSignature.Beats);
+
+            if (b < 0)
+            {
+                m--;
+                b += (short)timeSignature.Beats;
+            }
         }
 
         public static bool operator ==(MeasuredDuration left, MeasuredDuration right) => left.all == right.all;
-        public static bool operator !=(MeasuredDuration left, MeasuredDuration right) => left.all != right.all;
+        public static bool operator !=(MeasuredDuration left, MeasuredDuration right) => left.all == right.all;
+        public static bool operator <(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) < 0;
+        public static bool operator >(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) > 0;
+        public static bool operator <=(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) <= 0;
+        public static bool operator >=(MeasuredDuration left, MeasuredDuration right) => left.CompareTo(right) >= 0;
 
         /// <summary>Parses a string of the form {Measures}:{Beats}.{Fraction} into a <seealso cref="MeasuredDuration"/>.</summary>
         /// <param name="s">The string to parse into a <seealso cref="MeasuredDuration"/>.</param>

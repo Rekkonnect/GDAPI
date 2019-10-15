@@ -189,13 +189,9 @@ namespace GDAPI.Objects.GeometryDash.General
             return guidelines;
         }
 
-        /// <summary>Gets or sets the <seealso cref="Guideline"/> at a specified index.</summary>
-        /// <param name="index">The index of the <seealso cref="Guideline"/> to get or set.</param>
-        public Guideline this[int index]
-        {
-            get => guidelines[index];
-            set => guidelines[index] = value;
-        }
+        /// <summary>Gets the <seealso cref="Guideline"/> at a specified index.</summary>
+        /// <param name="index">The index of the <seealso cref="Guideline"/> to get.</param>
+        public Guideline this[int index] => guidelines[index];
 
         /// <summary>Returns the guideline string of the <seealso cref="GuidelineCollection"/>.</summary>
         public override string ToString()

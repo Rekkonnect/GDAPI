@@ -70,7 +70,6 @@ namespace GDAPI.Objects.DataStructures
 
         /// <summary>Initializes a new instance of the <seealso cref="Directional{T}"/> class.</summary>
         public Directional() { }
-
         /// <summary>Initializes a new instance of the <seealso cref="Directional{T}"/> class from a given array.</summary>
         /// <param name="array">The array to construct the directional from. The items have to be stored in the form of [y, x] from top left to bottom right.</param>
         public Directional(T[,] array)
@@ -96,7 +95,7 @@ namespace GDAPI.Objects.DataStructures
             }
         }
 
-        private (int x, int y) GetDirectionVector(Direction d) => ((int)d >> 2, (int)d & (1 << 4) - 1);
+        private (int x, int y) GetDirectionVector(Direction d) => ((int)d & 3, ((int)d >> 4) & 3);
     }
 
     /// <summary>Represents a direction.</summary>
