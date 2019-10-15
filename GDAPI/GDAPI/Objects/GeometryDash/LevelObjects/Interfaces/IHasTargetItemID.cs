@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasTargetItemID
     {
         /// <summary>The target Item ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ItemID, 0)]
+        [ObjectStringMappable(ObjectProperty.ItemID, 0)]
         int TargetItemID { get; set; }
     }
 }

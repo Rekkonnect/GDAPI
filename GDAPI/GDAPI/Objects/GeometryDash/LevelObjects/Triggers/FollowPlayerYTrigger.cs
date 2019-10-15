@@ -12,46 +12,46 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, speed = 1, delay, maxSpeed;
 
         /// <summary>The Object ID of the Follow Player Y trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.FollowPlayerY;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
+        [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Speed property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Speed, 1d)]
+        [ObjectStringMappable(ObjectProperty.Speed, 1d)]
         public double Speed
         {
             get => speed;
             set => speed = (float)value;
         }
         /// <summary>The Delay property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.FollowDelay, 0d)]
+        [ObjectStringMappable(ObjectProperty.FollowDelay, 0d)]
         public double Delay
         {
             get => delay;
             set => delay = (float)value;
         }
         /// <summary>The Max Speed property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MaxSpeed, 0d)]
+        [ObjectStringMappable(ObjectProperty.MaxSpeed, 0d)]
         public double MaxSpeed
         {
             get => maxSpeed;
             set => maxSpeed = (float)value;
         }
         /// <summary>The Offset property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.YOffset, 0)]
+        [ObjectStringMappable(ObjectProperty.YOffset, 0)]
         public int Offset { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="FollowPlayerYTrigger"/> class.</summary>

@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.Gamemod
     public class WavePortal : CheckableGamemodePortal
     {
         /// <summary>The object ID of the wave portal.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)PortalType.Wave;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Wave;

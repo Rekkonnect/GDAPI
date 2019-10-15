@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasPrimaryItemID
     {
         /// <summary>The primary Item ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ItemID, 0)]
+        [ObjectStringMappable(ObjectProperty.ItemID, 0)]
         int PrimaryItemID { get; set; }
     }
 }

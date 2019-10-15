@@ -5,9 +5,8 @@ using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
 
 namespace GDAPI.Enumerations.GeometryDash
 {
-    // TODO: Rename to ObjectProperty to consistenize terminology
-    /// <summary>This enumeration provides values for the parameters of a <see cref="LevelObject"/>.</summary>
-    public enum ObjectParameter
+    /// <summary>This enumeration provides values for the properties of a <see cref="LevelObject"/>.</summary>
+    public enum ObjectProperty
     {
         /// <summary>Represents the ID of the <see cref="LevelObject"/>.</summary>
         [ObjectParameterIntType]
@@ -346,7 +345,7 @@ namespace GDAPI.Enumerations.GeometryDash
         [FutureProofing("2.2")]
         [ObjectParameterBoolType]
         SwitchPlayerDirection = 117,
-        // Due to bad reservation habits, the new sneak peek's parameter IDs are offset starting at -200 for this category
+        // Due to bad reservation habits, the new sneak peek's property IDs are offset starting at -200 for this category
         // However this does not really matter since the values are unused and only serve as future-proof reservations
         // The IDs will end up being discovered and used
         /// <summary>Represents whether the <see cref="LevelObject"/> will have any effects.</summary>

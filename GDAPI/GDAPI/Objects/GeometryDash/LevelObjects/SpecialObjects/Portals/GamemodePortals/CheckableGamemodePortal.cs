@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.Gamemod
     public abstract class CheckableGamemodePortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The checked property of the ball portal that determines whether the borders of the player's gamemode will be shown or not.</summary>
-        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked, false)]
+        [ObjectStringMappable(ObjectProperty.SpecialObjectChecked, false)]
         public bool Checked
         {
             get => SpecialObjectBools[0];

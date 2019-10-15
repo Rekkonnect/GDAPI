@@ -16,7 +16,7 @@ namespace GDAPI.Information.GeometryDash
 
         static LevelObjectInformation()
         {
-            var type = typeof(ObjectParameter);
+            var type = typeof(ObjectProperty);
             var baseAttributeType = typeof(ObjectParameterTypeAttribute);
             var attributeTypes = baseAttributeType.Assembly.GetTypes().Where(t => t.BaseType == baseAttributeType);
             foreach (var n in Enum.GetNames(type))
@@ -34,13 +34,13 @@ namespace GDAPI.Information.GeometryDash
             }
         }
 
-        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen parameter ID in the <seealso cref="ObjectParameter"/> enum.</summary>
+        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen parameter ID in the <seealso cref="ObjectProperty"/> enum.</summary>
         /// <param name="parameterID">The parameter ID to get the string type of.</param>
         public static ObjectParameterTypeAttribute GetParameterIDAttribute(int parameterID) => objectParameterAttributes[parameterID - 1];
-        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen parameter ID in the <seealso cref="ObjectParameter"/> enum.</summary>
+        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen parameter ID in the <seealso cref="ObjectProperty"/> enum.</summary>
         /// <param name="parameterID">The parameter ID to get the string type of.</param>
         public static Type GetParameterIDAttributeType(int parameterID) => objectParameterAttributeTypes[parameterID - 1];
-        /// <summary>Returns the <seealso cref="Type"/> of the chosen parameter ID in the <seealso cref="ObjectParameter"/> enum.</summary>
+        /// <summary>Returns the <seealso cref="Type"/> of the chosen parameter ID in the <seealso cref="ObjectProperty"/> enum.</summary>
         /// <param name="parameterID">The parameter ID to get the string type of.</param>
         public static Type GetParameterIDType(int parameterID) => objectParameterAttributes[parameterID - 1].Type;
     }

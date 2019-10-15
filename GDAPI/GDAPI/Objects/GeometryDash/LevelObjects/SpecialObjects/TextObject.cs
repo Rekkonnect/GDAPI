@@ -10,11 +10,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class TextObject : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the text object.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)SpecialObjectType.TextObject;
 
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>
-        [ObjectStringMappable(ObjectParameter.TextObjectText, "")]
+        [ObjectStringMappable(ObjectProperty.TextObjectText, "")]
         public string Base64Text
         {
             get => ToBase64String(UTF8.GetBytes(Text));

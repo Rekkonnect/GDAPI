@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
     public class MagentaPad : Pad
     {
         /// <summary>The object ID of the magenta pad.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)PadType.MagentaPad;
 
         /// <summary>Initializes a new instance of the <seealso cref="MagentaPad"/> class.</summary>

@@ -12,18 +12,18 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, xMod = 1, yMod = 1;
 
         /// <summary>The Object ID of the Follow trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.Follow;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
+        [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -36,21 +36,21 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
             set => FollowGroupID = value;
         }
         /// <summary>The X Mod property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.XMod, 1d)]
+        [ObjectStringMappable(ObjectProperty.XMod, 1d)]
         public double XMod
         {
             get => xMod;
             set => xMod = (float)value;
         }
         /// <summary>The Y Mod property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.YMod, 1d)]
+        [ObjectStringMappable(ObjectProperty.YMod, 1d)]
         public double YMod
         {
             get => yMod;
             set => yMod = (float)value;
         }
         /// <summary>The Follow Group ID property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.FollowGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.FollowGroupID, 0)]
         public int FollowGroupID
         {
             get => followGroupID;

@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
     public class BlueMirrorPortal : Portal
     {
         /// <summary>The object ID of the blue mirror portal.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)PortalType.BlueMirror;
 
         /// <summary>Initializes a new instance of the <seealso cref="BlueMirrorPortal"/> class.</summary>

@@ -10,7 +10,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPo
         public abstract Speed Speed { get; }
 
         /// <summary>The checked property of the speed portal that determines whether the speed portal will be taken into account when converting X position to time.</summary>
-        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked, true)]
+        [ObjectStringMappable(ObjectProperty.SpecialObjectChecked, true)]
         public bool Checked
         {
             get => SpecialObjectBools[0];

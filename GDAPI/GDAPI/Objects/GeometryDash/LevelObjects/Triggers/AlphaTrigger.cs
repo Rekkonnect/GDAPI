@@ -12,25 +12,25 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, opacity = 1;
 
         /// <summary>The Object ID of the Alpha trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.Alpha;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
+        [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Opacity property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Opacity, 1d)]
+        [ObjectStringMappable(ObjectProperty.Opacity, 1d)]
         public double Opacity
         {
             get => opacity;

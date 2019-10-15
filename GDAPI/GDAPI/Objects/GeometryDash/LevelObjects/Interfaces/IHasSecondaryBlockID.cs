@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasSecondaryBlockID
     {
         /// <summary>The secondary Block ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.BlockBID, 0)]
+        [ObjectStringMappable(ObjectProperty.BlockBID, 0)]
         int SecondaryBlockID { get; set; }
     }
 }

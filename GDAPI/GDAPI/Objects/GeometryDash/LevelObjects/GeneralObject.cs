@@ -28,10 +28,10 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         static GeneralObject()
         {
             // Get object property types from the attributes that are assigned to the enum fields
-            var fields = typeof(ObjectParameter).GetFields();
+            var fields = typeof(ObjectProperty).GetFields();
             // default(ObjectParameter) is necessary otherwise an exception will be thrown
             // Reflection really sucks dick when it comes to enums
-            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(default(ObjectParameter)), i.GetCustomAttribute<ObjectParameterTypeAttribute>()?.Type));
+            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(default(ObjectProperty)), i.GetCustomAttribute<ObjectParameterTypeAttribute>()?.Type));
             propertyTypeInfo = new Dictionary<int, Type>();
             foreach (var i in info)
                 propertyTypeInfo.TryAdd(i.Key, i.Value);
@@ -48,34 +48,34 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         // No default parameter values for the fundamental parameters of a level object
         /// <summary>The Object ID of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public int ObjectID
         {
             get => objectID;
             set => objectID = (short)value;
         }
         /// <summary>The X position of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.X)]
+        [ObjectStringMappable(ObjectProperty.X)]
         public double X { get; set; }
         /// <summary>The Y position of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.Y)]
+        [ObjectStringMappable(ObjectProperty.Y)]
         public double Y { get; set; }
         /// <summary>Determines whether this object is flipped horizontally or not.</summary>
-        [ObjectStringMappable(ObjectParameter.FlippedHorizontally, false)]
+        [ObjectStringMappable(ObjectProperty.FlippedHorizontally, false)]
         public bool FlippedHorizontally
         {
             get => bools[0];
             set => bools[0] = value;
         }
         /// <summary>Determines whether this object is flipped vertically or not.</summary>
-        [ObjectStringMappable(ObjectParameter.FlippedVertically, false)]
+        [ObjectStringMappable(ObjectProperty.FlippedVertically, false)]
         public bool FlippedVertically
         {
             get => bools[1];
             set => bools[1] = value;
         }
         /// <summary>The rotation of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.Rotation, 0)]
+        [ObjectStringMappable(ObjectProperty.Rotation, 0)]
         public double Rotation
         {
             get => rotation;
@@ -89,94 +89,94 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             }
         }
         /// <summary>The scaling of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.Scaling, 1)]
+        [ObjectStringMappable(ObjectProperty.Scaling, 1)]
         public double Scaling
         {
             get => scaling;
             set => scaling = (float)value;
         }
         /// <summary>The Editor Layer 1 of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.EL1, 0)]
+        [ObjectStringMappable(ObjectProperty.EL1, 0)]
         public int EL1
         {
             get => el1;
             set => el1 = (short)value;
         }
         /// <summary>The Editor Layer 2 of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.EL2, 0)]
+        [ObjectStringMappable(ObjectProperty.EL2, 0)]
         public int EL2
         {
             get => el2;
             set => el2 = (short)value;
         }
         /// <summary>The Z Layer of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.ZLayer, 0, true)]
+        [ObjectStringMappable(ObjectProperty.ZLayer, 0, true)]
         public int ZLayer
         {
             get => zLayer;
             set => zLayer = (short)value;
         }
         /// <summary>The Z Order of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.ZOrder, 0, true)]
+        [ObjectStringMappable(ObjectProperty.ZOrder, 0, true)]
         public int ZOrder
         {
             get => zOrder;
             set => zOrder = (short)value;
         }
         /// <summary>The Color 1 ID of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.Color1, 0, true)]
+        [ObjectStringMappable(ObjectProperty.Color1, 0, true)]
         public int Color1ID
         {
             get => color1ID;
             set => color1ID = (short)value;
         }
         /// <summary>The Color 2 ID of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.Color2, 0, true)]
+        [ObjectStringMappable(ObjectProperty.Color2, 0, true)]
         public int Color2ID
         {
             get => color2ID;
             set => color2ID = (short)value;
         }
         /// <summary>The Group IDs of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.GroupIDs, new int[0])]
+        [ObjectStringMappable(ObjectProperty.GroupIDs, new int[0])]
         public int[] GroupIDs
         {
             get => groupIDs.CastToInt();
             set => groupIDs = value.CastToShort();
         }
         /// <summary>The linked group ID of this object.</summary>
-        [ObjectStringMappable(ObjectParameter.LinkedGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.LinkedGroupID, 0)]
         public int LinkedGroupID { get; set; }
         /// <summary>Determines whether this object is the group parent or not.</summary>
-        [ObjectStringMappable(ObjectParameter.GroupParent, false)]
+        [ObjectStringMappable(ObjectProperty.GroupParent, false)]
         public bool GroupParent
         {
             get => bools[2];
             set => bools[2] = value;
         }
         /// <summary>Determines whether this object is for high detail or not.</summary>
-        [ObjectStringMappable(ObjectParameter.HighDetail, false)]
+        [ObjectStringMappable(ObjectProperty.HighDetail, false)]
         public bool HighDetail
         {
             get => bools[3];
             set => bools[3] = value;
         }
         /// <summary>Determines whether this object should have an entrance effect or not.</summary>
-        [ObjectStringMappable(ObjectParameter.DontEnter, false)]
+        [ObjectStringMappable(ObjectProperty.DontEnter, false)]
         public bool DontEnter
         {
             get => bools[4];
             set => bools[4] = value;
         }
         /// <summary>Determines whether this object should have the fade in and out disabled or not.</summary>
-        [ObjectStringMappable(ObjectParameter.DontFade, false)]
+        [ObjectStringMappable(ObjectProperty.DontFade, false)]
         public bool DontFade
         {
             get => bools[5];
             set => bools[5] = value;
         }
         /// <summary>Determines whether this object should have its glow disabled or not.</summary>
-        [ObjectStringMappable(ObjectParameter.DisableGlow, false)]
+        [ObjectStringMappable(ObjectProperty.DisableGlow, false)]
         public bool DisableGlow
         {
             get => bools[6];
@@ -184,14 +184,14 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
 
         /// <summary>Determines whether color 1 HSV is enabled.</summary>
-        [ObjectStringMappable(ObjectParameter.Color1HSVEnabled, false)]
+        [ObjectStringMappable(ObjectProperty.Color1HSVEnabled, false)]
         public bool Color1HSVEnabled
         {
             get => bools[7];
             set => bools[7] = value;
         }
         /// <summary>The color 1 HSV values of the object (as a string for the gamesave).</summary>
-        [ObjectStringMappable(ObjectParameter.Color1HSVValues, HSVAdjustment.DefaultHSVString)]
+        [ObjectStringMappable(ObjectProperty.Color1HSVValues, HSVAdjustment.DefaultHSVString)]
         public string Color1HSV
         {
             get => Color1HSVAdjustment.ToString();
@@ -201,14 +201,14 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         public HSVAdjustment Color1HSVAdjustment { get; set; } = new HSVAdjustment();
 
         /// <summary>Determines whether color 2 HSV is enabled.</summary>
-        [ObjectStringMappable(ObjectParameter.Color2HSVEnabled, false)]
+        [ObjectStringMappable(ObjectProperty.Color2HSVEnabled, false)]
         public bool Color2HSVEnabled
         {
             get => bools[8];
             set => bools[8] = value;
         }
         /// <summary>The color 2 HSV values of the object (as a string for the gamesave).</summary>
-        [ObjectStringMappable(ObjectParameter.Color2HSVValues, HSVAdjustment.DefaultHSVString)]
+        [ObjectStringMappable(ObjectProperty.Color2HSVValues, HSVAdjustment.DefaultHSVString)]
         public string Color2HSV
         {
             get => Color2HSVAdjustment.ToString();
@@ -219,7 +219,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         /// <summary>Determines whether this object will have its effects disabled or not.</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.NoEffects, false)]
+        [ObjectStringMappable(ObjectProperty.NoEffects, false)]
         public bool NoEffects
         {
             get => bools[9];
@@ -227,7 +227,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The Ice Block property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.IceBlock, false)]
+        [ObjectStringMappable(ObjectProperty.IceBlock, false)]
         public bool IceBlock
         {
             get => bools[10];
@@ -235,7 +235,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The Non-Stick property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.NonStick, false)]
+        [ObjectStringMappable(ObjectProperty.NonStick, false)]
         public bool NonStick
         {
             get => bools[11];
@@ -243,7 +243,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The Unstuckable(?) property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.Unstuckable, false)]
+        [ObjectStringMappable(ObjectProperty.Unstuckable, false)]
         public bool Unstuckable
         {
             get => bools[12];
@@ -251,7 +251,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The [unreadable text 1] property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.UnreadableProperty1, false)]
+        [ObjectStringMappable(ObjectProperty.UnreadableProperty1, false)]
         public bool UnreadableProperty1
         {
             get => bools[13];
@@ -259,14 +259,14 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The [unreadable text 2] property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.UnreadableProperty2, false)]
+        [ObjectStringMappable(ObjectProperty.UnreadableProperty2, false)]
         public bool UnreadableProperty2
         {
             get => bools[14];
             set => bools[14] = value;
         }
         /// <summary>Unknown feawture with ID 36. Its only purpose is to avoid throwing exceptions when encountering this parameter, causing infinite performance costs.</summary>
-        [ObjectStringMappable(ObjectParameter.UnknownFeature36, false)]
+        [ObjectStringMappable(ObjectProperty.UnknownFeature36, false)]
         public bool UnknownFeature36
         {
             get => bools[13];
@@ -274,7 +274,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The transformation scaling X property of this object.</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.TransformationScalingX, 1d)]
+        [ObjectStringMappable(ObjectProperty.TransformationScalingX, 1d)]
         public double TransformationScalingX
         {
             get => transformationScalingX;
@@ -282,7 +282,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The transformation scaling Y property of this object.</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.TransformationScalingY, 1d)]
+        [ObjectStringMappable(ObjectProperty.TransformationScalingY, 1d)]
         public double TransformationScalingY
         {
             get => transformationScalingY;
@@ -290,7 +290,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The transformation scaling center X property of this object.</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.TransformationScalingCenterX, 0d)] // Assumption
+        [ObjectStringMappable(ObjectProperty.TransformationScalingCenterX, 0d)] // Assumption
         public double TransformationScalingCenterX
         {
             get => transformationScalingCenterX;
@@ -298,7 +298,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The transformation scaling center Y property of this object.</summary>
         [FutureProofing("2.2")]
-        [ObjectStringMappable(ObjectParameter.TransformationScalingCenterY, 0d)] // Assumption
+        [ObjectStringMappable(ObjectProperty.TransformationScalingCenterY, 0d)] // Assumption
         public double TransformationScalingCenterY
         {
             get => transformationScalingCenterY;

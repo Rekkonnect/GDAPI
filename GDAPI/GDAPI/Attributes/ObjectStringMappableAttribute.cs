@@ -28,6 +28,6 @@ namespace GDAPI.Attributes
         /// <param name="key">The key the property represents in the object string.</param>
         /// <param name="defaultValue">The default value of the parameter. If <see langword="null"/>, the object parameter has no default value.</param>
         /// <param name="isDefaultValueVariable">Determines whether the default value of the parameter is variable across different object types.</param>
-        public ObjectStringMappableAttribute(ObjectParameter key, object defaultValue = null, bool isDefaultValueVariable = false) : this((int)key, defaultValue, isDefaultValueVariable) { }
+        public ObjectStringMappableAttribute(ObjectProperty key, object defaultValue = null, bool isDefaultValueVariable = false) : this((int)key, defaultValue, isDefaultValueVariable) { }
     }
 }

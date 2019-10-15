@@ -11,32 +11,32 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
 
         /// <summary>The Object ID of the Touch trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.Touch;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Hold Mode property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.HoldMode, false)]
+        [ObjectStringMappable(ObjectProperty.HoldMode, false)]
         public bool HoldMode
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Dual Mode property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.DualMode, false)]
+        [ObjectStringMappable(ObjectProperty.DualMode, false)]
         public bool DualMode
         {
             get => TriggerBools[4];
             set => TriggerBools[4] = value;
         }
         /// <summary>The Toggle Mode property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ToggleMode, TouchToggleMode.Default)]
+        [ObjectStringMappable(ObjectProperty.ToggleMode, TouchToggleMode.Default)]
         public TouchToggleMode ToggleMode { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="TouchTrigger"/> class.</summary>

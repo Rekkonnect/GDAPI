@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasPrimaryBlockID
     {
         /// <summary>The primary Block ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.BlockAID, 0)]
+        [ObjectStringMappable(ObjectProperty.BlockAID, 0)]
         int PrimaryBlockID { get; set; }
     }
 }

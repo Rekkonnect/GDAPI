@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers
     public class GRND2ColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the GRND2 Color trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.GRND2;
         
         /// <summary>The target Color ID of the trigger.</summary>

@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasCopiedColorID
     {
         /// <summary>The copied Color ID of the object.</summary>
-        [ObjectStringMappable(ObjectParameter.CopiedColorID, 0)]
+        [ObjectStringMappable(ObjectProperty.CopiedColorID, 0)]
         int CopiedColorID { get; set; }
     }
 }

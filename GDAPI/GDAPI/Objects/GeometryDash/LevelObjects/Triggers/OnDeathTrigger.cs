@@ -11,18 +11,18 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
 
         /// <summary>The Object ID of the On Death trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.OnDeath;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Activate Group property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
+        [ObjectStringMappable(ObjectProperty.ActivateGroup, false)]
         public bool ActivateGroup
         {
             get => TriggerBools[3];
