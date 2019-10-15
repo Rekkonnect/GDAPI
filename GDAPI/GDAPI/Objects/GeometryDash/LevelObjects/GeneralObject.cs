@@ -46,7 +46,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
         private float rotation, scaling = 1, transformationScalingX = 1, transformationScalingY = 1, transformationScalingCenterX, transformationScalingCenterY;
 
-        // No default parameter values for the fundamental parameters of a level object
+        // No default property values for the fundamental properties of a level object
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable(ObjectProperty.ID)]
         public int ObjectID
@@ -265,12 +265,12 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => bools[14];
             set => bools[14] = value;
         }
-        /// <summary>Unknown feawture with ID 36. Its only purpose is to avoid throwing exceptions when encountering this parameter, causing infinite performance costs.</summary>
+        /// <summary>Unknown feawture with ID 36. Its only purpose is to avoid throwing exceptions when encountering this property, causing infinite performance costs.</summary>
         [ObjectStringMappable(ObjectProperty.UnknownFeature36, false)]
         public bool UnknownFeature36
         {
-            get => bools[13];
-            set => bools[13] = value;
+            get => bools[15];
+            set => bools[15] = value;
         }
         /// <summary>The transformation scaling X property of this object.</summary>
         [FutureProofing("2.2")]
@@ -327,8 +327,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => MathRotationDegrees * Math.PI / 180;
             set => MathRotationDegrees = value * 180 / Math.PI;
         }
-        
-        /// <summary>Creates a new instance of the <seealso cref="GeneralObject"/> class with the object ID parameter set to 1.</summary>
+
+        /// <summary>Creates a new instance of the <seealso cref="GeneralObject"/> class with the object ID property set to 1.</summary>
         public GeneralObject()
         {
             ObjectID = 1;
@@ -401,9 +401,9 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                     foreach (var p in t.Properties)
                         if (p.Key == ID)
                             return (T)p.Get(this);
-            throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID})");
+            throw new KeyNotFoundException($"The property ID {ID} was not found in {type.Name} (ID: {ObjectID})");
         }
-        public void SetParameterWithID<T>(int ID, T newValue)
+        public void SetPropertyWithID<T>(int ID, T newValue)
         {
             var type = GetType();
             foreach (var t in initializableObjectTypes)
@@ -414,7 +414,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                             p.Set(this, newValue);
                             return;
                         }
-            throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID}) / Value : {newValue}");
+            throw new KeyNotFoundException($"The property ID {ID} was not found in {type.Name} (ID: {ObjectID}) / Value : {newValue}");
         }
 
         /// <summary>Adds a Group ID to the object's Group IDs if it does not already exist.</summary>

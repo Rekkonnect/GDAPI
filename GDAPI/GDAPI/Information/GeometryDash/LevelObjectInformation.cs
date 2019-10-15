@@ -8,11 +8,11 @@ namespace GDAPI.Information.GeometryDash
     /// <summary>Contains information about level object properties.</summary>
     public static class LevelObjectInformation
     {
-        /// <summary>The highest parameter ID currently in the game.</summary>
-        public const int ParameterCount = 118;
+        /// <summary>The highest property ID currently in the game.</summary>
+        public const int PropertyCount = 118;
 
-        private static readonly ObjectParameterTypeAttribute[] objectParameterAttributes = new ObjectParameterTypeAttribute[ParameterCount];
-        private static readonly Type[] objectParameterAttributeTypes = new Type[ParameterCount];
+        private static readonly ObjectParameterTypeAttribute[] objectPropertyAttributes = new ObjectParameterTypeAttribute[PropertyCount];
+        private static readonly Type[] objectPropertyAttributeTypes = new Type[PropertyCount];
 
         static LevelObjectInformation()
         {
@@ -28,20 +28,20 @@ namespace GDAPI.Information.GeometryDash
                 int value = (int)Enum.Parse(type, n);
                 if (value > 0)
                 {
-                    objectParameterAttributes[value - 1] = a;
-                    objectParameterAttributeTypes[value - 1] = a?.GetType();
+                    objectPropertyAttributes[value - 1] = a;
+                    objectPropertyAttributeTypes[value - 1] = a?.GetType();
                 }
             }
         }
 
-        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen parameter ID in the <seealso cref="ObjectProperty"/> enum.</summary>
-        /// <param name="parameterID">The parameter ID to get the string type of.</param>
-        public static ObjectParameterTypeAttribute GetParameterIDAttribute(int parameterID) => objectParameterAttributes[parameterID - 1];
-        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen parameter ID in the <seealso cref="ObjectProperty"/> enum.</summary>
-        /// <param name="parameterID">The parameter ID to get the string type of.</param>
-        public static Type GetParameterIDAttributeType(int parameterID) => objectParameterAttributeTypes[parameterID - 1];
-        /// <summary>Returns the <seealso cref="Type"/> of the chosen parameter ID in the <seealso cref="ObjectProperty"/> enum.</summary>
-        /// <param name="parameterID">The parameter ID to get the string type of.</param>
-        public static Type GetParameterIDType(int parameterID) => objectParameterAttributes[parameterID - 1].Type;
+        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen property ID in the <seealso cref="ObjectProperty"/> enum.</summary>
+        /// <param name="parameterID">The property ID to get the string type of.</param>
+        public static ObjectParameterTypeAttribute GetPropertyIDAttribute(int parameterID) => objectPropertyAttributes[parameterID - 1];
+        /// <summary>Returns the <seealso cref="Type"/> of the attribute of the chosen property ID in the <seealso cref="ObjectProperty"/> enum.</summary>
+        /// <param name="parameterID">The property ID to get the string type of.</param>
+        public static Type GetPropertyIDAttributeType(int parameterID) => objectPropertyAttributeTypes[parameterID - 1];
+        /// <summary>Returns the <seealso cref="Type"/> of the chosen property ID in the <seealso cref="ObjectProperty"/> enum.</summary>
+        /// <param name="parameterID">The property ID to get the string type of.</param>
+        public static Type GetPropertyIDType(int parameterID) => objectPropertyAttributes[parameterID - 1].Type;
     }
 }

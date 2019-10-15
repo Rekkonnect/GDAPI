@@ -114,73 +114,73 @@ namespace GDAPI.Functions.GeometryDash
                 objectString = objectString.Remove(objectString.Length - 1);
             if (objectString.Length > 0)
             {
-                string[,] objectParameters = objectString.Split(';').Split(',');
-                int length0 = objectParameters.GetLength(0);
-                int length1 = objectParameters.GetLength(1);
+                string[,] objectProperties = objectString.Split(';').Split(',');
+                int length0 = objectProperties.GetLength(0);
+                int length1 = objectProperties.GetLength(1);
                 for (int i = 0; i < length0; i++)
                 {
                     try
                     {
-                        var instance = GeneralObject.GetNewObjectInstance(ToInt16(objectParameters[i, 1]));
+                        var instance = GeneralObject.GetNewObjectInstance(ToInt16(objectProperties[i, 1]));
                         objects.Add(instance); // Get IDs of the selected objects
                         for (int j = 3; j < length1; j += 2)
                         {
-                            if (objectParameters[i, j] != null)
+                            if (objectProperties[i, j] != null)
                             {
                                 try
                                 {
-                                    int parameterID = ToInt32(objectParameters[i, j - 1]);
-                                    switch (GetParameterIDAttribute(parameterID))
+                                    int propertyID = ToInt32(objectProperties[i, j - 1]);
+                                    switch (GetPropertyIDAttribute(propertyID))
                                     {
                                         case IGenericAttribute<int> _:
-                                            instance.SetParameterWithID(parameterID, ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, ToInt32(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<bool> _:
-                                            instance.SetParameterWithID(parameterID, ToBoolean(ToInt32(objectParameters[i, j])));
+                                            instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(objectProperties[i, j])));
                                             break;
                                         case IGenericAttribute<double> _:
-                                            instance.SetParameterWithID(parameterID, ToDouble(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, ToDouble(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<string> _:
-                                            instance.SetParameterWithID(parameterID, objectParameters[i, j]);
+                                            instance.SetPropertyWithID(propertyID, objectProperties[i, j]);
                                             break;
                                         case IGenericAttribute<HSVAdjustment> _:
-                                            instance.SetParameterWithID(parameterID, objectParameters[i, j].ToString());
+                                            instance.SetPropertyWithID(propertyID, objectProperties[i, j].ToString());
                                             break;
                                         case IGenericAttribute<int[]> _:
-                                            instance.SetParameterWithID(parameterID, objectParameters[i, j].ToString().Split('.').ToInt32Array());
+                                            instance.SetPropertyWithID(propertyID, objectProperties[i, j].ToString().Split('.').ToInt32Array());
                                             break;
                                         case IGenericAttribute<Easing> _:
-                                            instance.SetParameterWithID(parameterID, (Easing)ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, (Easing)ToInt32(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<InstantCountComparison> _:
-                                            instance.SetParameterWithID(parameterID, (InstantCountComparison)ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<PickupItemPickupMode> _:
-                                            instance.SetParameterWithID(parameterID, (PickupItemPickupMode)ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<PulseMode> _:
-                                            instance.SetParameterWithID(parameterID, (PulseMode)ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<PulseTargetType> _:
-                                            instance.SetParameterWithID(parameterID, (PulseTargetType)ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<TargetPosCoordinates> _:
-                                            instance.SetParameterWithID(parameterID, (TargetPosCoordinates)ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(objectProperties[i, j]));
                                             break;
                                         case IGenericAttribute<TouchToggleMode> _:
-                                            instance.SetParameterWithID(parameterID, (TouchToggleMode)ToInt32(objectParameters[i, j]));
+                                            instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(objectProperties[i, j]));
                                             break;
                                     }
                                 }
-                                catch (FormatException) // If the parameter is not just a number; most likely a Start Pos object
+                                catch (FormatException) // If the property is not just a number; most likely a Start Pos object
                                 {
                                     // After logging the exceptions in the console, the exception is ignorable
                                 }
                                 catch (KeyNotFoundException e)
                                 {
-                                    int parameterID = ToInt32(objectParameters[i, j - 1]);
-                                    if (parameterID == 36)
+                                    int propertyID = ToInt32(objectProperties[i, j - 1]);
+                                    if (propertyID == 36)
                                         continue;
                                     Console.WriteLine(e.Message);
                                 }
@@ -194,7 +194,7 @@ namespace GDAPI.Functions.GeometryDash
                         // So far this only happens when attempting to abstractly create a yellow teleportation portal
                     }
                 }
-                objectParameters = null;
+                objectProperties = null;
             }
             return new LevelObjectCollection(objects);
         }

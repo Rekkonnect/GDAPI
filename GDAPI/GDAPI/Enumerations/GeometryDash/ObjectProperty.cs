@@ -334,7 +334,6 @@ namespace GDAPI.Enumerations.GeometryDash
         [ObjectParameterIntType]
         LinkedGroupID = 108,
 
-        // TODO: Assign attributes here
         // Future-proofing
         #region General
         /// <summary>Represents the [unrevealed text box feature 115] property of the <seealso cref="LevelObject"/>.</summary>
