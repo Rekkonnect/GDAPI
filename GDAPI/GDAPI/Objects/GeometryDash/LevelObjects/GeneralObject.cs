@@ -31,7 +31,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             var fields = typeof(ObjectProperty).GetFields();
             // default(ObjectParameter) is necessary otherwise an exception will be thrown
             // Reflection really sucks dick when it comes to enums
-            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(default(ObjectProperty)), i.GetCustomAttribute<ObjectParameterTypeAttribute>()?.Type));
+            var info = fields.Select(i => new KeyValuePair<int, Type>((int)i.GetValue(default(ObjectProperty)), i.GetCustomAttribute<ObjectPropertyTypeAttribute>()?.Type));
             propertyTypeInfo = new Dictionary<int, Type>();
             foreach (var i in info)
                 propertyTypeInfo.TryAdd(i.Key, i.Value);

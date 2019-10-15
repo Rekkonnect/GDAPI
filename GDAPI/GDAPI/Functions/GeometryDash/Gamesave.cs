@@ -247,13 +247,13 @@ namespace GDAPI.Functions.GeometryDash
             string startKeyString = $"<k>k{key}</k><{valueType}>";
             string endKeyString = $"</{valueType}>";
 
-            int parameterStartIndex, parameterEndIndex, parameterLength;
-            parameterStartIndex = level.Find(startKeyString, 0, level.Length - 1) + startKeyString.Length;
-            parameterEndIndex = level.Find(endKeyString, parameterStartIndex, level.Length - 1);
-            parameterLength = parameterEndIndex - parameterStartIndex;
-            if (parameterStartIndex == startKeyString.Length - 1)
+            int propertyStartIndex, propertyEndIndex, propertyLength;
+            propertyStartIndex = level.Find(startKeyString, 0, level.Length - 1) + startKeyString.Length;
+            propertyEndIndex = level.Find(endKeyString, propertyStartIndex, level.Length - 1);
+            propertyLength = propertyEndIndex - propertyStartIndex;
+            if (propertyStartIndex == startKeyString.Length - 1)
                 throw new KeyNotFoundException();
-            return level.Substring(parameterStartIndex, parameterLength);
+            return level.Substring(propertyStartIndex, propertyLength);
         }
         public static string GetLevelString(string level)
         {
