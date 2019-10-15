@@ -10,14 +10,14 @@ namespace GDAPI.Application.Editors.Actions.LevelActions
     public abstract class LevelActionObjectsOffset<TValue, TActionDelegate> : LevelActionWithObjects<TActionDelegate>
         where TActionDelegate : Delegate
     {
-        /// <summary>The offset to apply to the specified parameter of the affected objects.</summary>
+        /// <summary>The offset to apply to the specified property of the affected objects.</summary>
         public TValue Offset { get; }
-        /// <summary>The inverse of the offset to apply to the specified parameter of the affected objects.</summary>
+        /// <summary>The inverse of the offset to apply to the specified property of the affected objects.</summary>
         public TValue InverseOffset { get; protected set; }
 
         /// <summary>Initiailizes a new instance of the <seealso cref="LevelActionObjectsOffset{TActionDelegate, TInverseDelegate}"/> class.</summary>
         /// <param name="affectedObjects">The objects that this action will affect.</param>
-        /// <param name="offset">The offset to apply to the specified parameter of the affected objects.</param>
+        /// <param name="offset">The offset to apply to the specified property of the affected objects.</param>
         /// <param name="action">The action to be performed.</param>
         public LevelActionObjectsOffset(LevelObjectCollection affectedObjects, TValue offset, TActionDelegate action)
             : base(affectedObjects, action)
@@ -36,7 +36,7 @@ namespace GDAPI.Application.Editors.Actions.LevelActions
     {
         /// <summary>Initiailizes a new instance of the <seealso cref="LevelActionObjectsOffset{TActionDelegate, TInverseDelegate}"/> class.</summary>
         /// <param name="affectedObjects">The objects that this action will affect.</param>
-        /// <param name="offset">The offset to apply to the specified parameter of the affected objects.</param>
+        /// <param name="offset">The offset to apply to the specified property of the affected objects.</param>
         /// <param name="action">The action to be performed.</param>
         public LevelActionObjectsOffset(LevelObjectCollection affectedObjects, TValue offset, ObjectPropertyOffsetSetter<TValue> action)
             : base(affectedObjects, offset, action) { }

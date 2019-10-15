@@ -9,7 +9,7 @@ namespace GDAPI.Application.Editors.Actions.LevelActions
     {
         /// <summary>Initializes a new instance of the <seealso cref="ObjectsScaled"/> class.</summary>
         /// <param name="affectedObjects">The objects that this action will affect.</param>
-        /// <param name="offset">The offset to apply to the specified parameter of the affected objects.</param>
+        /// <param name="offset">The offset to apply to the specified property of the affected objects.</param>
         /// <param name="centralPoint">The central point that was taken into account while scaling the objects.</param>
         /// <param name="action">The function that scales the specified objects.</param>
         public ObjectsScaled(LevelObjectCollection affectedObjects, double offset, Point? centralPoint, ObjectPropertyOffsetCentralPointSetter<double> action)

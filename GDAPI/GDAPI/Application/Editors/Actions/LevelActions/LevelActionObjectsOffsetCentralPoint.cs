@@ -14,7 +14,7 @@ namespace GDAPI.Application.Editors.Actions.LevelActions
 
         /// <summary>Initiailizes a new instance of the <seealso cref="LevelActionObjectsOffsetCentralPoint{TValue}"/> class.</summary>
         /// <param name="affectedObjects">The objects that this action will affect.</param>
-        /// <param name="offset">The offset to apply to the specified parameter of the affected objects.</param>
+        /// <param name="offset">The offset to apply to the specified property of the affected objects.</param>
         /// <param name="centralPoint">The central point that was taken into account while performing the action.</param>
         /// <param name="action">The action to be performed.</param>
         public LevelActionObjectsOffsetCentralPoint(LevelObjectCollection affectedObjects, TValue offset, Point? centralPoint, ObjectPropertyOffsetCentralPointSetter<TValue> action)
