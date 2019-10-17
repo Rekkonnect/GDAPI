@@ -12,6 +12,9 @@
     <RepositoryUrl>https://github.com/gd-edit/GDAPI</RepositoryUrl>
     <PackageTags>Geometry Dash, GD, GMD, Editor, API, GDE, GDEdit</PackageTags>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Title>GD API</Title>
+    <Copyright>Zyran 2019</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
