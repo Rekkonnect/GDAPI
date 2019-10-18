@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
     public interface IHasTargetColorID
     {
         /// <summary>The target Color ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetColorID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetColorID, 0)]
         int TargetColorID { get; set; }
     }
 }

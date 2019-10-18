@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
     public abstract class Orb : OrbPad
     {
         /// <summary>Represents the Multi Activate property of the orb.</summary>
-        [ObjectStringMappable(ObjectParameter.MultiActivate, false)]
+        [ObjectStringMappable(ObjectProperty.MultiActivate, false)]
         public bool MultiActivate
         {
             get => SpecialObjectBools[2];

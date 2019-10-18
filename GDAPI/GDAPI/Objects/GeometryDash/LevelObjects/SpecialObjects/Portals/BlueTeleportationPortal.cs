@@ -22,11 +22,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
         }
 
         /// <summary>The object ID of the blue teleportation portal.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)PortalType.BlueTeleportation;
 
         /// <summary>The distance of the Y location between the yellow and this teleportation portals.</summary>
-        [ObjectStringMappable(ObjectParameter.YellowTeleportationPortalDistance)]
+        [ObjectStringMappable(ObjectProperty.YellowTeleportationPortalDistance)]
         public double YellowTeleportationPortalDistance { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="BlueTeleportationPortal"/> class.</summary>

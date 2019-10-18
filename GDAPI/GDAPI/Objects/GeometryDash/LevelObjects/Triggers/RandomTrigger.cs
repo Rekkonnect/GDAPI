@@ -19,11 +19,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private ChancePoolInfo chancePool;
 
         /// <summary>The Object ID of the Random trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.Random;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => GroupID1;
@@ -37,31 +37,31 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>The Chance property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Chance, 50)]
+        [ObjectStringMappable(ObjectProperty.Chance, 50)]
         public int Chance
         {
             get => chance;
             set => chance = (byte)value;
         }
         /// <summary>The Chance Lots property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ChanceLots)] // This implementation is such a wild guess
+        [ObjectStringMappable(ObjectProperty.ChanceLots)] // This implementation is such a wild guess
         public ChancePoolInfo ChancePool => chancePool;
         /// <summary>The Group ID 1 of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int GroupID1
         {
             get => groupID1;
             set => groupID1 = (short)value;
         }
         /// <summary>The Group ID 2 of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SecondaryGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.SecondaryGroupID, 0)]
         public int GroupID2
         {
             get => groupID2;
             set => groupID2 = (short)value;
         }
         /// <summary>The Activate Group property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
+        [ObjectStringMappable(ObjectProperty.ActivateGroup, false)]
         public bool ActivateGroup
         {
             get => TriggerBools[3];

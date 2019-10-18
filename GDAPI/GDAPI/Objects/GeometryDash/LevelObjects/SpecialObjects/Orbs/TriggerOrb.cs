@@ -11,18 +11,18 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         private short targetGroupID;
 
         /// <summary>The object ID of the trigger orb.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)OrbType.TriggerOrb;
 
         /// <summary>Represents the Target Group ID of the trigger orb.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>Represents the Activate Group property of the trigger orb.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
+        [ObjectStringMappable(ObjectProperty.ActivateGroup, false)]
         public bool ActivateGroup
         {
             get => SpecialObjectBools[3];

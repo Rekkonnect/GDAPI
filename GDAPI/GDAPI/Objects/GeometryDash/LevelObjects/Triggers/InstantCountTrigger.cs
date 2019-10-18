@@ -11,18 +11,18 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, itemID;
 
         /// <summary>The Object ID of the Instant Count trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.InstantCount;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The Item ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ItemID, 0)]
+        [ObjectStringMappable(ObjectProperty.ItemID, 0)]
         public int ItemID
         {
             get => itemID;
@@ -35,17 +35,17 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
             set => ItemID = value;
         }
         /// <summary>The Target Count property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Count, 0)]
+        [ObjectStringMappable(ObjectProperty.Count, 0)]
         public int TargetCount { get; set; }
         /// <summary>The Activate Group property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ActivateGroup, false)]
+        [ObjectStringMappable(ObjectProperty.ActivateGroup, false)]
         public bool ActivateGroup
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Comparison property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Comparison, InstantCountComparison.Equals)]
+        [ObjectStringMappable(ObjectProperty.Comparison, InstantCountComparison.Equals)]
         public InstantCountComparison Comparison { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="InstantCountTrigger"/> class.</summary>

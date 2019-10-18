@@ -12,18 +12,18 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, easingRate;
 
         /// <summary>The Object ID of the Rotate trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectProperty.ID)]
         public override int ObjectID => (int)TriggerType.Rotate;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        [ObjectStringMappable(ObjectParameter.Duration, 0.5d)]
+        [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -36,30 +36,30 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
             set => CenterGroupID = value;
         }
         /// <summary>The easing of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Easing, Easing.None)]
+        [ObjectStringMappable(ObjectProperty.Easing, Easing.None)]
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.EasingRate, 2d)]
+        [ObjectStringMappable(ObjectProperty.EasingRate, 2d)]
         public double EasingRate
         {
             get => easingRate;
             set => easingRate = (float)value;
         }
         /// <summary>The Degrees property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Degrees, 0)]
+        [ObjectStringMappable(ObjectProperty.Degrees, 0)]
         public int Degrees { get; set; }
         /// <summary>The Times 360 property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Times360, 0)]
+        [ObjectStringMappable(ObjectProperty.Times360, 0)]
         public int Times360 { get; set; }
         /// <summary>The Lock Object Rotation property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockObjectRotation, false)]
+        [ObjectStringMappable(ObjectProperty.LockObjectRotation, false)]
         public bool LockObjectRotation
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
         /// <summary>The Center Group ID property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.CenterGroupID, 0)]
+        [ObjectStringMappable(ObjectProperty.CenterGroupID, 0)]
         public int CenterGroupID
         {
             get => centerGroupID;

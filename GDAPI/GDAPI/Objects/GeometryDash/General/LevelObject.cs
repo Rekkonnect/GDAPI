@@ -17,20 +17,20 @@ namespace GDAPI.Objects.GeometryDash.General
         
         #region Constructors
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the Object ID parameter set to 1.</summary>
-        public LevelObject() { this[ObjectParameter.ID] = 1; }
+        public LevelObject() { this[ObjectProperty.ID] = 1; }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
-        public LevelObject(int objID) { this[ObjectParameter.ID] = objID; }
+        public LevelObject(int objID) { this[ObjectProperty.ID] = objID; }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID and location.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
         /// <param name="x">The X position of the <see cref="LevelObject"/>.</param>
         /// <param name="y">The Y position of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location and flipped values.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -40,12 +40,12 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="flippedVertically">The flipped vertically value of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, bool flippedHorizontally, bool flippedVertically)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.FlippedHorizontally] = flippedHorizontally;
-            this[ObjectParameter.FlippedVertically] = flippedVertically;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.FlippedHorizontally] = flippedHorizontally;
+            this[ObjectProperty.FlippedVertically] = flippedVertically;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location and rotation.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -54,11 +54,11 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="rotation">The rotation of the <see cref="LevelObject"/> in degrees. Positive is clockwise.</param>
         public LevelObject(int objID, double x, double y, double rotation)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.Rotation] = rotation;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.Rotation] = rotation;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, rotation and scaling.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -68,12 +68,12 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="sacling">The scaling ratio of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, double rotation, double scaling)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.Rotation] = rotation;
-            this[ObjectParameter.Scaling] = scaling;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.Rotation] = rotation;
+            this[ObjectProperty.Scaling] = scaling;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, rotation and flipped values.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -84,13 +84,13 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="rotation">The rotation of the <see cref="LevelObject"/> in degrees. Positive is clockwise.</param>
         public LevelObject(int objID, double x, double y, bool flippedHorizontally, bool flippedVertically, double rotation)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.FlippedHorizontally] = flippedHorizontally;
-            this[ObjectParameter.FlippedVertically] = flippedVertically;
-            this[ObjectParameter.Rotation] = rotation;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.FlippedHorizontally] = flippedHorizontally;
+            this[ObjectProperty.FlippedVertically] = flippedVertically;
+            this[ObjectProperty.Rotation] = rotation;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, rotation, scaling and flipped values.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -102,14 +102,14 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="scaling">The scaling ratio of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, bool flippedHorizontally, bool flippedVertically, double rotation, double scaling)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.FlippedHorizontally] = flippedHorizontally;
-            this[ObjectParameter.FlippedVertically] = flippedVertically;
-            this[ObjectParameter.Rotation] = rotation;
-            this[ObjectParameter.Scaling] = scaling;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.FlippedHorizontally] = flippedHorizontally;
+            this[ObjectProperty.FlippedVertically] = flippedVertically;
+            this[ObjectProperty.Rotation] = rotation;
+            this[ObjectProperty.Scaling] = scaling;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location and Editor Layer 1.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -118,11 +118,11 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="EL1">The Editor Layer 1 of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int EL1)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.EL1] = EL1;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.EL1] = EL1;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location and Editor Layers.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -132,12 +132,12 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="EL2">The Editor Layer 2 of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int EL1, int EL2)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.EL1] = EL1;
-            this[ObjectParameter.EL2] = EL2;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.EL1] = EL1;
+            this[ObjectProperty.EL2] = EL2;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location and Group IDs.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -146,11 +146,11 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="groupIDs">The Group IDs of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int[] groupIDs)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.GroupIDs] = groupIDs;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.GroupIDs] = groupIDs;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, Group IDs and Editor Layers.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -161,13 +161,13 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="EL2">The Editor Layer 2 of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int[] groupIDs, int EL1, int EL2)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.GroupIDs] = groupIDs;
-            this[ObjectParameter.EL1] = EL1;
-            this[ObjectParameter.EL2] = EL2;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.GroupIDs] = groupIDs;
+            this[ObjectProperty.EL1] = EL1;
+            this[ObjectProperty.EL2] = EL2;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, Color IDs, Group IDs and Editor Layers.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -180,15 +180,15 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="EL2">The Editor Layer 2 of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.Color1] = mainColor;
-            this[ObjectParameter.Color2] = detailColor;
-            this[ObjectParameter.GroupIDs] = groupIDs;
-            this[ObjectParameter.EL1] = EL1;
-            this[ObjectParameter.EL2] = EL2;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.Color1] = mainColor;
+            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.GroupIDs] = groupIDs;
+            this[ObjectProperty.EL1] = EL1;
+            this[ObjectProperty.EL2] = EL2;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, Color IDs, Group IDs, Editor Layers and glow attibute.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -202,16 +202,16 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="disableGlow">The Disable Glow value of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2, bool disableGlow)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.Color1] = mainColor;
-            this[ObjectParameter.Color2] = detailColor;
-            this[ObjectParameter.GroupIDs] = groupIDs;
-            this[ObjectParameter.EL1] = EL1;
-            this[ObjectParameter.EL2] = EL2;
-            this[ObjectParameter.DisableGlow] = disableGlow;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.Color1] = mainColor;
+            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.GroupIDs] = groupIDs;
+            this[ObjectProperty.EL1] = EL1;
+            this[ObjectProperty.EL2] = EL2;
+            this[ObjectProperty.DisableGlow] = disableGlow;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, Color IDs, Group IDs, Editor Layers and glow attibute, Z Order and Z Layer.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -227,18 +227,18 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="ZLayer">The Z Layer value of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2, bool disableGlow, int ZOrder, int ZLayer)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.Color1] = mainColor;
-            this[ObjectParameter.Color2] = detailColor;
-            this[ObjectParameter.GroupIDs] = groupIDs;
-            this[ObjectParameter.EL1] = EL1;
-            this[ObjectParameter.EL2] = EL2;
-            this[ObjectParameter.DisableGlow] = disableGlow;
-            this[ObjectParameter.ZOrder] = ZOrder;
-            this[ObjectParameter.ZLayer] = ZLayer;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.Color1] = mainColor;
+            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.GroupIDs] = groupIDs;
+            this[ObjectProperty.EL1] = EL1;
+            this[ObjectProperty.EL2] = EL2;
+            this[ObjectProperty.DisableGlow] = disableGlow;
+            this[ObjectProperty.ZOrder] = ZOrder;
+            this[ObjectProperty.ZLayer] = ZLayer;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the specified Object ID, location, Color IDs, Group IDs, Editor Layers and glow attibute, Z Order and Z Layer.</summary>
         /// <param name="objID">The Object ID of the <see cref="LevelObject"/>.</param>
@@ -254,18 +254,18 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="ZLayer">The Z Layer value of the <see cref="LevelObject"/>.</param>
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2, bool disableGlow, int ZOrder, ZLayer ZLayer)
         {
-            this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
-            this[ObjectParameter.X] = x;
-            this[ObjectParameter.Y] = y;
-            this[ObjectParameter.Color1] = mainColor;
-            this[ObjectParameter.Color2] = detailColor;
-            this[ObjectParameter.GroupIDs] = groupIDs;
-            this[ObjectParameter.EL1] = EL1;
-            this[ObjectParameter.EL2] = EL2;
-            this[ObjectParameter.DisableGlow] = disableGlow;
-            this[ObjectParameter.ZOrder] = ZOrder;
-            this[ObjectParameter.ZLayer] = (int)ZLayer;
+            this[ObjectProperty.ID] = objID;
+            this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectProperty.X] = x;
+            this[ObjectProperty.Y] = y;
+            this[ObjectProperty.Color1] = mainColor;
+            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.GroupIDs] = groupIDs;
+            this[ObjectProperty.EL1] = EL1;
+            this[ObjectProperty.EL2] = EL2;
+            this[ObjectProperty.DisableGlow] = disableGlow;
+            this[ObjectProperty.ZOrder] = ZOrder;
+            this[ObjectProperty.ZLayer] = (int)ZLayer;
         }
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class from the specified object string. Most parameters will be stored with their <see cref="string"/> representation, so it is recommended to convert them to their appropriate form before usage.</summary>
         /// <param name="objectString">The object string of the <see cref="LevelObject"/>.</param>
@@ -275,9 +275,9 @@ namespace GDAPI.Objects.GeometryDash.General
             for (int i = 0; i < parameters.Length; i += 2)
             {
                 int param = ToInt32(parameters[i]);
-                if (param == (int)ObjectParameter.GroupIDs)
+                if (param == (int)ObjectProperty.GroupIDs)
                     this.Parameters[param] = parameters[i + 1].Split('.').ToInt32Array();
-                if (param == (int)ObjectParameter.Color1HSVValues || param == (int)ObjectParameter.Color2HSVValues || param == (int)ObjectParameter.CopiedColorHSVValues)
+                if (param == (int)ObjectProperty.Color1HSVValues || param == (int)ObjectProperty.Color2HSVValues || param == (int)ObjectProperty.CopiedColorHSVValues)
                 {
                     string[] HSVParams = parameters[i + 1].Split('a');
                     this.Parameters[param] = new object[] { ToInt32(HSVParams[0]), ToDouble(HSVParams[1]), ToDouble(HSVParams[2]), HSVParams[3] == "1", HSVParams[4] == "1" };
@@ -292,7 +292,7 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>Get a specific parameter of an object from its name.</summary>
         /// <param name="p">The parameter to get.</param>
         /// <returns>An object with the parameter that was requested.</returns>
-        public object this[ObjectParameter p]
+        public object this[ObjectProperty p]
         {
             get => Parameters[(int)p];
             set { Parameters[(int)p] = value; }
@@ -300,8 +300,8 @@ namespace GDAPI.Objects.GeometryDash.General
 
         public bool IsWithinRange(float startingX, float startingY, float endingX, float endingY)
         {
-            var x = (float)this[ObjectParameter.X];
-            var y = (float)this[ObjectParameter.Y];
+            var x = (float)this[ObjectProperty.X];
+            var y = (float)this[ObjectProperty.Y];
             return startingX <= x && endingX >= x && startingY <= y && endingY <= y;
         }
 
@@ -329,7 +329,7 @@ namespace GDAPI.Objects.GeometryDash.General
                             parameter += i + "," + Parameters[i] + ",";
                         else if (Parameters[i] is bool)
                             parameter += i + "," + ToInt32(Parameters[i]) + ",";
-                        else if (i == (int)ObjectParameter.GroupIDs)
+                        else if (i == (int)ObjectProperty.GroupIDs)
                         {
                             if ((Parameters[i] as int[]).Length > 0)
                             {
@@ -340,7 +340,7 @@ namespace GDAPI.Objects.GeometryDash.General
                                 parameter += ",";
                             }
                         }
-                        else if (i == (int)ObjectParameter.Color1HSVValues || i == (int)ObjectParameter.Color2HSVValues || i == (int)ObjectParameter.CopiedColorHSVValues)
+                        else if (i == (int)ObjectProperty.Color1HSVValues || i == (int)ObjectProperty.Color2HSVValues || i == (int)ObjectProperty.CopiedColorHSVValues)
                         {
                             parameter += i + ",";
                             for (int j = 0; j < (Parameters[i] as Array).Length; j++)
