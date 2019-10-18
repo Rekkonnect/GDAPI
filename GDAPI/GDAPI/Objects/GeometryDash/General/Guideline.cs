@@ -56,6 +56,9 @@ namespace GDAPI.Objects.GeometryDash.General
             return result;
         }
 
+        public static bool operator ==(Guideline left, Guideline right) => left.TimeStamp == right.TimeStamp && left.Color == right.Color;
+        public static bool operator !=(Guideline left, Guideline right) => left.TimeStamp != right.TimeStamp || left.Color != right.Color;
+
         /// <summary>Converts the <see cref="Guideline"/> to its string representation in the gamesave.</summary>
         public override string ToString() => $"{TimeStamp}~{Color}";
     }
