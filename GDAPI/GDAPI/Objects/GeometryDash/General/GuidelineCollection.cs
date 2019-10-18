@@ -199,7 +199,7 @@ namespace GDAPI.Objects.GeometryDash.General
             var result = new StringBuilder();
             foreach (var g in guidelines)
                 result.Append($"{g}~");
-            return result.RemoveLast().ToString();
+            return result.RemoveLastOrNone().ToString();
         }
     }
 }
