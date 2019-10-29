@@ -147,7 +147,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="addedObjects">The objects to add.</param>
-        public LevelObjectCollection AddRange(List<GeneralObject> addedObjects)
+        public LevelObjectCollection AddRange(IEnumerable<GeneralObject> addedObjects)
         {
             AddToCounters(addedObjects);
             objects.AddRange(addedObjects);
@@ -157,6 +157,9 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="objects">The objects to add.</param>
         public LevelObjectCollection AddRange(LevelObjectCollection objects) => AddRange(objects.Objects);
+        /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="objects">The objects to add.</param>
+        public LevelObjectCollection AddRange(params GeneralObject[] objects) => AddRange(objects);
         /// <summary>Inserts an object to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index to insert the object at.</param>
         /// <param name="o">The object to insert.</param>
@@ -391,7 +394,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             if (ShouldRegisterUnevaluatedObjects())
                 unevaluatedObjects.Add(o);
         }
-        private void RegisterUnevaluatedObjects(List<GeneralObject> objects)
+        private void RegisterUnevaluatedObjects(IEnumerable<GeneralObject> objects)
         {
             if (ShouldRegisterUnevaluatedObjects())
                 unevaluatedObjects.Add(objects);
