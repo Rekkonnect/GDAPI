@@ -393,17 +393,32 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
 
         // Reflection is FUN
-        public T GetParameterWithID<T>(int ID)
+        public T GetPropertyWithID<T>(int ID)
+        {
+            if (!TryGetPropertyWithID<T>(ID, out var newValue))
+                throw new KeyNotFoundException($"The property ID {ID} was not found in {GetType().Name} (ID: {ObjectID})");
+            return newValue;
+        }
+        public void SetPropertyWithID<T>(int ID, T newValue)
+        {
+            if (!TrySetPropertyWithID(ID, newValue))
+                throw new KeyNotFoundException($"The property ID {ID} was not found in {GetType().Name} (ID: {ObjectID}) / Value : {newValue}");
+        }
+        public bool TryGetPropertyWithID<T>(int ID, out T value)
         {
             var type = GetType();
             foreach (var t in initializableObjectTypes)
                 if (t.ObjectType == type)
                     foreach (var p in t.Properties)
                         if (p.Key == ID)
-                            return (T)p.Get(this);
-            throw new KeyNotFoundException($"The property ID {ID} was not found in {type.Name} (ID: {ObjectID})");
+                        {
+                            value = (T)p.Get(this);
+                            return true;
+                        }
+            value = default;
+            return false;
         }
-        public void SetPropertyWithID<T>(int ID, T newValue)
+        public bool TrySetPropertyWithID<T>(int ID, T newValue)
         {
             var type = GetType();
             foreach (var t in initializableObjectTypes)
@@ -412,9 +427,9 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                         if (p.Key == ID)
                         {
                             p.Set(this, newValue);
-                            return;
+                            return true;
                         }
-            throw new KeyNotFoundException($"The property ID {ID} was not found in {type.Name} (ID: {ObjectID}) / Value : {newValue}");
+            return false;
         }
 
         /// <summary>Adds a Group ID to the object's Group IDs if it does not already exist.</summary>

@@ -13,7 +13,7 @@ namespace GDAPI.Objects.GeometryDash.General
     {
         // TODO: Remove this fucking shit when properties are completely and properly refactored.
 
-        public object[] Parameters = new object[ParameterCount + 1];
+        public object[] Parameters = new object[PropertyCount + 1];
         
         #region Constructors
         /// <summary>Creates an instance of the <see cref="LevelObject"/> class with the Object ID parameter set to 1.</summary>
@@ -309,7 +309,7 @@ namespace GDAPI.Objects.GeometryDash.General
         public override string ToString()
         {
             string objectString = "";
-            for (int i = 1; i < ParameterCount; i++)
+            for (int i = 1; i < PropertyCount; i++)
                 if (Parameters[i] != null)
                 {
                     string parameter = "";
