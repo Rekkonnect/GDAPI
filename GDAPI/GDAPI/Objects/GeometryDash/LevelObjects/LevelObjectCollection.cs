@@ -235,6 +235,17 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return result;
         }
 
+        /// <summary>Attempts to get the common value of an object property from this collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="common">The common value of the property.</param>
+        public bool TryGetCommonPropertyWithID<T>(int ID, out T common) => GeneralObject.TryGetCommonPropertyWithID(this, ID, out common);
+        /// <summary>Attempts to set the common value of an object property from this collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="newValue">The new value of the property to set to all the objects.</param>
+        public bool TrySetCommonPropertyWithID<T>(int ID, T newValue) => GeneralObject.TrySetCommonPropertyWithID(this, ID, newValue);
+
         /// <summary>Returns a <seealso cref="LevelObjectCollection"/> that contains the objects that have a group ID equal to the provided value.</summary>
         /// <param name="groupID">The group ID of the objects to look for.</param>
         public LevelObjectCollection GetObjectsByGroupID(int groupID)
@@ -333,11 +344,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             set => objects[index] = value;
         }
 
-        public IEnumerator<GeneralObject> GetEnumerator()
-        {
-            foreach (var o in objects)
-                yield return o;
-        }
+        public IEnumerator<GeneralObject> GetEnumerator() => objects.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private void AddToCounters(IEnumerable<GeneralObject> objects)
