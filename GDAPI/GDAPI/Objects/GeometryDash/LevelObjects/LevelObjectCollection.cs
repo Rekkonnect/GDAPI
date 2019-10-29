@@ -159,7 +159,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         public LevelObjectCollection AddRange(LevelObjectCollection objects) => AddRange(objects.Objects);
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="objects">The objects to add.</param>
-        public LevelObjectCollection AddRange(params GeneralObject[] objects) => AddRange(objects);
+        public LevelObjectCollection AddRange(params GeneralObject[] objects) => AddRange((IEnumerable<GeneralObject>)objects);
         /// <summary>Inserts an object to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index to insert the object at.</param>
         /// <param name="o">The object to insert.</param>
