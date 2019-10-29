@@ -13,6 +13,7 @@ using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using Microsoft.CSharp;
+using NAudio.MediaFoundation;
 using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.LevelObjects
@@ -392,44 +393,69 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return cloned;
         }
 
-        // Reflection is FUN
+        // Currently the exception thrown is not helpful; perhaps consider changing that in the future in case anybody cares to go with the expensive way of catching exceptions and analyzing the issue
+        /// <summary>Returns the value of the property with the specified ID, or throws an exception in case of an error.</summary>
+        /// <typeparam name="T">The value type of the property to get.</typeparam>
+        /// <param name="ID">The ID of the property whose value to get.</param>
         public T GetPropertyWithID<T>(int ID)
         {
             if (!TryGetPropertyWithID<T>(ID, out var newValue))
                 throw new KeyNotFoundException($"The property ID {ID} was not found in {GetType().Name} (ID: {ObjectID})");
             return newValue;
         }
+        /// <summary>Sets the value of the property with the specified ID, or throws an exception in case of an error.</summary>
+        /// <typeparam name="T">The value type of the property to set.</typeparam>
+        /// <param name="ID">The ID of the property whose value to set.</param>
+        /// <param name="newValue">The new value to set to the property.</param>
         public void SetPropertyWithID<T>(int ID, T newValue)
         {
             if (!TrySetPropertyWithID(ID, newValue))
                 throw new KeyNotFoundException($"The property ID {ID} was not found in {GetType().Name} (ID: {ObjectID}) / Value : {newValue}");
         }
-        public bool TryGetPropertyWithID<T>(int ID, out T value)
+        /// <summary>Attempts to get the value of the property with the specified ID and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to get.</typeparam>
+        /// <param name="ID">The ID of the property whose value to get.</param>
+        /// <param name="value">The value of the property that was retrieved, defaulting to <see langword="default"/> in case of an error.</param>
+        public bool TryGetPropertyWithID<T>(int ID, out T value) => TryGetPropertyValue(GetPropertyAccessInfo(ID), out value);
+        /// <summary>Attempts to set the value of the property with the specified ID and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to set.</typeparam>
+        /// <param name="ID">The ID of the property whose value to set.</param>
+        /// <param name="newValue">The new value to set to the property.</param>
+        public bool TrySetPropertyWithID<T>(int ID, T newValue) => TrySetPropertyValue(GetPropertyAccessInfo(ID), newValue);
+        /// <summary>Attempts to get the value of the specified property and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to get.</typeparam>
+        /// <param name="property">The property whose value to get.</param>
+        /// <param name="value">The value of the property that was retrieved, defaulting to <see langword="default"/> in case of an error.</param>
+        public bool TryGetPropertyValue<T>(PropertyAccessInfo property, out T value)
         {
-            var type = GetType();
-            foreach (var t in initializableObjectTypes)
-                if (t.ObjectType == type)
-                    foreach (var p in t.Properties)
-                        if (p.Key == ID)
-                        {
-                            value = (T)p.Get(this);
-                            return true;
-                        }
             value = default;
-            return false;
+            if (typeof(T) != property?.PropertyType)
+                return false;
+            value = (T)property.Get(this);
+            return true;
         }
-        public bool TrySetPropertyWithID<T>(int ID, T newValue)
+        /// <summary>Attempts to set the value of the specified property and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to set.</typeparam>
+        /// <param name="property">The property whose value to set.</param>
+        /// <param name="newValue">The new value to set to the property.</param>
+        public bool TrySetPropertyValue<T>(PropertyAccessInfo property, T newValue)
+        {
+            if (typeof(T) != property?.PropertyType)
+                return false;
+            property.Set(this, newValue);
+            return true;
+        }
+
+        // Reflection is FUN
+        private PropertyAccessInfo GetPropertyAccessInfo(int ID)
         {
             var type = GetType();
             foreach (var t in initializableObjectTypes)
                 if (t.ObjectType == type)
                     foreach (var p in t.Properties)
                         if (p.Key == ID)
-                        {
-                            p.Set(this, newValue);
-                            return true;
-                        }
-            return false;
+                            return p;
+            return null;
         }
 
         /// <summary>Adds a Group ID to the object's Group IDs if it does not already exist.</summary>
@@ -642,6 +668,75 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         private static HashSet<ObjectTypeInfo> GetCollectionObjectTypeInfo(IEnumerable<GeneralObject> collection)
         {
             return new HashSet<ObjectTypeInfo>(collection.Select(o => initializableObjectTypes.Where(i => o.GetType() == i.ObjectType).FirstOrDefault()));
+        }
+
+        /// <summary>Attempts to get the common value of an object property from a collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="collection">The collection of objects whose common property value to retrieve.</param>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="common">The common value of the property.</param>
+        public static bool TryGetCommonPropertyWithID<T>(LevelObjectCollection collection, int ID, out T common)
+        {
+            common = default;
+            if (collection.Count == 0)
+                return false;
+
+            // Get the property that will be retrieved
+            var property = GetPropertyAccessInfo(collection, ID, out int objectIndex);
+
+            if (property == null)
+                return false;
+
+            collection[objectIndex].TryGetPropertyValue(property, out common);
+
+            for (int i = objectIndex + 1; i < collection.Count; i++)
+            {
+                if (!collection[i].TryGetPropertyValue(property, out T compared))
+                    continue; // Ignore objects that do not contain that property
+                if (!common.Equals(compared))
+                    return false;
+            }
+            return true;
+        }
+        /// <summary>Attempts to set the common value of an object property from a collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="collection">The collection of objects whose common property value to set.</param>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="newValue">The new value of the property to set to all the objects.</param>
+        public static bool TrySetCommonPropertyWithID<T>(LevelObjectCollection collection, int ID, T newValue)
+        {
+            if (collection.Count == 0)
+                return false;
+
+            // Store the property that will be changed
+            var property = GetPropertyAccessInfo(collection, ID, out _);
+
+            if (property == null)
+                return false;
+
+            foreach (var o in collection)
+                o.TrySetPropertyValue(property, newValue);
+            return true;
+        }
+        private static PropertyAccessInfo GetPropertyAccessInfo(LevelObjectCollection collection, int ID, out int objectIndex)
+        {
+            var failedTypes = new HashSet<Type>();
+            PropertyAccessInfo property = null;
+            for (objectIndex = 0; objectIndex < collection.Count; objectIndex++)
+            {
+                var obj = collection[objectIndex];
+                var type = obj.GetType();
+                if (failedTypes.Contains(type))
+                    continue;
+
+                property = obj.GetPropertyAccessInfo(ID);
+
+                if (property == null)
+                    failedTypes.Add(type);
+                else
+                    break;
+            }
+            return property;
         }
 
         public override string ToString()
