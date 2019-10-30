@@ -21,6 +21,10 @@ namespace GDAPI.Application.Editors
 
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditor"/> class.</summary>
         /// <param name="level">The level whose <seealso cref="Guideline"/>s to edit.</param>
+        public GuidelineEditor(Level level)
+            : this(level, new GuidelineEditorPreset("New Preset 0")) { }
+        /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditor"/> class.</summary>
+        /// <param name="level">The level whose <seealso cref="Guideline"/>s to edit.</param>
         /// <param name="preset">The <seealso cref="GuidelineEditorPreset"/> that is to be edited and will be used in guideline editing operations.</param>
         public GuidelineEditor(Level level, GuidelineEditorPreset preset)
         {
