@@ -1,0 +1,22 @@
+version: 1.1.{build}
+image: Visual Studio 2019 Preview
+environment:
+  WEBHOOK_URL:
+    secure: iGW1I2Gs3o0hzHyPPRhbvnbfhMY1qIjcCMVUeBguWgB+hp+OGHj2TdqSKXy0GMmqUKW6O6/GzmEt7I7UQYZQKMXZ37q2amyGISZt+HsimKXmsMoCWjBrINB2czPlKGXQA2ec3VZUxzz8v0l2XXVkbVdKgU1uusD9c67PI5XrDMo=
+before_build:
+- ps: cd GDAPI; dotnet restore
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  include_nuget_references: true
+  publish_core_console: true
+  parallel: true
+  verbosity: minimal
+on_failure:
+- ps: >-
+    Invoke-RestMethod https://raw.githubusercontent.com/AltenGD/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+        ./send.ps1 failure $env:WEBHOOK_URL
+on_finish:
+- ps: >-
+    Invoke-RestMethod https://raw.githubusercontent.com/AltenGD/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+        ./send.ps1 success $env:WEBHOOK_URL
