@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GDAPI.Objects.KeyedObjects;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace GDAPI.Objects.DataStructures
@@ -36,9 +37,6 @@ namespace GDAPI.Objects.DataStructures
         /// <summary>Adds an object to the dictionary.</summary>
         /// <param name="o">The object to add to the dictionary.</param>
         public void Add(TObject o) => Dictionary.Add(o.Key, o);
-        /// <summary>Adds an <seealso cref="IWideKeyedObject{TKey}"/> to the dictionary.</summary>
-        /// <param name="o">The <seealso cref="IWideKeyedObject{TKey}"/> to add to the dictionary.</param>
-        public void Add(IWideKeyedObject<TKey> o) => Add(o as IKeyedObject<TKey[]>);
         /// <summary>Adds an <seealso cref="IKeyedObject{TKey}"/> to the dictionary.</summary>
         /// <param name="o">The <seealso cref="IKeyedObject{TKey}"/> to add to the dictionary.</param>
         public void Add(IKeyedObject<TKey[]> o)
@@ -52,9 +50,6 @@ namespace GDAPI.Objects.DataStructures
         /// <summary>Removes an object from the dictionary based on a given value.</summary>
         /// <param name="o">The object to remove from the dictionary.</param>
         public void Remove(TObject o) => Dictionary.Remove(o.Key);
-        /// <summary>Removes an <seealso cref="IWideKeyedObject{TKey}"/> from the dictionary.</summary>
-        /// <param name="o">The <seealso cref="IWideKeyedObject{TKey}"/> to remove from the dictionary.</param>
-        public void Remove(IWideKeyedObject<TKey> o) => Remove(o as IKeyedObject<TKey[]>);
         /// <summary>Removes an <seealso cref="IKeyedObject{TKey}"/> from the dictionary.</summary>
         /// <param name="o">The <seealso cref="IKeyedObject{TKey}"/> to remove from the dictionary.</param>
         public void Remove(IKeyedObject<TKey[]> o)

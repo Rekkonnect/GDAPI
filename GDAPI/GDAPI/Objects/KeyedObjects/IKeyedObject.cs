@@ -1,4 +1,4 @@
-﻿namespace GDAPI.Objects.DataStructures
+﻿namespace GDAPI.Objects.KeyedObjects
 {
     /// <summary>Represents an object that can be addressed via a key.</summary>
     /// <typeparam name="TKey">The type of the key this object can be addressed by.</typeparam>
