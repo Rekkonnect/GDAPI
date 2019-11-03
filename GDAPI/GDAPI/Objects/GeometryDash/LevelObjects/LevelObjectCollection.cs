@@ -7,8 +7,8 @@ using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
 using GDAPI.Objects.DataStructures;
-using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
+using GDAPI.Objects.GeometryDash.Reflection;
 
 namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
@@ -18,8 +18,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         private int triggerCount = -1;
         private int colorTriggerCount = -1;
 
-        private List<PropertyAccessInfo> commonProperties;
-        private HashSet<PropertyAccessInfo> allAvailableProperties;
+        private PropertyAccessInfoDictionary commonProperties;
+        private PropertyAccessInfoDictionary allAvailableProperties;
 
         private int commonPropertiesUnevaluatedIndex;
         private int allAvailablePropertiesUnevaluatedIndex;
@@ -233,8 +233,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             result.ObjectCounts = ObjectCounts.Clone();
             result.GroupCounts = GroupCounts.Clone();
             result.objects = objects.Clone();
-            result.allAvailableProperties = allAvailableProperties.Clone();
-            result.commonProperties = commonProperties.Clone();
+            result.allAvailableProperties = new PropertyAccessInfoDictionary(allAvailableProperties);
+            result.commonProperties = new PropertyAccessInfoDictionary(commonProperties);
             return result;
         }
 
@@ -272,7 +272,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         #region Object Property Metadata
         /// <summary>Returns the common object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
-        public List<PropertyAccessInfo> GetCommonProperties()
+        public PropertyAccessInfoDictionary GetCommonProperties()
         {
             if (commonProperties == null)
                 commonProperties = GeneralObject.GetCommonProperties(this);
@@ -285,7 +285,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return commonProperties;
         }
         /// <summary>Returns all the available object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
-        public HashSet<PropertyAccessInfo> GetAllAvailableProperties()
+        public PropertyAccessInfoDictionary GetAllAvailableProperties()
         {
             if (allAvailableProperties == null)
                 allAvailableProperties = GeneralObject.GetAllAvailableProperties(this);
@@ -402,8 +402,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         private bool ShouldRegisterUnevaluatedObjects() => commonProperties != null || allAvailableProperties != null;
         private void SetPropertyCacheToDefault()
         {
-            commonProperties = new List<PropertyAccessInfo>();
-            allAvailableProperties = new HashSet<PropertyAccessInfo>();
+            commonProperties = new PropertyAccessInfoDictionary();
+            allAvailableProperties = new PropertyAccessInfoDictionary();
             ResetUnevaluatedObjects();
         }
         private void ClearPropertyCache()
