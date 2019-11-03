@@ -16,11 +16,6 @@ namespace GDAPI.Objects.DataStructures
         /// <summary>Gets the number of <seealso cref="TObject"/> objects that are contained in the dictionary.</summary>
         public int Count => Dictionary.Count;
 
-        public ICollection<TKey> Keys => ((IDictionary<TKey, TObject>)Dictionary).Keys;
-        public ICollection<TObject> Values => ((IDictionary<TKey, TObject>)Dictionary).Values;
-
-        public bool IsReadOnly => false;
-
         /// <summary>Initializes a new instance of the <seealso cref="KeyedObjectDictionary{TKey, TObject}"/> class.</summary>
         public KeyedObjectDictionary()
         {

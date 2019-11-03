@@ -1,11 +1,13 @@
-﻿using System;
+﻿using GDAPI.Objects.DataStructures;
+using GDAPI.Objects.KeyedObjects;
+using System;
 using System.Reflection;
 
 namespace GDAPI.Objects.Reflection
 {
     /// <summary>Contains cached information about a <seealso cref="Type"/>.</summary>
     /// <typeparam name="TPropertyKey">The type of the key of the properties of this <seealso cref="Type"/>.</typeparam>
-    public abstract class CachedTypeInfoBase<TPropertyKey>
+    public abstract class CachedTypeInfoBase<TPropertyKey> : IKeyedObject<Type>
     {
         /// <summary>The object type whose info is being stored in this object.</summary>
         public Type ObjectType { get; protected set; }
@@ -14,6 +16,9 @@ namespace GDAPI.Objects.Reflection
         public ConstructorInfo Constructor { get; protected set; }
         /// <summary>The properties of this type.</summary>
         public KeyedPropertyInfoDictionary<TPropertyKey> Properties { get; protected set; }
+
+        /// <summary>The <seealso cref="Type"/> key by which this object type info is being addressed.</summary>
+        Type IKeyedObject<Type>.Key => ObjectType;
 
         /// <summary>Initializes a new instance of the <seealso cref="CachedTypeInfoBase{TPropertyKey}"/> class.</summary>
         /// <param name="objectType">The object type whose info is being stored in this object.</param>
