@@ -29,8 +29,9 @@ namespace GDAPI.Objects.Reflection
             Properties = new KeyedPropertyInfoDictionary<TPropertyKey>();
             for (int i = 0; i < properties.Length; i++)
             {
-                var p = properties[i];
-                Properties.Add(CreateProperty(p));
+                var p = CreateProperty(properties[i]);
+                if (p.Key != null && !Properties.ContainsValue(p))
+                    Properties.Add(p);
             }
         }
 

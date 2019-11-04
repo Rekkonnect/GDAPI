@@ -35,33 +35,47 @@ namespace GDAPI.Objects.DataStructures
         /// <param name="o">The object to add to the dictionary.</param>
         public void Add(TObject o)
         {
-            Dictionary1.Add(o.Key1, o);
-            Dictionary2.Add(o.Key2, o);
+            if (o == null || o.Key1 == null || o.Key2 == null)
+                return;
+            Dictionary1.TryAdd(o.Key1, o);
+            Dictionary2.TryAdd(o.Key2, o);
         }
-        /// <summary>Adds an <seealso cref="IDoubleKeyedObject{TKey1, TKey2}"/> to the dictionary.</summary>
-        /// <param name="o">The <seealso cref="IDoubleKeyedObject{TKey1, TKey2}"/> to add to the dictionary.</param>
-        public void Add(IDoubleKeyedObject<TKey1[], TKey2> o)
+        /// <summary>Adds an <seealso cref="IFirstWideDoubleKeyedObject{TKey1, TKey2}"/> to the dictionary.</summary>
+        /// <param name="o">The <seealso cref="IFirstWideDoubleKeyedObject{TKey1, TKey2}"/> to add to the dictionary.</param>
+        public void Add(IFirstWideDoubleKeyedObject<TKey1, TKey2> o)
         {
-            foreach (var k in o.Key1)
-                Dictionary1.Add(k, (TObject)o);
-            Dictionary2.Add(o.Key2, (TObject)o);
+            var doubleKeyed = (IDoubleKeyedObject<TKey1, TKey2>)o;
+            var doubleKeyedArray = (IDoubleKeyedObject<TKey1[], TKey2>)o;
+            if (o == null || doubleKeyedArray.Key1 == null || doubleKeyedArray.Key2 == null)
+                return;
+            foreach (var k in doubleKeyedArray.Key1)
+                Dictionary1.TryAdd(k, (TObject)doubleKeyed);
+            Dictionary2.TryAdd(doubleKeyedArray.Key2, (TObject)doubleKeyed);
         }
-        /// <summary>Adds an <seealso cref="IDoubleKeyedObject{TKey1, TKey2}"/> to the dictionary.</summary>
-        /// <param name="o">The <seealso cref="IDoubleKeyedObject{TKey1, TKey2}"/> to add to the dictionary.</param>
-        public void Add(IDoubleKeyedObject<TKey1, TKey2[]> o)
+        /// <summary>Adds an <seealso cref="ISecondWideDoubleKeyedObject{TKey1, TKey2}"/> to the dictionary.</summary>
+        /// <param name="o">The <seealso cref="ISecondWideDoubleKeyedObject{TKey1, TKey2}"/> to add to the dictionary.</param>
+        public void Add(ISecondWideDoubleKeyedObject<TKey1, TKey2> o)
         {
-            Dictionary1.Add(o.Key1, (TObject)o);
-            foreach (var k in o.Key2)
-                Dictionary2.Add(k, (TObject)o);
+            var doubleKeyed = (IDoubleKeyedObject<TKey1, TKey2>)o;
+            var doubleKeyedArray = (IDoubleKeyedObject<TKey1, TKey2[]>)o;
+            if (o == null || doubleKeyedArray.Key1 == null || doubleKeyedArray.Key2 == null)
+                return;
+            Dictionary1.TryAdd(doubleKeyedArray.Key1, (TObject)doubleKeyed);
+            foreach (var k in doubleKeyedArray.Key2)
+                Dictionary2.TryAdd(k, (TObject)doubleKeyed);
         }
-        /// <summary>Adds an <seealso cref="IDoubleKeyedObject{TKey1, TKey2}"/> to the dictionary.</summary>
-        /// <param name="o">The <seealso cref="IDoubleKeyedObject{TKey1, TKey2}"/> to add to the dictionary.</param>
-        public void Add(IDoubleKeyedObject<TKey1[], TKey2[]> o)
+        /// <summary>Adds an <seealso cref="IFullyWideDoubleKeyedObject{TKey1, TKey2}"/> to the dictionary.</summary>
+        /// <param name="o">The <seealso cref="IFullyWideDoubleKeyedObject{TKey1, TKey2}"/> to add to the dictionary.</param>
+        public void Add(IFullyWideDoubleKeyedObject<TKey1, TKey2> o)
         {
-            foreach (var k in o.Key1)
-                Dictionary1.Add(k, (TObject)o);
-            foreach (var k in o.Key2)
-                Dictionary2.Add(k, (TObject)o);
+            var doubleKeyed = (IDoubleKeyedObject<TKey1, TKey2>)o;
+            var doubleKeyedArray = (IDoubleKeyedObject<TKey1[], TKey2[]>)o;
+            if (o == null || doubleKeyedArray.Key1 == null || doubleKeyedArray.Key2 == null)
+                return;
+            foreach (var k in doubleKeyedArray.Key1)
+                Dictionary1.TryAdd(k, (TObject)doubleKeyed);
+            foreach (var k in doubleKeyedArray.Key2)
+                Dictionary2.TryAdd(k, (TObject)doubleKeyed);
         }
         /// <summary>Removes an object from the dictionary based on a given first key.</summary>
         /// <param name="key">The first key of the object to remove from the dictionary.</param>

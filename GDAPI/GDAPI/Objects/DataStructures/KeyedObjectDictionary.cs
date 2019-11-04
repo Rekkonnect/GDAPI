@@ -31,11 +31,18 @@ namespace GDAPI.Objects.DataStructures
 
         /// <summary>Adds an object to the dictionary.</summary>
         /// <param name="o">The object to add to the dictionary.</param>
-        public void Add(TObject o) => Dictionary.Add(o.Key, o);
+        public void Add(TObject o)
+        {
+            if (o == null || o.Key == null)
+                return;
+            Dictionary.Add(o.Key, o);
+        }
         /// <summary>Adds an <seealso cref="IKeyedObject{TKey}"/> to the dictionary.</summary>
         /// <param name="o">The <seealso cref="IKeyedObject{TKey}"/> to add to the dictionary.</param>
         public void Add(IKeyedObject<TKey[]> o)
         {
+            if (o == null || o.Key == null)
+                return;
             foreach (var k in o.Key)
                 Dictionary.Add(k, (TObject)o);
         }
@@ -49,6 +56,8 @@ namespace GDAPI.Objects.DataStructures
         /// <param name="o">The <seealso cref="IKeyedObject{TKey}"/> to remove from the dictionary.</param>
         public void Remove(IKeyedObject<TKey[]> o)
         {
+            if (o == null || o.Key == null)
+                return;
             foreach (var k in o.Key)
                 Remove(k);
         }
