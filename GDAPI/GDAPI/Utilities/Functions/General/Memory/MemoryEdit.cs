@@ -43,6 +43,7 @@ namespace GDAPI.Utilities.Functions.General.Memory
         [DllImport("psapi.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern int EnumProcessModules(IntPtr hProcess, [Out] IntPtr lphModule, uint cb, out uint lpcbNeeded);
 
+        #region ReadMemory
         /// <summary>Returns a byte buffer at the specified address with the specified size from a specified process.</summary>
         /// <param name="processHandle">The process containing the returned buffer.</param>
         /// <param name="bufferSize">The size of the buffer.</param>
@@ -54,6 +55,10 @@ namespace GDAPI.Utilities.Functions.General.Memory
             ReadProcessMemory(new IntPtr(processHandle), new IntPtr(address), buffer, (uint)bufferSize, ref shit);
             return buffer;
         }
+        // TODO: Add per-type overloads
+        #endregion
+
+        #region WriteMemory
         /// <summary>Writes a byte buffer at the specified address to a specified process.</summary>
         /// <param name="processHandle">The process whose memory will be written.</param>
         /// <param name="processBytes">The bytes to write.</param>
@@ -64,6 +69,9 @@ namespace GDAPI.Utilities.Functions.General.Memory
             ChangeMemoryProtection(processHandle, address, (uint)processBytes.Length);
             WriteProcessMemory(processHandle, address, processBytes, processBytes.Length, ref shit);
         }
+        // TODO: Add per-type overloads
+        #endregion
+
         /// <summary>Changes a memory page's protection to <seealso cref="ReadWrite"/> at the specified address to a specified process.</summary>
         /// <param name="address">The starting address of the page.</param>
         /// <param name="size">The size of the page whose protection to change.</param>
@@ -73,7 +81,10 @@ namespace GDAPI.Utilities.Functions.General.Memory
             VirtualProtectEx(new IntPtr(processHandle), new IntPtr(address), new UIntPtr(size), (uint)ReadWrite, out _);
         }
 
-        // TODO: Add documentation
+        /// <summary>Gets an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static int GetAddressFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
             int value = ToInt32(ReadMemory(processHandle, 4, baseAddress), 0);
@@ -82,43 +93,94 @@ namespace GDAPI.Utilities.Functions.General.Memory
             return value + offsets[offsets.Length - 1];
         }
 
+        #region GetFromPointers
+        /// <summary>Gets a memory buffer from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="size">The size of the memory buffer to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static byte[] GetValueFromPointers(int processHandle, int size, int baseAddress, params int[] offsets)
         {
             return ReadMemory(processHandle, size, GetAddressFromPointers(processHandle, baseAddress, offsets));
         }
+        /// <summary>Gets an <seealso cref="int"/> from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static int GetIntFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
             return ToInt32(GetValueFromPointers(processHandle, sizeof(int), baseAddress, offsets), 0);
         }
+        /// <summary>Gets a <seealso cref="float"/> from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static float GetFloatFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
             return ToSingle(GetValueFromPointers(processHandle, sizeof(float), baseAddress, offsets), 0);
         }
+        /// <summary>Gets a <seealso cref="bool"/> from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static bool GetBoolFromPointers(int processHandle, int baseAddress, params int[] offsets)
         {
             return ToBoolean(GetValueFromPointers(processHandle, sizeof(bool), baseAddress, offsets), 0);
         }
+        // TODO: Add more per-type overloads
+        #endregion
 
+        #region SetFromPointers
+        /// <summary>Sets a memory buffer from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="bytes">The bytes that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static void SetValueFromPointers(int processHandle, byte[] bytes, int baseAddress, params int[] offsets)
         {
             WriteMemory(processHandle, bytes, GetAddressFromPointers(processHandle, baseAddress, offsets));
         }
+        /// <summary>Sets an <seealso cref="int"/> from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static void SetIntFromPointers(int processHandle, int value, int baseAddress, params int[] offsets)
         {
             SetValueFromPointers(processHandle, GetBytes(value), baseAddress, offsets);
         }
+        /// <summary>Sets a <seealso cref="float"/> from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
         public static void SetFloatFromPointers(int processHandle, float value, int baseAddress, params int[] offsets)
         {
             SetValueFromPointers(processHandle, GetBytes(value), baseAddress, offsets);
         }
+        // TODO: Add more per-type overloads
+        #endregion
 
-        public static void EditInt(int processHandle, int value, int baseAddress, params int[] offsets)
+        #region Adjust
+        /// <summary>Adjusts a <seealso cref="int"/> from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value by which the specified <seealso cref="int"/> will be adjusted.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void AdjustInt(int processHandle, int value, int baseAddress, params int[] offsets)
         {
-            SetValueFromPointers(processHandle, GetBytes(GetIntFromPointers(baseAddress, processHandle, offsets) + value), baseAddress, offsets);
+            SetIntFromPointers(processHandle, GetIntFromPointers(baseAddress, processHandle, offsets) + value, baseAddress, offsets);
         }
-        public static void EditFloat(int processHandle, float value, int baseAddress, params int[] offsets)
+        /// <summary>Adjusts a <seealso cref="float"/> from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value by which the specified <seealso cref="float"/> will be adjusted.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void AdjustFloat(int processHandle, float value, int baseAddress, params int[] offsets)
         {
-            SetValueFromPointers(processHandle, GetBytes(GetIntFromPointers(baseAddress, processHandle, offsets) + value), baseAddress, offsets);
+            SetFloatFromPointers(processHandle, GetIntFromPointers(baseAddress, processHandle, offsets) + value, baseAddress, offsets);
         }
+        // TODO: Add more per-type overloads
+        #endregion
     }
 }
