@@ -452,15 +452,6 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return true;
         }
 
-        private PropertyAccessInfo GetPropertyAccessInfo(int ID) => GetPropertyAccessInfo(GetType(), ID);
-        private static PropertyAccessInfo GetPropertyAccessInfo(Type t, int ID)
-        {
-            KeyedPropertyInfo<int?> p = null;
-            objectTypeDictionary.TryGetValue(t, out var value);
-            value?.Properties.TryGetValue(ID, out p);
-            return p as PropertyAccessInfo;
-        }
-
         /// <summary>Adds a Group ID to the object's Group IDs if it does not already exist.</summary>
         /// <param name="ID">The Group ID to add.</param>
         public void AddGroupID(int ID)
@@ -764,6 +755,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return s.ToString();
         }
 
+        private PropertyAccessInfo GetPropertyAccessInfo(int ID)
+        {
+            KeyedPropertyInfo<int?> p = null;
+            objectTypeDictionary.TryGetValue(GetType(), out var value);
+            value?.Properties.TryGetValue(ID, out p);
+            return p as PropertyAccessInfo;
+        }
         // I swear to fucking goodness I made this at 4:30 AM, this will be redone somewhere else it's just a temporary fix so that we release please have mercy
         // During the writing of this function a lot of WHEEZEs dropped
         private string GetAppropriateStringRepresentation(object thing)
