@@ -17,12 +17,6 @@ namespace GDAPI.Tests.Objects.GeometryDash.LevelObjects
         [Test]
         public void CommonProperties()
         {
-            var objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t) && !t.IsAbstract).ToArray();
-            var objectTypeDictionary = new GeneralObject.ObjectTypeInfoDictionary();
-            foreach (var t in objectTypes.Select(t => GeneralObject.ObjectTypeInfo.GetInfo(t)).ToArray())
-                if (t != null)
-                    objectTypeDictionary.Add(t);
-
             var objects = new LevelObjectCollection();
             for (int i = 0; i < 45; i++)
                 objects.Add(new GeneralObject(i, i * 30 + 15, 75));
