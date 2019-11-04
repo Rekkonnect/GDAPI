@@ -1,61 +1,29 @@
 ﻿using System;
 using System.Reflection;
 using GDAPI.Attributes;
+using GDAPI.Objects.Reflection;
 
-namespace GDAPI.Objects.General
+namespace GDAPI.Objects.GeometryDash.Reflection
 {
     // The following TODOs contain instructions to be executed when self-compiling code can be made
+    // Should also change KeyedPropertyInfo according to its TODOs
 
     // TODO: Make this abstract
     /// <summary>Contains cached information about a property aiming to improve performance while using reflective code.</summary>
-    public class PropertyAccessInfo
+    public class PropertyAccessInfo : KeyedPropertyInfo<int?>
     {
-        /// <summary>The <seealso cref="PropertyInfo"/> object that is associated with this property.</summary>
-        public PropertyInfo PropertyInfo { get; }
-        /// <summary>The type of the property.</summary>
-        public Type PropertyType { get; }
-
-        /// <summary>The type of the getter function.</summary>
-        protected Type GenericFunc;
-        /// <summary>The type of the setter function.</summary>
-        protected Type GenericAction;
-
-        // TODO: Remove these
-        /// <summary>The delegate of the get method.</summary>
-        public Delegate GetMethodDelegate { get; }
-        /// <summary>The delegate of the set method.</summary>
-        public Delegate SetMethodDelegate { get; }
-
         /// <summary>The <seealso cref="Attributes.ObjectStringMappableAttribute"/> of the property.</summary>
         public ObjectStringMappableAttribute ObjectStringMappableAttribute { get; }
         /// <summary>The property key that is associated with this property.</summary>
-        public int? Key => ObjectStringMappableAttribute?.Key;
-            
+        public override int? Key => ObjectStringMappableAttribute?.Key;
+
         /// <summary>Initializes a new instance of the <seealso cref="PropertyAccessInfo"/> class.</summary>
         /// <param name="info">The <seealso cref="PropertyInfo"/> from which to retrieve the property info.</param>
         public PropertyAccessInfo(PropertyInfo info)
+            : base(info)
         {
-            PropertyInfo = info;
-            // You have to be kidding me right now
-            var propertyType = PropertyType = info.PropertyType;
-            var objectType = info.DeclaringType;
-            GenericFunc = typeof(Func<,>).MakeGenericType(objectType, propertyType);
-            GenericAction = typeof(Action<,>).MakeGenericType(objectType, propertyType);
             ObjectStringMappableAttribute = info.GetCustomAttribute<ObjectStringMappableAttribute>();
-
-            // TODO: Remove these
-            GetMethodDelegate = info.GetGetMethod().CreateDelegate(GenericFunc);
-            SetMethodDelegate = info.GetSetMethod()?.CreateDelegate(GenericAction);
         }
-
-        // TODO: Make these abstract
-        /// <summary>Gets the value of the property for an object instance.</summary>
-        /// <param name="instance">The instance whose property's value to get.</param>
-        public virtual object Get(object instance) => GetMethodDelegate?.DynamicInvoke(instance);
-        /// <summary>Sets the value of the property for an object instance.</summary>
-        /// <param name="instance">The instance whose property's value to set.</param>
-        /// <param name="newValue">The new value to set to the property.</param>
-        public virtual void Set(object instance, object newValue) => SetMethodDelegate?.DynamicInvoke(instance, newValue);
     }
     /// <summary>Contains cached information about a property aiming to improve performance while using reflective code. This is defined so that it be used in self-generated and compiled code, aiming for maximized performance. Manual usage of this class indicates severe masochism.</summary>
     public class PropertyAccessInfo<TObject, TProperty> : PropertyAccessInfo

@@ -1,10 +1,4 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using GDAPI.Attributes;
+﻿using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
@@ -12,7 +6,16 @@ using GDAPI.Objects.DataStructures;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects;
+using GDAPI.Objects.GeometryDash.Reflection;
+using GDAPI.Objects.KeyedObjects;
+using GDAPI.Objects.Reflection;
 using Microsoft.CSharp;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.LevelObjects
@@ -22,7 +25,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
     public class GeneralObject
     {
         private static Type[] objectTypes;
-        private static ObjectTypeInfo[] initializableObjectTypes;
+        private static ObjectTypeInfoDictionary objectTypeDictionary;
         private static Dictionary<int, Type> propertyTypeInfo;
 
         static GeneralObject()
@@ -36,9 +39,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             foreach (var i in info)
                 propertyTypeInfo.TryAdd(i.Key, i.Value);
             // I added those 5 lines of code only to realize that I actually do not necessarily need them, hopefully they'll turn out any useful in the near future:tm:
+            // For the time being there is no reason to change them at all
 
             objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToArray();
-            initializableObjectTypes = objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)).ToArray();
+            objectTypeDictionary = new ObjectTypeInfoDictionary();
+            foreach (var t in objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)).ToArray())
+                if (t != null)
+                    objectTypeDictionary.Add(t);
         }
 
         private short[] groupIDs = new short[0]; // Create a ComparableArray<T> class and use it instead
@@ -392,29 +399,57 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return cloned;
         }
 
-        // Reflection is FUN
-        public T GetParameterWithID<T>(int ID)
+        // Currently the exception thrown is not helpful; perhaps consider changing that in the future in case anybody cares to go with the expensive way of catching exceptions and analyzing the issue
+        /// <summary>Returns the value of the property with the specified ID, or throws an exception in case of an error.</summary>
+        /// <typeparam name="T">The value type of the property to get.</typeparam>
+        /// <param name="ID">The ID of the property whose value to get.</param>
+        public T GetPropertyWithID<T>(int ID)
         {
-            var type = GetType();
-            foreach (var t in initializableObjectTypes)
-                if (t.ObjectType == type)
-                    foreach (var p in t.Properties)
-                        if (p.Key == ID)
-                            return (T)p.Get(this);
-            throw new KeyNotFoundException($"The property ID {ID} was not found in {type.Name} (ID: {ObjectID})");
+            if (!TryGetPropertyWithID<T>(ID, out var newValue))
+                throw new KeyNotFoundException($"The property ID {ID} was not found in {GetType().Name} (ID: {ObjectID})");
+            return newValue;
         }
+        /// <summary>Sets the value of the property with the specified ID, or throws an exception in case of an error.</summary>
+        /// <typeparam name="T">The value type of the property to set.</typeparam>
+        /// <param name="ID">The ID of the property whose value to set.</param>
+        /// <param name="newValue">The new value to set to the property.</param>
         public void SetPropertyWithID<T>(int ID, T newValue)
         {
-            var type = GetType();
-            foreach (var t in initializableObjectTypes)
-                if (t.ObjectType == type)
-                    foreach (var p in t.Properties)
-                        if (p.Key == ID)
-                        {
-                            p.Set(this, newValue);
-                            return;
-                        }
-            throw new KeyNotFoundException($"The property ID {ID} was not found in {type.Name} (ID: {ObjectID}) / Value : {newValue}");
+            if (!TrySetPropertyWithID(ID, newValue))
+                throw new KeyNotFoundException($"The property ID {ID} was not found in {GetType().Name} (ID: {ObjectID}) / Value : {newValue}");
+        }
+        /// <summary>Attempts to get the value of the property with the specified ID and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to get.</typeparam>
+        /// <param name="ID">The ID of the property whose value to get.</param>
+        /// <param name="value">The value of the property that was retrieved, defaulting to <see langword="default"/> in case of an error.</param>
+        public bool TryGetPropertyWithID<T>(int ID, out T value) => TryGetPropertyValue(GetPropertyAccessInfo(ID), out value);
+        /// <summary>Attempts to set the value of the property with the specified ID and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to set.</typeparam>
+        /// <param name="ID">The ID of the property whose value to set.</param>
+        /// <param name="newValue">The new value to set to the property.</param>
+        public bool TrySetPropertyWithID<T>(int ID, T newValue) => TrySetPropertyValue(GetPropertyAccessInfo(ID), newValue);
+        /// <summary>Attempts to get the value of the specified property and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to get.</typeparam>
+        /// <param name="property">The property whose value to get.</param>
+        /// <param name="value">The value of the property that was retrieved, defaulting to <see langword="default"/> in case of an error.</param>
+        public bool TryGetPropertyValue<T>(PropertyAccessInfo property, out T value)
+        {
+            value = default;
+            if (typeof(T) != property?.PropertyType)
+                return false;
+            value = (T)property.Get(this);
+            return true;
+        }
+        /// <summary>Attempts to set the value of the specified property and returns <see langword="true"/> if <paramref name="property"/> is not <see langword="null"/> and the property type is correct, otherwise <see langword="false"/>.</summary>
+        /// <typeparam name="T">The value type of the property to set.</typeparam>
+        /// <param name="property">The property whose value to set.</param>
+        /// <param name="newValue">The new value to set to the property.</param>
+        public bool TrySetPropertyValue<T>(PropertyAccessInfo property, T newValue)
+        {
+            if (typeof(T) != property?.PropertyType)
+                return false;
+            property.Set(this, newValue);
+            return true;
         }
 
         /// <summary>Adds a Group ID to the object's Group IDs if it does not already exist.</summary>
@@ -510,7 +545,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
 
         /// <summary>Retrieves the properties of this object's type.</summary>
-        public List<PropertyAccessInfo> GetObjectProperties() => initializableObjectTypes.Where(i => i.ObjectType == GetType()).FirstOrDefault()?.Properties?.ToList();
+        public PropertyAccessInfoDictionary GetObjectProperties() => objectTypeDictionary[GetType()]?.Properties as PropertyAccessInfoDictionary;
 
         /// <summary>Returns the name of the object type.</summary>
         /// <param name="lowerLastWord">Determines whether the last word will be converted to lower case.</param>
@@ -559,13 +594,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <param name="objectID">The object ID of the new object.</param>
         public static GeneralObject GetNewObjectInstance(int objectID)
         {
-            foreach (var t in initializableObjectTypes)
-                if (t.IsValidID(objectID))
-                {
-                    if (t.NonGeneratableAttribute != null)
-                        throw new InvalidOperationException(t.NonGeneratableAttribute.ExceptionMessage);
-                    return t.Constructor.Invoke(null) as GeneralObject;
-                }
+            var t = objectTypeDictionary[objectID];
+            if (t != null)
+            {
+                if (t.NonGeneratableAttribute != null)
+                    throw new InvalidOperationException(t.NonGeneratableAttribute.ExceptionMessage);
+                return t.Constructor.Invoke(null) as GeneralObject;
+            }
 
             if (ObjectLists.RotatingObjectList.Contains(objectID))
                 return new RotatingObject(objectID);
@@ -581,52 +616,125 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
-        public static List<PropertyAccessInfo> GetCommonProperties(IEnumerable<GeneralObject> collection) => GetCommonProperties(collection, null);
+        public static PropertyAccessInfoDictionary GetCommonProperties(IEnumerable<GeneralObject> collection) => GetCommonProperties(collection, null);
         /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/> from a starting list of common properties.</summary>
         /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
-        /// <param name="startingList">The starting list of common properties that will be merged with the resulting list.</param>
-        public static List<PropertyAccessInfo> GetCommonProperties(IEnumerable<GeneralObject> collection, List<PropertyAccessInfo> startingList)
+        /// <param name="startingDictionary">The starting dictionary of common properties that will be merged with the resulting list.</param>
+        public static PropertyAccessInfoDictionary GetCommonProperties(IEnumerable<GeneralObject> collection, PropertyAccessInfoDictionary startingDictionary)
         {
             var objectTypes = GetCollectionObjectTypeInfo(collection);
 
-            List<PropertyAccessInfo> result;
+            KeyedPropertyInfoDictionary<int?> lockedDictionary;
+            PropertyAccessInfoDictionary result;
             if (collection != null)
-                result = new List<PropertyAccessInfo>(startingList);
+                result = new PropertyAccessInfoDictionary(lockedDictionary = startingDictionary);
             else
-                result = new List<PropertyAccessInfo>(objectTypes.First().Properties);
+                result = new PropertyAccessInfoDictionary(lockedDictionary = objectTypes.First().Properties);
 
             foreach (var t in objectTypes)
-                foreach (var p in result)
-                    if (!t.Properties.Contains(p))
-                        result.Remove(p);
+                foreach (var p in lockedDictionary)
+                    if (!t.Properties.ContainsKey(p.Key))
+                        result.Remove(p.Key);
 
             return result;
         }
         /// <summary>Returns all the available object properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="collection">The collection whose all available object properties will be evaluated and returned.</param>
-        public static HashSet<PropertyAccessInfo> GetAllAvailableProperties(IEnumerable<GeneralObject> collection) => GetAllAvailableProperties(collection, null);
+        public static PropertyAccessInfoDictionary GetAllAvailableProperties(IEnumerable<GeneralObject> collection) => GetAllAvailableProperties(collection, null);
         /// <summary>Returns all the available object properties found in the specified <seealso cref="LevelObjectCollection"/> from a starting hash set of available properties.</summary>
         /// <param name="collection">The collection whose all available object properties will be evaluated and returned.</param>
-        /// <param name="startingHashSet">The starting hash set of available properties that will be merged with the resulting hash set.</param>
-        public static HashSet<PropertyAccessInfo> GetAllAvailableProperties(IEnumerable<GeneralObject> collection, HashSet<PropertyAccessInfo> startingHashSet)
+        /// <param name="startingDictionary">The starting dictionary of available properties that will be merged with the resulting hash set.</param>
+        public static PropertyAccessInfoDictionary GetAllAvailableProperties(IEnumerable<GeneralObject> collection, PropertyAccessInfoDictionary startingDictionary)
         {
             var objectTypes = GetCollectionObjectTypeInfo(collection);
 
-            HashSet<PropertyAccessInfo> result;
+            PropertyAccessInfoDictionary result;
             if (collection != null)
-                result = new HashSet<PropertyAccessInfo>(startingHashSet);
+                result = new PropertyAccessInfoDictionary(startingDictionary);
             else
-                result = new HashSet<PropertyAccessInfo>();
+                result = new PropertyAccessInfoDictionary();
 
             foreach (var t in objectTypes)
                 foreach (var p in t.Properties)
-                    result.Add(p);
+                    result.Add(p.Value as PropertyAccessInfo);
 
             return result;
         }
         private static HashSet<ObjectTypeInfo> GetCollectionObjectTypeInfo(IEnumerable<GeneralObject> collection)
         {
-            return new HashSet<ObjectTypeInfo>(collection.Select(o => initializableObjectTypes.Where(i => o.GetType() == i.ObjectType).FirstOrDefault()));
+            return new HashSet<ObjectTypeInfo>(collection.Select(o => objectTypeDictionary[o.GetType()]));
+        }
+
+        /// <summary>Attempts to get the common value of an object property from a collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="collection">The collection of objects whose common property value to retrieve.</param>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="common">The common value of the property.</param>
+        public static bool TryGetCommonPropertyWithID<T>(LevelObjectCollection collection, int ID, out T common)
+        {
+            common = default;
+            if (collection.Count == 0)
+                return false;
+
+            // Get the property that will be retrieved
+            var property = GetPropertyAccessInfo(collection, ID, out int objectIndex);
+
+            if (property == null)
+                return false;
+
+            collection[objectIndex].TryGetPropertyValue(property, out common);
+
+            for (int i = objectIndex + 1; i < collection.Count; i++)
+            {
+                var p = collection[i].GetPropertyAccessInfo(ID);
+                if (p == null)
+                    continue;
+                if (!collection[i].TryGetPropertyValue(p, out T compared))
+                    continue; // Ignore objects that do not contain that property
+                if (!common.Equals(compared))
+                    return false;
+            }
+            return true;
+        }
+        /// <summary>Attempts to set the common value of an object property from a collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="collection">The collection of objects whose common property value to set.</param>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="newValue">The new value of the property to set to all the objects.</param>
+        public static bool TrySetCommonPropertyWithID<T>(LevelObjectCollection collection, int ID, T newValue)
+        {
+            if (collection.Count == 0)
+                return false;
+
+            // Store the property that will be changed
+            var property = GetPropertyAccessInfo(collection, ID, out _);
+
+            if (property == null)
+                return false;
+
+            foreach (var o in collection)
+                o.TrySetPropertyValue(o.GetPropertyAccessInfo(ID), newValue);
+            return true;
+        }
+        private static PropertyAccessInfo GetPropertyAccessInfo(LevelObjectCollection collection, int ID, out int objectIndex)
+        {
+            var failedTypes = new HashSet<Type>();
+            PropertyAccessInfo property = null;
+            for (objectIndex = 0; objectIndex < collection.Count; objectIndex++)
+            {
+                var obj = collection[objectIndex];
+                var type = obj.GetType();
+                if (failedTypes.Contains(type))
+                    continue;
+
+                property = obj.GetPropertyAccessInfo(ID);
+
+                if (property == null)
+                    failedTypes.Add(type);
+                else
+                    break;
+            }
+            return property;
         }
 
         public override string ToString()
@@ -647,6 +755,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return s.ToString();
         }
 
+        private PropertyAccessInfo GetPropertyAccessInfo(int ID)
+        {
+            KeyedPropertyInfo<int?> p = null;
+            objectTypeDictionary.TryGetValue(GetType(), out var value);
+            value?.Properties.TryGetValue(ID, out p);
+            return p as PropertyAccessInfo;
+        }
         // I swear to fucking goodness I made this at 4:30 AM, this will be redone somewhere else it's just a temporary fix so that we release please have mercy
         // During the writing of this function a lot of WHEEZEs dropped
         private string GetAppropriateStringRepresentation(object thing)
@@ -669,17 +784,22 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return thing.ToString();
         }
 
-        // TODO: Make public?
-        private abstract class ObjectTypeInfo
+        public class ObjectTypeInfoDictionary : CachedTypeInfoDictionary<int?, int?>
+        {
+            public new ObjectTypeInfo this[int? key] => base[key] as ObjectTypeInfo;
+            public new ObjectTypeInfo this[Type key] => base[key] as ObjectTypeInfo;
+        }
+        public class ObjectTypeInfo : FirstWideCachedTypeInfo<int?, int?>
         {
             private static Func<Type, Type, PropertyInfo, PropertyAccessInfo> GetAppropriateGenericA;
             private static Func<Type, PropertyInfo, PropertyAccessInfo> GetAppropriateGenericB;
 
-            public Type ObjectType { get; }
-
-            public ConstructorInfo Constructor { get; }
             public NonGeneratableAttribute NonGeneratableAttribute { get; }
-            public PropertyAccessInfo[] Properties { get; }
+
+            public int?[] ObjectIDs { get; protected set; }
+
+            public override int?[] Key1 => ObjectIDs;
+            public override int? ConvertedKey => Key1 != null && Key1.Length > 0 ? Key1[0] : 0;
 
             static ObjectTypeInfo()
             {
@@ -688,30 +808,35 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             }
 
             public ObjectTypeInfo(Type objectType)
+                : base(objectType)
             {
-                ObjectType = objectType;
-                Constructor = objectType.GetConstructor(Type.EmptyTypes);
                 NonGeneratableAttribute = objectType.GetCustomAttribute<NonGeneratableAttribute>();
-                var properties = objectType.GetProperties();
-                Properties = new PropertyAccessInfo[properties.Length];
-                for (int i = 0; i < properties.Length; i++)
-                {
-                    var p = properties[i];
-                    Properties[i] = new PropertyAccessInfo(p);
-                    // TODO: Use the following line instad
-                    //Properties[i] = GetAppropriateGenericA?.Invoke(p.DeclaringType, p.PropertyType, p);
-                }
+                InitializeObjectIDs();
             }
 
-            public abstract bool IsValidID(int objectID);
+            protected virtual void InitializeObjectIDs()
+            {
+                ObjectIDs = ObjectType.GetCustomAttribute<ObjectIDsAttribute>()?.ObjectIDs.Cast<int?>().ToArray() ?? Array.Empty<int?>();
+            }
 
-            protected abstract string GetValidObjectIDs();
+            protected sealed override KeyedPropertyInfo<int?> CreateProperty(PropertyInfo p) => new PropertyAccessInfo(p);
+            // TODO: Use the following line instead
+            //protected sealed override PropertyAccessInfo CreateProperty(PropertyInfo p) => GetAppropriateGenericA?.Invoke(p.DeclaringType, p.PropertyType, p);
+
+            protected virtual string GetValidObjectIDs()
+            {
+                var s = new StringBuilder();
+                for (int i = 0; i < ObjectIDs.Length; i++)
+                    s.Append($"{ObjectIDs[i]}, ");
+                s.Remove(s.Length - 2, 2);
+                return s.ToString();
+            }
 
             public static ObjectTypeInfo GetInfo(Type objectType)
             {
-                if (objectType.GetCustomAttribute<ObjectIDsAttribute>() != null)
-                    return new MultiObjectIDTypeInfo(objectType);
-                return new SingleObjectIDTypeInfo(objectType);
+                if (objectType.GetCustomAttribute<ObjectIDAttribute>() != null)
+                    return new SingleObjectIDTypeInfo(objectType);
+                return new ObjectTypeInfo(objectType);
             }
 
             private static void GenerateSelfExecutingCode()
@@ -777,40 +902,23 @@ namespace GDAPI.Special
 
             public override string ToString() => $"{GetValidObjectIDs()} - {ObjectType.Name}";
         }
-        private class SingleObjectIDTypeInfo : ObjectTypeInfo
+        public class SingleObjectIDTypeInfo : ObjectTypeInfo
         {
-            public int? ObjectID { get; }
-
-            public SingleObjectIDTypeInfo(Type objectType)
-                : base(objectType)
+            public int? ObjectID
             {
-                ObjectID = objectType.GetCustomAttribute<ObjectIDAttribute>()?.ObjectID;
+                get => ObjectIDs[0];
+                private set => ObjectIDs[0] = value;
             }
 
-            public override bool IsValidID(int objectID) => objectID == ObjectID;
+            public SingleObjectIDTypeInfo(Type objectType) : base(objectType) { }
+
+            protected override void InitializeObjectIDs()
+            {
+                ObjectIDs = new int?[1];
+                ObjectID = ObjectType.GetCustomAttribute<ObjectIDAttribute>()?.ObjectID;
+            }
 
             protected override string GetValidObjectIDs() => ObjectID.ToString();
-        }
-        private class MultiObjectIDTypeInfo : ObjectTypeInfo
-        {
-            public int[] ObjectIDs { get; }
-
-            public MultiObjectIDTypeInfo(Type objectType)
-                : base(objectType)
-            {
-                ObjectIDs = objectType.GetCustomAttribute<ObjectIDsAttribute>()?.ObjectIDs;
-            }
-
-            public override bool IsValidID(int objectID) => ObjectIDs?.Contains(objectID) ?? false;
-
-            protected override string GetValidObjectIDs()
-            {
-                var s = new StringBuilder();
-                for (int i = 0; i < ObjectIDs.Length; i++)
-                    s.Append($"{ObjectIDs[i]}, ");
-                s.Remove(s.Length - 2, 2);
-                return s.ToString();
-            }
         }
     }
 }

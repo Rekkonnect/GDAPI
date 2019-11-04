@@ -29,6 +29,9 @@ namespace GDAPI.Objects.DataStructures
             lists.Add(new List<T>(items));
             Count += items.Count;
         }
+        /// <summary>Adds the specified list to the lists.</summary>
+        /// <param name="items">The <seealso cref="IEnumerable{T}"/> of items to add to the lists.</param>
+        public void Add(IEnumerable<T> items) => Add(new List<T>(items));
         // Consider adding removal functions some other time
 
         /// <summary>Removes the specified number of lists from the start of the list.</summary>

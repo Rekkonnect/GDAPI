@@ -7,8 +7,8 @@ using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
 using GDAPI.Objects.DataStructures;
-using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
+using GDAPI.Objects.GeometryDash.Reflection;
 
 namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
@@ -18,8 +18,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         private int triggerCount = -1;
         private int colorTriggerCount = -1;
 
-        private List<PropertyAccessInfo> commonProperties;
-        private HashSet<PropertyAccessInfo> allAvailableProperties;
+        private PropertyAccessInfoDictionary commonProperties;
+        private PropertyAccessInfoDictionary allAvailableProperties;
 
         private int commonPropertiesUnevaluatedIndex;
         private int allAvailablePropertiesUnevaluatedIndex;
@@ -147,7 +147,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="addedObjects">The objects to add.</param>
-        public LevelObjectCollection AddRange(List<GeneralObject> addedObjects)
+        public LevelObjectCollection AddRange(IEnumerable<GeneralObject> addedObjects)
         {
             AddToCounters(addedObjects);
             objects.AddRange(addedObjects);
@@ -157,6 +157,9 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="objects">The objects to add.</param>
         public LevelObjectCollection AddRange(LevelObjectCollection objects) => AddRange(objects.Objects);
+        /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="objects">The objects to add.</param>
+        public LevelObjectCollection AddRange(params GeneralObject[] objects) => AddRange((IEnumerable<GeneralObject>)objects);
         /// <summary>Inserts an object to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index to insert the object at.</param>
         /// <param name="o">The object to insert.</param>
@@ -230,10 +233,21 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             result.ObjectCounts = ObjectCounts.Clone();
             result.GroupCounts = GroupCounts.Clone();
             result.objects = objects.Clone();
-            result.allAvailableProperties = allAvailableProperties.Clone();
-            result.commonProperties = commonProperties.Clone();
+            result.allAvailableProperties = new PropertyAccessInfoDictionary(allAvailableProperties);
+            result.commonProperties = new PropertyAccessInfoDictionary(commonProperties);
             return result;
         }
+
+        /// <summary>Attempts to get the common value of an object property from this collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="common">The common value of the property.</param>
+        public bool TryGetCommonPropertyWithID<T>(int ID, out T common) => GeneralObject.TryGetCommonPropertyWithID(this, ID, out common);
+        /// <summary>Attempts to set the common value of an object property from this collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="newValue">The new value of the property to set to all the objects.</param>
+        public bool TrySetCommonPropertyWithID<T>(int ID, T newValue) => GeneralObject.TrySetCommonPropertyWithID(this, ID, newValue);
 
         /// <summary>Returns a <seealso cref="LevelObjectCollection"/> that contains the objects that have a group ID equal to the provided value.</summary>
         /// <param name="groupID">The group ID of the objects to look for.</param>
@@ -258,7 +272,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         #region Object Property Metadata
         /// <summary>Returns the common object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
-        public List<PropertyAccessInfo> GetCommonProperties()
+        public PropertyAccessInfoDictionary GetCommonProperties()
         {
             if (commonProperties == null)
                 commonProperties = GeneralObject.GetCommonProperties(this);
@@ -271,7 +285,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return commonProperties;
         }
         /// <summary>Returns all the available object properties found in this <seealso cref="LevelObjectCollection"/>.</summary>
-        public HashSet<PropertyAccessInfo> GetAllAvailableProperties()
+        public PropertyAccessInfoDictionary GetAllAvailableProperties()
         {
             if (allAvailableProperties == null)
                 allAvailableProperties = GeneralObject.GetAllAvailableProperties(this);
@@ -333,11 +347,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             set => objects[index] = value;
         }
 
-        public IEnumerator<GeneralObject> GetEnumerator()
-        {
-            foreach (var o in objects)
-                yield return o;
-        }
+        public IEnumerator<GeneralObject> GetEnumerator() => objects.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private void AddToCounters(IEnumerable<GeneralObject> objects)
@@ -384,7 +394,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             if (ShouldRegisterUnevaluatedObjects())
                 unevaluatedObjects.Add(o);
         }
-        private void RegisterUnevaluatedObjects(List<GeneralObject> objects)
+        private void RegisterUnevaluatedObjects(IEnumerable<GeneralObject> objects)
         {
             if (ShouldRegisterUnevaluatedObjects())
                 unevaluatedObjects.Add(objects);
@@ -392,8 +402,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         private bool ShouldRegisterUnevaluatedObjects() => commonProperties != null || allAvailableProperties != null;
         private void SetPropertyCacheToDefault()
         {
-            commonProperties = new List<PropertyAccessInfo>();
-            allAvailableProperties = new HashSet<PropertyAccessInfo>();
+            commonProperties = new PropertyAccessInfoDictionary();
+            allAvailableProperties = new PropertyAccessInfoDictionary();
             ResetUnevaluatedObjects();
         }
         private void ClearPropertyCache()
