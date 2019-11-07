@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 using static GDAPI.Utilities.Enumerations.Memory.MemoryPageProtection;
 using static System.BitConverter;
 
@@ -180,6 +181,42 @@ namespace GDAPI.Utilities.Functions.General.Memory
         /// <param name="value">The value to write.</param>
         /// <param name="address">The starting address of the buffer.</param>
         public static void WriteMemory(int processHandle, char value, int address) => WriteMemory(processHandle, GetBytes(value), address);
+        /// <summary>Writes a <seealso cref="string"/> at the specified address to a specified process using a specified encoding.</summary>
+        /// <param name="processHandle">The process whose memory will be written.</param>
+        /// <param name="value">The string to write using the specified encoding.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        /// <param name="encoding">The string encoding to use.</param>
+        public static void WriteString(int processHandle, string value, int address, Encoding encoding) => WriteMemory(processHandle, encoding.GetBytes(value), address);
+        /// <summary>Writes a <seealso cref="string"/> at the specified address to a specified process using the UTF-7 encoding.</summary>
+        /// <param name="processHandle">The process whose memory will be written.</param>
+        /// <param name="value">The string to write using the UTF-7 encoding.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static void WriteUTF7String(int processHandle, string value, int address) => WriteString(processHandle, value, address, Encoding.UTF7);
+        /// <summary>Writes a <seealso cref="string"/> at the specified address to a specified process using the UTF-8 encoding.</summary>
+        /// <param name="processHandle">The process whose memory will be written.</param>
+        /// <param name="value">The string to write using the UTF-8 encoding.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static void WriteUTF8String(int processHandle, string value, int address) => WriteString(processHandle, value, address, Encoding.UTF8);
+        /// <summary>Writes a <seealso cref="string"/> at the specified address to a specified process using the UTF-32 encoding.</summary>
+        /// <param name="processHandle">The process whose memory will be written.</param>
+        /// <param name="value">The string to write using the UTF-32 encoding.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static void WriteUTF32String(int processHandle, string value, int address) => WriteString(processHandle, value, address, Encoding.UTF32);
+        /// <summary>Writes a <seealso cref="string"/> at the specified address to a specified process using the Unicode encoding.</summary>
+        /// <param name="processHandle">The process whose memory will be written.</param>
+        /// <param name="value">The string to write using the Unicode encoding.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static void WriteUnicodeString(int processHandle, string value, int address) => WriteString(processHandle, value, address, Encoding.Unicode);
+        /// <summary>Writes a <seealso cref="string"/> at the specified address to a specified process using the Big Endian Unicode encoding.</summary>
+        /// <param name="processHandle">The process whose memory will be written.</param>
+        /// <param name="value">The string to write using the Big Endian Unicode encoding.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static void WriteBigEndianUnicodeString(int processHandle, string value, int address) => WriteString(processHandle, value, address, Encoding.BigEndianUnicode);
+        /// <summary>Writes a <seealso cref="string"/> at the specified address to a specified process using the ASCII encoding.</summary>
+        /// <param name="processHandle">The process whose memory will be written.</param>
+        /// <param name="value">The string to write using the ASCII encoding.</param>
+        /// <param name="address">The starting address of the buffer.</param>
+        public static void WriteASCIIString(int processHandle, string value, int address) => WriteString(processHandle, value, address, Encoding.ASCII);
         #endregion
 
         /// <summary>Changes a memory page's protection to <seealso cref="ReadWrite"/> at the specified address to a specified process.</summary>
@@ -315,6 +352,70 @@ namespace GDAPI.Utilities.Functions.General.Memory
         {
             return ToChar(GetValueFromPointers<char>(processHandle, baseAddress, offsets), 0);
         }
+        /// <summary>Gets a <seealso cref="string"/> using a specified encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="byteCount">The number of the bytes of the array containing the string to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="encoding">The string encoding to use.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static string GetStringFromPointers(int processHandle, int byteCount, int baseAddress, Encoding encoding, params int[] offsets)
+        {
+            return encoding.GetString(GetValueFromPointers(processHandle, byteCount, baseAddress, offsets));
+        }
+        /// <summary>Gets a <seealso cref="string"/> in the UTF-7 encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="byteCount">The number of the bytes of the array containing the string to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static string GetUTF7StringFromPointers(int processHandle, int byteCount, int baseAddress, params int[] offsets)
+        {
+            return GetStringFromPointers(processHandle, byteCount, baseAddress, Encoding.UTF7, offsets);
+        }
+        /// <summary>Gets a <seealso cref="string"/> in the UTF-8 encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="byteCount">The number of the bytes of the array containing the string to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static string GetUTF8StringFromPointers(int processHandle, int byteCount, int baseAddress, params int[] offsets)
+        {
+            return GetStringFromPointers(processHandle, byteCount, baseAddress, Encoding.UTF8, offsets);
+        }
+        /// <summary>Gets a <seealso cref="string"/> in the UTF-32 encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="byteCount">The number of the bytes of the array containing the string to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static string GetUTF32StringFromPointers(int processHandle, int byteCount, int baseAddress, params int[] offsets)
+        {
+            return GetStringFromPointers(processHandle, byteCount, baseAddress, Encoding.UTF32, offsets);
+        }
+        /// <summary>Gets a <seealso cref="string"/> in the Unicode encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="byteCount">The number of the bytes of the array containing the string to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static string GetUnicodeStringFromPointers(int processHandle, int byteCount, int baseAddress, params int[] offsets)
+        {
+            return GetStringFromPointers(processHandle, byteCount, baseAddress, Encoding.Unicode, offsets);
+        }
+        /// <summary>Gets a <seealso cref="string"/> in the Big Endian Unicode encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="byteCount">The number of the bytes of the array containing the string to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static string GetBigEndianUnicodeStringFromPointers(int processHandle, int byteCount, int baseAddress, params int[] offsets)
+        {
+            return GetStringFromPointers(processHandle, byteCount, baseAddress, Encoding.BigEndianUnicode, offsets);
+        }
+        /// <summary>Gets a <seealso cref="string"/> in the ASCII encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="byteCount">The number of the bytes of the array containing the string to get.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static string GetASCIIStringFromPointers(int processHandle, int byteCount, int baseAddress, params int[] offsets)
+        {
+            return GetStringFromPointers(processHandle, byteCount, baseAddress, Encoding.ASCII, offsets);
+        }
         #endregion
 
         #region SetFromPointers
@@ -434,6 +535,69 @@ namespace GDAPI.Utilities.Functions.General.Memory
         public static void SetCharFromPointers(int processHandle, char value, int baseAddress, params int[] offsets)
         {
             SetValueFromPointers(processHandle, GetBytes(value), baseAddress, offsets);
+        }
+        /// <summary>Sets a <seealso cref="string"/> using a specified encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void SetStringFromPointers(int processHandle, string value, int baseAddress, Encoding encoding, params int[] offsets)
+        {
+            SetValueFromPointers(processHandle, encoding.GetBytes(value), baseAddress, offsets);
+        }
+        /// <summary>Sets a <seealso cref="string"/> using the UTF-7 encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void SetUTF7StringFromPointers(int processHandle, string value, int baseAddress, params int[] offsets)
+        {
+            SetStringFromPointers(processHandle, value, baseAddress, Encoding.UTF7, offsets);
+        }
+        /// <summary>Sets a <seealso cref="string"/> using the UTF-8 encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void SetUTF8StringFromPointers(int processHandle, string value, int baseAddress, params int[] offsets)
+        {
+            SetStringFromPointers(processHandle, value, baseAddress, Encoding.UTF8, offsets);
+        }
+        /// <summary>Sets a <seealso cref="string"/> using the UTF-32 encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void SetUTF32StringFromPointers(int processHandle, string value, int baseAddress, params int[] offsets)
+        {
+            SetStringFromPointers(processHandle, value, baseAddress, Encoding.UTF32, offsets);
+        }
+        /// <summary>Sets a <seealso cref="string"/> using the Unicode encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void SetUnicodeStringFromPointers(int processHandle, string value, int baseAddress, params int[] offsets)
+        {
+            SetStringFromPointers(processHandle, value, baseAddress, Encoding.Unicode, offsets);
+        }
+        /// <summary>Sets a <seealso cref="string"/> using the Big Endian Unicode encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void SetBigEndianUnicodeStringFromPointers(int processHandle, string value, int baseAddress, params int[] offsets)
+        {
+            SetStringFromPointers(processHandle, value, baseAddress, Encoding.BigEndianUnicode, offsets);
+        }
+        /// <summary>Sets a <seealso cref="string"/> using the ASCII encoding from an address from the given pointers, including the process handle, the base process address and an array of pointer offsets.</summary>
+        /// <param name="processHandle">The process handle of the process whose memory to refer to.</param>
+        /// <param name="value">The value that will be set to the memory buffer.</param>
+        /// <param name="baseAddress">The base address that contains the starting address that will be offset.</param>
+        /// <param name="offsets">The offsets of the pointers.</param>
+        public static void SetASCIIStringFromPointers(int processHandle, string value, int baseAddress, params int[] offsets)
+        {
+            SetStringFromPointers(processHandle, value, baseAddress, Encoding.ASCII, offsets);
         }
         #endregion
 
