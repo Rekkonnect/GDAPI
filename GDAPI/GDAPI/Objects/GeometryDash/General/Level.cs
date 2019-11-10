@@ -251,7 +251,7 @@ namespace GDAPI.Objects.GeometryDash.General
         public Level() { }
         /// <summary>Creates a new instance of the <see cref="Level"/> class from a raw string containing a level and gets its info.</summary>
         /// <param name="level">The raw string containing the level.</param>
-        /// <param name="initializeBackgroundLoading">Determines whether loading the infromation from the level string will be initialized on the background.</param>
+        /// <param name="initializeBackgroundLevelStringLoading">Determines whether loading the infromation from the level string will be initialized on the background.</param>
         public Level(string level, bool initializeBackgroundLevelStringLoading = true)
         {
             canLoadLevelString = initializeBackgroundLevelStringLoading;
@@ -264,10 +264,7 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="creatorName">The name of the creator.</param>
         /// <param name="revision">The revision of the level.</param>
         public Level(string name, string description, string levelString, string creatorName, int revision = 0)
-        {
-            // LONG
-            RawLevel = $"<k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>0</i><k>k50</k><i>35</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r>";
-        }
+            : this(GenerateLevelString(name, description, levelString, creatorName, revision)) { }
         #endregion
 
         #region Functions
@@ -497,6 +494,10 @@ namespace GDAPI.Objects.GeometryDash.General
         private string GetBoolPropertyString(string key, bool value) => value ? $"<k>{key}</k><t />" : "";
         #endregion
 
+        private static string GenerateLevelString(string name, string description, string levelString, string creatorName, int revision)
+        {
+            return $"<k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>0</i><k>k50</k><i>35</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r>";
+        }
         private static async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
         {
             task.ContinueWith(_ => invocableEvent?.Invoke());
