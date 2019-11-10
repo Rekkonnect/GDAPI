@@ -86,14 +86,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         public double Rotation
         {
             get => rotation;
-            set
-            {
-                rotation = (float)value;
-                if (rotation > 360)
-                    rotation -= 360;
-                else if (rotation < -360)
-                    rotation += 360;
-            }
+            set => rotation = (float)value % 360;
         }
         /// <summary>The scaling of this object.</summary>
         [ObjectStringMappable(ObjectProperty.Scaling, 1)]
