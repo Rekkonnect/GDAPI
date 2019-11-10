@@ -296,8 +296,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <summary>Gets or sets the common ID property of the objects in this collection.</summary>
         public int CommonID
         {
-            get => GetCommonPropertyWithID<int>(ObjectProperty.ID);
-            set => SetCommonPropertyWithID(ObjectProperty.ID, value);
+            get => GetCommonPropertyWithID<int>(ObjectProperty.ObjectID);
+            set => SetCommonPropertyWithID(ObjectProperty.ObjectID, value);
         }
         /// <summary>Gets or sets the common X property of the objects in this collection.</summary>
         public double CommonX
@@ -494,14 +494,14 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <summary>Gets or sets the common Color 1 HSV Values property of the objects in this collection.</summary>
         public HSVAdjustment CommonColor1HSVValues
         {
-            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color1HSVValues);
-            set => SetCommonPropertyWithID(ObjectProperty.Color1HSVValues, value);
+            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color1HSV);
+            set => SetCommonPropertyWithID(ObjectProperty.Color1HSV, value);
         }
         /// <summary>Gets or sets the common Color 2 HSV Values property of the objects in this collection.</summary>
         public HSVAdjustment CommonColor2HSVValues
         {
-            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color2HSVValues);
-            set => SetCommonPropertyWithID(ObjectProperty.Color2HSVValues, value);
+            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color2HSV);
+            set => SetCommonPropertyWithID(ObjectProperty.Color2HSV, value);
         }
         /// <summary>Gets or sets the common Fade In property of the objects in this collection.</summary>
         public double CommonFadeIn

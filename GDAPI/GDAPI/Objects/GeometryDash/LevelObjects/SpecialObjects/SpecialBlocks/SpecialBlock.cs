@@ -7,7 +7,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.SpecialBlocks
     public abstract class SpecialBlock : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the special block.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpecialBlock"/> class.</summary>

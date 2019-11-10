@@ -19,7 +19,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private ChancePoolInfo chancePool;
 
         /// <summary>The Object ID of the Random trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.Random;
 
         /// <summary>The target Group ID of the trigger.</summary>

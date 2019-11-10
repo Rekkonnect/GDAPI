@@ -12,7 +12,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, opacity = 1;
 
         /// <summary>The Object ID of the Alpha trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.Alpha;
 
         /// <summary>The duration of the trigger's effect.</summary>

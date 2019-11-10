@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.Gamemod
     public class ShipPortal : CheckableGamemodePortal
     {
         /// <summary>The object ID of the ship portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)PortalType.Ship;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Ship;

@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
     public class YellowDualPortal : Portal
     {
         /// <summary>The object ID of the yellow dual portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)PortalType.YellowDual;
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowDualPortal"/> class.</summary>

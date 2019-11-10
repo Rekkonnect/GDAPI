@@ -55,7 +55,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         // No default property values for the fundamental properties of a level object
         /// <summary>The Object ID of this object.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public int ObjectID
         {
             get => objectID;
@@ -198,7 +198,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             set => bools[7] = value;
         }
         /// <summary>The color 1 HSV values of the object (as a string for the gamesave).</summary>
-        [ObjectStringMappable(ObjectProperty.Color1HSVValues, HSVAdjustment.DefaultHSVString)]
+        [ObjectStringMappable(ObjectProperty.Color1HSV, HSVAdjustment.DefaultHSVString)]
         public string Color1HSV
         {
             get => Color1HSVAdjustment.ToString();
@@ -215,7 +215,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             set => bools[8] = value;
         }
         /// <summary>The color 2 HSV values of the object (as a string for the gamesave).</summary>
-        [ObjectStringMappable(ObjectProperty.Color2HSVValues, HSVAdjustment.DefaultHSVString)]
+        [ObjectStringMappable(ObjectProperty.Color2HSV, HSVAdjustment.DefaultHSVString)]
         public string Color2HSV
         {
             get => Color2HSVAdjustment.ToString();

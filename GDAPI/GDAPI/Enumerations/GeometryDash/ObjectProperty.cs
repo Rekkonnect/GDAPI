@@ -10,7 +10,7 @@ namespace GDAPI.Enumerations.GeometryDash
     {
         /// <summary>Represents the ID of the <see cref="LevelObject"/>.</summary>
         [ObjectPropertyIntType]
-        ID = 1,
+        ObjectID = 1,
         /// <summary>Represents the X location of the <see cref="LevelObject"/> in units.</summary>
         [ObjectPropertyDoubleType]
         X = 2,
@@ -127,10 +127,10 @@ namespace GDAPI.Enumerations.GeometryDash
         Color2HSVEnabled = 42,
         /// <summary>Represents the Color 1 HSV values of the object.</summary>
         [ObjectPropertyHSVAdjustmentType]
-        Color1HSVValues = 43,
+        Color1HSV = 43,
         /// <summary>Represents the Color 2 HSV values of the object.</summary>
         [ObjectPropertyHSVAdjustmentType]
-        Color2HSVValues = 44,
+        Color2HSV = 44,
         /// <summary>Represents the Fade In value of the Pulse trigger.</summary>
         [ObjectPropertyDoubleType]
         FadeIn = 45,

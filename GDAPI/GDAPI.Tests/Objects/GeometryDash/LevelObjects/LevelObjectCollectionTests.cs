@@ -21,7 +21,7 @@ namespace GDAPI.Tests.Objects.GeometryDash.LevelObjects
             for (int i = 0; i < 45; i++)
                 objects.Add(new GeneralObject(i, i * 30 + 15, 75));
 
-            bool hasCommonID = objects.TryGetCommonPropertyWithID((int)ObjectProperty.ID, out int ID);
+            bool hasCommonID = objects.TryGetCommonPropertyWithID((int)ObjectProperty.ObjectID, out int ID);
             bool hasCommonX = objects.TryGetCommonPropertyWithID((int)ObjectProperty.X, out double x);
             bool hasCommonY = objects.TryGetCommonPropertyWithID((int)ObjectProperty.Y, out double y);
 
@@ -29,11 +29,11 @@ namespace GDAPI.Tests.Objects.GeometryDash.LevelObjects
             Assert.IsFalse(hasCommonX);
             Assert.IsTrue(hasCommonY);
 
-            objects.TrySetCommonPropertyWithID((int)ObjectProperty.ID, 4);
+            objects.TrySetCommonPropertyWithID((int)ObjectProperty.ObjectID, 4);
             objects.TrySetCommonPropertyWithID((int)ObjectProperty.X, 35.5);
             objects.TrySetCommonPropertyWithID((int)ObjectProperty.Y, 43.3);
 
-            hasCommonID = objects.TryGetCommonPropertyWithID((int)ObjectProperty.ID, out ID);
+            hasCommonID = objects.TryGetCommonPropertyWithID((int)ObjectProperty.ObjectID, out ID);
             hasCommonX = objects.TryGetCommonPropertyWithID((int)ObjectProperty.X, out x);
             hasCommonY = objects.TryGetCommonPropertyWithID((int)ObjectProperty.Y, out y);
 

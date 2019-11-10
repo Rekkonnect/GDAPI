@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
     {
         /// <summary>The Object ID of the object.</summary>
         // IMPORTANT: If we want to change the object IDs of objects through some function, this has to be reworked
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public new abstract int ObjectID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ConstantIDSpecialObject"/> class.</summary>

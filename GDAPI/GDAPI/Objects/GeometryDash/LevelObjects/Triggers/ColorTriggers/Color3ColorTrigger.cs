@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers
     public class Color3ColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the Color 3 Color trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.Color3;
         
         /// <summary>The target Color ID of the trigger.</summary>
