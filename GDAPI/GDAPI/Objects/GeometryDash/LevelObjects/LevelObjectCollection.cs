@@ -7,6 +7,7 @@ using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
 using GDAPI.Objects.DataStructures;
+using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
 using GDAPI.Objects.GeometryDash.Reflection;
 
@@ -248,6 +249,47 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <param name="ID">The ID of the property.</param>
         /// <param name="newValue">The new value of the property to set to all the objects.</param>
         public bool TrySetCommonPropertyWithID<T>(int ID, T newValue) => GeneralObject.TrySetCommonPropertyWithID(this, ID, newValue);
+        /// <summary>Attempts to get the common value of an object property from this collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="common">The common value of the property.</param>
+        public bool TryGetCommonPropertyWithID<T>(ObjectProperty ID, out T common) => TryGetCommonPropertyWithID((int)ID, out common);
+        /// <summary>Attempts to set the common value of an object property from this collection of objects given its ID.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="newValue">The new value of the property to set to all the objects.</param>
+        public bool TrySetCommonPropertyWithID<T>(ObjectProperty ID, T newValue) => TrySetCommonPropertyWithID((int)ID, newValue);
+        /// <summary>Gets the common value of an object property from this collection of objects given its ID. Throws an <seealso cref="InvalidOperationException"/> if the retrieval failed.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <exception cref="InvalidOperationException"/>
+        public T GetCommonPropertyWithID<T>(int ID)
+        {
+            if (TryGetCommonPropertyWithID(ID, out T result))
+                return result;
+            throw new InvalidOperationException($"Cannot get the common property with ID {ID}.");
+        }
+        /// <summary>Sets the common value of an object property from this collection of objects given its ID. Throws an <seealso cref="InvalidOperationException"/> if the retrieval failed.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="newValue">The new value of the property to set to all the objects.</param>
+        /// <exception cref="InvalidOperationException"/>
+        public void SetCommonPropertyWithID<T>(int ID, T newValue)
+        {
+            if (!TrySetCommonPropertyWithID(ID, newValue))
+                throw new InvalidOperationException($"Cannot set the common property with ID {ID}.");
+        }
+        /// <summary>Gets the common value of an object property from this collection of objects given its ID. Throws an <seealso cref="InvalidOperationException"/> if the retrieval failed.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <exception cref="InvalidOperationException"/>
+        public T GetCommonPropertyWithID<T>(ObjectProperty ID) => GetCommonPropertyWithID<T>((int)ID);
+        /// <summary>Sets the common value of an object property from this collection of objects given its ID. Throws an <seealso cref="InvalidOperationException"/> if the retrieval failed.</summary>
+        /// <typeparam name="T">The value type of the property.</typeparam>
+        /// <param name="ID">The ID of the property.</param>
+        /// <param name="newValue">The new value of the property to set to all the objects.</param>
+        /// <exception cref="InvalidOperationException"/>
+        public void SetCommonPropertyWithID<T>(ObjectProperty ID, T newValue) => SetCommonPropertyWithID((int)ID, newValue);
 
         /// <summary>Returns a <seealso cref="LevelObjectCollection"/> that contains the objects that have a group ID equal to the provided value.</summary>
         /// <param name="groupID">The group ID of the objects to look for.</param>
