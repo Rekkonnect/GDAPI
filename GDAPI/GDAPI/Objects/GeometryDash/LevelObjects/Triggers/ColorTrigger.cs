@@ -14,7 +14,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, opacity = 1;
 
         /// <summary>The Object ID of the Color trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.Color;
 
         /// <summary>Determines whether this color trigger has a constant target Color ID.</summary>
@@ -68,15 +68,15 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         }
         // IMPORTANT: The Player 1 and Player 2 setters are not implemented to avoid unnecessary assignments
         /// <summary>The Player 1 Color property of the trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.SetColorToPlayerColor1, false)]
-        public bool Player1Color
+        [ObjectStringMappable(ObjectProperty.PlayerColor1, false)]
+        public bool PlayerColor1
         {
             get => CopiedColorID == (int)SpecialColorID.P1;
             set { }
         }
         /// <summary>The Player 2 Color property of the trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.SetColorToPlayerColor2, false)]
-        public bool Player2Color
+        [ObjectStringMappable(ObjectProperty.PlayerColor2, false)]
+        public bool PlayerColor2
         {
             get => CopiedColorID == (int)SpecialColorID.P2;
             set { }

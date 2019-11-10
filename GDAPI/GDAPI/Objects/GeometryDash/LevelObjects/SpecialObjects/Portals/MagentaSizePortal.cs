@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
     public class MagentaSizePortal : Portal
     {
         /// <summary>The object ID of the magenta size portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)PortalType.MagentaSize;
 
         /// <summary>Initializes a new instance of the <seealso cref="MagentaSizePortal"/> class.</summary>

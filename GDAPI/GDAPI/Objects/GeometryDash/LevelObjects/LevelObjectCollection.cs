@@ -292,12 +292,12 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         public void SetCommonPropertyWithID<T>(ObjectProperty ID, T newValue) => SetCommonPropertyWithID((int)ID, newValue);
 
         #region Object Properties
-        // The code below was proudly automatically generated (no, the documentation will not be manually touched by me because fuck you)
+        // The code below was proudly automatically generated
         /// <summary>Gets or sets the common ID property of the objects in this collection.</summary>
         public int CommonID
         {
-            get => GetCommonPropertyWithID<int>(ObjectProperty.ID);
-            set => SetCommonPropertyWithID(ObjectProperty.ID, value);
+            get => GetCommonPropertyWithID<int>(ObjectProperty.ObjectID);
+            set => SetCommonPropertyWithID(ObjectProperty.ObjectID, value);
         }
         /// <summary>Gets or sets the common X property of the objects in this collection.</summary>
         public double CommonX
@@ -311,13 +311,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Y);
             set => SetCommonPropertyWithID(ObjectProperty.Y, value);
         }
-        /// <summary>Gets or sets the common FlippedHorizontally property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Flipped Horizontally property of the objects in this collection.</summary>
         public bool CommonFlippedHorizontally
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.FlippedHorizontally);
             set => SetCommonPropertyWithID(ObjectProperty.FlippedHorizontally, value);
         }
-        /// <summary>Gets or sets the common FlippedVertically property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Flipped Vertically property of the objects in this collection.</summary>
         public bool CommonFlippedVertically
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.FlippedVertically);
@@ -353,41 +353,41 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Duration);
             set => SetCommonPropertyWithID(ObjectProperty.Duration, value);
         }
-        /// <summary>Gets or sets the common TouchTriggered property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Touch Triggered property of the objects in this collection.</summary>
         public bool CommonTouchTriggered
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.TouchTriggered);
             set => SetCommonPropertyWithID(ObjectProperty.TouchTriggered, value);
         }
-        /// <summary>Gets or sets the common SecretCoinID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Secret Coin ID property of the objects in this collection.</summary>
         public int CommonSecretCoinID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.SecretCoinID);
             set => SetCommonPropertyWithID(ObjectProperty.SecretCoinID, value);
         }
-        /// <summary>Gets or sets the common SpecialObjectChecked property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Special Object Checked property of the objects in this collection.</summary>
         public bool CommonSpecialObjectChecked
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.SpecialObjectChecked);
             set => SetCommonPropertyWithID(ObjectProperty.SpecialObjectChecked, value);
         }
-        /// <summary>Gets or sets the common TintGround property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Tint Ground property of the objects in this collection.</summary>
         public bool CommonTintGround
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.TintGround);
             set => SetCommonPropertyWithID(ObjectProperty.TintGround, value);
         }
-        /// <summary>Gets or sets the common SetColorToPlayerColor1 property of the objects in this collection.</summary>
-        public bool CommonSetColorToPlayerColor1
+        /// <summary>Gets or sets the common Player Color 1 property of the objects in this collection.</summary>
+        public bool CommonPlayerColor1
         {
-            get => GetCommonPropertyWithID<bool>(ObjectProperty.SetColorToPlayerColor1);
-            set => SetCommonPropertyWithID(ObjectProperty.SetColorToPlayerColor1, value);
+            get => GetCommonPropertyWithID<bool>(ObjectProperty.PlayerColor1);
+            set => SetCommonPropertyWithID(ObjectProperty.PlayerColor1, value);
         }
-        /// <summary>Gets or sets the common SetColorToPlayerColor2 property of the objects in this collection.</summary>
-        public bool CommonSetColorToPlayerColor2
+        /// <summary>Gets or sets the common Player Color 2 property of the objects in this collection.</summary>
+        public bool CommonPlayerColor2
         {
-            get => GetCommonPropertyWithID<bool>(ObjectProperty.SetColorToPlayerColor2);
-            set => SetCommonPropertyWithID(ObjectProperty.SetColorToPlayerColor2, value);
+            get => GetCommonPropertyWithID<bool>(ObjectProperty.PlayerColor2);
+            set => SetCommonPropertyWithID(ObjectProperty.PlayerColor2, value);
         }
         /// <summary>Gets or sets the common Blending property of the objects in this collection.</summary>
         public bool CommonBlending
@@ -395,25 +395,25 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Blending);
             set => SetCommonPropertyWithID(ObjectProperty.Blending, value);
         }
-        /// <summary>Gets or sets the common EL1 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common EL 1 property of the objects in this collection.</summary>
         public int CommonEL1
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.EL1);
             set => SetCommonPropertyWithID(ObjectProperty.EL1, value);
         }
-        /// <summary>Gets or sets the common Color1 property of the objects in this collection.</summary>
-        public int CommonColor1
+        /// <summary>Gets or sets the common Color 1 ID property of the objects in this collection.</summary>
+        public int CommonColor1ID
         {
-            get => GetCommonPropertyWithID<int>(ObjectProperty.Color1);
-            set => SetCommonPropertyWithID(ObjectProperty.Color1, value);
+            get => GetCommonPropertyWithID<int>(ObjectProperty.Color1ID);
+            set => SetCommonPropertyWithID(ObjectProperty.Color1ID, value);
         }
-        /// <summary>Gets or sets the common Color2 property of the objects in this collection.</summary>
-        public int CommonColor2
+        /// <summary>Gets or sets the common Color 2 ID property of the objects in this collection.</summary>
+        public int CommonColor2ID
         {
-            get => GetCommonPropertyWithID<int>(ObjectProperty.Color2);
-            set => SetCommonPropertyWithID(ObjectProperty.Color2, value);
+            get => GetCommonPropertyWithID<int>(ObjectProperty.Color2ID);
+            set => SetCommonPropertyWithID(ObjectProperty.Color2ID, value);
         }
-        /// <summary>Gets or sets the common TargetColorID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Target Color ID property of the objects in this collection.</summary>
         public int CommonTargetColorID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.TargetColorID);
@@ -431,13 +431,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<int>(ObjectProperty.ZOrder);
             set => SetCommonPropertyWithID(ObjectProperty.ZOrder, value);
         }
-        /// <summary>Gets or sets the common OffsetX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Offset X property of the objects in this collection.</summary>
         public double CommonOffsetX
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.OffsetX);
             set => SetCommonPropertyWithID(ObjectProperty.OffsetX, value);
         }
-        /// <summary>Gets or sets the common OffsetY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Offset Y property of the objects in this collection.</summary>
         public double CommonOffsetY
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.OffsetY);
@@ -449,7 +449,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<Easing>(ObjectProperty.Easing);
             set => SetCommonPropertyWithID(ObjectProperty.Easing, value);
         }
-        /// <summary>Gets or sets the common TextObjectText property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Text Object Text property of the objects in this collection.</summary>
         public string CommonTextObjectText
         {
             get => GetCommonPropertyWithID<string>(ObjectProperty.TextObjectText);
@@ -461,7 +461,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Scaling);
             set => SetCommonPropertyWithID(ObjectProperty.Scaling, value);
         }
-        /// <summary>Gets or sets the common GroupParent property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Group Parent property of the objects in this collection.</summary>
         public bool CommonGroupParent
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.GroupParent);
@@ -473,37 +473,37 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Opacity);
             set => SetCommonPropertyWithID(ObjectProperty.Opacity, value);
         }
-        /// <summary>Gets or sets the common UnknownFeature36 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Unknown Feature 36 property of the objects in this collection.</summary>
         public bool CommonUnknownFeature36
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.UnknownFeature36);
             set => SetCommonPropertyWithID(ObjectProperty.UnknownFeature36, value);
         }
-        /// <summary>Gets or sets the common Color1HSVEnabled property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Color 1 HSV Enabled property of the objects in this collection.</summary>
         public bool CommonColor1HSVEnabled
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Color1HSVEnabled);
             set => SetCommonPropertyWithID(ObjectProperty.Color1HSVEnabled, value);
         }
-        /// <summary>Gets or sets the common Color2HSVEnabled property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Color 2 HSV Enabled property of the objects in this collection.</summary>
         public bool CommonColor2HSVEnabled
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Color2HSVEnabled);
             set => SetCommonPropertyWithID(ObjectProperty.Color2HSVEnabled, value);
         }
-        /// <summary>Gets or sets the common Color1HSVValues property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Color 1 HSV Values property of the objects in this collection.</summary>
         public HSVAdjustment CommonColor1HSVValues
         {
-            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color1HSVValues);
-            set => SetCommonPropertyWithID(ObjectProperty.Color1HSVValues, value);
+            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color1HSV);
+            set => SetCommonPropertyWithID(ObjectProperty.Color1HSV, value);
         }
-        /// <summary>Gets or sets the common Color2HSVValues property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Color 2 HSV Values property of the objects in this collection.</summary>
         public HSVAdjustment CommonColor2HSVValues
         {
-            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color2HSVValues);
-            set => SetCommonPropertyWithID(ObjectProperty.Color2HSVValues, value);
+            get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color2HSV);
+            set => SetCommonPropertyWithID(ObjectProperty.Color2HSV, value);
         }
-        /// <summary>Gets or sets the common FadeIn property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Fade In property of the objects in this collection.</summary>
         public double CommonFadeIn
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.FadeIn);
@@ -515,115 +515,115 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Hold);
             set => SetCommonPropertyWithID(ObjectProperty.Hold, value);
         }
-        /// <summary>Gets or sets the common FadeOut property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Fade Out property of the objects in this collection.</summary>
         public double CommonFadeOut
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.FadeOut);
             set => SetCommonPropertyWithID(ObjectProperty.FadeOut, value);
         }
-        /// <summary>Gets or sets the common PulseMode property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Pulse Mode property of the objects in this collection.</summary>
         public PulseMode CommonPulseMode
         {
             get => GetCommonPropertyWithID<PulseMode>(ObjectProperty.PulseMode);
             set => SetCommonPropertyWithID(ObjectProperty.PulseMode, value);
         }
-        /// <summary>Gets or sets the common CopiedColorHSVValues property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Copied Color HSV Values property of the objects in this collection.</summary>
         public HSVAdjustment CommonCopiedColorHSVValues
         {
             get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.CopiedColorHSVValues);
             set => SetCommonPropertyWithID(ObjectProperty.CopiedColorHSVValues, value);
         }
-        /// <summary>Gets or sets the common CopiedColorID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Copied Color ID property of the objects in this collection.</summary>
         public int CommonCopiedColorID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.CopiedColorID);
             set => SetCommonPropertyWithID(ObjectProperty.CopiedColorID, value);
         }
-        /// <summary>Gets or sets the common TargetGroupID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Target Group ID property of the objects in this collection.</summary>
         public int CommonTargetGroupID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.TargetGroupID);
             set => SetCommonPropertyWithID(ObjectProperty.TargetGroupID, value);
         }
-        /// <summary>Gets or sets the common TargetType property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Target Type property of the objects in this collection.</summary>
         public PulseTargetType CommonTargetType
         {
             get => GetCommonPropertyWithID<PulseTargetType>(ObjectProperty.TargetType);
             set => SetCommonPropertyWithID(ObjectProperty.TargetType, value);
         }
-        /// <summary>Gets or sets the common YellowTeleportationPortalDistance property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Yellow Teleportation Portal Distance property of the objects in this collection.</summary>
         public double CommonYellowTeleportationPortalDistance
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.YellowTeleportationPortalDistance);
             set => SetCommonPropertyWithID(ObjectProperty.YellowTeleportationPortalDistance, value);
         }
-        /// <summary>Gets or sets the common ActivateGroup property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Activate Group property of the objects in this collection.</summary>
         public bool CommonActivateGroup
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.ActivateGroup);
             set => SetCommonPropertyWithID(ObjectProperty.ActivateGroup, value);
         }
-        /// <summary>Gets or sets the common GroupIDs property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Group IDs property of the objects in this collection.</summary>
         public int[] CommonGroupIDs
         {
             get => GetCommonPropertyWithID<int[]>(ObjectProperty.GroupIDs);
             set => SetCommonPropertyWithID(ObjectProperty.GroupIDs, value);
         }
-        /// <summary>Gets or sets the common LockToPlayerX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lock To Player X property of the objects in this collection.</summary>
         public bool CommonLockToPlayerX
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockToPlayerX);
             set => SetCommonPropertyWithID(ObjectProperty.LockToPlayerX, value);
         }
-        /// <summary>Gets or sets the common LockToPlayerY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lock To Player Y property of the objects in this collection.</summary>
         public bool CommonLockToPlayerY
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockToPlayerY);
             set => SetCommonPropertyWithID(ObjectProperty.LockToPlayerY, value);
         }
-        /// <summary>Gets or sets the common CopyOpacity property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Copy Opacity property of the objects in this collection.</summary>
         public bool CommonCopyOpacity
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.CopyOpacity);
             set => SetCommonPropertyWithID(ObjectProperty.CopyOpacity, value);
         }
-        /// <summary>Gets or sets the common EL2 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common EL 2 property of the objects in this collection.</summary>
         public int CommonEL2
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.EL2);
             set => SetCommonPropertyWithID(ObjectProperty.EL2, value);
         }
-        /// <summary>Gets or sets the common SpawnTriggered property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Spawn Triggered property of the objects in this collection.</summary>
         public bool CommonSpawnTriggered
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.SpawnTriggered);
             set => SetCommonPropertyWithID(ObjectProperty.SpawnTriggered, value);
         }
-        /// <summary>Gets or sets the common SpawnDelay property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Spawn Delay property of the objects in this collection.</summary>
         public double CommonSpawnDelay
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.SpawnDelay);
             set => SetCommonPropertyWithID(ObjectProperty.SpawnDelay, value);
         }
-        /// <summary>Gets or sets the common DontFade property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Dont Fade property of the objects in this collection.</summary>
         public bool CommonDontFade
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DontFade);
             set => SetCommonPropertyWithID(ObjectProperty.DontFade, value);
         }
-        /// <summary>Gets or sets the common MainOnly property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Main Only property of the objects in this collection.</summary>
         public bool CommonMainOnly
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.MainOnly);
             set => SetCommonPropertyWithID(ObjectProperty.MainOnly, value);
         }
-        /// <summary>Gets or sets the common DetailOnly property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Detail Only property of the objects in this collection.</summary>
         public bool CommonDetailOnly
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DetailOnly);
             set => SetCommonPropertyWithID(ObjectProperty.DetailOnly, value);
         }
-        /// <summary>Gets or sets the common DontEnter property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Dont Enter property of the objects in this collection.</summary>
         public bool CommonDontEnter
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DontEnter);
@@ -635,49 +635,49 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<int>(ObjectProperty.Degrees);
             set => SetCommonPropertyWithID(ObjectProperty.Degrees, value);
         }
-        /// <summary>Gets or sets the common Times360 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Times 360 property of the objects in this collection.</summary>
         public int CommonTimes360
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.Times360);
             set => SetCommonPropertyWithID(ObjectProperty.Times360, value);
         }
-        /// <summary>Gets or sets the common LockObjectRotation property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lock Object Rotation property of the objects in this collection.</summary>
         public bool CommonLockObjectRotation
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockObjectRotation);
             set => SetCommonPropertyWithID(ObjectProperty.LockObjectRotation, value);
         }
-        /// <summary>Gets or sets the common FollowGroupID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Follow Group ID property of the objects in this collection.</summary>
         public int CommonFollowGroupID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.FollowGroupID);
             set => SetCommonPropertyWithID(ObjectProperty.FollowGroupID, value);
         }
-        /// <summary>Gets or sets the common TargetPosGroupID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Target Pos Group ID property of the objects in this collection.</summary>
         public int CommonTargetPosGroupID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.TargetPosGroupID);
             set => SetCommonPropertyWithID(ObjectProperty.TargetPosGroupID, value);
         }
-        /// <summary>Gets or sets the common CenterGroupID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Center Group ID property of the objects in this collection.</summary>
         public int CommonCenterGroupID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.CenterGroupID);
             set => SetCommonPropertyWithID(ObjectProperty.CenterGroupID, value);
         }
-        /// <summary>Gets or sets the common SecondaryGroupID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Secondary Group ID property of the objects in this collection.</summary>
         public int CommonSecondaryGroupID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.SecondaryGroupID);
             set => SetCommonPropertyWithID(ObjectProperty.SecondaryGroupID, value);
         }
-        /// <summary>Gets or sets the common XMod property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common X Mod property of the objects in this collection.</summary>
         public double CommonXMod
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.XMod);
             set => SetCommonPropertyWithID(ObjectProperty.XMod, value);
         }
-        /// <summary>Gets or sets the common YMod property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Y Mod property of the objects in this collection.</summary>
         public double CommonYMod
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.YMod);
@@ -689,7 +689,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Strength);
             set => SetCommonPropertyWithID(ObjectProperty.Strength, value);
         }
-        /// <summary>Gets or sets the common AnimationID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Animation ID property of the objects in this collection.</summary>
         public int CommonAnimationID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.AnimationID);
@@ -701,43 +701,43 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<int>(ObjectProperty.Count);
             set => SetCommonPropertyWithID(ObjectProperty.Count, value);
         }
-        /// <summary>Gets or sets the common SubtractCount property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Subtract Count property of the objects in this collection.</summary>
         public bool CommonSubtractCount
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.SubtractCount);
             set => SetCommonPropertyWithID(ObjectProperty.SubtractCount, value);
         }
-        /// <summary>Gets or sets the common PickupMode property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Pickup Mode property of the objects in this collection.</summary>
         public PickupItemPickupMode CommonPickupMode
         {
             get => GetCommonPropertyWithID<PickupItemPickupMode>(ObjectProperty.PickupMode);
             set => SetCommonPropertyWithID(ObjectProperty.PickupMode, value);
         }
-        /// <summary>Gets or sets the common ItemID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Item ID property of the objects in this collection.</summary>
         public int CommonItemID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.ItemID);
             set => SetCommonPropertyWithID(ObjectProperty.ItemID, value);
         }
-        /// <summary>Gets or sets the common BlockID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Block ID property of the objects in this collection.</summary>
         public int CommonBlockID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.BlockID);
             set => SetCommonPropertyWithID(ObjectProperty.BlockID, value);
         }
-        /// <summary>Gets or sets the common BlockAID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Block A ID property of the objects in this collection.</summary>
         public int CommonBlockAID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.BlockAID);
             set => SetCommonPropertyWithID(ObjectProperty.BlockAID, value);
         }
-        /// <summary>Gets or sets the common HoldMode property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Hold Mode property of the objects in this collection.</summary>
         public bool CommonHoldMode
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.HoldMode);
             set => SetCommonPropertyWithID(ObjectProperty.HoldMode, value);
         }
-        /// <summary>Gets or sets the common ToggleMode property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Toggle Mode property of the objects in this collection.</summary>
         public TouchToggleMode CommonToggleMode
         {
             get => GetCommonPropertyWithID<TouchToggleMode>(ObjectProperty.ToggleMode);
@@ -749,7 +749,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Interval);
             set => SetCommonPropertyWithID(ObjectProperty.Interval, value);
         }
-        /// <summary>Gets or sets the common EasingRate property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Easing Rate property of the objects in this collection.</summary>
         public double CommonEasingRate
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EasingRate);
@@ -761,7 +761,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Exclusive);
             set => SetCommonPropertyWithID(ObjectProperty.Exclusive, value);
         }
-        /// <summary>Gets or sets the common MultiTrigger property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Multi Trigger property of the objects in this collection.</summary>
         public bool CommonMultiTrigger
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.MultiTrigger);
@@ -773,7 +773,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<InstantCountComparison>(ObjectProperty.Comparison);
             set => SetCommonPropertyWithID(ObjectProperty.Comparison, value);
         }
-        /// <summary>Gets or sets the common DualMode property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Dual Mode property of the objects in this collection.</summary>
         public bool CommonDualMode
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DualMode);
@@ -785,133 +785,133 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Speed);
             set => SetCommonPropertyWithID(ObjectProperty.Speed, value);
         }
-        /// <summary>Gets or sets the common FollowDelay property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Follow Delay property of the objects in this collection.</summary>
         public double CommonFollowDelay
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.FollowDelay);
             set => SetCommonPropertyWithID(ObjectProperty.FollowDelay, value);
         }
-        /// <summary>Gets or sets the common YOffset property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Y Offset property of the objects in this collection.</summary>
         public double CommonYOffset
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.YOffset);
             set => SetCommonPropertyWithID(ObjectProperty.YOffset, value);
         }
-        /// <summary>Gets or sets the common TriggerOnExit property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Trigger On Exit property of the objects in this collection.</summary>
         public bool CommonTriggerOnExit
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.TriggerOnExit);
             set => SetCommonPropertyWithID(ObjectProperty.TriggerOnExit, value);
         }
-        /// <summary>Gets or sets the common DynamicBlock property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Dynamic Block property of the objects in this collection.</summary>
         public bool CommonDynamicBlock
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DynamicBlock);
             set => SetCommonPropertyWithID(ObjectProperty.DynamicBlock, value);
         }
-        /// <summary>Gets or sets the common BlockBID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Block B ID property of the objects in this collection.</summary>
         public int CommonBlockBID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.BlockBID);
             set => SetCommonPropertyWithID(ObjectProperty.BlockBID, value);
         }
-        /// <summary>Gets or sets the common DisableGlow property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Disable Glow property of the objects in this collection.</summary>
         public bool CommonDisableGlow
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DisableGlow);
             set => SetCommonPropertyWithID(ObjectProperty.DisableGlow, value);
         }
-        /// <summary>Gets or sets the common CustomRotationSpeed property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Custom Rotation Speed property of the objects in this collection.</summary>
         public int CommonCustomRotationSpeed
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.CustomRotationSpeed);
             set => SetCommonPropertyWithID(ObjectProperty.CustomRotationSpeed, value);
         }
-        /// <summary>Gets or sets the common DisableRotation property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Disable Rotation property of the objects in this collection.</summary>
         public bool CommonDisableRotation
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DisableRotation);
             set => SetCommonPropertyWithID(ObjectProperty.DisableRotation, value);
         }
-        /// <summary>Gets or sets the common MultiActivate property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Multi Activate property of the objects in this collection.</summary>
         public bool CommonMultiActivate
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.MultiActivate);
             set => SetCommonPropertyWithID(ObjectProperty.MultiActivate, value);
         }
-        /// <summary>Gets or sets the common EnableUseTarget property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Enable Use Target property of the objects in this collection.</summary>
         public bool CommonEnableUseTarget
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.EnableUseTarget);
             set => SetCommonPropertyWithID(ObjectProperty.EnableUseTarget, value);
         }
-        /// <summary>Gets or sets the common TargetPosCoordinates property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Target Pos Coordinates property of the objects in this collection.</summary>
         public TargetPosCoordinates CommonTargetPosCoordinates
         {
             get => GetCommonPropertyWithID<TargetPosCoordinates>(ObjectProperty.TargetPosCoordinates);
             set => SetCommonPropertyWithID(ObjectProperty.TargetPosCoordinates, value);
         }
-        /// <summary>Gets or sets the common EditorDisable property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Editor Disable property of the objects in this collection.</summary>
         public bool CommonEditorDisable
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.EditorDisable);
             set => SetCommonPropertyWithID(ObjectProperty.EditorDisable, value);
         }
-        /// <summary>Gets or sets the common HighDetail property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common High Detail property of the objects in this collection.</summary>
         public bool CommonHighDetail
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.HighDetail);
             set => SetCommonPropertyWithID(ObjectProperty.HighDetail, value);
         }
-        /// <summary>Gets or sets the common MaxSpeed property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Max Speed property of the objects in this collection.</summary>
         public double CommonMaxSpeed
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.MaxSpeed);
             set => SetCommonPropertyWithID(ObjectProperty.MaxSpeed, value);
         }
-        /// <summary>Gets or sets the common RandomizeStart property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Randomize Start property of the objects in this collection.</summary>
         public bool CommonRandomizeStart
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.RandomizeStart);
             set => SetCommonPropertyWithID(ObjectProperty.RandomizeStart, value);
         }
-        /// <summary>Gets or sets the common AnimationSpeed property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Animation Speed property of the objects in this collection.</summary>
         public double CommonAnimationSpeed
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.AnimationSpeed);
             set => SetCommonPropertyWithID(ObjectProperty.AnimationSpeed, value);
         }
-        /// <summary>Gets or sets the common LinkedGroupID property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Linked Group ID property of the objects in this collection.</summary>
         public int CommonLinkedGroupID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.LinkedGroupID);
             set => SetCommonPropertyWithID(ObjectProperty.LinkedGroupID, value);
         }
-        /// <summary>Gets or sets the common UnrevealedTextBoxFeature115 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Unrevealed Text Box Feature 115 property of the objects in this collection.</summary>
         public int CommonUnrevealedTextBoxFeature115
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.UnrevealedTextBoxFeature115);
             set => SetCommonPropertyWithID(ObjectProperty.UnrevealedTextBoxFeature115, value);
         }
-        /// <summary>Gets or sets the common SwitchPlayerDirection property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Switch Player Direction property of the objects in this collection.</summary>
         public bool CommonSwitchPlayerDirection
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.SwitchPlayerDirection);
             set => SetCommonPropertyWithID(ObjectProperty.SwitchPlayerDirection, value);
         }
-        /// <summary>Gets or sets the common NoEffects property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common No Effects property of the objects in this collection.</summary>
         public bool CommonNoEffects
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.NoEffects);
             set => SetCommonPropertyWithID(ObjectProperty.NoEffects, value);
         }
-        /// <summary>Gets or sets the common IceBlock property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Ice Block property of the objects in this collection.</summary>
         public bool CommonIceBlock
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.IceBlock);
             set => SetCommonPropertyWithID(ObjectProperty.IceBlock, value);
         }
-        /// <summary>Gets or sets the common NonStick property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Non Stick property of the objects in this collection.</summary>
         public bool CommonNonStick
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.NonStick);
@@ -923,43 +923,43 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Unstuckable);
             set => SetCommonPropertyWithID(ObjectProperty.Unstuckable, value);
         }
-        /// <summary>Gets or sets the common UnreadableProperty1 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Unreadable Property 1 property of the objects in this collection.</summary>
         public bool CommonUnreadableProperty1
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.UnreadableProperty1);
             set => SetCommonPropertyWithID(ObjectProperty.UnreadableProperty1, value);
         }
-        /// <summary>Gets or sets the common UnreadableProperty2 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Unreadable Property 2 property of the objects in this collection.</summary>
         public bool CommonUnreadableProperty2
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.UnreadableProperty2);
             set => SetCommonPropertyWithID(ObjectProperty.UnreadableProperty2, value);
         }
-        /// <summary>Gets or sets the common TransformationScalingX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Transformation Scaling X property of the objects in this collection.</summary>
         public double CommonTransformationScalingX
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.TransformationScalingX);
             set => SetCommonPropertyWithID(ObjectProperty.TransformationScalingX, value);
         }
-        /// <summary>Gets or sets the common TransformationScalingY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Transformation Scaling Y property of the objects in this collection.</summary>
         public double CommonTransformationScalingY
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.TransformationScalingY);
             set => SetCommonPropertyWithID(ObjectProperty.TransformationScalingY, value);
         }
-        /// <summary>Gets or sets the common TransformationScalingCenterX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Transformation Scaling Center X property of the objects in this collection.</summary>
         public double CommonTransformationScalingCenterX
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.TransformationScalingCenterX);
             set => SetCommonPropertyWithID(ObjectProperty.TransformationScalingCenterX, value);
         }
-        /// <summary>Gets or sets the common TransformationScalingCenterY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Transformation Scaling Center Y property of the objects in this collection.</summary>
         public double CommonTransformationScalingCenterY
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.TransformationScalingCenterY);
             set => SetCommonPropertyWithID(ObjectProperty.TransformationScalingCenterY, value);
         }
-        /// <summary>Gets or sets the common ExitStatic property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Exit Static property of the objects in this collection.</summary>
         public bool CommonExitStatic
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.ExitStatic);
@@ -971,7 +971,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Reversed);
             set => SetCommonPropertyWithID(ObjectProperty.Reversed, value);
         }
-        /// <summary>Gets or sets the common LockY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lock Y property of the objects in this collection.</summary>
         public bool CommonLockY
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockY);
@@ -983,13 +983,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Chance);
             set => SetCommonPropertyWithID(ObjectProperty.Chance, value);
         }
-        /// <summary>Gets or sets the common ChanceLots property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Chance Lots property of the objects in this collection.</summary>
         public object CommonChanceLots
         {
             get => GetCommonPropertyWithID<object>(ObjectProperty.ChanceLots);
             set => SetCommonPropertyWithID(ObjectProperty.ChanceLots, value);
         }
-        /// <summary>Gets or sets the common ChanceLotGroups property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Chance Lot Groups property of the objects in this collection.</summary>
         public int[] CommonChanceLotGroups
         {
             get => GetCommonPropertyWithID<int[]>(ObjectProperty.ChanceLotGroups);
@@ -1007,19 +1007,19 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<CustomParticleGrouping>(ObjectProperty.Grouping);
             set => SetCommonPropertyWithID(ObjectProperty.Grouping, value);
         }
-        /// <summary>Gets or sets the common Property1 property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Property 1 property of the objects in this collection.</summary>
         public CustomParticleProperty1 CommonProperty1
         {
             get => GetCommonPropertyWithID<CustomParticleProperty1>(ObjectProperty.Property1);
             set => SetCommonPropertyWithID(ObjectProperty.Property1, value);
         }
-        /// <summary>Gets or sets the common MaxParticles property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Max Particles property of the objects in this collection.</summary>
         public int CommonMaxParticles
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.MaxParticles);
             set => SetCommonPropertyWithID(ObjectProperty.MaxParticles, value);
         }
-        /// <summary>Gets or sets the common CustomParticleDuration property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Custom Particle Duration property of the objects in this collection.</summary>
         public double CommonCustomParticleDuration
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.CustomParticleDuration);
@@ -1031,7 +1031,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Lifetime);
             set => SetCommonPropertyWithID(ObjectProperty.Lifetime, value);
         }
-        /// <summary>Gets or sets the common LifetimeAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lifetime Adjustment property of the objects in this collection.</summary>
         public double CommonLifetimeAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.LifetimeAdjustment);
@@ -1049,235 +1049,235 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<double>(ObjectProperty.Angle);
             set => SetCommonPropertyWithID(ObjectProperty.Angle, value);
         }
-        /// <summary>Gets or sets the common AngleAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Angle Adjustment property of the objects in this collection.</summary>
         public double CommonAngleAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.AngleAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.AngleAdjustment, value);
         }
-        /// <summary>Gets or sets the common CustomParticleSpeed property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Custom Particle Speed property of the objects in this collection.</summary>
         public double CommonCustomParticleSpeed
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.CustomParticleSpeed);
             set => SetCommonPropertyWithID(ObjectProperty.CustomParticleSpeed, value);
         }
-        /// <summary>Gets or sets the common SpeedAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Speed Adjustment property of the objects in this collection.</summary>
         public double CommonSpeedAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.SpeedAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.SpeedAdjustment, value);
         }
-        /// <summary>Gets or sets the common PosVarX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Pos Var X property of the objects in this collection.</summary>
         public double CommonPosVarX
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.PosVarX);
             set => SetCommonPropertyWithID(ObjectProperty.PosVarX, value);
         }
-        /// <summary>Gets or sets the common PosVarY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Pos Var Y property of the objects in this collection.</summary>
         public double CommonPosVarY
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.PosVarY);
             set => SetCommonPropertyWithID(ObjectProperty.PosVarY, value);
         }
-        /// <summary>Gets or sets the common GravityX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Gravity X property of the objects in this collection.</summary>
         public double CommonGravityX
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.GravityX);
             set => SetCommonPropertyWithID(ObjectProperty.GravityX, value);
         }
-        /// <summary>Gets or sets the common GravityY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Gravity Y property of the objects in this collection.</summary>
         public double CommonGravityY
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.GravityY);
             set => SetCommonPropertyWithID(ObjectProperty.GravityY, value);
         }
-        /// <summary>Gets or sets the common AccelRad property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Accel Rad property of the objects in this collection.</summary>
         public double CommonAccelRad
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.AccelRad);
             set => SetCommonPropertyWithID(ObjectProperty.AccelRad, value);
         }
-        /// <summary>Gets or sets the common AccelRadAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Accel Rad Adjustment property of the objects in this collection.</summary>
         public double CommonAccelRadAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.AccelRadAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.AccelRadAdjustment, value);
         }
-        /// <summary>Gets or sets the common AccelTan property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Accel Tan property of the objects in this collection.</summary>
         public double CommonAccelTan
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.AccelTan);
             set => SetCommonPropertyWithID(ObjectProperty.AccelTan, value);
         }
-        /// <summary>Gets or sets the common AccelTanAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Accel Tan Adjustment property of the objects in this collection.</summary>
         public double CommonAccelTanAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.AccelTanAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.AccelTanAdjustment, value);
         }
-        /// <summary>Gets or sets the common StartSize property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Size property of the objects in this collection.</summary>
         public int CommonStartSize
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.StartSize);
             set => SetCommonPropertyWithID(ObjectProperty.StartSize, value);
         }
-        /// <summary>Gets or sets the common StartSizeAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Size Adjustment property of the objects in this collection.</summary>
         public int CommonStartSizeAdjustment
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.StartSizeAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.StartSizeAdjustment, value);
         }
-        /// <summary>Gets or sets the common EndSize property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End Size property of the objects in this collection.</summary>
         public int CommonEndSize
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.EndSize);
             set => SetCommonPropertyWithID(ObjectProperty.EndSize, value);
         }
-        /// <summary>Gets or sets the common EndSizeAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End Size Adjustment property of the objects in this collection.</summary>
         public int CommonEndSizeAdjustment
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.EndSizeAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.EndSizeAdjustment, value);
         }
-        /// <summary>Gets or sets the common StartSpin property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Spin property of the objects in this collection.</summary>
         public int CommonStartSpin
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.StartSpin);
             set => SetCommonPropertyWithID(ObjectProperty.StartSpin, value);
         }
-        /// <summary>Gets or sets the common StartSpinAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Spin Adjustment property of the objects in this collection.</summary>
         public int CommonStartSpinAdjustment
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.StartSpinAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.StartSpinAdjustment, value);
         }
-        /// <summary>Gets or sets the common EndSpin property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End Spin property of the objects in this collection.</summary>
         public int CommonEndSpin
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.EndSpin);
             set => SetCommonPropertyWithID(ObjectProperty.EndSpin, value);
         }
-        /// <summary>Gets or sets the common EndSpinAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End Spin Adjustment property of the objects in this collection.</summary>
         public int CommonEndSpinAdjustment
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.EndSpinAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.EndSpinAdjustment, value);
         }
-        /// <summary>Gets or sets the common StartA property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start A property of the objects in this collection.</summary>
         public double CommonStartA
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartA);
             set => SetCommonPropertyWithID(ObjectProperty.StartA, value);
         }
-        /// <summary>Gets or sets the common StartAAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start A Adjustment property of the objects in this collection.</summary>
         public double CommonStartAAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartAAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.StartAAdjustment, value);
         }
-        /// <summary>Gets or sets the common StartR property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start R property of the objects in this collection.</summary>
         public double CommonStartR
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartR);
             set => SetCommonPropertyWithID(ObjectProperty.StartR, value);
         }
-        /// <summary>Gets or sets the common StartRAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start R Adjustment property of the objects in this collection.</summary>
         public double CommonStartRAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartRAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.StartRAdjustment, value);
         }
-        /// <summary>Gets or sets the common StartG property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start G property of the objects in this collection.</summary>
         public double CommonStartG
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartG);
             set => SetCommonPropertyWithID(ObjectProperty.StartG, value);
         }
-        /// <summary>Gets or sets the common StartGAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start G Adjustment property of the objects in this collection.</summary>
         public double CommonStartGAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartGAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.StartGAdjustment, value);
         }
-        /// <summary>Gets or sets the common StartB property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start B property of the objects in this collection.</summary>
         public double CommonStartB
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartB);
             set => SetCommonPropertyWithID(ObjectProperty.StartB, value);
         }
-        /// <summary>Gets or sets the common StartBAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start B Adjustment property of the objects in this collection.</summary>
         public double CommonStartBAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.StartBAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.StartBAdjustment, value);
         }
-        /// <summary>Gets or sets the common EndA property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End A property of the objects in this collection.</summary>
         public double CommonEndA
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndA);
             set => SetCommonPropertyWithID(ObjectProperty.EndA, value);
         }
-        /// <summary>Gets or sets the common EndAAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End A Adjustment property of the objects in this collection.</summary>
         public double CommonEndAAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndAAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.EndAAdjustment, value);
         }
-        /// <summary>Gets or sets the common EndR property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End R property of the objects in this collection.</summary>
         public double CommonEndR
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndR);
             set => SetCommonPropertyWithID(ObjectProperty.EndR, value);
         }
-        /// <summary>Gets or sets the common EndRAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End R Adjustment property of the objects in this collection.</summary>
         public double CommonEndRAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndRAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.EndRAdjustment, value);
         }
-        /// <summary>Gets or sets the common EndG property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End G property of the objects in this collection.</summary>
         public double CommonEndG
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndG);
             set => SetCommonPropertyWithID(ObjectProperty.EndG, value);
         }
-        /// <summary>Gets or sets the common EndGAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End G Adjustment property of the objects in this collection.</summary>
         public double CommonEndGAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndGAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.EndGAdjustment, value);
         }
-        /// <summary>Gets or sets the common EndB property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End B property of the objects in this collection.</summary>
         public double CommonEndB
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndB);
             set => SetCommonPropertyWithID(ObjectProperty.EndB, value);
         }
-        /// <summary>Gets or sets the common EndBAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common End B Adjustment property of the objects in this collection.</summary>
         public double CommonEndBAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.EndBAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.EndBAdjustment, value);
         }
-        /// <summary>Gets or sets the common CustomParticleFadeIn property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Custom Particle Fade In property of the objects in this collection.</summary>
         public double CommonCustomParticleFadeIn
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.CustomParticleFadeIn);
             set => SetCommonPropertyWithID(ObjectProperty.CustomParticleFadeIn, value);
         }
-        /// <summary>Gets or sets the common FadeInAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Fade In Adjustment property of the objects in this collection.</summary>
         public double CommonFadeInAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.FadeInAdjustment);
             set => SetCommonPropertyWithID(ObjectProperty.FadeInAdjustment, value);
         }
-        /// <summary>Gets or sets the common CustomParticleFadeOut property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Custom Particle Fade Out property of the objects in this collection.</summary>
         public double CommonCustomParticleFadeOut
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.CustomParticleFadeOut);
             set => SetCommonPropertyWithID(ObjectProperty.CustomParticleFadeOut, value);
         }
-        /// <summary>Gets or sets the common FadeOutAdjustment property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Fade Out Adjustment property of the objects in this collection.</summary>
         public double CommonFadeOutAdjustment
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.FadeOutAdjustment);
@@ -1289,43 +1289,43 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Additive);
             set => SetCommonPropertyWithID(ObjectProperty.Additive, value);
         }
-        /// <summary>Gets or sets the common StartSizeEqualsEnd property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Size Equals End property of the objects in this collection.</summary>
         public bool CommonStartSizeEqualsEnd
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.StartSizeEqualsEnd);
             set => SetCommonPropertyWithID(ObjectProperty.StartSizeEqualsEnd, value);
         }
-        /// <summary>Gets or sets the common StartSpinEqualsEnd property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Spin Equals End property of the objects in this collection.</summary>
         public bool CommonStartSpinEqualsEnd
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.StartSpinEqualsEnd);
             set => SetCommonPropertyWithID(ObjectProperty.StartSpinEqualsEnd, value);
         }
-        /// <summary>Gets or sets the common StartRadiusEqualsEnd property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Radius Equals End property of the objects in this collection.</summary>
         public bool CommonStartRadiusEqualsEnd
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.StartRadiusEqualsEnd);
             set => SetCommonPropertyWithID(ObjectProperty.StartRadiusEqualsEnd, value);
         }
-        /// <summary>Gets or sets the common StartRotationIsDir property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Start Rotation Is Dir property of the objects in this collection.</summary>
         public bool CommonStartRotationIsDir
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.StartRotationIsDir);
             set => SetCommonPropertyWithID(ObjectProperty.StartRotationIsDir, value);
         }
-        /// <summary>Gets or sets the common DynamicRotation property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Dynamic Rotation property of the objects in this collection.</summary>
         public bool CommonDynamicRotation
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.DynamicRotation);
             set => SetCommonPropertyWithID(ObjectProperty.DynamicRotation, value);
         }
-        /// <summary>Gets or sets the common UseObjectColor property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Use Object Color property of the objects in this collection.</summary>
         public bool CommonUseObjectColor
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.UseObjectColor);
             set => SetCommonPropertyWithID(ObjectProperty.UseObjectColor, value);
         }
-        /// <summary>Gets or sets the common UniformObjectColor property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Uniform Object Color property of the objects in this collection.</summary>
         public bool CommonUniformObjectColor
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.UniformObjectColor);
@@ -1337,37 +1337,37 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<int>(ObjectProperty.Texture);
             set => SetCommonPropertyWithID(ObjectProperty.Texture, value);
         }
-        /// <summary>Gets or sets the common ScaleX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Scale X property of the objects in this collection.</summary>
         public double CommonScaleX
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.ScaleX);
             set => SetCommonPropertyWithID(ObjectProperty.ScaleX, value);
         }
-        /// <summary>Gets or sets the common ScaleY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Scale Y property of the objects in this collection.</summary>
         public double CommonScaleY
         {
             get => GetCommonPropertyWithID<double>(ObjectProperty.ScaleY);
             set => SetCommonPropertyWithID(ObjectProperty.ScaleY, value);
         }
-        /// <summary>Gets or sets the common LockObjectScale property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lock Object Scale property of the objects in this collection.</summary>
         public bool CommonLockObjectScale
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockObjectScale);
             set => SetCommonPropertyWithID(ObjectProperty.LockObjectScale, value);
         }
-        /// <summary>Gets or sets the common OnlyMoveScale property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Only Move Scale property of the objects in this collection.</summary>
         public bool CommonOnlyMoveScale
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.OnlyMoveScale);
             set => SetCommonPropertyWithID(ObjectProperty.OnlyMoveScale, value);
         }
-        /// <summary>Gets or sets the common LockToCameraX property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lock To Camera X property of the objects in this collection.</summary>
         public bool CommonLockToCameraX
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockToCameraX);
             set => SetCommonPropertyWithID(ObjectProperty.LockToCameraX, value);
         }
-        /// <summary>Gets or sets the common LockToCameraY property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Lock To Camera Y property of the objects in this collection.</summary>
         public bool CommonLockToCameraY
         {
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockToCameraY);

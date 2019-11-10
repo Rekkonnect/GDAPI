@@ -56,7 +56,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
         private SymmetricalRange<Color> end = new SymmetricalRange<Color>(Color.White, Color.Zero);
 
         /// <summary>The object ID of the custom particle object.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)SpecialObjectType.CustomParticleObject;
 
         #region Motion

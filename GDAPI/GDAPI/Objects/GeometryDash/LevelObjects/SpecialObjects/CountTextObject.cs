@@ -11,7 +11,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
         private short itemID;
 
         /// <summary>The object ID of the count text block.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)SpecialObjectType.CountTextObject;
 
         /// <summary>The Item ID the count text object displays.</summary>

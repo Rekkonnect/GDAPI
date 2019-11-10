@@ -10,7 +10,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class TextObject : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the text object.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)SpecialObjectType.TextObject;
 
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>

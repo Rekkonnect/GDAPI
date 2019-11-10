@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPo
     public class SlowSpeedPortal : SpeedPortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the slow speed portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)PortalType.SlowSpeed;
 
         /// <summary>The speed this speed portal sets.</summary>

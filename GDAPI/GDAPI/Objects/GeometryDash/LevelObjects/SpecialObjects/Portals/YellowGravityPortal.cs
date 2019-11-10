@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
     public class YellowGravityPortal : Portal
     {
         /// <summary>The object ID of the yellow gravity portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)PortalType.YellowGravity;
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowGravityPortal"/> class.</summary>

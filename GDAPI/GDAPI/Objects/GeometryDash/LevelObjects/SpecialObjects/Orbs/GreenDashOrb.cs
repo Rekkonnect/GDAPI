@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
     public class GreenDashOrb : Orb
     {
         /// <summary>The object ID of the green dash orb.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)OrbType.GreenDashOrb;
 
         /// <summary>Initializes a new instance of the <seealso cref="GreenDashOrb"/> class.</summary>

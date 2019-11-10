@@ -11,7 +11,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
 
         /// <summary>The Object ID of the On Death trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.OnDeath;
 
         /// <summary>The target Group ID of the trigger.</summary>

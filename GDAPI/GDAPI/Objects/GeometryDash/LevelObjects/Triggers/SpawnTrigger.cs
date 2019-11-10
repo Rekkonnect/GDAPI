@@ -12,7 +12,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float delay;
 
         /// <summary>The Object ID of the Spawn trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.Spawn;
 
         /// <summary>The target Group ID of the trigger.</summary>

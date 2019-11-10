@@ -12,7 +12,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, speed = 1, delay, maxSpeed;
 
         /// <summary>The Object ID of the Follow Player Y trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.FollowPlayerY;
 
         /// <summary>The duration of the trigger's effect.</summary>

@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
     [ObjectID(TriggerType.Reverse)]
     public class ReverseTrigger : Trigger
     {
-        [ObjectStringMappable(ObjectProperty.ID)]
+        [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.Reverse;
 
         /// <summary>The Reverse property of the trigger.</summary>

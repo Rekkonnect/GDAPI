@@ -10,7 +10,7 @@ namespace GDAPI.Enumerations.GeometryDash
     {
         /// <summary>Represents the ID of the <see cref="LevelObject"/>.</summary>
         [ObjectPropertyIntType]
-        ID = 1,
+        ObjectID = 1,
         /// <summary>Represents the X location of the <see cref="LevelObject"/> in units.</summary>
         [ObjectPropertyDoubleType]
         X = 2,
@@ -52,10 +52,10 @@ namespace GDAPI.Enumerations.GeometryDash
         TintGround = 14,
         /// <summary>Represents the Player Color 1 property of the Color trigger.</summary>
         [ObjectPropertyBoolType]
-        SetColorToPlayerColor1 = 15,
+        PlayerColor1 = 15,
         /// <summary>Represents the Player Color 2 property of the Color trigger.</summary>
         [ObjectPropertyBoolType]
-        SetColorToPlayerColor2 = 16,
+        PlayerColor2 = 16,
         /// <summary>Represents the Blending property of the Color trigger.</summary>
         [ObjectPropertyBoolType]
         Blending = 17,
@@ -68,10 +68,10 @@ namespace GDAPI.Enumerations.GeometryDash
         EL1 = 20,
         /// <summary>Represents the Main Color Channel value of the <see cref="LevelObject"/>.</summary>
         [ObjectPropertyIntType]
-        Color1 = 21,
+        Color1ID = 21,
         /// <summary>Represents the Detail Color Channel value of the <see cref="LevelObject"/>.</summary>
         [ObjectPropertyIntType]
-        Color2 = 22,
+        Color2ID = 22,
         /// <summary>Represents the Target Color ID property of the Color trigger.</summary>
         [ObjectPropertyIntType]
         TargetColorID = 23,
@@ -127,10 +127,10 @@ namespace GDAPI.Enumerations.GeometryDash
         Color2HSVEnabled = 42,
         /// <summary>Represents the Color 1 HSV values of the object.</summary>
         [ObjectPropertyHSVAdjustmentType]
-        Color1HSVValues = 43,
+        Color1HSV = 43,
         /// <summary>Represents the Color 2 HSV values of the object.</summary>
         [ObjectPropertyHSVAdjustmentType]
-        Color2HSVValues = 44,
+        Color2HSV = 44,
         /// <summary>Represents the Fade In value of the Pulse trigger.</summary>
         [ObjectPropertyDoubleType]
         FadeIn = 45,
