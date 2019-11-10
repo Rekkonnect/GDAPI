@@ -293,8 +293,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         #region Object Properties
         // The code below was proudly automatically generated
-        /// <summary>Gets or sets the common ID property of the objects in this collection.</summary>
-        public int CommonID
+        /// <summary>Gets or sets the common Object ID property of the objects in this collection.</summary>
+        public int CommonObjectID
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.ObjectID);
             set => SetCommonPropertyWithID(ObjectProperty.ObjectID, value);
@@ -419,13 +419,13 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<int>(ObjectProperty.TargetColorID);
             set => SetCommonPropertyWithID(ObjectProperty.TargetColorID, value);
         }
-        /// <summary>Gets or sets the common ZLayer property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Z Layer property of the objects in this collection.</summary>
         public int CommonZLayer
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.ZLayer);
             set => SetCommonPropertyWithID(ObjectProperty.ZLayer, value);
         }
-        /// <summary>Gets or sets the common ZOrder property of the objects in this collection.</summary>
+        /// <summary>Gets or sets the common Z Order property of the objects in this collection.</summary>
         public int CommonZOrder
         {
             get => GetCommonPropertyWithID<int>(ObjectProperty.ZOrder);
@@ -491,14 +491,14 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<bool>(ObjectProperty.Color2HSVEnabled);
             set => SetCommonPropertyWithID(ObjectProperty.Color2HSVEnabled, value);
         }
-        /// <summary>Gets or sets the common Color 1 HSV Values property of the objects in this collection.</summary>
-        public HSVAdjustment CommonColor1HSVValues
+        /// <summary>Gets or sets the common Color 1 HSV property of the objects in this collection.</summary>
+        public HSVAdjustment CommonColor1HSV
         {
             get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color1HSV);
             set => SetCommonPropertyWithID(ObjectProperty.Color1HSV, value);
         }
-        /// <summary>Gets or sets the common Color 2 HSV Values property of the objects in this collection.</summary>
-        public HSVAdjustment CommonColor2HSVValues
+        /// <summary>Gets or sets the common Color 2 HSV property of the objects in this collection.</summary>
+        public HSVAdjustment CommonColor2HSV
         {
             get => GetCommonPropertyWithID<HSVAdjustment>(ObjectProperty.Color2HSV);
             set => SetCommonPropertyWithID(ObjectProperty.Color2HSV, value);
