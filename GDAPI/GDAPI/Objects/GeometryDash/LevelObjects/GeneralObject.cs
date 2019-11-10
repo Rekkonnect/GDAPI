@@ -131,14 +131,14 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             set => zOrder = (short)value;
         }
         /// <summary>The Color 1 ID of this object.</summary>
-        [ObjectStringMappable(ObjectProperty.Color1, 0, true)]
+        [ObjectStringMappable(ObjectProperty.Color1ID, 0, true)]
         public int Color1ID
         {
             get => color1ID;
             set => color1ID = (short)value;
         }
         /// <summary>The Color 2 ID of this object.</summary>
-        [ObjectStringMappable(ObjectProperty.Color2, 0, true)]
+        [ObjectStringMappable(ObjectProperty.Color2ID, 0, true)]
         public int Color2ID
         {
             get => color2ID;

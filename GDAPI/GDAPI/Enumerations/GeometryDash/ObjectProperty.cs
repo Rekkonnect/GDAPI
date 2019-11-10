@@ -52,10 +52,10 @@ namespace GDAPI.Enumerations.GeometryDash
         TintGround = 14,
         /// <summary>Represents the Player Color 1 property of the Color trigger.</summary>
         [ObjectPropertyBoolType]
-        SetColorToPlayerColor1 = 15,
+        PlayerColor1 = 15,
         /// <summary>Represents the Player Color 2 property of the Color trigger.</summary>
         [ObjectPropertyBoolType]
-        SetColorToPlayerColor2 = 16,
+        PlayerColor2 = 16,
         /// <summary>Represents the Blending property of the Color trigger.</summary>
         [ObjectPropertyBoolType]
         Blending = 17,
@@ -68,10 +68,10 @@ namespace GDAPI.Enumerations.GeometryDash
         EL1 = 20,
         /// <summary>Represents the Main Color Channel value of the <see cref="LevelObject"/>.</summary>
         [ObjectPropertyIntType]
-        Color1 = 21,
+        Color1ID = 21,
         /// <summary>Represents the Detail Color Channel value of the <see cref="LevelObject"/>.</summary>
         [ObjectPropertyIntType]
-        Color2 = 22,
+        Color2ID = 22,
         /// <summary>Represents the Target Color ID property of the Color trigger.</summary>
         [ObjectPropertyIntType]
         TargetColorID = 23,

@@ -184,8 +184,8 @@ namespace GDAPI.Objects.GeometryDash.General
             this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectProperty.X] = x;
             this[ObjectProperty.Y] = y;
-            this[ObjectProperty.Color1] = mainColor;
-            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.Color1ID] = mainColor;
+            this[ObjectProperty.Color2ID] = detailColor;
             this[ObjectProperty.GroupIDs] = groupIDs;
             this[ObjectProperty.EL1] = EL1;
             this[ObjectProperty.EL2] = EL2;
@@ -206,8 +206,8 @@ namespace GDAPI.Objects.GeometryDash.General
             this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectProperty.X] = x;
             this[ObjectProperty.Y] = y;
-            this[ObjectProperty.Color1] = mainColor;
-            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.Color1ID] = mainColor;
+            this[ObjectProperty.Color2ID] = detailColor;
             this[ObjectProperty.GroupIDs] = groupIDs;
             this[ObjectProperty.EL1] = EL1;
             this[ObjectProperty.EL2] = EL2;
@@ -231,8 +231,8 @@ namespace GDAPI.Objects.GeometryDash.General
             this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectProperty.X] = x;
             this[ObjectProperty.Y] = y;
-            this[ObjectProperty.Color1] = mainColor;
-            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.Color1ID] = mainColor;
+            this[ObjectProperty.Color2ID] = detailColor;
             this[ObjectProperty.GroupIDs] = groupIDs;
             this[ObjectProperty.EL1] = EL1;
             this[ObjectProperty.EL2] = EL2;
@@ -258,8 +258,8 @@ namespace GDAPI.Objects.GeometryDash.General
             this[ObjectProperty.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectProperty.X] = x;
             this[ObjectProperty.Y] = y;
-            this[ObjectProperty.Color1] = mainColor;
-            this[ObjectProperty.Color2] = detailColor;
+            this[ObjectProperty.Color1ID] = mainColor;
+            this[ObjectProperty.Color2ID] = detailColor;
             this[ObjectProperty.GroupIDs] = groupIDs;
             this[ObjectProperty.EL1] = EL1;
             this[ObjectProperty.EL2] = EL2;
