@@ -1373,7 +1373,6 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => GetCommonPropertyWithID<bool>(ObjectProperty.LockToCameraY);
             set => SetCommonPropertyWithID(ObjectProperty.LockToCameraY, value);
         }
-        // Please make a script because writing all this shit for 108 or so properties is disgusting
         #endregion
 
         /// <summary>Returns a <seealso cref="LevelObjectCollection"/> that contains the objects that have a group ID equal to the provided value.</summary>
