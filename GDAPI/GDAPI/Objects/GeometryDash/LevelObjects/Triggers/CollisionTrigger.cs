@@ -50,6 +50,15 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
             set => TriggerBools[4] = value;
         }
 
+        /// <summary>The Duration property of the trigger, which does not exist. It serves the purpose of an exception reductor.</summary>
+        [ExceptionReductor]
+        [ObjectStringMappable(ObjectProperty.Duration, 0d)]
+        public double Duration
+        {
+            get => 0;
+            set { }
+        }
+
         /// <summary>Initializes a new instance of the <seealso cref="CollisionTrigger"/> class.</summary>
         public CollisionTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="CollisionTrigger"/> class.</summary>

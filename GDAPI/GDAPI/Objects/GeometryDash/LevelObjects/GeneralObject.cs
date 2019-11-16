@@ -267,7 +267,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             get => bools[14];
             set => bools[14] = value;
         }
-        /// <summary>Unknown feawture with ID 36. Its only purpose is to avoid throwing exceptions when encountering this property, causing infinite performance costs.</summary>
+        /// <summary>Unknown feature with ID 36.</summary>
         [ObjectStringMappable(ObjectProperty.UnknownFeature36, false)]
         public bool UnknownFeature36
         {
