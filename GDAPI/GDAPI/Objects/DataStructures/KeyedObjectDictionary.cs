@@ -25,7 +25,10 @@ namespace GDAPI.Objects.DataStructures
         /// <param name="d">The dictionary to initialize this dictionary out of.</param>
         public KeyedObjectDictionary(KeyedObjectDictionary<TKey, TObject> d)
         {
-            Dictionary = new Dictionary<TKey, TObject>(d.Dictionary);
+            if (d != null)
+                Dictionary = new Dictionary<TKey, TObject>(d.Dictionary);
+            else
+                Dictionary = new Dictionary<TKey, TObject>();
         }
         // TODO: Add more constructors if necessary
 
