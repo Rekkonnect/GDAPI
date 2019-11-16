@@ -11,6 +11,15 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)OrbType.BlackOrb;
 
+        /// <summary>The Disable Rotation property of the orb, which does not exist. It serves the purpose of an exception reductor.</summary>
+        [ExceptionReductor]
+        [ObjectStringMappable(ObjectProperty.DisableRotation, false)]
+        public bool DisableRotation
+        {
+            get => false;
+            set { }
+        }
+
         /// <summary>Initializes a new instance of the <seealso cref="BlackOrb"/> class.</summary>
         public BlackOrb() : base() { }
 
