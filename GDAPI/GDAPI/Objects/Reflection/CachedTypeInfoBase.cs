@@ -8,6 +8,9 @@ namespace GDAPI.Objects.Reflection
     /// <typeparam name="TPropertyKey">The type of the key of the properties of this <seealso cref="Type"/>.</typeparam>
     public abstract class CachedTypeInfoBase<TPropertyKey> : IKeyedObject<Type>
     {
+        /// <summary>The object type properties.</summary>
+        protected PropertyInfo[] ObjectTypeProperties { get; }
+
         /// <summary>The object type whose info is being stored in this object.</summary>
         public Type ObjectType { get; protected set; }
 
@@ -24,12 +27,12 @@ namespace GDAPI.Objects.Reflection
         public CachedTypeInfoBase(Type objectType)
         {
             ObjectType = objectType;
-            Constructor = objectType.GetConstructor(Type.EmptyTypes);
-            var properties = objectType.GetProperties();
+            Constructor = objectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            ObjectTypeProperties = objectType.GetProperties();
             Properties = new KeyedPropertyInfoDictionary<TPropertyKey>();
-            for (int i = 0; i < properties.Length; i++)
+            for (int i = 0; i < ObjectTypeProperties.Length; i++)
             {
-                var p = CreateProperty(properties[i]);
+                var p = CreateProperty(ObjectTypeProperties[i]);
                 if (p.Key != null && !Properties.ContainsValue(p))
                     Properties.Add(p);
             }
