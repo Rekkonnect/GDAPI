@@ -6,7 +6,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class AnimatedObject : SpecialObject
     {
         /// <summary>The valid object IDs of the special object.</summary>
-        protected override int[] ValidObjectIDs => ObjectLists.AnimatedObjectList;
+        public override int[] ValidObjectIDs => ObjectLists.AnimatedObjectList;
         /// <summary>The name as a string of the special object.</summary>
         protected override string SpecialObjectTypeName => "animated object";
 
