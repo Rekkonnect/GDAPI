@@ -9,10 +9,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
     {
         /// <summary>The <seealso cref="bool"/>s of the special objects.</summary>
         protected BitArray8 SpecialObjectBools = new BitArray8();
-        /// <summary>The valid object IDs of the special object. Only override if the class does not represent a single object.</summary>
-        protected virtual int[] ValidObjectIDs => null;
         /// <summary>The name as a string of the special object. Only override if the class does not represent a single object.</summary>
         protected virtual string SpecialObjectTypeName => "special object";
+
+        /// <summary>The valid object IDs of the special object. Only override if the class does not represent a single object.</summary>
+        public virtual int[] ValidObjectIDs => null;
 
         /// <summary>Initializes a new instance of the <seealso cref="SpecialObject"/> class.</summary>
         public SpecialObject() { }

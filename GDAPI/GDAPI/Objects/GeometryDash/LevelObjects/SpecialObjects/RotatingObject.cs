@@ -10,7 +10,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
         private float customRotationSpeed;
 
         /// <summary>The valid object IDs of the special object.</summary>
-        protected override int[] ValidObjectIDs => ObjectLists.RotatingObjectList;
+        public override int[] ValidObjectIDs => ObjectLists.RotatingObjectList;
         /// <summary>The name as a string of the special object.</summary>
         protected override string SpecialObjectTypeName => "rotating object";
 

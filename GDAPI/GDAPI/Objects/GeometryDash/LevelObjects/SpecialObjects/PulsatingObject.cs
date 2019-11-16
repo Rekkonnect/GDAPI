@@ -10,7 +10,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
         private float animationSpeed = 1;
 
         /// <summary>The valid object IDs of the special object.</summary>
-        protected override int[] ValidObjectIDs => ObjectLists.PulsatingObjectList;
+        public override int[] ValidObjectIDs => ObjectLists.PulsatingObjectList;
         /// <summary>The name as a string of the special object.</summary>
         protected override string SpecialObjectTypeName => "pulsating object";
 
