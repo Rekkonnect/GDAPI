@@ -12,11 +12,6 @@ namespace GDAPI.Tests.Application.Editors
 {
     public class EditorTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void IDMigration()
         {

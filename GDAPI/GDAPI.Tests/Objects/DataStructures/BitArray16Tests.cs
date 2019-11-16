@@ -5,11 +5,6 @@ namespace GDAPI.Tests.Objects.DataStructures
 {
     public class BitArray16Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void BitArray()
         {

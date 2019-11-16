@@ -8,11 +8,6 @@ namespace GDAPI.Tests.Objects.Music
     {
         private TimeSignature commonTimeSignature = new TimeSignature(4, 4);
 
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void BPMStuff()
         {

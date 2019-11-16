@@ -10,11 +10,6 @@ namespace GDAPI.Tests.Objects.Music
         private TimeSignature waltzTimeSignature = new TimeSignature(3, 4);
         private TimeSignature uncommonTimeSignature = new TimeSignature(5, 4);
 
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void AdvanceBeat()
         {

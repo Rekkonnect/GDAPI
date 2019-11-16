@@ -9,11 +9,6 @@ namespace GDAPI.Tests.Objects.GeometryDash.LevelObjects
 {
     public class LevelObjectCollectionTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void CommonProperties()
         {

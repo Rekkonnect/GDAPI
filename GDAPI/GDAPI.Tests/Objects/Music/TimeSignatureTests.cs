@@ -7,11 +7,6 @@ namespace GDAPI.Tests.Objects.Music
 {
     public class TimeSignatureTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void TimeSignatureStuff()
         {
