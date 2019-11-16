@@ -594,17 +594,10 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             {
                 if (i.NonGeneratableAttribute != null)
                     throw new InvalidOperationException(i.NonGeneratableAttribute.ExceptionMessage);
-                return i.Constructor.Invoke(null) as GeneralObject;
+                var instance = i.Constructor.Invoke(null) as GeneralObject;
+                instance.objectID = (short)objectID; // Ensure the new object has the specified ID in case of a generic case
+                return instance;
             }
-
-            if (ObjectLists.RotatingObjectList.Contains(objectID))
-                return new RotatingObject(objectID);
-            if (ObjectLists.AnimatedObjectList.Contains(objectID))
-                return new AnimatedObject(objectID);
-            if (ObjectLists.PickupItemList.Contains(objectID))
-                return new PickupItem(objectID);
-            if (ObjectLists.PulsatingObjectList.Contains(objectID))
-                return new PulsatingObject(objectID);
 
             return new GeneralObject(objectID);
         }
