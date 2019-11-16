@@ -13,7 +13,7 @@ namespace GDAPI.Tests.Objects.GeometryDash.LevelObjects
         public void CommonProperties()
         {
             var objects = new LevelObjectCollection();
-            for (int i = 0; i < 45; i++)
+            for (int i = 1; i <= 45; i++)
                 objects.Add(new GeneralObject(i, i * 30 + 15, 75));
 
             bool hasCommonID = objects.TryGetCommonPropertyWithID((int)ObjectProperty.ObjectID, out int ID);
@@ -64,6 +64,18 @@ namespace GDAPI.Tests.Objects.GeometryDash.LevelObjects
 
             Assert.IsTrue(hasCommonDuration);
             Assert.IsTrue(hasCommonTargetGroupID);
+        }
+
+        [Test]
+        public void Clone()
+        {
+            var objects = new LevelObjectCollection();
+            for (int i = 1; i <= 45; i++)
+                objects.Add(new GeneralObject(i));
+
+            var cloned = objects.Clone();
+            for (int i = 0; i < 45; i++)
+                Assert.AreEqual(objects[i], cloned[i]);
         }
     }
 }
