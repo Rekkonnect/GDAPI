@@ -299,7 +299,7 @@ namespace GDAPI.Enumerations.GeometryDash
         [ObjectPropertyBoolType]
         DisableGlow = 96,
         /// <summary>Represents the custom rotation speed of the rotating <see cref="LevelObject"/> in degrees per second.</summary>
-        [ObjectPropertyIntType]
+        [ObjectPropertyDoubleType]
         CustomRotationSpeed = 97,
         /// <summary>Determines whether the rotation of the rotating <see cref="LevelObject"/> is disabled or not.</summary>
         [ObjectPropertyBoolType]
