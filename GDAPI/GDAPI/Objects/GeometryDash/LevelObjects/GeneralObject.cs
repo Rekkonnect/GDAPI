@@ -47,9 +47,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             objectTypeDictionary = new ObjectTypeInfoDictionary();
             foreach (var t in objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)))
                 if (t != null)
-                {
                     objectTypeDictionary.Add((IFirstWideDoubleKeyedObject<int?, Type>)t);
-                }
         }
 
         private short[] groupIDs = new short[0]; // Create a ComparableArray<T> class and use it instead
