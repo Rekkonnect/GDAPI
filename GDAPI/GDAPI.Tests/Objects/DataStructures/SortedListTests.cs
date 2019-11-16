@@ -5,11 +5,6 @@ namespace GDAPI.Tests.Objects.DataStructures
 {
     public class SortedListTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void SortedListDefaultComparison()
         {

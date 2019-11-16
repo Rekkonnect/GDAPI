@@ -8,11 +8,6 @@ namespace GDAPI.Tests.Functions.General
 {
     public class PathExpansionPackTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void GetCommonDirectory()
         {

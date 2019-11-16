@@ -8,11 +8,6 @@ namespace GDAPI.Tests.Objects.Music
 {
     public class RhythmicalValueTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void RhythmicalValueStuff()
         {

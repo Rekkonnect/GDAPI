@@ -6,11 +6,6 @@ namespace GDAPI.Tests.Functions.GeometryDash
 {
     public class ValueGeneratorTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         #region Easing
         [Test]
         public void GenerateEasing()

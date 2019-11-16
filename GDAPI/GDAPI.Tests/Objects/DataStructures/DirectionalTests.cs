@@ -5,11 +5,6 @@ namespace GDAPI.Tests.Objects.DataStructures
 {
     public class DirectionalTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void DirectionalStuff()
         {

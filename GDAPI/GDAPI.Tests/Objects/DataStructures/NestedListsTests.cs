@@ -6,11 +6,6 @@ namespace GDAPI.Tests.Objects.DataStructures
 {
     public class NestedListsTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void NestedListsStuff()
         {

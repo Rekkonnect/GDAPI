@@ -5,11 +5,6 @@ namespace GDAPI.Tests.Objects.GeometryDash
 {
     public class GuidelineCollectionTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Stringification()
         {
