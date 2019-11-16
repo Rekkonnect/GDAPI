@@ -6,10 +6,12 @@ using GDAPI.Objects.DataStructures;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects;
+using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
 using GDAPI.Objects.GeometryDash.Reflection;
 using GDAPI.Objects.KeyedObjects;
 using GDAPI.Objects.Reflection;
 using Microsoft.CSharp;
+using NAudio.CoreAudioApi;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -43,9 +45,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
             objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToArray();
             objectTypeDictionary = new ObjectTypeInfoDictionary();
-            foreach (var t in objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)).ToArray())
+            foreach (var t in objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)))
                 if (t != null)
-                    objectTypeDictionary.Add(t);
+                {
+                    objectTypeDictionary.Add((IFirstWideDoubleKeyedObject<int?, Type>)t);
+                }
         }
 
         private short[] groupIDs = new short[0]; // Create a ComparableArray<T> class and use it instead
@@ -587,12 +591,12 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <param name="objectID">The object ID of the new object.</param>
         public static GeneralObject GetNewObjectInstance(int objectID)
         {
-            var t = objectTypeDictionary[objectID];
-            if (t != null)
+            objectTypeDictionary.TryGetValue(objectID, out var t);
+            if (t is ObjectTypeInfo i)
             {
-                if (t.NonGeneratableAttribute != null)
-                    throw new InvalidOperationException(t.NonGeneratableAttribute.ExceptionMessage);
-                return t.Constructor.Invoke(null) as GeneralObject;
+                if (i.NonGeneratableAttribute != null)
+                    throw new InvalidOperationException(i.NonGeneratableAttribute.ExceptionMessage);
+                return i.Constructor.Invoke(null) as GeneralObject;
             }
 
             if (ObjectLists.RotatingObjectList.Contains(objectID))
@@ -606,6 +610,24 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
             return new GeneralObject(objectID);
         }
+        /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
+        /// <param name="objectID">The object ID of the new object.</param>
+        public static GeneralObject GetNewObjectInstance(TriggerType objectID) => GetNewObjectInstance((int)objectID);
+        /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
+        /// <param name="objectID">The object ID of the new object.</param>
+        public static GeneralObject GetNewObjectInstance(SpecialObjectType objectID) => GetNewObjectInstance((int)objectID);
+        /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
+        /// <param name="objectID">The object ID of the new object.</param>
+        public static GeneralObject GetNewObjectInstance(SpecialBlockType objectID) => GetNewObjectInstance((int)objectID);
+        /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
+        /// <param name="objectID">The object ID of the new object.</param>
+        public static GeneralObject GetNewObjectInstance(OrbType objectID) => GetNewObjectInstance((int)objectID);
+        /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
+        /// <param name="objectID">The object ID of the new object.</param>
+        public static GeneralObject GetNewObjectInstance(PadType objectID) => GetNewObjectInstance((int)objectID);
+        /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
+        /// <param name="objectID">The object ID of the new object.</param>
+        public static GeneralObject GetNewObjectInstance(PortalType objectID) => GetNewObjectInstance((int)objectID);
 
         /// <summary>Returns the common properties found in the specified <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="collection">The collection whose common object properties will be evaluated and returned.</param>
@@ -810,6 +832,12 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             protected virtual void InitializeObjectIDs()
             {
                 ObjectIDs = ObjectType.GetCustomAttribute<ObjectIDsAttribute>()?.ObjectIDs.Cast<int?>().ToArray() ?? Array.Empty<int?>();
+                if (typeof(SpecialObject).IsAssignableFrom(ObjectType) && !ObjectType.IsAbstract)
+                {
+                    var validObjectIDs = (int[])ObjectTypeProperties.Where(p => p.Name == "ValidObjectIDs").First().GetValue(Constructor.Invoke(null));
+                    if (validObjectIDs != null)
+                        ObjectIDs = validObjectIDs.Cast<int?>().ToArray();
+                }
             }
 
             protected sealed override KeyedPropertyInfo<int?> CreateProperty(PropertyInfo p) => new PropertyAccessInfo(p);
