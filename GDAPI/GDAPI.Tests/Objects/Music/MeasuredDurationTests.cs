@@ -5,30 +5,26 @@ using System;
 
 namespace GDAPI.Tests.Objects.Music
 {
-    public class MeasuredDurationTests
+    public class MeasuredDurationTests : MusicTestsBase
     {
-        private TimeSignature commonTimeSignature = new TimeSignature(4, 4);
-        private TimeSignature waltzTimeSignature = new TimeSignature(3, 4);
-        private TimeSignature uncommonTimeSignature = new TimeSignature(5, 4);
-
         [Test]
         public void IncreaseBeat()
         {
             var duration = MeasuredDuration.Zero;
 
-            duration.IncreaseBeat(commonTimeSignature);
+            duration.IncreaseBeat(CommonTimeSignature);
             Assert.AreEqual(new MeasuredDuration(0, 1, 0), duration, "0 + 1 = ?");
 
-            duration.IncreaseBeat(3, commonTimeSignature);
+            duration.IncreaseBeat(3, CommonTimeSignature);
             Assert.AreEqual(new MeasuredDuration(1, 0, 0), duration, "/shrug Apparently 4 beats in 4/4 are not equal to a single measure in duration");
 
-            duration.IncreaseBeat(3, waltzTimeSignature);
+            duration.IncreaseBeat(3, WaltzTimeSignature);
             Assert.AreEqual(new MeasuredDuration(2, 0, 0), duration, "Being honest, adding 4/4 and 3/4 is a bit illegal (not really)");
 
-            duration.IncreaseBeat(5, uncommonTimeSignature);
+            duration.IncreaseBeat(5, UncommonTimeSignature);
             Assert.AreEqual(new MeasuredDuration(3, 0, 0), duration, "And 5/4 are here to save the day");
 
-            duration.IncreaseBeat(-5, commonTimeSignature);
+            duration.IncreaseBeat(-5, CommonTimeSignature);
             Assert.AreEqual(new MeasuredDuration(1, 3, 0), duration, "Subtraction time failed");
         }
         [Test]
@@ -36,16 +32,16 @@ namespace GDAPI.Tests.Objects.Music
         {
             var duration = MeasuredDuration.Zero;
 
-            duration.IncreaseFraction(0.5f, commonTimeSignature);
+            duration.IncreaseFraction(0.5f, CommonTimeSignature);
             Assert.AreEqual(new MeasuredDuration(0, 0, 0.5f), duration, "Fractions seem to be hard to work with");
 
-            duration.IncreaseFraction(1.5f, commonTimeSignature);
+            duration.IncreaseFraction(1.5f, CommonTimeSignature);
             Assert.AreEqual(new MeasuredDuration(0, 2, 0), duration, "Adding full beats and the fraction itself");
 
-            duration.IncreaseFraction(2.5f, waltzTimeSignature);
+            duration.IncreaseFraction(2.5f, WaltzTimeSignature);
             Assert.AreEqual(new MeasuredDuration(1, 1, 0.5f), duration, "Okay, adding part of a 4/4 measure and part of a 3/4 one is definitely illegal");
 
-            duration.IncreaseFraction(-4, uncommonTimeSignature);
+            duration.IncreaseFraction(-4, UncommonTimeSignature);
             Assert.AreEqual(new MeasuredDuration(0, 2, 0.5f), duration, "I've honestly lost count");
         }
         [Test]

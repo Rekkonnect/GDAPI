@@ -5,12 +5,8 @@ using NUnit.Framework;
 
 namespace GDAPI.Tests.Objects.TimingPoints
 {
-    public class TimingPointTests
+    public class TimingPointTests : MusicTestsBase
     {
-        private TimeSignature commonTimeSignature = new TimeSignature(4, 4);
-        private TimeSignature waltzTimeSignature = new TimeSignature(3, 4);
-        private TimeSignature uncommonTimeSignature = new TimeSignature(5, 4);
-
         private TimingPointList timingPoints;
 
         [SetUp]
@@ -18,11 +14,11 @@ namespace GDAPI.Tests.Objects.TimingPoints
         {
             timingPoints = new TimingPointList
             {
-                new AbsoluteTimingPoint(1, 120, commonTimeSignature),
-                new RelativeTimingPoint(new MeasuredTimePosition(2, 1, 0), 120, commonTimeSignature),   // should be at 3.000 seconds
-                new RelativeTimingPoint(new MeasuredTimePosition(3, 1, 0), 180, commonTimeSignature),   // should be at 5.000 seconds
-                new RelativeTimingPoint(new MeasuredTimePosition(4, 1, 0), 180, waltzTimeSignature),    // should be at 6.333 seconds
-                new RelativeTimingPoint(new MeasuredTimePosition(6, 3, 0), 180, uncommonTimeSignature), // should be at 9.000 seconds
+                new AbsoluteTimingPoint(1, 120, CommonTimeSignature),
+                new RelativeTimingPoint(new MeasuredTimePosition(2, 1, 0), 120, CommonTimeSignature),   // should be at 3.000 seconds
+                new RelativeTimingPoint(new MeasuredTimePosition(3, 1, 0), 180, CommonTimeSignature),   // should be at 5.000 seconds
+                new RelativeTimingPoint(new MeasuredTimePosition(4, 1, 0), 180, WaltzTimeSignature),    // should be at 6.333 seconds
+                new RelativeTimingPoint(new MeasuredTimePosition(6, 3, 0), 180, UncommonTimeSignature), // should be at 9.000 seconds
             };
         }
 
