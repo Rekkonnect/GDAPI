@@ -461,12 +461,20 @@ namespace GDAPI.Functions.Extensions
         /// <summary>Splits an array of strings and returns a new two-dimensiional array containing the split strings. With indexing [i, j], i is the index of the string in the original array and j is the index of the split string.</summary>
         /// <param name="s">The array of strings.</param>
         /// <param name="separator">The separator of the strings.</param>
-        public static string[,] Split(this string[] s, char separator)
+        public static string[,] Split(this string[] s, char separator) => s.SplitAsList(separator).ToTwoDimensionalArray();
+        /// <summary>Splits an array of strings and returns a new two-dimensiional jagged array containing the split strings. With indexing [i][j], i is the index of the string in the original array and j is the index of the split string.</summary>
+        /// <param name="s">The array of strings.</param>
+        /// <param name="separator">The separator of the strings.</param>
+        public static string[][] SplitAsJagged(this string[] s, char separator) => s.SplitAsList(separator).ToArray();
+        /// <summary>Splits an array of strings and returns a new list of string arrays containing the split strings. With indexing [i][j], i is the index of the string in the original array and j is the index of the split string.</summary>
+        /// <param name="s">The array of strings.</param>
+        /// <param name="separator">The separator of the strings.</param>
+        public static List<string[]> SplitAsList(this string[] s, char separator)
         {
             var separated = new List<string[]>();
             for (int i = 0; i < s.Length; i++)
                 separated.Add(s[i].Split(separator));
-            return separated.ToTwoDimensionalArray();
+            return separated;
         }
 
         /// <summary>Returns the words of a string in PascalCase.</summary>

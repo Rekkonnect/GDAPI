@@ -114,79 +114,73 @@ namespace GDAPI.Functions.GeometryDash
                 objectString = objectString.Remove(objectString.Length - 1);
             if (objectString.Length > 0)
             {
-                string[,] objectProperties = objectString.Split(';').Split(',');
-                int length0 = objectProperties.GetLength(0);
-                int length1 = objectProperties.GetLength(1);
-                for (int i = 0; i < length0; i++)
+                string[][] objectProperties = objectString.Split(';').SplitAsJagged(',');
+                for (int i = 0; i < objectProperties.Length; i++)
                 {
                     try
                     {
-                        var instance = GeneralObject.GetNewObjectInstance(ToInt16(objectProperties[i, 1]));
+                        var objectInfo = objectProperties[i];
+                        var instance = GeneralObject.GetNewObjectInstance(ToInt16(objectInfo[1]));
                         objects.Add(instance); // Get IDs of the selected objects
-                        for (int j = 3; j < length1; j += 2)
+                        for (int j = 3; j < objectInfo.Length; j += 2)
                         {
-                            if (objectProperties[i, j] != null)
+                            try
                             {
-                                try
+                                int propertyID = ToInt32(objectInfo[j - 1]);
+                                switch (GetPropertyIDAttribute(propertyID))
                                 {
-                                    int propertyID = ToInt32(objectProperties[i, j - 1]);
-                                    switch (GetPropertyIDAttribute(propertyID))
-                                    {
-                                        case IGenericAttribute<int> _:
-                                            instance.SetPropertyWithID(propertyID, ToInt32(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<bool> _:
-                                            instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(objectProperties[i, j])));
-                                            break;
-                                        case IGenericAttribute<double> _:
-                                            instance.SetPropertyWithID(propertyID, ToDouble(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<string> _:
-                                            instance.SetPropertyWithID(propertyID, objectProperties[i, j]);
-                                            break;
-                                        case IGenericAttribute<HSVAdjustment> _:
-                                            instance.SetPropertyWithID(propertyID, objectProperties[i, j].ToString());
-                                            break;
-                                        case IGenericAttribute<int[]> _:
-                                            instance.SetPropertyWithID(propertyID, objectProperties[i, j].ToString().Split('.').ToInt32Array());
-                                            break;
-                                        case IGenericAttribute<Easing> _:
-                                            instance.SetPropertyWithID(propertyID, (Easing)ToInt32(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<InstantCountComparison> _:
-                                            instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<PickupItemPickupMode> _:
-                                            instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<PulseMode> _:
-                                            instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<PulseTargetType> _:
-                                            instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<TargetPosCoordinates> _:
-                                            instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(objectProperties[i, j]));
-                                            break;
-                                        case IGenericAttribute<TouchToggleMode> _:
-                                            instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(objectProperties[i, j]));
-                                            break;
-                                    }
-                                }
-                                catch (FormatException) // If the property is not just a number; most likely a Start Pos object
-                                {
-                                    // After logging the exceptions in the console, the exception is ignorable
-                                }
-                                catch (KeyNotFoundException e)
-                                {
-                                    int propertyID = ToInt32(objectProperties[i, j - 1]);
-                                    if (propertyID == 36)
-                                        continue;
-                                    Console.WriteLine(e.Message);
+                                    case IGenericAttribute<int> _:
+                                        instance.SetPropertyWithID(propertyID, ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<bool> _:
+                                        instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(objectInfo[j])));
+                                        break;
+                                    case IGenericAttribute<double> _:
+                                        instance.SetPropertyWithID(propertyID, ToDouble(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<string> _:
+                                        instance.SetPropertyWithID(propertyID, objectInfo[j]);
+                                        break;
+                                    case IGenericAttribute<HSVAdjustment> _:
+                                        instance.SetPropertyWithID(propertyID, objectInfo[j].ToString());
+                                        break;
+                                    case IGenericAttribute<int[]> _:
+                                        instance.SetPropertyWithID(propertyID, objectInfo[j].ToString().Split('.').ToInt32Array());
+                                        break;
+                                    case IGenericAttribute<Easing> _:
+                                        instance.SetPropertyWithID(propertyID, (Easing)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<InstantCountComparison> _:
+                                        instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<PickupItemPickupMode> _:
+                                        instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<PulseMode> _:
+                                        instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<PulseTargetType> _:
+                                        instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<TargetPosCoordinates> _:
+                                        instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<TouchToggleMode> _:
+                                        instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(objectInfo[j]));
+                                        break;
                                 }
                             }
-                            else
-                                break;
+                            catch (FormatException) // If the property is not just a number; most likely a Start Pos object
+                            {
+                                // After logging the exceptions in the console, the exception is ignorable
+                            }
+                            catch (KeyNotFoundException e)
+                            {
+                                int propertyID = ToInt32(objectInfo[j - 1]);
+                                if (propertyID == 36)
+                                    continue;
+                                Console.WriteLine(e.Message);
+                            }
                         }
                     }
                     catch (InvalidOperationException)
