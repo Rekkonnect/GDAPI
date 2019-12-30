@@ -17,7 +17,7 @@ namespace GDAPI.Functions.GeometryDash
 {
     public static class Gamesave
     {
-        public const string DefaultLevelString = "kS38,1_40_2_125_3_255_11_255_12_255_13_255_4_-1_6_1000_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1001_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1009_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1002_5_1_7_1_15_1_18_0_8_1|1_255_2_0_3_0_11_255_12_255_13_255_4_-1_6_1005_5_1_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1006_5_1_7_1_15_1_18_0_8_1|,kA13,0,kA15,0,kA16,0,kA14,,kA6,0,kA7,0,kA17,0,kA18,0,kS39,0,kA2,0,kA3,0,kA8,0,kA4,0,kA9,0,kA10,0,kA11,0;";
+        private const string DefaultLevelString = "kS38,1_40_2_125_3_255_11_255_12_255_13_255_4_-1_6_1000_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1001_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1009_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1002_5_1_7_1_15_1_18_0_8_1|1_255_2_0_3_0_11_255_12_255_13_255_4_-1_6_1005_5_1_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1006_5_1_7_1_15_1_18_0_8_1|,kA13,0,kA15,0,kA16,0,kA14,,kA6,0,kA7,0,kA17,0,kA18,0,kS39,0,kA2,0,kA3,0,kA8,0,kA4,0,kA9,0,kA10,0,kA11,0;";
         public const string LevelDataStart = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t />";
         public const string LevelDataEnd = "</d><k>LLM_02</k><i>33</i></dict></plist>";
         public const string DefaultLevelData = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t /></d><k>LLM_02</k><i>33</i></dict></plist>";
@@ -70,7 +70,7 @@ namespace GDAPI.Functions.GeometryDash
         }
         public static bool CheckIfLevelDataIsEncrypted(string levelData)
         {
-            string test = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\">";
+            string test = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.1\">";
             return !levelData.Contains(test);
         }
 
@@ -80,8 +80,7 @@ namespace GDAPI.Functions.GeometryDash
         /// <returns>Returns true if the level string is encrypted; otherwise false.</returns>
         public static bool TryDecryptLevelString(string ls, out string decrypted)
         {
-            bool isEncrypted = CheckIfLevelStringIsEncrypted(ls);
-            decrypted = isEncrypted ? DecryptLevelString(ls) : ls;
+            bool isEncrypted = true != CheckIfLevelStringIsEncrypted(ls);
             return isEncrypted;
         }
         /// <summary>Returns the decrypted version of the level string after checking whether the level string is encrypted or not asynchronously. Returns a tuple containing the result of the operation.</summary>
