@@ -47,23 +47,7 @@ namespace GDAPI.Application
         public TaskStatus GetCustomObjectsStatus => getCustomObjects?.Status ?? (TaskStatus)(-1);
         public TaskStatus GetSongMetadataStatus => getSongMetadata?.Status ?? (TaskStatus)(-1);
         public TaskStatus GetLevelsStatus => getLevels?.Status ?? (TaskStatus)(-1);
-        public TaskStatus DecryptGamesaveStatus => decryptGamesave?.Status ?? (TaskStatus)(-1);
-        public TaskStatus DecryptLevelDataStatus => decryptLevelData?.Status ?? (TaskStatus)(-1);
-        #endregion
-
-        #region Database Async Operation Completion Events
-        /// <summary>Raised upon having finished analyzing the newly set gamesave string.</summary>
-        public event Action GamesaveSetCompleted;
-        /// <summary>Raised upon having finished analyzing the newly set level data string.</summary>
-        public event Action LevelDataSetCompleted;
-        /// <summary>Raised upon completion of the decryption of the gamesave string that was set.</summary>
-        public event Action GamesaveDecrypted;
-        /// <summary>Raised upon completion of the decryption of the level data string that was set.</summary>
-        public event Action LevelDataDecrypted;
-        /// <summary>Raised upon completion of retrieval of the folder names as specified in the newly set gamesave string.</summary>
-        public event Action FolderNamesRetrieved;
-        /// <summary>Raised upon completion of retrieval of the player name as specified in the newly set gamesave string.</summary>
-        public event Action PlayerNameRetrieved;
+        public Tas
         /// <summary>Raised upon completion of retrieval of the custom objects as specified in the newly set gamesave string.</summary>
         public event Action CustomObjectsRetrieved;
         /// <summary>Raised upon completion of retrieval of the song metadata as specified in the newly set gamesave string.</summary>
@@ -94,22 +78,7 @@ namespace GDAPI.Application
         public List<int> LevelKeyStartIndices { get; private set; }
 
         /// <summary>The user name of the player as found in the game manager file.</summary>
-        public string UserName { get; set; }
-        /// <summary>The user levels in the database.</summary>
-        public LevelCollection UserLevels { get; set; }
-        /// <summary>The names of the folders.</summary>
-        public FolderNameCollection FolderNames { get; set; }
-        /// <summary>The stored metadata information of the songs.</summary>
-        public SongMetadataCollection SongMetadataInformation { get; set; }
-
-        /// <summary>The decrypted form of the game manager.</summary>
-        public string DecryptedGamesave
-        {
-            get
-            {
-                if (decryptedGamesave == null)
-                {
-                    TryDecryptGamesave(File.ReadAllText(GameManagerPath), out decryptedGamesave);
+xt(GameManagerPath), out decryptedGamesave);
                     DecryptedGamesave = decryptedGamesave;
                 }
                 SetFolderNamesInGamesave();
@@ -141,22 +110,7 @@ namespace GDAPI.Application
             }
             set => Task.Run(() => setDecryptedLevelData = SetDecryptedLevelData(value));
         }
-        /// <summary>The custom objects.</summary>
-        public CustomLevelObjectCollection CustomObjects { get; set; }
-
-        /// <summary>The number of local levels in the level data file.</summary>
-        public int UserLevelCount => UserLevels.Count;
-        #endregion
-
-        #region Constructors
-        /// <summary>Initializes a new instance of the <seealso cref="Database"/> class from the default database file paths.</summary>
-        public Database() : this(GDGameManager, GDLocalLevels) { }
-        /// <summary>Initializes a new instance of the <seealso cref="Database"/> class from custom database file paths.</summary>
-        /// <param name="gameManagerPath">The file path of the game manager file of the game.</param>
-        /// <param name="localLevelsPath">The file path of the local levels file of the game.</param>
-        public Database(string gameManagerPath, string localLevelsPath)
-        {
-            Task.Run(() => SetDecryptedGamesave(File.ReadAllText(GameManagerPath = gameManagerPath)));
+        /// e.ReadAllText(GameManagerPath = gameManagerPath)));
             Task.Run(() => SetDecryptedLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath)));
         }
         #endregion
@@ -189,22 +143,7 @@ namespace GDAPI.Application
                 return;
 
             for (int i = 0; i < currentlyCancelledIndices.Capacity; i++)
-                if (!currentlyCancelledIndices.Contains(i))
-                {
-                    currentlyCancelledIndices.Add(i);
-                    tokens[i].Cancel();
-                    LoadLevelString(index).ContinueWith(t => AddLevelLoadingTask(i));
-                    break;
-                }
-        }
 
-        /// <summary>Clones a level and adds it to the start of the list.</summary>
-        /// <param name="index">The index of the level to clone.</param>
-        public void CloneLevel(int index)
-        {
-            if (index < 0)
-                throw new ArgumentOutOfRangeException("index", "The index of the level cannot be a negative number.");
-            if (index >= UserLevelCount)
                 throw new ArgumentOutOfRangeException("index", "The argument that is parsed is out of range.");
             UserLevels.Insert(0, UserLevels[index].Clone());
             UpdateLevelData();
@@ -214,18 +153,7 @@ namespace GDAPI.Application
         public void CloneLevels(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort();
-            for (int i = indices.Length - 1; i >= 0; i--)
-                if (indices[i] >= 0 && indices[i] < UserLevelCount)
-                    UserLevels.Insert(0, UserLevels[indices[i] + indices.Length - 1 - i].Clone());
-            UpdateLevelData();
-        }
-        /// <summary>Creates a new level with the name "Unnamed {n}" and adds it to the start of the level list.</summary>
-        public Level CreateLevel() => CreateLevel($"Unnamed {GetNextUnnamedNumber()}", "", DefaultLevelString);
-        /// <summary>Creates a new level with a specified name and adds it to the start of the level list.</summary>
-        /// <param name="name">The name of the new level to create.</param>
-        public Level CreateLevel(string name) => CreateLevel(name, "", DefaultLevelString);
-        /// <summary>Creates a new level with a specified name and description and adds it to the start of the level list.</summary>
-        /// <param name="name">The name of the new level to create.</param>
+            fo create.</param>
         /// <param name="description">The description of the new level to create.</param>
         public Level CreateLevel(string name, string description) => CreateLevel(name, description, DefaultLevelString);
         /// <summary>Creates a new level with a specified name, description and level string and adds it to the start of the level list.</summary>
@@ -281,41 +209,7 @@ namespace GDAPI.Application
         /// <summary>Exports the level at the specified index in the database to a .dat file in the specified folder.</summary>
         /// <param name="index">The index of the level to export.</param>
         /// <param name="folderPath">The path of the folder to export the level at.</param>
-        public void ExportLevel(int index, string folderPath) => File.WriteAllText($@"{folderPath}\{UserLevels[index].LevelNameWithRevision}.dat", UserLevels[index].ToString());
-        /// <summary>Exports the levels at the specified indices in the database to a .dat file in the specified folder.</summary>
-        /// <param name="indices">The indices of the levels to export.</param>
-        /// <param name="folderPath">The path of the folder to export the level at.</param>
-        public void ExportLevels(int[] indices, string folderPath)
-        {
-            for (int i = 0; i < indices.Length; i++)
-                File.WriteAllText($@"{folderPath}\{UserLevels[indices[i]].LevelNameWithRevision}.dat", UserLevels[indices[i]].ToString());
-        }
-        /// <summary>Imports a level into the database and adds it to the start of the level list.</summary>
-        /// <param name="level">The raw level to import.</param>
-        public void ImportLevel(string level, bool initializeLoading = true)
-        {
-            for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
-                decryptedLevelData = decryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
-            level = RemoveLevelIndexKey(level); // Remove the index key of the level
-            decryptedLevelData = decryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
-            int clonedLevelLength = level.Length + 10; // The length of the inserted level
-            LevelKeyStartIndices = LevelKeyStartIndices.InsertAtStart(LevelKeyStartIndices[0]); // Add the new key start position in the array
-            for (int i = 1; i < LevelKeyStartIndices.Count; i++)
-                LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
-            // Insert the imported level and initialize its analysis
-            var newLevel = new Level(level);
-            if (initializeLoading)
-                newLevel.InitializeLoadingLevelString();
-            UserLevels.Insert(0, newLevel);
-        }
-        /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
-        /// <param name="levelPath">The path of the level to import.</param>
-        public void ImportLevelFromFile(string levelPath, bool initializeLoading = true) => ImportLevel(File.ReadAllText(levelPath), initializeLoading);
-        /// <summary>Imports a number of levels into the database and adds them to the start of the level list.</summary>
-        /// <param name="levels">The raw levels to import.</param>
-        public void ImportLevels(string[] levels, bool initializeLoading = true)
-        {
-            for (int i = 0; i < levels.Length; i++)
+
                 ImportLevel(levels[i], initializeLoading);
             UpdateLevelData();
         }
@@ -362,34 +256,7 @@ namespace GDAPI.Application
         {
             string[] customObjects = new string[customObjectPaths.Length];
             for (int i = 0; i < customObjectPaths.Length; i++)
-                customObjects[i] = File.ReadAllText(customObjectPaths[i]);
-            ImportCustomObjects(customObjects);
-        }
-        #endregion
 
-        /// <summary>Moves the selected levels down by one position.</summary>
-        /// <param name="indices">The indices of the levels to move down.</param>
-        public void MoveLevelsDown(int[] indices)
-        {
-            indices = indices.RemoveDuplicates().Sort().RemoveElementsMatchingIndicesFromEnd(UserLevelCount);
-            for (int i = indices.Length - 1; i >= 0; i--)
-                if (indices[i] < UserLevelCount - 1) // If the level can be moved further down
-                    UserLevels.Swap(indices[i], indices[i] + 1);
-            UpdateLevelData();
-        }
-        /// <summary>Moves the selected levels to the bottom of the level list while preserving their original order.</summary>
-        /// <param name="indices">The indices of the levels to move to the bottom of the level list.</param>
-        public void MoveLevelsToBottom(int[] indices)
-        {
-            indices = indices.RemoveDuplicates().Sort();
-            for (int i = indices.Length - 1; i >= 0; i--)
-                UserLevels.MoveElement(indices[i], UserLevelCount - indices.Length + i + 1); // TODO: Figure out why +1
-            UpdateLevelData();
-        }
-        /// <summary>Moves the selected levels to the top of the level list while preserving their original order.</summary>
-        /// <param name="indices">The indices of the levels to move to the top of the level list.</param>
-        public void MoveLevelsToTop(int[] indices)
-        {
             indices = indices.RemoveDuplicates().Sort();
             for (int i = 0; i < indices.Length; i++)
                 UserLevels.MoveElement(indices[i], i);
@@ -448,25 +315,6 @@ namespace GDAPI.Application
             LevelDataSetCompleted?.Invoke();
         }
 
-        private async Task SetDecryptedGamesaveField(string gamesave) => decryptedGamesave = await GetDecryptedResult(TryDecryptGamesaveAsync(gamesave));
-        private async Task SetDecryptedLevelDataField(string levelData) => decryptedLevelData = await GetDecryptedResult(TryDecryptLevelDataAsync(levelData));
-
-        private async Task<string> GetDecryptedResult(Task<(bool, string)> task) => (await task).Item2;
-
-        private void LoadLevelsInOrder()
-        {
-            // Use 2 less cores to let the computer breathe a little while loading
-            int utilizedCores = Math.Max(1, Cores - 2);
-
-            levelIndicesToLoad = new List<int>(UserLevelCount);
-            for (int i = UserLevelCount - 1; i >= 0; i--)
-                levelIndicesToLoad.Add(i);
-
-            nextAvailableLevelIndex = UserLevelCount;
-
-            tokens = new CancellationTokenSource[utilizedCores];
-            threadTasks = new Task[utilizedCores];
-            for (int i = 0; i < utilizedCores; i++)
                 AddLevelLoadingTask(i);
 
             currentlyCancelledIndices = new List<int>(utilizedCores);
@@ -534,101 +382,7 @@ namespace GDAPI.Application
             if (startIndex < 26)
                 return;
 
-            int endIndex = decryptedGamesave.Find("</d>", startIndex, decryptedGamesave.Length);
-            int currentIndex = startIndex;
-            while ((currentIndex = decryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
-                CustomObjects.Add(new CustomLevelObject(GetObjects(decryptedGamesave.Substring(currentIndex, decryptedGamesave.Find("</s>", currentIndex, decryptedGamesave.Length) - currentIndex))));
-        }
-        /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
-        private void GetKeyIndices()
-        {
-            LevelKeyStartIndices = new List<int>();
-            int count = GetLevelCount();
-            for (int i = 0; i < count; i++)
-            {
-                if (i > 0)
-                    LevelKeyStartIndices.Add(decryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], decryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
-                else
-                    LevelKeyStartIndices.Add(decryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
-            }
-        }
-        /// <summary>Gets the levels from the level data. For internal use only.</summary>
-        private async Task GetLevels(bool initializeBackgroundLevelStringLoading = true)
-        {
-            UserLevels = new LevelCollection();
-            GetKeyIndices();
-            for (int i = 0; i < LevelKeyStartIndices.Count; i++)
-            {
-                if (i < LevelKeyStartIndices.Count - 1)
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length), initializeBackgroundLevelStringLoading));
-                else
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(decryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 8, decryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 9) - LevelKeyStartIndices[i]), initializeBackgroundLevelStringLoading));
-            }
-        }
-
-        private async Task GetPlayerName()
-        {
-            int playerNameStartIndex = decryptedGamesave.FindFromEnd("<k>playerName</k><s>") + 20;
-            int playerNameEndIndex = decryptedGamesave.FindFromEnd("</s><k>playerUserID</k>");
-            int playerNameLength = playerNameEndIndex - playerNameStartIndex;
-            UserName = decryptedGamesave.Substring(playerNameStartIndex, playerNameLength);
-        }
-        // TODO: Decide whether they're staying or not
-        private async Task<string> GetUserID()
-        {
-            int userIDStartIndex = decryptedGamesave.FindFromEnd("<k>playerUserID</k><i>") + 22;
-            int userIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>playerFrame</k>");
-            int userIDLength = userIDEndIndex - userIDStartIndex;
-            return decryptedGamesave.Substring(userIDStartIndex, userIDLength);
-        }
-        private async Task<string> GetAccountID()
-        {
-            int accountIDStartIndex = decryptedGamesave.FindFromEnd("<k>GJA_003</k><i>") + 17;
-            int accountIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>KBM_001</k>");
-            int accountIDLength = accountIDEndIndex - accountIDStartIndex;
-            if (accountIDLength > 0)
-                return decryptedGamesave.Substring(accountIDStartIndex, accountIDLength);
-            else
-                return "0";
-        }
-        private async Task GetFolderNames()
-        {
-            FolderNames = new FolderNameCollection();
-            int foldersStartIndex = decryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
-            if (foldersStartIndex > 15)
-            {
-                int foldersEndIndex = decryptedGamesave.Find("</d>", foldersStartIndex, decryptedGamesave.Length);
-                int currentIndex = foldersStartIndex;
-                while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, foldersEndIndex) + 3) > 2)
-                {
-                    int endingIndex = decryptedGamesave.Find("</k>", currentIndex, foldersEndIndex);
-                    int folderIndex = int.Parse(decryptedGamesave.Substring(currentIndex, endingIndex - currentIndex));
-                    int folderNameStartIndex = endingIndex + 7;
-                    int folderNameEndIndex = decryptedGamesave.Find("</s>", folderNameStartIndex, foldersEndIndex);
-                    FolderNames.Add(folderIndex, decryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));
-                }
-            }
-        }
-        private async Task GetSongMetadata()
-        {
-            SongMetadataInformation = new SongMetadataCollection();
-            int songMetadataStartIndex = decryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
-            if (songMetadataStartIndex > 15)
-            {
-                int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
-                do
-                {
-                    nextDictionaryStartIndex = decryptedGamesave.Find("<d>", nextDictionaryStartIndex + 3, decryptedGamesave.Length);
-                    songMetadataEndIndex = decryptedGamesave.Find("</d>", songMetadataEndIndex + 4, decryptedGamesave.Length);
-                }
-                while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
-                int currentIndex = songMetadataStartIndex;
-                while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
-                {
-                    int startingIndex = decryptedGamesave.Find("</k><d>", currentIndex, songMetadataEndIndex) + 7;
-                    int endingIndex = currentIndex = decryptedGamesave.Find("</d>", startingIndex, songMetadataEndIndex);
-                    SongMetadataInformation.Add(SongMetadata.Parse(decryptedGamesave.Substring(startingIndex, endingIndex - startingIndex)));
-                }
+            int endInde
             }
         }
 
@@ -680,6 +434,6 @@ namespace GDAPI.Application
             task.ContinueWith(_ => invocableEvent?.Invoke());
             await task;
         }
-        #endregion
+        #endregion he alex guess what, I got a 2.2 copy
     }
 }
