@@ -12,7 +12,16 @@ namespace GDAPI.Attributes
         public int[] ObjectIDs { get; }
 
         /// <summary>Creates a new instance of the <seealso cref="ObjectIDsAttribute"/> attribute.</summary>
-        /// <param name="objectID">The cref="Trigger"/>.</param>
+        /// <param name="objectID">The object ID of the <seealso cref="LevelObject"/>.</param>
+        public ObjectIDsAttribute(params int[] objectIDs)
+        {
+            ObjectIDs = objectIDs;
+        }
+        /// <summary>Creates a new instance of the <seealso cref="ObjectIDsAttribute"/> attribute.</summary>
+        /// <param name="objectID">The object ID of the <seealso cref="SpecialObject"/>.</param>
+        public ObjectIDsAttribute(params SpecialObjectType[] objectIDs) : this(ToIntArray(objectIDs)) { }
+        /// <summary>Creates a new instance of the <seealso cref="ObjectIDsAttribute"/> attribute.</summary>
+        /// <param name="objectID">The object ID of the <seealso cref="Trigger"/>.</param>
         public ObjectIDsAttribute(params TriggerType[] objectIDs) : this(ToIntArray(objectIDs)) { }
 
         // This does not put a smile in my face.
@@ -22,7 +31,13 @@ namespace GDAPI.Attributes
             for (int i = 0; i < result.Length; i++)
                 result[i] = (int)values[i];
             return result;
-        }dertrrreer
+        }
+        private static int[] ToIntArray(params TriggerType[] values)
+        {
+            int[] result = new int[values.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = (int)values[i];
+            return result;
         }
     }
 }

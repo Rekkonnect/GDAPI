@@ -10,7 +10,7 @@ namespace GDAPI
     {
         public static void Main(string[] args)
         {
-            // Hi!
+
         }
     }
 }
