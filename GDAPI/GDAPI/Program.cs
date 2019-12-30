@@ -6,4 +6,11 @@ using System.Threading.Tasks;
 
 namespace GDAPI
 {
-    xvgffgr
+    public static class Program
+    {
+        public static void Main(string[] args)
+        {
+
+        }
+    }
+}
