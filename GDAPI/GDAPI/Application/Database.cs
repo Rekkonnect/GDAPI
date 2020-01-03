@@ -202,11 +202,7 @@ namespace GDAPI.Application
         /// <param name="index">The index of the level to clone.</param>
         public void CloneLevel(int index)
         {
-            if (index < 0)
-                throw new ArgumentOutOfRangeException("index", "The index of the level cannot be a negative number.");
-            if (index >= UserLevelCount)
-                throw new ArgumentOutOfRangeException("index", "The argument that is parsed is out of range.");
-            UserLevels.Insert(0, UserLevels[index].Clone());
+            CloneLevelWithoutUpdatingDatabase(index);
             UpdateLevelData();
         }
         /// <summary>Clones a number of levels and adds them to the start of the level list in their original order.</summary>
@@ -215,8 +211,7 @@ namespace GDAPI.Application
         {
             indices = indices.RemoveDuplicates().Sort();
             for (int i = indices.Length - 1; i >= 0; i--)
-                if (indices[i] >= 0 && indices[i] < UserLevelCount)
-                    UserLevels.Insert(0, UserLevels[indices[i] + indices.Length - 1 - i].Clone());
+                CloneLevelWithoutUpdatingDatabase(indices[i]);
             UpdateLevelData();
         }
         /// <summary>Creates a new level with the name "Unnamed {n}" and adds it to the start of the level list.</summary>
@@ -234,8 +229,7 @@ namespace GDAPI.Application
         /// <param name="levelString">The level string of the new level to create.</param>
         public Level CreateLevel(string name, string description, string levelString)
         {
-            var newLevel = new Level(name, description, levelString, UserName, GetNextAvailableRevision(name));
-            UserLevels.Insert(0, newLevel);
+            var newLevel = CreateLevelWithoutUpdatingDatabase(name, description, levelString);
             UpdateLevelData();
             return newLevel;
         }
@@ -254,7 +248,7 @@ namespace GDAPI.Application
         {
             var levels = new Level[numberOfLevels];
             for (int i = 0; i < numberOfLevels; i++)
-                UserLevels.Insert(0, levels[i] = new Level(names[i], descriptions[i], DefaultLevelString, UserName, GetNextAvailableRevision(names[i])));
+                levels[i] = CreateLevelWithoutUpdatingDatabase(names[i], descriptions[i], DefaultLevelString);
             UpdateLevelData();
             return levels;
         }
@@ -265,6 +259,14 @@ namespace GDAPI.Application
             // Delete all the level info from the prorgam's memory
             UserLevels.Clear();
             LevelKeyStartIndices.Clear();
+            UpdateLevelData();
+        }
+        /// <summary>Deletes the level at the specified index.</summary>
+        /// <param name="index">The index of the level to delete.</param>
+        public void DeleteLevel(int index)
+        {
+            DeleteLevelWithoutUpdatingDatabase(index);
+            UpdateLevelData();
         }
         /// <summary>Deletes the levels at the specified indices in the database.</summary>
         /// <param name="indices">The indices of the levels to delete from the database.</param>
@@ -273,7 +275,7 @@ namespace GDAPI.Application
             indices = indices.RemoveDuplicates();
             indices = indices.Sort();
             for (int i = indices.Length - 1; i >= 0; i--)
-                UserLevels.RemoveAt(indices[i]);
+                DeleteLevelWithoutUpdatingDatabase(indices[i]);
             UpdateLevelData();
         }
 
@@ -428,6 +430,27 @@ namespace GDAPI.Application
         #endregion
 
         #region Private Functions
+        private Level CloneLevelWithoutUpdatingDatabase(int index)
+        {
+            var cloned = UserLevels[index].Clone();
+            if (loadedLevels.Contains(UserLevels[index]))
+                loadedLevels.Add(cloned);
+            UserLevels.Insert(0, cloned);
+            return cloned;
+        }
+        private Level CreateLevelWithoutUpdatingDatabase(string name, string description, string levelString)
+        {
+            var newLevel = new Level(name, description, levelString, UserName, GetNextAvailableRevision(name));
+            UserLevels.Insert(0, newLevel);
+            loadedLevels.Add(newLevel);
+            return newLevel;
+        }
+        private void DeleteLevelWithoutUpdatingDatabase(int index)
+        {
+            loadedLevels.Remove(UserLevels[index]);
+            UserLevels.RemoveAt(index);
+        }
+
         private async Task SetDecryptedGamesave(string gamesave)
         {
             await PerformTaskWithInvocableEvent(decryptGamesave = SetDecryptedGamesaveField(gamesave), GamesaveDecrypted);
