@@ -181,8 +181,10 @@ namespace GDAPI.Objects.GeometryDash.General
         [LevelStringMappable("kS38")]
         public LevelColorChannels ColorChannels { get; private set; }
 
-        /// <summary>The level object count.</summary>
-        public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
+        /// <summary>The absolute level object count (without excluding any object type).</summary>
+        public int AbsoluteObjectCount => LevelObjects.Count;
+        /// <summary>The level object count (excluding Start Pos objects).</summary>
+        public int ObjectCount => AbsoluteObjectCount - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
         /// <summary>The level trigger count.</summary>
         public int TriggerCount => LevelObjects.TriggerCount;
         /// <summary>Contains the count of objects per object ID in the collection.</summary>
@@ -274,6 +276,14 @@ namespace GDAPI.Objects.GeometryDash.General
             canLoadLevelString = true;
             if (loadLS == null || loadLS.Status == TaskStatus.Created)
                 await LoadLevelStringData();
+        }
+        /// <summary>Unloads the level string's information, which includes level objects, guidelines and color channels.</summary>
+        public void UnloadLevelString()
+        {
+            loadLS = null;
+            LevelObjects.Clear();
+            Guidelines.Clear();
+            ColorChannels = null;
         }
 
         /// <summary>Returns the metadata of the song, given the song metadata collection found in the database.</summary>
