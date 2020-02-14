@@ -51,7 +51,7 @@ namespace GDAPI.Functions.General
                 {
                     switch (chars[i + 1].ToString() + chars[i + 2].ToString()) // This website for hex codes => https://www.obkb.com/dcljr/charstxt.html
                     {
-                        case "3A": // colon (not the fox lol)
+                        case "3A": // colon 
                             result.Append(':');
                             break;
                         case "2F": // slash

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GDAPI.Application.Newgrounds
 {
-    class SongDownloader
+    public class SongDownloader
     {
         private readonly HttpClient client = new HttpClient();
 
@@ -51,6 +51,7 @@ namespace GDAPI.Application.Newgrounds
                 var filepath = $"{Database.GDLocalData}{Path.DirectorySeparatorChar}{song.ID}.mp3";
                 var res = await client.GetAsync(song.DownloadLink);
                 var bytes = await res.Content.ReadAsByteArrayAsync();
+
                 File.WriteAllBytes(filepath, bytes);
             }
         }

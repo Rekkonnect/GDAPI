@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GDAPI.Application.Newgrounds
 {
-    class SongMetaGetter
+    public class SongMetaGetter
     {
         private readonly HttpClient client = new HttpClient();
 
