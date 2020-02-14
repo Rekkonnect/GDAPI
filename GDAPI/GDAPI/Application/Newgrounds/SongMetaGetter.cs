@@ -1,6 +1,5 @@
 ﻿using GDAPI.Functions.General;
 using GDAPI.Objects.GeometryDash.General;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;

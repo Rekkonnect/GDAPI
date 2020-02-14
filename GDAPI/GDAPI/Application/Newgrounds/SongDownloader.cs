@@ -1,10 +1,5 @@
-﻿using GDAPI.Functions.General;
-using GDAPI.Objects.GeometryDash.General;
-using System;
-using System.ComponentModel;
+﻿using GDAPI.Objects.GeometryDash.General;
 using System.IO;
-using System.Management.Automation;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
