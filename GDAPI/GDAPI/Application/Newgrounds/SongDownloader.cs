@@ -51,6 +51,7 @@ namespace GDAPI.Application.Newgrounds
                 var filepath = $"{Database.GDLocalData}{Path.DirectorySeparatorChar}{song.ID}.mp3";
                 var res = await client.GetAsync(song.DownloadLink);
                 var bytes = await res.Content.ReadAsByteArrayAsync();
+                
 
                 File.WriteAllBytes(filepath, bytes);
             }
