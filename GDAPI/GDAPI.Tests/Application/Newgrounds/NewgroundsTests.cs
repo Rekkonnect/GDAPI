@@ -1,11 +1,11 @@
-﻿using GDAPI.Application.NewGrounds;
+﻿using GDAPI.Application.Newgrounds;
 using GDAPI.Objects.GeometryDash.General;
 using NUnit.Framework;
 using System.Threading;
 
-namespace GDAPI.Tests.Application.NewGrounds
+namespace GDAPI.Tests.Application.Newgrounds
 {
-    public class NewGroundsTests
+    public class NewgroundsTests
     {
         private static int[] usableSongs = new int[] { 905921, 911107, 910549, 901476, 885164 }; // on NG
         private static int[] unusableSongs = new int[] { 123657, 6554, 645654, 46587, 90154667 }; // not on NG

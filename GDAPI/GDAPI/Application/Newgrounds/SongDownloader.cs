@@ -3,9 +3,9 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace GDAPI.Application.NewGrounds
+namespace GDAPI.Application.Newgrounds
 {
-    /// <summary>Handles downloading a NewGrounds song.</summary>
+    /// <summary>Handles downloading a Newgrounds song.</summary>
     public class SongDownloader
     {
         private readonly HttpClient client = new HttpClient();

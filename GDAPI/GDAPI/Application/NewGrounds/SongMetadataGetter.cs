@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace GDAPI.Application.NewGrounds
+namespace GDAPI.Application.Newgrounds
 {
     // TODO: Rework this class to support multiple song metadata retrievals.
     /// <summary>Handles <seealso cref="SongMetadata"/> retrieval for the specified song ID.</summary>
@@ -23,7 +23,7 @@ namespace GDAPI.Application.NewGrounds
         public event Action<SongMetadata> FinishedRetrieval;
 
         /// <summary>Initializes a new instance of the <seealso cref="SongMetadataGetter"/> class and immediately initializes the retrieval operation for the requested song ID.</summary>
-        /// <param name="id">The song ID of the song on NewGrounds.</param>
+        /// <param name="id">The song ID of the song on Newgrounds.</param>
         /// <param name="finishedRetrievalDelegate">The delegate to execute after finishing the song metadata's retrieval.</param>
         public SongMetadataGetter(int id, Action<SongMetadata> finishedRetrievalDelegate = null)
         {
