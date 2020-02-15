@@ -703,7 +703,7 @@ namespace GDAPI.Application
         #region Static Functions
         /// <summary>Retrieves the custom song location of the song with the specified ID.</summary>
         /// <param name="ID">The ID of the song.</param>
-        public static string GetCustomSongLocation(int ID) => $@"{GDLocalData}\{ID}.mp3";
+        public static string GetCustomSongLocation(int ID) => $@"{GDLocalData}{Path.DirectorySeparatorChar}{ID}.mp3";
 
         private static async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
         {
