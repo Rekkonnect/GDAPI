@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GDAPI.Functions.Extensions;
+using System.Collections.Generic;
 using System.Text;
 using static System.IO.File;
 
@@ -38,37 +39,22 @@ namespace GDAPI.Functions.General
             result.Remove(result.Length - 1, 1);
             WriteAllText(path, result.ToString());
         }
-        /// <summary>Used to convert specifics hexadecimal chars on a given string (<paramref name="str"/>)</summary>
-        /// <param name="str">The string to process</param>
-        /// <returns>The proper string</returns>
-        public static string ConvertStringWithHexCharsToProperString(string str)
+        /// <summary>Converts a string's HTML hex coded characters to normal ones.</summary>
+        /// <param name="str">The HTML hex coded string to process.</param>
+        /// <returns>The converted string.</returns>
+        public static string ConvertHTMLHexCharacterCodes(string str)
         {
             var chars = str.ToCharArray();
-            var result = new StringBuilder();
+            var result = new StringBuilder(chars.Length);
             for (int i = 0; i < chars.Length; i++)
             {
                 if (chars[i] == '%')
                 {
-                    switch (chars[i + 1].ToString() + chars[i + 2].ToString()) // This website for hex codes => https://www.obkb.com/dcljr/charstxt.html
-                    {
-                        case "3A": // colon 
-                            result.Append(':');
-                            break;
-                        case "2F": // slash
-                            result.Append('/');
-                            break;
-                        case "3F": // Question mark
-                            result.Append('?');
-                            break;
-                        default:
-                            break;
-                    }
+                    result.Append(int.Parse(chars[(i + 1)..(i + 2)], System.Globalization.NumberStyles.HexNumber));
                     i += 2;
                 }
                 else
-                {
                     result.Append(chars[i]);
-                }
             }
             return result.ToString();
         }
