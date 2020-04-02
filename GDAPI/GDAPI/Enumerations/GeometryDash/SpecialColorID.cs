@@ -9,10 +9,10 @@
         GRND = 1001,
         /// <summary>The Line Color Channel.</summary>
         Line = 1002,
-        /// <summary>The Obj Color Channel.</summary>
-        Obj = 1003,
         /// <summary>The 3DL Color Channel.</summary>
-        ThreeDL = 1004,
+        ThreeDL = 1003,
+        /// <summary>The Obj Color Channel.</summary>
+        Obj = 1004,
         /// <summary>The P1 Color Channel.</summary>
         P1 = 1005,
         /// <summary>The P2 Color Channel.</summary>

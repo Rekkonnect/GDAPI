@@ -321,7 +321,7 @@ namespace GDAPI.Enumerations.GeometryDash
         HighDetail = 103,
         /// <summary>Unknown feature with ID 104.</summary>
         UnknownFeature104 = 104,
-        /// <summary>Represents the coordinates that the <see cref="LevelObject"/> will follow the <see cref="LevelObject"/> in the Target Pos Group ID.</summary>
+        /// <summary>Represents the Max Speed property in the <seealso cref="FollowPlayerYTrigger"/>, affecting the max speed at which the objects can be moved from the player's Y movement.</summary>
         [ObjectPropertyDoubleType]
         MaxSpeed = 105,
         /// <summary>Determines whether the animated <see cref="LevelObject"/> will randomly start.</summary>
