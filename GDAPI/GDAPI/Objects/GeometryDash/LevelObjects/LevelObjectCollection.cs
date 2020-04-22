@@ -243,12 +243,51 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <typeparam name="T">The value type of the property.</typeparam>
         /// <param name="ID">The ID of the property.</param>
         /// <param name="common">The common value of the property.</param>
-        public bool TryGetCommonPropertyWithID<T>(int ID, out T common) => GeneralObject.TryGetCommonPropertyWithID(this, ID, out common);
+        public bool TryGetCommonPropertyWithID<T>(int ID, out T common)
+        {
+            common = default;
+            if (Count == 0)
+                return false;
+
+            // Get the property that will be retrieved
+            var property = GetPropertyAccessInfo(ID, out int objectIndex);
+
+            if (property == null)
+                return false;
+
+            this[objectIndex].TryGetPropertyValue(property, out common);
+
+            for (int i = objectIndex + 1; i < Count; i++)
+            {
+                var p = this[i].GetPropertyAccessInfo(ID);
+                if (p == null)
+                    continue;
+                if (!this[i].TryGetPropertyValue(p, out T compared))
+                    continue; // Ignore objects that do not contain that property
+                if (!common.Equals(compared))
+                    return false;
+            }
+            return true;
+        }
         /// <summary>Attempts to set the common value of an object property from this collection of objects given its ID.</summary>
         /// <typeparam name="T">The value type of the property.</typeparam>
         /// <param name="ID">The ID of the property.</param>
         /// <param name="newValue">The new value of the property to set to all the objects.</param>
-        public bool TrySetCommonPropertyWithID<T>(int ID, T newValue) => GeneralObject.TrySetCommonPropertyWithID(this, ID, newValue);
+        public bool TrySetCommonPropertyWithID<T>(int ID, T newValue)
+        {
+            if (Count == 0)
+                return false;
+
+            // Store the property that will be changed
+            var property = GetPropertyAccessInfo(ID, out _);
+
+            if (property == null)
+                return false;
+
+            foreach (var o in this)
+                o.TrySetPropertyValue(o.GetPropertyAccessInfo(ID), newValue);
+            return true;
+        }
         /// <summary>Attempts to get the common value of an object property from this collection of objects given its ID.</summary>
         /// <typeparam name="T">The value type of the property.</typeparam>
         /// <param name="ID">The ID of the property.</param>
@@ -290,6 +329,27 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <param name="newValue">The new value of the property to set to all the objects.</param>
         /// <exception cref="InvalidOperationException"/>
         public void SetCommonPropertyWithID<T>(ObjectProperty ID, T newValue) => SetCommonPropertyWithID((int)ID, newValue);
+
+        private PropertyAccessInfo GetPropertyAccessInfo(int ID, out int objectIndex)
+        {
+            var failedTypes = new HashSet<Type>();
+            PropertyAccessInfo property = null;
+            for (objectIndex = 0; objectIndex < Count; objectIndex++)
+            {
+                var obj = this[objectIndex];
+                var type = obj.GetType();
+                if (failedTypes.Contains(type))
+                    continue;
+
+                property = obj.GetPropertyAccessInfo(ID);
+
+                if (property == null)
+                    failedTypes.Add(type);
+                else
+                    break;
+            }
+            return property;
+        }
 
         #region Object Properties
         // The code below was proudly automatically generated
@@ -1401,11 +1461,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         public PropertyAccessInfoDictionary GetCommonProperties()
         {
             if (commonProperties == null)
-                commonProperties = GeneralObject.GetCommonProperties(this);
+                commonProperties = LevelObjectFactory.GetCommonProperties(this);
             else
             {
                 for (; commonPropertiesUnevaluatedIndex < unevaluatedObjects.ListCount; commonPropertiesUnevaluatedIndex++)
-                    commonProperties = GeneralObject.GetCommonProperties(unevaluatedObjects[commonPropertiesUnevaluatedIndex], commonProperties);
+                    commonProperties = LevelObjectFactory.GetCommonProperties(unevaluatedObjects[commonPropertiesUnevaluatedIndex], commonProperties);
                 RemoveEvaluatedObjects();
             }
             return commonProperties;
@@ -1414,11 +1474,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         public PropertyAccessInfoDictionary GetAllAvailableProperties()
         {
             if (allAvailableProperties == null)
-                allAvailableProperties = GeneralObject.GetAllAvailableProperties(this);
+                allAvailableProperties = LevelObjectFactory.GetAllAvailableProperties(this);
             else
             {
                 for (; allAvailablePropertiesUnevaluatedIndex < unevaluatedObjects.ListCount; allAvailablePropertiesUnevaluatedIndex++)
-                    allAvailableProperties = GeneralObject.GetAllAvailableProperties(unevaluatedObjects[allAvailablePropertiesUnevaluatedIndex], allAvailableProperties);
+                    allAvailableProperties = LevelObjectFactory.GetAllAvailableProperties(unevaluatedObjects[allAvailablePropertiesUnevaluatedIndex], allAvailableProperties);
                 RemoveEvaluatedObjects();
             }
             return allAvailableProperties;

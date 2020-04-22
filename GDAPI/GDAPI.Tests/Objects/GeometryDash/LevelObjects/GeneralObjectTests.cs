@@ -136,14 +136,14 @@ namespace GDAPI.Tests.Objects.GeometryDash.LevelObjects
 
             void AnalyzeInstance<T>(int ID)
             {
-                instance = GeneralObject.GetNewObjectInstance(ID);
+                instance = LevelObjectFactory.GetNewObjectInstance(ID);
                 Assert.AreEqual(typeof(T), instance.GetType());
             }
             void AnalyzeInstances<T>(int[] objectList)
             {
                 foreach (var ID in objectList)
                 {
-                    instance = GeneralObject.GetNewObjectInstance(ID);
+                    instance = LevelObjectFactory.GetNewObjectInstance(ID);
                     Assert.AreEqual(typeof(T), instance.GetType());
                 }
             }

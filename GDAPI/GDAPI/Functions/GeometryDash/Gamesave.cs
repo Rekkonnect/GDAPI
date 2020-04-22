@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GDAPI.Attributes;
+﻿using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using static GDAPI.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
 
@@ -120,7 +121,7 @@ namespace GDAPI.Functions.GeometryDash
                     try
                     {
                         var objectInfo = objectProperties[i];
-                        var instance = GeneralObject.GetNewObjectInstance(ToInt16(objectInfo[1]));
+                        var instance = LevelObjectFactory.GetNewObjectInstance(ToInt16(objectInfo[1]));
                         objects.Add(instance); // Get IDs of the selected objects
                         for (int j = 3; j < objectInfo.Length; j += 2)
                         {
@@ -194,7 +195,7 @@ namespace GDAPI.Functions.GeometryDash
         }
         public static GeneralObject GetCommonAttributes(LevelObjectCollection list, short objectID)
         {
-            GeneralObject common = GeneralObject.GetNewObjectInstance(objectID);
+            var common = LevelObjectFactory.GetNewObjectInstance(objectID);
 
             for (int i = list.Count; i >= 0; i--)
                 if (list[i].ObjectID != objectID)
@@ -203,7 +204,7 @@ namespace GDAPI.Functions.GeometryDash
             {
                 var properties = common.GetType().GetProperties();
                 foreach (var p in properties)
-                    if (Attribute.GetCustomAttributes(p, typeof(ObjectStringMappableAttribute), false).Count() > 0)
+                    if (p.GetCustomAttributes<ObjectStringMappableAttribute>(false).Any())
                     {
                         var v = p.GetValue(list[0]);
                         bool isCommon = true;
