@@ -70,6 +70,10 @@ namespace GDAPI.Objects.GeometryDash.General
         [CommonMergedProperty]
         [LevelStringMappable("k41")]
         public int Password { get; set; }
+        /// <summary>The copied level ID of the level.</summary>
+        [CommonMergedProperty]
+        [LevelStringMappable("k42")]
+        public int CopiedLevelID { get; set; }
         /// <summary>The binary version of the game the level was created on.</summary>
         [LevelStringMappable("k50")]
         public int BinaryVersion { get; set; }
