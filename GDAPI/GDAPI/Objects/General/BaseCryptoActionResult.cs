@@ -1,7 +1,7 @@
 ﻿namespace GDAPI.Objects.General
 {
     /// <summary>The base class to support objects containing crypto action results.</summary>
-    public class BaseCryptoActionResult
+    public abstract class BaseCryptoActionResult
     {
         /// <summary>Determines whether the operation was successful.</summary>
         public bool Success { get; }
