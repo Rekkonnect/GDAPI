@@ -1,7 +1,7 @@
 ﻿namespace GDAPI.Objects.General
 {
     /// <summary>Contains the result of a decryption operation.</summary>
-    public class DecryptionResult : BaseCryptoActionResult
+    public class DecryptionResult : BaseCipherResult
     {
         /// <summary>The final decrypted text.</summary>
         public string DecryptedText => ResultingText;
