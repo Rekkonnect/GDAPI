@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using GDAPI.Objects.General;
+using System.Threading.Tasks;
 
 namespace GDAPI.Objects.GeometryDash.GamesaveStrings
 {
@@ -46,10 +47,10 @@ namespace GDAPI.Objects.GeometryDash.GamesaveStrings
         /// <summary>Returns the decrypted version of the gamesave after checking whether the gamesave is encrypted or not asynchronously. Returns a tuple containing the result of the operation.</summary>
         /// <param name="overwriteLocalString">Determines whether to overwrite the locally stored raw string or not, replacing it with the decrypted version.</param>
         /// <returns>Returns a (bool, string), where the bool is equal to true if the gamesave is encrypted; otherwise false, and the string is equal to the final decrypted form of the gamesave.</returns>
-        public async Task<(bool, string)> TryDecryptAsync(bool overwriteLocalString = false)
+        public async Task<DecryptionResult> TryDecryptAsync(bool overwriteLocalString = false)
         {
             bool result = TryDecrypt(out string decrypted, overwriteLocalString);
-            return (result, decrypted);
+            return new DecryptionResult(result, decrypted);
         }
 
         /// <summary>Decrypts the current raw string into its unencrypted form and returns the resulting string. The string must be encrypted; the operation will be performed in all occassions.</summary>
