@@ -1,6 +1,9 @@
-﻿namespace GDAPI.Enumerations
+﻿using System;
+
+namespace GDAPI.Enumerations
 {
     /// <summary>Represents the mode of an ID migration operation.</summary>
+    [Obsolete("Use the GDAPI.Enumerations.GeometryDash.LevelObjectIDType enum instead.")]
     public enum IDMigrationMode
     {
         /// <summary>The Group ID migration mode.</summary>
