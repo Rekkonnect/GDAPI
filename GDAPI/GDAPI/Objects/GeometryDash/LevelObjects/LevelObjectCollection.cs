@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GDAPI.Enumerations.GeometryDash;
+﻿using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
 using GDAPI.Objects.DataStructures;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
 using GDAPI.Objects.GeometryDash.Reflection;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
@@ -1532,6 +1533,31 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             foreach (var o in objects)
                 foreach (var key in selector(o))
                     HandleEntryInsertion(result, key, o);
+            return result;
+        }
+
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Group IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedGroupIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Group);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Color IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedColorIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Color);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Item IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedItemIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Item);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Block IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedBlockIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Block);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used IDs of a specified type (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedIDs(LevelObjectIDType type)
+        {
+            var result = new SortedDictionary<int, LevelObjectCollection>();
+
+            foreach (var o in this)
+                foreach (var id in o.GetUsedIDsFromType(type))
+                    result.AddElementOrAddCollection(id, o);
+
             return result;
         }
         #endregion
