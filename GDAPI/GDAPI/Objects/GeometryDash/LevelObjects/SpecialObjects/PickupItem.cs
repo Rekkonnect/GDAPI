@@ -10,6 +10,12 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
     {
         private short targetGroupID, targetItemID;
 
+        int IHasPrimaryID.PrimaryID
+        {
+            get => (this as IHasTargetGroupID).PrimaryID;
+            set => (this as IHasTargetGroupID).PrimaryID = value;
+        }
+
         /// <summary>The valid object IDs of the special object.</summary>
         public override int[] ValidObjectIDs => ObjectLists.PickupItemList;
         /// <summary>The name as a string of the special object.</summary>
