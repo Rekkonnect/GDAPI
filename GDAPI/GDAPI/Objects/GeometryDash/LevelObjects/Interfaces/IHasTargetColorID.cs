@@ -4,10 +4,16 @@ using GDAPI.Enumerations.GeometryDash;
 namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
 {
     /// <summary>Represents a trigger which contains a definition for a target Color ID.</summary>
-    public interface IHasTargetColorID
+    public interface IHasTargetColorID : IHasPrimaryID
     {
         /// <summary>The target Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectProperty.TargetColorID, 0)]
         int TargetColorID { get; set; }
+
+        int IHasPrimaryID.PrimaryID
+        {
+            get => TargetColorID;
+            set => TargetColorID = value;
+        }
     }
 }

@@ -4,10 +4,16 @@ using GDAPI.Enumerations.GeometryDash;
 namespace GDAPI.Objects.GeometryDash.LevelObjects.Interfaces
 {
     /// <summary>Represents an object which contains a definition for a copied Color ID.</summary>
-    public interface IHasCopiedColorID
+    public interface IHasCopiedColorID : IHasSecondaryID
     {
         /// <summary>The copied Color ID of the object.</summary>
         [ObjectStringMappable(ObjectProperty.CopiedColorID, 0)]
         int CopiedColorID { get; set; }
+
+        int IHasSecondaryID.SecondaryID
+        {
+            get => CopiedColorID;
+            set => CopiedColorID = value;
+        }
     }
 }
