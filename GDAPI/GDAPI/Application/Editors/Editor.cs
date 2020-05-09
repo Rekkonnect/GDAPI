@@ -1304,7 +1304,7 @@ namespace GDAPI.Application.Editors
         public readonly IDMigrationInfo IDMigrationInfo = new IDMigrationInfo();
 
         public event Action IDMigrationOperationInitialized;
-        public event Action<int, int> IDMigrationProgressReported;
+        public event ProgressReporter IDMigrationProgressReported;
         public event Action IDMigrationOperationCompleted;
 
         /// <summary>The steps of the Group ID migration mode.</summary>
