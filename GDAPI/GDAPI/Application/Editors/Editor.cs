@@ -3,6 +3,7 @@ using GDAPI.Application.Editors.Actions.LevelActions;
 using GDAPI.Application.Editors.Delegates;
 using GDAPI.Enumerations;
 using GDAPI.Enumerations.GeometryDash;
+using GDAPI.Functions.Extensions;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.ColorChannels;
 using GDAPI.Objects.GeometryDash.General;
@@ -1406,17 +1407,25 @@ namespace GDAPI.Application.Editors
         /// <param name="ranges">The ID migration steps to execute to perform the block ID migration.</param>
         public void PerformBlockIDMigration(List<SourceTargetRange> ranges) => PerformIDMigration(ranges, AdjustBlocks);
 
+#nullable enable
+        // The argument ordering inconsistency seems a bit annoying, but it's all due to the enforced way default parameters work
+        // Between making type default to Group, or reordering every other function's ordering to comply with this one, I choose none of the above
         /// <summary>Performs a compact ID reallocation for the given level object ID type. This ensures that the next unused ID will be equal to the number of total used IDs + 1.</summary>
         /// <param name="type">The type of the level objects' used IDs to compactly reallocate.</param>
-        public void CompactlyReallocateIDs(LevelObjectIDType type) => CompactlyReallocateIDs(GetIDAdjustmentFunction(type));
+        /// <param name="ignoredRanges">The ranges of IDs to ignore. These IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all IDs will be reallocated.</param>
+        public void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(ignoredRanges, GetIDAdjustmentFunction(type));
         /// <summary>Performs a compact Group ID reallocation, adjusting all Group IDs. This ensures that the next unused Group ID will be equal to the number of total used Group IDs + 1.</summary>
-        public void CompactlyReallocateGroupIDs() => CompactlyReallocateIDs(LevelObjectIDType.Group);
+        /// <param name="ignoredRanges">The ranges of Group IDs to ignore. These Group IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all Group IDs will be reallocated.</param>
+        public void CompactlyReallocateGroupIDs(List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(LevelObjectIDType.Group, ignoredRanges);
         /// <summary>Performs a compact Color ID reallocation, adjusting all Color IDs. This ensures that the next unused Color ID will be equal to the number of total used Color IDs + 1.</summary>
-        public void CompactlyReallocateColorIDs() => CompactlyReallocateIDs(LevelObjectIDType.Color);
+        /// <param name="ignoredRanges">The ranges of Color IDs to ignore. These Color IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all Color IDs will be reallocated.</param>
+        public void CompactlyReallocateColorIDs(List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(LevelObjectIDType.Color, ignoredRanges);
         /// <summary>Performs a compact Item ID reallocation, adjusting all Item IDs. This ensures that the next unused Item ID will be equal to the number of total used Item IDs + 1.</summary>
-        public void CompactlyReallocateItemIDs() => CompactlyReallocateIDs(LevelObjectIDType.Item);
+        /// <param name="ignoredRanges">The ranges of Item IDs to ignore. These Item IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all Item IDs will be reallocated.</param>
+        public void CompactlyReallocateItemIDs(List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(LevelObjectIDType.Item, ignoredRanges);
         /// <summary>Performs a compact Block ID reallocation, adjusting all Block IDs. This ensures that the next unused Block ID will be equal to the number of total used Block IDs + 1.</summary>
-        public void CompactlyReallocateBlockIDs() => CompactlyReallocateIDs(LevelObjectIDType.Block);
+        /// <param name="ignoredRanges">The ranges of Block IDs to ignore. These Block IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all Block IDs will be reallocated.</param>
+        public void CompactlyReallocateBlockIDs(List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(LevelObjectIDType.Block, ignoredRanges);
 
         private void PerformIDMigration(List<SourceTargetRange> ranges, IDAdjustmentFunction adjustmentFunction)
         {
@@ -1429,19 +1438,46 @@ namespace GDAPI.Application.Editors
             }
             IDMigrationOperationCompleted?.Invoke();
         }
-        private void PerformIDMigration(LevelObjectCollection objects, int oldID, int newID, IDAdjustmentFunction adjustmentFunction)
+        private static void PerformIDMigration(LevelObjectCollection objects, int oldID, int newID, IDAdjustmentFunction adjustmentFunction)
         {
             for (int i = 0; i < objects.Count; i++)
                 adjustmentFunction(objects[i], new SourceTargetRange(oldID, oldID, newID));
         }
-        private void CompactlyReallocateIDs(IDAdjustmentFunction adjustmentFunction)
+        private void CompactlyReallocateIDs(List<Range>? ignoredRanges, IDAdjustmentFunction adjustmentFunction)
         {
             IDMigrationOperationInitialized?.Invoke();
 
+            ignoredRanges = ignoredRanges?.SortAndMerge();
+
             var categorized = Level.LevelObjects.GetObjectsByUsedGroupIDs();
             int currentID = 1;
+            int currentRangesIndex = 0;
+            int incomingIgnoredRangeIndex = 0;
             foreach (var cat in categorized)
             {
+                if (ignoredRanges != null)
+                {
+                    while (!ignoredRanges[currentRangesIndex].Contains(cat.Key))
+                    {
+                        if (!ignoredRanges[currentRangesIndex].AfterStart(cat.Key))
+                            break;
+                        currentRangesIndex++;
+                    }
+
+                    if (ignoredRanges[currentRangesIndex].Contains(cat.Key))
+                        continue;
+
+                    if (incomingIgnoredRangeIndex < ignoredRanges.Count)
+                    {
+                        var incoming = ignoredRanges[incomingIgnoredRangeIndex];
+                        if (incoming.Contains(currentID))
+                        {
+                            currentID = incoming.End.Value;
+                            incomingIgnoredRangeIndex++;
+                        }
+                    }
+                }
+
                 PerformIDMigration(cat.Value, cat.Key, currentID, adjustmentFunction);
                 IDMigrationProgressReported?.Invoke(currentID, categorized.Count);
                 currentID++;
@@ -1449,6 +1485,7 @@ namespace GDAPI.Application.Editors
 
             IDMigrationOperationCompleted?.Invoke();
         }
+#nullable disable
 
         private Action GetIDMigrationDelegate()
         {
