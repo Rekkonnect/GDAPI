@@ -1,6 +1,5 @@
 ﻿using GDAPI.Functions.Comparers;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 
 namespace GDAPI.Functions.Extensions
@@ -9,26 +8,17 @@ namespace GDAPI.Functions.Extensions
     public static class RangeExtensions
     {
         #region Range
-        /// <summary>Sorts the <seealso cref="Range"/>s by their starting value, merges them and returns the resulting list. The provided list remains intact.</summary>
+        /// <summary>Sorts the <seealso cref="Range"/>s by their starting value, merges them and returns the resulting list. The <seealso cref="Index.IsFromEnd"/> properties of the start and end indices are ignored. The provided list remains intact.</summary>
         /// <param name="ranges">The list of <seealso cref="Range"/>s that will be processed. Changes will not be applied to this instance.</param>
         public static List<Range> SortAndMerge(this List<Range> ranges) => ranges.SortByStartValue().MergeRanges();
-        /// <summary>Sorts the <seealso cref="Range"/>s by their starting value using a comparer and returns the resulting list. The provided list remains intact.</summary>
-        /// <param name="ranges">The list of <seealso cref="Range"/>s that will be processed. Changes will not be applied to this instance.</param>
-        /// <param name="comparer">The comparer to use to compare the ranges when sorting them.</param>
-        public static List<Range> SortByStartValue(this List<Range> ranges, Comparison<Range> comparer)
-        {
-            ranges = ranges.Clone();
-            ranges.Sort(comparer);
-            return ranges;
-        }
-        /// <summary>Sorts the <seealso cref="Range"/>s by their starting value in ascending order and returns the resulting list. The provided list remains intact.</summary>
+        /// <summary>Sorts the <seealso cref="Range"/>s by their starting value in ascending order and returns the resulting list. The <seealso cref="Index.IsFromEnd"/> properties of the start and end indices are ignored. The provided list remains intact.</summary>
         /// <param name="ranges">The list of <seealso cref="Range"/>s that will be processed. Changes will not be applied to this instance.</param>
         public static List<Range> SortByStartValue(this List<Range> ranges)
         {
-            return ranges.SortByStartValue(RangeComparers.RangeStartAscendingComparer);
+            return ranges.CloneSort(RangeComparers.RangeStartAscendingComparer);
         }
-        /// <summary>Merges the <seealso cref="Range"/>s and returns the resulting list. The provided list remains intact.</summary>
-        /// <param name="ranges">The list of <seealso cref="Range"/>s that will be processed. Changes will not be applied to this instance.</param>
+        /// <summary>Merges the <seealso cref="Range"/>s and returns the resulting list. The <seealso cref="Index.IsFromEnd"/> properties of the start and end indices are ignored. The original list must be sorted. The provided list remains intact.</summary>
+        /// <param name="ranges">The list of <seealso cref="Range"/>s that will be processed. The list must be sorted in order for the ranged to be properly merged. Changes will not be applied to this instance.</param>
         public static List<Range> MergeRanges(this List<Range> ranges)
         {
             ranges = ranges.Clone();
@@ -48,14 +38,14 @@ namespace GDAPI.Functions.Extensions
         }
 
         #region Boundary Checks
-        /// <summary>Determines whether a value is after the inclusive start.</summary>
+        /// <summary>Determines whether a value is after the inclusive start. The <seealso cref="Index.IsFromEnd"/> property of the start <seealso cref="Index"/> is ignored.</summary>
         /// <param name="range">The range which may contain the evaluated value.</param>
         /// <param name="value">The value to check whether it is after the inclusive start.</param>
         public static bool AfterStart(this Range range, int value)
         {
             return value >= range.Start.Value;
         }
-        /// <summary>Determines whether a value is before the exclusive end.</summary>
+        /// <summary>Determines whether a value is before the exclusive end. The <seealso cref="Index.IsFromEnd"/> property of the end <seealso cref="Index"/> is ignored.</summary>
         /// <param name="range">The range which may contain the evaluated value.</param>
         /// <param name="value">The value to check whether it is before the exclusive end.</param>
         public static bool BeforeEnd(this Range range, int value)
@@ -63,7 +53,7 @@ namespace GDAPI.Functions.Extensions
             return value < range.End.Value;
         }
 
-        /// <summary>Determines whether a value is contained within the range. The <seealso cref="Index.IsFromEnd"/> properties of the start and end indices are ignored./summary>
+        /// <summary>Determines whether a value is contained within the range. The <seealso cref="Index.IsFromEnd"/> properties of the start and end indices are ignored.</summary>
         /// <paramref name="range"/>The range that may contain the specified value.</summary>
         /// <param name="value">The value to check whether it's within the range.</param>
         public static bool Contains(this Range range, int value)
