@@ -28,13 +28,27 @@ namespace GDAPI.Functions.Extensions
                 // Merge ranges that overlap
                 if (ranges[i].Start.Value <= ranges[i - 1].End.Value)
                 {
-                    ranges[i - 1] = (ranges[i - 1].Start)..(ranges[i].End);
+                    if (ranges[i].End.Value > ranges[i - 1].End.Value)
+                        ranges[i - 1] = (ranges[i - 1].Start)..(ranges[i].End);
                     ranges.RemoveAt(i);
                     i--;
                 }
             }
 
             return ranges;
+        }
+
+        /// <summary>Determines whether the range is absolute, meaning that netiher the start nor the end indices are related to the end of the collection, that is having their <seealso cref="Index.IsFromEnd"/> property set to <see langword="false"/>.</summary>
+        /// <param name="r">The range to determine whether it is absolute.</param>
+        public static bool IsAbsoluteRange(this Range r) => !r.Start.IsFromEnd && !r.End.IsFromEnd;
+
+        /// <summary>Converts this <seealso cref="Range"/> instance into a <seealso cref="Range{T}"/> object.</summary>
+        /// <param name="r">The <seealso cref="Range"/> to convert.</param>
+        public static Range<int> ToGenericRange(this Range r)
+        {
+            if (!r.IsAbsoluteRange())
+                throw new InvalidOperationException("Cannot construct a range of indices that are related to the collection end.");
+            return new Range<int>(r.Start.Value, r.End.Value);
         }
 
         #region Boundary Checks
@@ -71,22 +85,12 @@ namespace GDAPI.Functions.Extensions
         {
             return ranges.SortByStartValue().MergeRanges();
         }
-        /// <summary>Sorts the <seealso cref="Range{T}"/>s by their starting value using a comparer and returns the resulting list. The provided list remains intact.</summary>
-        /// <param name="ranges">The list of <seealso cref="Range{T}"/>s that will be processed. Changes will not be applied to this instance.</param>
-        /// <param name="comparer">The comparer to use to compare the ranges when sorting them.</param>
-        public static List<Range<T>> SortByStartValue<T>(this List<Range<T>> ranges, Comparison<Range<T>> comparer)
-            where T : IComparable<T>, IEquatable<T>
-        {
-            ranges = ranges.Clone();
-            ranges.Sort(comparer);
-            return ranges;
-        }
         /// <summary>Sorts the <seealso cref="Range{T}"/>s by their starting value in ascending order and returns the resulting list. The provided list remains intact.</summary>
         /// <param name="ranges">The list of <seealso cref="Range{T}"/>s that will be processed. Changes will not be applied to this instance.</param>
         public static List<Range<T>> SortByStartValue<T>(this List<Range<T>> ranges)
             where T : IComparable<T>, IEquatable<T>
         {
-            return ranges.SortByStartValue();
+            return ranges.CloneSort(GenericRangeComparers.RangeStartAscendingComparer);
         }
         /// <summary>Merges the <seealso cref="Range{T}"/>s and returns the resulting list. The provided list remains intact.</summary>
         /// <param name="ranges">The list of <seealso cref="Range{T}"/>s that will be processed. Changes will not be applied to this instance.</param>
@@ -100,7 +104,8 @@ namespace GDAPI.Functions.Extensions
                 // Merge ranges that overlap
                 if (ranges[i].Begin.CompareTo(ranges[i - 1].End) <= 0)
                 {
-                    ranges[i - 1] = new Range<T>(ranges[i - 1].Begin, ranges[i].End);
+                    if (ranges[i].End.CompareTo(ranges[i - 1].End) > 0)
+                        ranges[i - 1] = new Range<T>(ranges[i - 1].Begin, ranges[i].End);
                     ranges.RemoveAt(i);
                     i--;
                 }
