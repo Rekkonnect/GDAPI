@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
-    /// <summary>Contains the IDs that are being used in a <seealso cref="GeneralObject"/>.</summary>
+    /// <summary>Contains the Group IDs that are being used in a <seealso cref="GeneralObject"/>.</summary>
     public class LevelObjectGroupIDUsage : LevelObjectIDUsage
     {
         /// <summary>The object's assigned Group IDs.</summary>
@@ -12,12 +12,12 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>Initializes a new instance of the <seealso cref="LevelObjectGroupIDUsage"/> class.</summary>
         public LevelObjectGroupIDUsage() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="LevelObjectGroupIDUsage"/> class.</summary>
-        /// <param name="primaryID">The primary ID of the object.</param>
-        /// <param name="secondaryID">The secondary ID of the object.</param>
+        /// <param name="primaryID">The primary Group ID of the object.</param>
+        /// <param name="secondaryID">The secondary Group ID of the object.</param>
         public LevelObjectGroupIDUsage(int primaryID, int secondaryID) : base(primaryID, secondaryID) { }
         /// <summary>Initializes a new instance of the <seealso cref="LevelObjectGroupIDUsage"/> class.</summary>
-        /// <param name="primaryID">The primary ID of the object.</param>
-        /// <param name="secondaryID">The secondary ID of the object.</param>
+        /// <param name="primaryID">The primary Group ID of the object.</param>
+        /// <param name="secondaryID">The secondary Group ID of the object.</param>
         /// <param name="assignedIDs">The assigned Group IDs for the object.</param>
         public LevelObjectGroupIDUsage(int primaryID, int secondaryID, int[] assignedIDs) : base(primaryID, secondaryID)
         {
@@ -31,7 +31,7 @@ namespace GDAPI.Objects.GeometryDash.General
         {
             private LevelObjectGroupIDUsage GroupUsage => Usage as LevelObjectGroupIDUsage;
 
-            protected override int Length => GroupUsage?.AssignedIDs.Length ?? 0;
+            protected override int Length => base.Length + (GroupUsage?.AssignedIDs.Length ?? 0);
 
             public LevelObjectGroupIDUsageEnumerator(LevelObjectGroupIDUsage u)
                 : base(u) { }

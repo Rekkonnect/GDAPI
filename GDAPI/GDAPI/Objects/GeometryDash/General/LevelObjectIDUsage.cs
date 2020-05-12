@@ -1,4 +1,5 @@
-﻿using GDAPI.Objects.GeometryDash.LevelObjects;
+﻿using GDAPI.Objects.GeometryDash.IDTypes;
+using GDAPI.Objects.GeometryDash.LevelObjects;
 using GDAPI.Objects.GeometryDash.LevelObjects.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,62 +26,39 @@ namespace GDAPI.Objects.GeometryDash.General
         }
 
         /// <summary>Overwrites this instance's <seealso cref="PrimaryID"/> to the provided object's primary ID for the specified type.</summary>
-        /// <typeparam name="TPrimaryID">The type of primary ID to use.</typeparam>
+        /// <typeparam name="T">The type of primary ID to use.</typeparam>
         /// <param name="obj">The object whose primary ID to get.</param>
-        public void AddPrimaryID<TPrimaryID>(GeneralObject obj)
-            where TPrimaryID : IHasPrimaryID
+        public void AddPrimaryID<T>(GeneralObject obj)
+            where T : IID
         {
-            if (obj is TPrimaryID p)
-                AddPrimaryID<TPrimaryID>(p);
+            if (obj is IHasPrimaryID<T> p)
+                AddPrimaryID(p);
         }
         /// <summary>Overwrites this instance's <seealso cref="SecondaryID"/> to the provided object's secondary ID for the specified type.</summary>
-        /// <typeparam name="TSecondaryID">The type of secondary ID to use.</typeparam>
+        /// <typeparam name="T">The type of secondary ID to use.</typeparam>
         /// <param name="obj">The object whose secondary ID to get.</param>
-        public void AddSecondaryID<TSecondaryID>(GeneralObject obj)
-            where TSecondaryID : IHasSecondaryID
+        public void AddSecondaryID<T>(GeneralObject obj)
+            where T : IID
         {
-            if (obj is TSecondaryID s)
-                AddSecondaryID<TSecondaryID>(s);
-        }
-
-        /// <summary>Overwrites this instance's <seealso cref="PrimaryID"/> to the provided object's primary ID for the specified type.</summary>
-        /// <typeparam name="TPrimaryID1">The first type of primary ID to use.</typeparam>
-        /// <typeparam name="TPrimaryID2">The second type of primary ID to use.</typeparam>
-        /// <param name="obj">The object whose primary ID to get.</param>
-        public void AddPrimaryID<TPrimaryID1, TPrimaryID2>(GeneralObject obj)
-            where TPrimaryID1 : IHasPrimaryID
-            where TPrimaryID2 : IHasPrimaryID
-        {
-            AddPrimaryID<TPrimaryID1>(obj);
-            AddPrimaryID<TPrimaryID2>(obj);
-        }
-        /// <summary>Overwrites this instance's <seealso cref="SecondaryID"/> to the provided object's secondary ID for the specified type.</summary>
-        /// <typeparam name="TSecondaryID1">The first type of primary ID to use.</typeparam>
-        /// <typeparam name="TSecondaryID2">The second type of primary ID to use.</typeparam>
-        /// <param name="obj">The object whose secondary ID to get.</param>
-        public void AddSecondaryID<TSecondaryID1, TSecondaryID2>(GeneralObject obj)
-            where TSecondaryID1 : IHasSecondaryID
-            where TSecondaryID2 : IHasSecondaryID
-        {
-            AddSecondaryID<TSecondaryID1>(obj);
-            AddSecondaryID<TSecondaryID2>(obj);
+            if (obj is IHasSecondaryID<T> s)
+                AddSecondaryID(s);
         }
 
         /// <summary>Overwrites this instance's <seealso cref="PrimaryID"/> to the provided object's primary ID for the specified type.</summary>
         /// <typeparam name="TPrimaryID">The type of primary ID to use.</typeparam>
         /// <param name="p">The object whose primary ID to get.</param>
-        public void AddPrimaryID<TPrimaryID>(IHasPrimaryID p)
-            where TPrimaryID : IHasPrimaryID
+        public void AddPrimaryID<T>(IHasPrimaryID<T> p)
+            where T : IID
         {
-            PrimaryID = p.PrimaryID;
+            PrimaryID = p.PrimaryID.ID;
         }
         /// <summary>Overwrites this instance's <seealso cref="SecondaryID"/> to the provided object's secondary ID for the specified type.</summary>
         /// <typeparam name="TSecondaryID">The type of secondary ID to use.</typeparam>
         /// <param name="s">The object whose secondary ID to get.</param>
-        public void AddSecondaryID<TSecondaryID>(IHasSecondaryID s)
-            where TSecondaryID : IHasSecondaryID
+        public void AddSecondaryID<T>(IHasSecondaryID<T> s)
+            where T : IID
         {
-            SecondaryID = s.SecondaryID;
+            SecondaryID = s.SecondaryID.ID;
         }
 
         /// <summary>Gets an enumerator that enumerates through all the used IDs that are registered for this object, skipping zeroes.</summary>
@@ -91,39 +69,39 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="obj">The <seealso cref="GeneralObject"/> whose Group IDs to analyze.</param>
         public static LevelObjectGroupIDUsage GroupIDsFromObject(GeneralObject obj)
         {
-            var result = IDsFromObject<IHasTargetGroupID, IHasSecondaryGroupID, LevelObjectGroupIDUsage>(obj);
+            var result = IDsFromObject<GroupID, LevelObjectGroupIDUsage>(obj);
             result.AssignedIDs = obj.GroupIDs;
             return result;
         }
         /// <summary>Gets a <seealso cref="LevelObjectIDUsage"/> from a <seealso cref="GeneralObject"/>'s used Color IDs.</summary>
         /// <param name="obj">The <seealso cref="GeneralObject"/> whose Color IDs to analyze.</param>
-        public static LevelObjectIDUsage ColorIDsFromObject(GeneralObject obj)
+        public static LevelObjectColorIDUsage ColorIDsFromObject(GeneralObject obj)
         {
-            return IDsFromObject<IHasTargetColorID, IHasCopiedColorID, LevelObjectIDUsage>(obj);
+            var result = IDsFromObject<ColorID, LevelObjectColorIDUsage>(obj);
+            result.MainColorID = obj.Color1ID;
+            result.DetailColorID = obj.Color2ID;
+            return result;
         }
         /// <summary>Gets a <seealso cref="LevelObjectIDUsage"/> from a <seealso cref="GeneralObject"/>'s used Item IDs.</summary>
         /// <param name="obj">The <seealso cref="GeneralObject"/> whose Item IDs to analyze.</param>
         public static LevelObjectIDUsage ItemIDsFromObject(GeneralObject obj)
         {
-            var result = new LevelObjectIDUsage();
-            result.AddPrimaryID<IHasPrimaryItemID, IHasTargetItemID>(obj);
-            return result;
+            return IDsFromObject<ItemID, LevelObjectIDUsage>(obj);
         }
         /// <summary>Gets a <seealso cref="LevelObjectIDUsage"/> from a <seealso cref="GeneralObject"/>'s used Block IDs.</summary>
         /// <param name="obj">The <seealso cref="GeneralObject"/> whose Block IDs to analyze.</param>
         public static LevelObjectIDUsage BlockIDsFromObject(GeneralObject obj)
         {
-            return IDsFromObject<IHasPrimaryBlockID, IHasSecondaryBlockID, LevelObjectIDUsage>(obj);
+            return IDsFromObject<BlockID, LevelObjectIDUsage>(obj);
         }
 
-        protected static TUsage IDsFromObject<TPrimaryID, TSecondaryID, TUsage>(GeneralObject obj)
-            where TPrimaryID : IHasPrimaryID
-            where TSecondaryID : IHasSecondaryID
+        protected static TUsage IDsFromObject<TID, TUsage>(GeneralObject obj)
+            where TID : IID
             where TUsage : LevelObjectIDUsage, new()
         {
             var result = new TUsage();
-            result.AddPrimaryID<TPrimaryID>(obj);
-            result.AddSecondaryID<TSecondaryID>(obj);
+            result.AddPrimaryID<TID>(obj);
+            result.AddSecondaryID<TID>(obj);
             return result;
         }
 
@@ -164,7 +142,7 @@ namespace GDAPI.Objects.GeometryDash.General
             }
 
             /// <summary>Gets the element in the sequence based on the given index.</summary>
-            /// <param name="index">The index representing the element to return, with 0 being the <seealso cref="PrimaryID"/>, and 1 being the <seealso cref="SecondaryID"/></param>
+            /// <param name="index">The index representing the element to return, with 0 being the <seealso cref="PrimaryID"/>, and 1 being the <seealso cref="SecondaryID"/>.</param>
             protected virtual int GetElementAtIndex(int index)
             {
                 return index switch

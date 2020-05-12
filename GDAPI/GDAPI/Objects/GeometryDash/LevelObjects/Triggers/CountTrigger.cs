@@ -10,12 +10,6 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
     {
         private short targetGroupID, itemID;
 
-        int IHasPrimaryID.PrimaryID
-        {
-            get => (this as IHasTargetGroupID).PrimaryID;
-            set => (this as IHasTargetGroupID).PrimaryID = value;
-        }
-
         /// <summary>The Object ID of the Count trigger.</summary>
         [ObjectStringMappable(ObjectProperty.ObjectID)]
         public override int ObjectID => (int)TriggerType.Count;
