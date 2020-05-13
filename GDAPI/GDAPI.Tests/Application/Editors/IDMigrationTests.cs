@@ -88,6 +88,29 @@ namespace GDAPI.Tests.Application.Editors
             // TODO: Add more test steps with multiple step ID migrations
         }
 
+        [Test]
+        public void GroupIDReallocation()
+        {
+            InitializeObjects();
+            var level = new Level { LevelObjects = allObjects };
+            var editor = new Editor(level);
+
+            var steps = new List<SourceTargetRange>();
+            for (int i = 4; i >= 0; i--)
+                steps.Add(new SourceTargetRange(i + 1, i + 1, (i + 3) * 10));
+
+            editor.PerformGroupIDMigration(steps);
+            editor.CompactlyReallocateGroupIDs();
+            for (int i = 0; i < 5; i++)
+            {
+                int id = i + 1;
+                Assert.AreEqual(id, normalBlocks[i].GroupIDs[0]);
+                Assert.AreEqual(id, moveTriggers[i].TargetGroupID);
+                Assert.AreEqual(id, instantCountTriggers[i].TargetGroupID);
+                Assert.AreEqual(id, collisionTriggers[i].TargetGroupID);
+            }
+        }
+
         private bool VerifyGroupIDMigration(int offset)
         {
             for (int i = 0; i < 5; i++)
