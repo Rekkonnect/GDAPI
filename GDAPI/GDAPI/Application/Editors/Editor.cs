@@ -1334,6 +1334,17 @@ namespace GDAPI.Application.Editors
 
         /// <summary>Performs the ID migration for the currently selected mode.</summary>
         public void PerformMigration() => GetIDMigrationDelegate()();
+        /// <summary>Performs the ID migration for the currently selected mode using custom steps.</summary>
+        /// <param name="steps">The custom steps to use in the ID migration operation.</param>
+        public void PerformMigration(List<SourceTargetRange> steps) => GetIDMigrationCustomStepsDelegate()(steps);
+        /// <summary>Performs the ID migration for a specified mode using the respective steps of the mode.</summary>
+        /// <param name="mode">The mode of the ID migration to perform.</param>
+        public void PerformMigration(IDMigrationMode mode) => PerformMigration(mode, GetIDMigrationSteps(mode));
+        /// <summary>Performs the ID migration for a specified mode using custom steps.</summary>
+        /// <param name="mode">The mode of the ID migration to perform.</param>
+        /// <param name="steps">The custom steps to use in the ID migration operation.</param>
+        public void PerformMigration(IDMigrationMode mode, List<SourceTargetRange> steps) => GetIDMigrationCustomStepsDelegate(mode)(steps);
+
         /// <summary>Gets the <seealso cref="IDMigrationModeInfo"/> object for a specified mode.</summary>
         /// <param name="mode">The mode to get the <seealso cref="IDMigrationModeInfo"/> object for.</param>
         public IDMigrationModeInfo GetIDMigrationModeInfo(IDMigrationMode mode) => IDMigrationInfo[mode];
@@ -1413,7 +1424,7 @@ namespace GDAPI.Application.Editors
         /// <summary>Performs a compact ID reallocation for the given level object ID type. This ensures that the next unused ID will be equal to the number of total used IDs + 1.</summary>
         /// <param name="type">The type of the level objects' used IDs to compactly reallocate.</param>
         /// <param name="ignoredRanges">The ranges of IDs to ignore. These IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all IDs will be reallocated.</param>
-        public void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(ignoredRanges, GetIDAdjustmentFunction(type));
+        public void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(type, ignoredRanges, GetIDAdjustmentFunction(type));
         /// <summary>Performs a compact Group ID reallocation, adjusting all Group IDs. This ensures that the next unused Group ID will be equal to the number of total used Group IDs + 1.</summary>
         /// <param name="ignoredRanges">The ranges of Group IDs to ignore. These Group IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all Group IDs will be reallocated.</param>
         public void CompactlyReallocateGroupIDs(List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(LevelObjectIDType.Group, ignoredRanges);
@@ -1443,13 +1454,13 @@ namespace GDAPI.Application.Editors
             for (int i = 0; i < objects.Count; i++)
                 adjustmentFunction(objects[i], new SourceTargetRange(oldID, oldID, newID));
         }
-        private void CompactlyReallocateIDs(List<Range>? ignoredRanges, IDAdjustmentFunction adjustmentFunction)
+        private void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges, IDAdjustmentFunction adjustmentFunction)
         {
             IDMigrationOperationInitialized?.Invoke();
 
             ignoredRanges = ignoredRanges?.SortAndMerge();
 
-            var categorized = Level.LevelObjects.GetObjectsByUsedGroupIDs();
+            var categorized = Level.LevelObjects.GetObjectsByUsedIDs(type);
             int currentID = 1;
             int currentRangesIndex = 0;
             int incomingIgnoredRangeIndex = 0;
@@ -1457,14 +1468,15 @@ namespace GDAPI.Application.Editors
             {
                 if (ignoredRanges != null)
                 {
-                    while (!ignoredRanges[currentRangesIndex].Contains(cat.Key))
+                    // Do something about index checking, the code feels kinda awful
+                    while (currentRangesIndex < ignoredRanges.Count && !ignoredRanges[currentRangesIndex].Contains(cat.Key))
                     {
                         if (!ignoredRanges[currentRangesIndex].AfterStart(cat.Key))
                             break;
                         currentRangesIndex++;
                     }
 
-                    if (ignoredRanges[currentRangesIndex].Contains(cat.Key))
+                    if (currentRangesIndex < ignoredRanges.Count && ignoredRanges[currentRangesIndex].Contains(cat.Key))
                         continue;
 
                     if (incomingIgnoredRangeIndex < ignoredRanges.Count)
@@ -1487,9 +1499,22 @@ namespace GDAPI.Application.Editors
         }
 #nullable disable
 
-        private Action GetIDMigrationDelegate()
+        private Action GetIDMigrationDelegate() => GetIDMigrationDelegate(SelectedIDMigrationMode);
+        private Action GetIDMigrationDelegate(IDMigrationMode mode)
         {
-            return SelectedIDMigrationMode switch
+            return mode switch
+            {
+                IDMigrationMode.Groups => PerformGroupIDMigration,
+                IDMigrationMode.Colors => PerformColorIDMigration,
+                IDMigrationMode.Items => PerformItemIDMigration,
+                IDMigrationMode.Blocks => PerformBlockIDMigration,
+                _ => throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined."),
+            };
+        }
+        private Action<List<SourceTargetRange>> GetIDMigrationCustomStepsDelegate() => GetIDMigrationCustomStepsDelegate(SelectedIDMigrationMode);
+        private Action<List<SourceTargetRange>> GetIDMigrationCustomStepsDelegate(IDMigrationMode mode)
+        {
+            return mode switch
             {
                 IDMigrationMode.Groups => PerformGroupIDMigration,
                 IDMigrationMode.Colors => PerformColorIDMigration,
