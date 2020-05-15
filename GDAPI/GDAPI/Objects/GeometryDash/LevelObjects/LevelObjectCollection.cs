@@ -134,7 +134,10 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             Objects = new List<GeneralObject> { obj };
         }
         /// <summary>Initializes a new instance of the <seealso cref="LevelObjectCollection"/> class.</summary>
-        /// <param name="objects">The list of objects to use.</param>
+        /// <param name="objects">The <seealso cref="IEnumerable{T}"/> of objects to use.</param>
+        public LevelObjectCollection(IEnumerable<GeneralObject> objects) : this(objects.ToList()) { }
+        /// <summary>Initializes a new instance of the <seealso cref="LevelObjectCollection"/> class.</summary>
+        /// <param name="objects">The <seealso cref="List{T}"/> of objects to use.</param>
         public LevelObjectCollection(List<GeneralObject> objects)
         {
             Objects = objects;
