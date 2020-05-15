@@ -1,10 +1,13 @@
 ﻿using GDAPI.Application.Editors;
+using GDAPI.Enumerations;
+using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects;
 using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -58,6 +61,7 @@ namespace GDAPI.Tests.Application.Editors
             allObjects = new LevelObjectCollection(normalBlocks.Concat(moveTriggers).Concat(pickupItems).Concat(pickupTriggers).Concat(colorTriggers).Concat(instantCountTriggers).Concat(collisionBlocks).Concat(collisionTriggers));
         }
 
+        #region IDMigration
         [Test]
         public void IDMigration()
         {
@@ -86,29 +90,6 @@ namespace GDAPI.Tests.Application.Editors
             editor.PerformBlockIDMigration(new List<SourceTargetRange> { step1 });
             Assert.IsTrue(VerifyBlockIDMigration(step0.SourceFrom, step1.TargetFrom));
             // TODO: Add more test steps with multiple step ID migrations
-        }
-
-        [Test]
-        public void GroupIDReallocation()
-        {
-            InitializeObjects();
-            var level = new Level { LevelObjects = allObjects };
-            var editor = new Editor(level);
-
-            var steps = new List<SourceTargetRange>();
-            for (int i = 4; i >= 0; i--)
-                steps.Add(new SourceTargetRange(i + 1, i + 1, (i + 3) * 10));
-
-            editor.PerformGroupIDMigration(steps);
-            editor.CompactlyReallocateGroupIDs();
-            for (int i = 0; i < 5; i++)
-            {
-                int id = i + 1;
-                Assert.AreEqual(id, normalBlocks[i].GroupIDs[0]);
-                Assert.AreEqual(id, moveTriggers[i].TargetGroupID);
-                Assert.AreEqual(id, instantCountTriggers[i].TargetGroupID);
-                Assert.AreEqual(id, collisionTriggers[i].TargetGroupID);
-            }
         }
 
         private bool VerifyGroupIDMigration(int offset)
@@ -169,5 +150,108 @@ namespace GDAPI.Tests.Application.Editors
             }
             return true;
         }
+        #endregion
+
+        #region IDReallocation
+        private static readonly int[] primaryTargetIDs = { 1, 2, 3, 4, 5 };
+        private static readonly int[] secondaryTargetIDs = { 6, 7, 8, 9, 10 };
+        private static readonly int[] primaryTargetIDsWithIgnored = { 30, 40, 1, 2, 3 };
+        private static readonly int[] secondaryTargetIDsWithIgnored = { 901, 902, 4, 5, 6 };
+
+        [Test]
+        public void GroupIDReallocation()
+        {
+            RunIDReallocationTest(AssertGroupIDReallocation, IDMigrationMode.Groups);
+        }
+        [Test]
+        public void ColorIDReallocation()
+        {
+            RunIDReallocationTest(AssertColorIDReallocation, IDMigrationMode.Colors);
+        }
+        [Test]
+        public void ItemIDReallocation()
+        {
+            RunIDReallocationTest(AssertItemIDReallocation, IDMigrationMode.Items);
+        }
+        [Test]
+        public void BlockIDReallocation()
+        {
+            RunIDReallocationTest(AssertBlockIDReallocation, IDMigrationMode.Blocks);
+        }
+
+        private void AssertGroupIDReallocation(int i, int id1, int id2)
+        {
+            Assert.AreEqual(id1, normalBlocks[i].GroupIDs[0]);
+            Assert.AreEqual(id1, moveTriggers[i].TargetGroupID);
+            Assert.AreEqual(id1, instantCountTriggers[i].TargetGroupID);
+            Assert.AreEqual(id1, collisionTriggers[i].TargetGroupID);
+        }
+        private void AssertColorIDReallocation(int i, int id1, int id2)
+        {
+            Assert.AreEqual(id1, normalBlocks[i].Color1ID);
+            Assert.AreEqual(id2, normalBlocks[i].Color2ID);
+            Assert.AreEqual(id1, colorTriggers[i].TargetColorID);
+            Assert.AreEqual(id2, colorTriggers[i].CopiedColorID);
+        }
+        private void AssertItemIDReallocation(int i, int id1, int id2)
+        {
+            Assert.AreEqual(id1, pickupItems[i].TargetItemID);
+            Assert.AreEqual(id1, pickupTriggers[i].TargetItemID);
+            Assert.AreEqual(id1, instantCountTriggers[i].ItemID);
+        }
+        private void AssertBlockIDReallocation(int i, int id1, int id2)
+        {
+            Assert.AreEqual(id1, collisionBlocks[i].BlockID);
+            Assert.AreEqual(id1, collisionTriggers[i].PrimaryBlockID);
+            Assert.AreEqual(id2, collisionTriggers[i].SecondaryBlockID);
+        }
+
+        private void RunIDReallocationTest(PostReallocationAssertion assertion, IDMigrationMode mode)
+        {
+            InitializeObjects();
+            var level = new Level { LevelObjects = allObjects };
+            var editor = new Editor(level);
+
+            var steps = new List<SourceTargetRange>();
+            for (int i = 4; i >= 0; i--)
+            {
+                steps.Add(new SourceTargetRange(i + 1, i + 1, (i + 3) * 10));
+                steps.Add(new SourceTargetRange(i + 21, i + 21, i + 901));
+            }
+
+            editor.PerformMigration(mode, steps);
+            editor.CompactlyReallocateIDs((LevelObjectIDType)mode);
+            for (int i = 0; i < 5; i++)
+            {
+                int id1 = primaryTargetIDs[i];
+                int id2 = secondaryTargetIDs[i];
+                assertion(i, id1, id2);
+            }
+
+            // Reset object IDs
+            InitializeObjects();
+            level.LevelObjects = allObjects;
+            editor.PerformMigration(mode, steps);
+
+            // Current ranges are 30, 40, 50, 60, 70 and 901, 902, 903, 904, 905
+            // Reallocation should ignore 30, 40 and 901, 902 meaning
+            // 50 > 1
+            // 60 > 2
+            // 70 > 3
+            // 903 > 4
+            // 904 > 5
+            // 905 > 6
+            var ignoredRanges = new List<Range> { 27..31, 22..24, 899..903, 78..700, 35..45 };
+            editor.CompactlyReallocateIDs((LevelObjectIDType)mode, ignoredRanges);
+            for (int i = 0; i < 5; i++)
+            {
+                int id1 = primaryTargetIDsWithIgnored[i];
+                int id2 = secondaryTargetIDsWithIgnored[i];
+                assertion(i, id1, id2);
+            }
+        }
+
+        private delegate void PostReallocationAssertion(int i, int id1, int id2 = default);
+        #endregion
     }
 }
