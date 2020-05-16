@@ -10,5 +10,8 @@ namespace GDAPI.Objects.GeometryDash.IDTypes
 
         /// <summary>The type of the ID.</summary>
         LevelObjectIDType Type { get; }
+
+        /// <summary>Gets the hash code of the ID, based on the ID value and its type</summary>
+        sealed int GetHashCode() => ID.GetHashCode() ^ ((int)Type << 28);
     }
 }
