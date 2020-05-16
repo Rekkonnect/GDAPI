@@ -51,13 +51,13 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         public Dictionary<ColorChannel, List<ColorChannel>> GetCopiedColorChannelReferenceDictionary()
         {
             var result = new Dictionary<ColorChannel, List<ColorChannel>>();
-            for (int i = 0; i < colors.Length; i++)
+            for (int i = 1; i <= colors.Length; i++)
             {
                 if (this[i] == null)
                     continue;
                 result.Add(this[i], new List<ColorChannel>());
             }
-            for (int i = 0; i < colors.Length; i++)
+            for (int i = 1; i <= colors.Length; i++)
             {
                 var copied = this[i]?.CopiedColorID ?? 0;
                 if (copied == 0)

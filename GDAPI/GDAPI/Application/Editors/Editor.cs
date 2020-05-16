@@ -1615,10 +1615,10 @@ namespace GDAPI.Application.Editors
             for (int i = 0; i <= r.Range; i++)
             {
                 var original = Level.ColorChannels[r.SourceFrom + i];
-                var channels = dict[original];
-
-                var cloned = Level.ColorChannels[r.TargetFrom + i] = original.Clone();
-                cloned.SetColorChannelID(r.TargetFrom + i, channels);
+                var target = Level.ColorChannels[r.TargetFrom + i];
+                var channels = dict[target];
+                target.AssignPropertiesFrom(original);
+                target.SetColorChannelID(r.TargetFrom + i, channels);
             }
         }
 
