@@ -55,9 +55,9 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
 
         /// <summary>Initializes a new empty instance of the <seealso cref="ColorChannel"/> class. For private usage only.</summary>
         private ColorChannel() : this(0) { }
-        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with the default values.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with the default values, them being the white color and the rest being 0.</summary>
         public ColorChannel(int colorChannelID) : this(colorChannelID, 255, 255, 255) { }
-        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with a specified color.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with a specified color, and the default values for the rest.</summary>
         public ColorChannel(int colorChannelID, int red, int green, int blue)
         {
             ColorChannelID = colorChannelID;

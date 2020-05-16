@@ -2,6 +2,7 @@
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.GeometryDash.General;
+using GDAPI.Objects.GeometryDash.IDTypes;
 
 namespace GDAPI.Objects.GeometryDash.ColorChannels
 {
@@ -14,15 +15,27 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         /// <param name="colorID">The color channel ID whose color to get or set.</param>
         public ColorChannel this[int colorID]
         {
-            get => colors[colorID];
+            get
+            {
+                if (colors[colorID] == null)
+                    colors[colorID] = new ColorChannel(colorID);
+                return colors[colorID];
+            }
             set => colors[colorID] = value;
+        }
+        /// <summary>Gets or sets the color at the specified special color channel ID.</summary>
+        /// <param name="colorID">The special color channel ID whose color to get or set.</param>
+        public ColorChannel this[ColorID colorID]
+        {
+            get => this[(int)colorID];
+            set => this[(int)colorID] = value;
         }
         /// <summary>Gets or sets the color at the specified special color channel ID.</summary>
         /// <param name="colorID">The special color channel ID whose color to get or set.</param>
         public ColorChannel this[SpecialColorID colorID]
         {
-            get => colors[(int)colorID];
-            set => colors[(int)colorID] = value;
+            get => this[(int)colorID];
+            set => this[(int)colorID] = value;
         }
 
         /// <summary>Clones this <seealso cref="LevelColorChannels"/> instance and returns the cloned instance.</summary>

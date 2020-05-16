@@ -254,7 +254,10 @@ namespace GDAPI.Objects.GeometryDash.General
 
         #region Constructors
         /// <summary>Creates a new empty instance of the <see cref="Level"/> class.</summary>
-        public Level() { }
+        public Level()
+        {
+            ColorChannels = new LevelColorChannels();
+        }
         /// <summary>Creates a new instance of the <see cref="Level"/> class from a raw string containing a level and gets its info.</summary>
         /// <param name="level">The raw string containing the level.</param>
         /// <param name="initializeBackgroundLevelStringLoading">Determines whether loading the infromation from the level string will be initialized on the background.</param>
