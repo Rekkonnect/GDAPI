@@ -1332,6 +1332,7 @@ namespace GDAPI.Application.Editors
             set => IDMigrationInfo.CurrentlySelectedIDMigrationSteps = value;
         }
 
+        // TODO: Migrate this into a separate class and rework the way delegate propagation occurs for consistency
         /// <summary>Performs the ID migration for the currently selected mode.</summary>
         public void PerformMigration() => GetIDMigrationDelegate()();
         /// <summary>Performs the ID migration for the currently selected mode using custom steps.</summary>
@@ -1406,7 +1407,7 @@ namespace GDAPI.Application.Editors
         public void PerformColorIDMigration() => PerformColorIDMigration(ColorSteps);
         /// <summary>Performs a color ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the color ID migration.</param>
-        public void PerformColorIDMigration(List<SourceTargetRange> ranges) => PerformIDMigration(ranges, AdjustColors);
+        public void PerformColorIDMigration(List<SourceTargetRange> ranges) => PerformIDMigration(ranges, AdjustColors, AdjustColorChannels);
         /// <summary>Performs an item ID migration with the currently loaded ID migration steps for the item mode.</summary>
         public void PerformItemIDMigration() => PerformItemIDMigration(ItemSteps);
         /// <summary>Performs an item ID migration given the provided ID migration steps.</summary>
@@ -1424,7 +1425,7 @@ namespace GDAPI.Application.Editors
         /// <summary>Performs a compact ID reallocation for the given level object ID type. This ensures that the next unused ID will be equal to the number of total used IDs + 1.</summary>
         /// <param name="type">The type of the level objects' used IDs to compactly reallocate.</param>
         /// <param name="ignoredRanges">The ranges of IDs to ignore. These IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all IDs will be reallocated.</param>
-        public void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(type, ignoredRanges, GetIDAdjustmentFunction(type));
+        public void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(type, ignoredRanges, GetIDAdjustmentFunction(type), GetLevelIDAdjustmentFunction(type));
         /// <summary>Performs a compact Group ID reallocation, adjusting all Group IDs. This ensures that the next unused Group ID will be equal to the number of total used Group IDs + 1.</summary>
         /// <param name="ignoredRanges">The ranges of Group IDs to ignore. These Group IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all Group IDs will be reallocated.</param>
         public void CompactlyReallocateGroupIDs(List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(LevelObjectIDType.Group, ignoredRanges);
@@ -1438,23 +1439,33 @@ namespace GDAPI.Application.Editors
         /// <param name="ignoredRanges">The ranges of Block IDs to ignore. These Block IDs will remain intact, and will not be reallocated into. If <see langword="null"/>, all Block IDs will be reallocated.</param>
         public void CompactlyReallocateBlockIDs(List<Range>? ignoredRanges = null) => CompactlyReallocateIDs(LevelObjectIDType.Block, ignoredRanges);
 
-        private void PerformIDMigration(List<SourceTargetRange> ranges, IDAdjustmentFunction adjustmentFunction)
+        private void PerformIDMigration(List<SourceTargetRange> ranges, IDAdjustmentFunction adjustmentFunction, LevelIDAdjustmentFunction? levelAdjustmentFunction = null)
         {
             IDMigrationOperationInitialized?.Invoke();
             for (int i = 0; i < ranges.Count; i++)
             {
-                for (int j = 0; j < Level.LevelObjects.Count; j++)
-                    adjustmentFunction(Level.LevelObjects[j], ranges[i]);
+                var range = ranges[i];
+                if (range.Difference > 0)
+                {
+                    for (int j = 0; j < Level.LevelObjects.Count; j++)
+                        adjustmentFunction(Level.LevelObjects[j], range);
+                    levelAdjustmentFunction?.Invoke(range);
+                }
                 IDMigrationProgressReported?.Invoke(i + 1, ranges.Count);
             }
             IDMigrationOperationCompleted?.Invoke();
         }
-        private static void PerformIDMigration(LevelObjectCollection objects, int oldID, int newID, IDAdjustmentFunction adjustmentFunction)
+        private static void PerformIDMigration(LevelObjectCollection objects, int oldID, int newID, IDAdjustmentFunction adjustmentFunction, LevelIDAdjustmentFunction? levelAdjustmentFunction = null)
         {
+            var range = new SourceTargetRange(oldID, oldID, newID);
+            if (range.Difference == 0)
+                return;
+
             for (int i = 0; i < objects.Count; i++)
-                adjustmentFunction(objects[i], new SourceTargetRange(oldID, oldID, newID));
+                adjustmentFunction(objects[i], range);
+            levelAdjustmentFunction?.Invoke(range);
         }
-        private void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges, IDAdjustmentFunction adjustmentFunction)
+        private void CompactlyReallocateIDs(LevelObjectIDType type, List<Range>? ignoredRanges, IDAdjustmentFunction adjustmentFunction, LevelIDAdjustmentFunction? levelAdjustmentFunction = null)
         {
             IDMigrationOperationInitialized?.Invoke();
 
@@ -1490,7 +1501,7 @@ namespace GDAPI.Application.Editors
                     }
                 }
 
-                PerformIDMigration(cat.Value, cat.Key, currentID, adjustmentFunction);
+                PerformIDMigration(cat.Value, cat.Key, currentID, adjustmentFunction, levelAdjustmentFunction);
                 IDMigrationProgressReported?.Invoke(currentID, categorized.Count);
                 currentID++;
             }
@@ -1585,7 +1596,29 @@ namespace GDAPI.Application.Editors
                 s.SecondaryBlockID += d;
         }
 
+#nullable enable
+        private LevelIDAdjustmentFunction? GetLevelIDAdjustmentFunction(LevelObjectIDType type)
+        {
+            return type switch
+            {
+                LevelObjectIDType.Color => AdjustColorChannels,
+                _ => null,
+            };
+        }
+#nullable disable
+        private void AdjustColorChannels(SourceTargetRange r)
+        {
+            int d = r.Difference;
+
+            for (int i = 0; i <= r.Range; i++)
+            {
+                var c = Level.ColorChannels[r.TargetFrom + i] = Level.ColorChannels[r.SourceFrom + i].Clone();
+                c.ColorChannelID = r.TargetFrom + i;
+            }
+        }
+
         private delegate void IDAdjustmentFunction(GeneralObject obj, SourceTargetRange range);
+        private delegate void LevelIDAdjustmentFunction(SourceTargetRange range);
         #endregion
 
         #region Other
