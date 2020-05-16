@@ -1,8 +1,9 @@
-﻿using System.IO;
-using GDAPI.Attributes;
+﻿using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
+using System.Collections.Generic;
+using System.IO;
 using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.ColorChannels
@@ -76,6 +77,20 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
             CopiedColorID = 0;
             CopiedColorHSV.Reset();
             CopyOpacity = false;
+        }
+
+        /// <summary>Sets the <seealso cref="ColorChannelID"/> to a new value, while also adjusting the <seealso cref="CopiedColorID"/> property of other <seealso cref="ColorChannel"/>s that depend on this one.</summary>
+        /// <param name="value">The new value to set to the <seealso cref="ColorChannelID"/> property.</param>
+        /// <param name="potentialDependants">A <seealso cref="List{T}"/> containing <seealso cref="ColorChannel"/>s that may potentially copy this one's color. <seealso cref="ColorChannel"/>s that do not depend on this one are unaffected.</param>
+        public void SetColorChannelID(int value, List<ColorChannel> potentialDependants)
+        {
+            if (value == ColorChannelID)
+                return;
+
+            foreach (var p in potentialDependants)
+                if (p.CopiedColorID == ColorChannelID)
+                    p.CopiedColorID = value;
+            ColorChannelID = value;
         }
 
         public ColorChannel Clone()

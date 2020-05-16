@@ -1,8 +1,9 @@
-﻿using System.Text;
-using GDAPI.Enumerations.GeometryDash;
+﻿using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.IDTypes;
+using System.Collections.Generic;
+using System.Text;
 
 namespace GDAPI.Objects.GeometryDash.ColorChannels
 {
@@ -17,11 +18,11 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         {
             get
             {
-                if (colors[colorID] == null)
-                    colors[colorID] = new ColorChannel(colorID);
-                return colors[colorID];
+                if (colors[colorID - 1] == null)
+                    colors[colorID - 1] = new ColorChannel(colorID);
+                return colors[colorID - 1];
             }
-            set => colors[colorID] = value;
+            set => colors[colorID - 1] = value;
         }
         /// <summary>Gets or sets the color at the specified special color channel ID.</summary>
         /// <param name="colorID">The special color channel ID whose color to get or set.</param>
@@ -43,6 +44,26 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         {
             LevelColorChannels result = new LevelColorChannels();
             result.colors = colors.CopyArray();
+            return result;
+        }
+
+        /// <summary>Gets a <seealso cref="Dictionary{TKey, TValue}"/> mapping every <seealso cref="ColorChannel"/> to the <seealso cref="ColorChannel"/>s that copy its color through the <seealso cref="ColorChannel.CopiedColorID"/> property.</summary>
+        public Dictionary<ColorChannel, List<ColorChannel>> GetCopiedColorChannelReferenceDictionary()
+        {
+            var result = new Dictionary<ColorChannel, List<ColorChannel>>();
+            for (int i = 0; i < colors.Length; i++)
+            {
+                if (this[i] == null)
+                    continue;
+                result.Add(this[i], new List<ColorChannel>());
+            }
+            for (int i = 0; i < colors.Length; i++)
+            {
+                var copied = this[i]?.CopiedColorID ?? 0;
+                if (copied == 0)
+                    continue;
+                result[this[copied]].Add(this[i]);
+            }
             return result;
         }
 

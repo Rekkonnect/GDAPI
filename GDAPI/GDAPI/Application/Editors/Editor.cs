@@ -1608,12 +1608,17 @@ namespace GDAPI.Application.Editors
 #nullable disable
         private void AdjustColorChannels(SourceTargetRange r)
         {
-            int d = r.Difference;
+            // Recalculation on every step might hurt a little bit, but in real-world situations,
+            // not nearly many steps will be performed to be severely impacted by this
+            var dict = Level.ColorChannels.GetCopiedColorChannelReferenceDictionary();
 
             for (int i = 0; i <= r.Range; i++)
             {
-                var c = Level.ColorChannels[r.TargetFrom + i] = Level.ColorChannels[r.SourceFrom + i].Clone();
-                c.ColorChannelID = r.TargetFrom + i;
+                var original = Level.ColorChannels[r.SourceFrom + i];
+                var channels = dict[original];
+
+                var cloned = Level.ColorChannels[r.TargetFrom + i] = original.Clone();
+                cloned.SetColorChannelID(r.TargetFrom + i, channels);
             }
         }
 
