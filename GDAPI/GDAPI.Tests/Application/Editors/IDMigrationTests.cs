@@ -104,84 +104,63 @@ namespace GDAPI.Tests.Application.Editors
 
             ReinitializeLevelStuff();
 
-            // TODO: Move assertions to within the verification functions
             editor.PerformGroupIDMigration(new List<SourceTargetRange> { step0 });
-            Assert.IsTrue(VerifyGroupIDMigration(step0.TargetFrom));
+            VerifyGroupIDMigration(step0.TargetFrom);
+
             editor.PerformColorIDMigration(new List<SourceTargetRange> { step2 });
-            Assert.IsTrue(VerifyColorIDMigration(step2.TargetFrom, step1.TargetFrom));
+            VerifyColorIDMigration(step2.TargetFrom, step1.TargetFrom);
+
             editor.PerformItemIDMigration(new List<SourceTargetRange> { step0 });
-            Assert.IsTrue(VerifyItemIDMigration(step0.TargetFrom));
+            VerifyItemIDMigration(step0.TargetFrom);
+
             editor.PerformBlockIDMigration(new List<SourceTargetRange> { step1 });
-            Assert.IsTrue(VerifyBlockIDMigration(step0.SourceFrom, step1.TargetFrom));
+            VerifyBlockIDMigration(step0.SourceFrom, step1.TargetFrom);
             // TODO: Add more test steps with multiple step ID migrations
 
-            bool VerifyGroupIDMigration(int offset)
-            {
-                for (int i = 0; i < 5; i++)
-                    if (normalBlocks[i].GetGroupID(0) != i + offset)
-                        return false;
-                for (int i = 0; i < 5; i++)
-                    if (moveTriggers[i].TargetGroupID != i + offset)
-                        return false;
-                for (int i = 0; i < 5; i++)
-                    if (instantCountTriggers[i].TargetGroupID != i + offset)
-                        return false;
-                for (int i = 0; i < 5; i++)
-                    if (collisionTriggers[i].TargetGroupID != i + offset)
-                        return false;
-                return true;
-            }
-            bool VerifyColorIDMigration(int offsetA, int offsetB)
+            void VerifyGroupIDMigration(int offset)
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    if (normalBlocks[i].Color1ID != i + offsetA)
-                        return false;
-                    if (normalBlocks[i].Color2ID != i + offsetB)
-                        return false;
+                    Assert.AreEqual(i + offset, normalBlocks[i].GetGroupID(0));
+                    Assert.AreEqual(i + offset, moveTriggers[i].TargetGroupID);
+                    Assert.AreEqual(i + offset, instantCountTriggers[i].TargetGroupID);
+                    Assert.AreEqual(i + offset, collisionTriggers[i].TargetGroupID);
                 }
+            }
+            void VerifyColorIDMigration(int offsetA, int offsetB)
+            {
                 for (int i = 0; i < 5; i++)
                 {
-                    if (colorTriggers[i].TargetColorID != i + offsetA)
-                        return false;
-                    if (colorTriggers[i].CopiedColorID != i + offsetB)
-                        return false;
+                    Assert.AreEqual(i + offsetA, normalBlocks[i].Color1ID);
+                    Assert.AreEqual(i + offsetB, normalBlocks[i].Color2ID);
+
+                    Assert.AreEqual(i + offsetA, colorTriggers[i].TargetColorID);
+                    Assert.AreEqual(i + offsetB, colorTriggers[i].CopiedColorID);
                 }
                 for (int i = 26; i <= 50; i++)
                 {
                     int origin = i - 25;
-                    if (level.ColorChannels[i].CopiedColorID != i)
-                        return false;
-                    if (level.ColorChannels[i].ColorChannelID != i)
-                        return false;
-                    if (level.ColorChannels[origin].ColorChannelID != origin)
-                        return false;
+                    Assert.AreEqual(i, level.ColorChannels[i].CopiedColorID);
+                    Assert.AreEqual(i, level.ColorChannels[i].ColorChannelID);
+                    Assert.AreEqual(origin, level.ColorChannels[origin].ColorChannelID);
                 }
-                return true;
             }
-            bool VerifyItemIDMigration(int offset)
+            void VerifyItemIDMigration(int offset)
             {
-                for (int i = 0; i < 5; i++)
-                    if (pickupItems[i].TargetItemID != i + offset)
-                        return false;
-                for (int i = 0; i < 5; i++)
-                    if (pickupTriggers[i].TargetItemID != i + offset)
-                        return false;
-                return true;
-            }
-            bool VerifyBlockIDMigration(int offsetA, int offsetB)
-            {
-                for (int i = 0; i < 5; i++)
-                    if (collisionBlocks[i].BlockID != i + offsetA)
-                        return false;
                 for (int i = 0; i < 5; i++)
                 {
-                    if (collisionTriggers[i].PrimaryBlockID != i + offsetA)
-                        return false;
-                    if (collisionTriggers[i].SecondaryBlockID != i + offsetB)
-                        return false;
+                    Assert.AreEqual(i + offset, pickupItems[i].TargetItemID);
+                    Assert.AreEqual(i + offset, pickupTriggers[i].TargetItemID);
                 }
-                return true;
+            }
+            void VerifyBlockIDMigration(int offsetA, int offsetB)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Assert.AreEqual(i + offsetA, collisionBlocks[i].BlockID);
+                    Assert.AreEqual(i + offsetA, collisionTriggers[i].PrimaryBlockID);
+                    Assert.AreEqual(i + offsetB, collisionTriggers[i].SecondaryBlockID);
+                }
             }
         }
         #endregion
