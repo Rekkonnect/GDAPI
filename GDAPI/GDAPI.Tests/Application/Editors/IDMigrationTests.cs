@@ -1,6 +1,7 @@
 ﻿using GDAPI.Application.Editors;
 using GDAPI.Enumerations;
 using GDAPI.Enumerations.GeometryDash;
+using GDAPI.Functions.Extensions;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects;
@@ -241,12 +242,20 @@ namespace GDAPI.Tests.Application.Editors
 
         private void AssertExtraColorIDReallication(List<SourceTargetRange> steps, List<Range> ignoredRanges)
         {
-
+            foreach (var step in steps)
+            {
+                foreach (var st in step)
+                {
+                    Assert.AreEqual(st.Source, level.ColorChannels[st.Source].CopiedColorID);
+                    if (!(ignoredRanges?.ContainsBinarySearch(st.Source) ?? false))
+                        Assert.AreEqual(st.Target, level.ColorChannels[st.Target].CopiedColorID);
+                }
+            }
         }
 
         private void RunIDReallocationTest(IDMigrationMode mode, PostReallocationAssertion assertion, PostReallocationExtra extra = null)
         {
-            ReinitializeLevelStuff();
+            ReinitializeLevelObjects();
 
             var steps = new List<SourceTargetRange>();
             for (int i = 4; i >= 0; i--)
@@ -256,6 +265,7 @@ namespace GDAPI.Tests.Application.Editors
             }
 
             editor.PerformMigration(mode, steps);
+            InitializeColorChannels();
             editor.CompactlyReallocateIDs((LevelObjectIDType)mode);
             for (int i = 0; i < 5; i++)
             {
@@ -266,8 +276,9 @@ namespace GDAPI.Tests.Application.Editors
             extra?.Invoke(steps, null);
 
             // Reset object IDs
-            ReinitializeLevelStuff();
+            ReinitializeLevelObjects();
             editor.PerformMigration(mode, steps);
+            InitializeColorChannels();
 
             // Current ranges are 30, 40, 50, 60, 70 and 901, 902, 903, 904, 905
             // Reallocation should ignore 30, 40 and 901, 902 meaning
