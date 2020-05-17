@@ -73,6 +73,22 @@ namespace GDAPI.Tests.Functions.Extensions
             for (int i = 0; i < merged.Count; i++)
                 Assert.AreEqual(mergedRanges[i], merged[i]);
         }
+
+        [Test]
+        public void ListContainsBinarySearch()
+        {
+            var sorted = unsortedRanges.SortAndMerge();
+
+            var shouldBeContained = new bool[mergedRanges.Last().End.Value];
+            foreach (var r in mergedRanges)
+            {
+                for (int i = 0; i < r.GetAbsoluteRangeLength(); i++)
+                    shouldBeContained[r.Start.Value + i] = true;
+            }
+
+            for (int i = 0; i < shouldBeContained.Length; i++)
+                Assert.AreEqual(shouldBeContained[i], sorted.ContainsBinarySearch(i));
+        }
         #endregion
 
         #region Range<T>

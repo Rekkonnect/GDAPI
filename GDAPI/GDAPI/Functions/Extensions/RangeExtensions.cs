@@ -37,6 +37,39 @@ namespace GDAPI.Functions.Extensions
 
             return ranges;
         }
+        /// <summary>Determines whether a value is contained within a list of ranges, using linear searching.</summary>
+        /// <param name="ranges">The <seealso cref="List{T}"/> of <seealso cref="Range"/>s.</param>
+        /// <param name="value">The value to try to find.</param>
+        public static bool Contains(this List<Range> ranges, int value)
+        {
+            foreach (var r in ranges)
+                if (r.Contains(value))
+                    return true;
+            return false;
+        }
+        /// <summary>Determines whether a value is contained within a sorted and merged list of ranges, using binary searching.</summary>
+        /// <param name="ranges">The <seealso cref="List{T}"/> of <seealso cref="Range"/>s.</param>
+        /// <param name="value">The value to try to find.</param>
+        public static bool ContainsBinarySearch(this List<Range> ranges, int value)
+        {
+            int min = 0;
+            int max = ranges.Count - 1;
+            while (min <= max)
+            {
+                int mid = (min + max) / 2;
+                if (!ranges[mid].BeforeEnd(value))
+                    min = mid + 1;
+                else if (!ranges[mid].AfterStart(value))
+                    max = mid - 1;
+                else
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Gets the absolute range length of the <seealso cref="Range"/>, which is the distance of the start value from the end value.</summary>
+        /// <param name="r">The <seealso cref="Range"/> whose absolute range length to get.</param>
+        public static int GetAbsoluteRangeLength(this Range r) => r.End.Value - r.Start.Value;
 
         /// <summary>Determines whether the range is absolute, meaning that netiher the start nor the end indices are related to the end of the collection, that is having their <seealso cref="Index.IsFromEnd"/> property set to <see langword="false"/>.</summary>
         /// <param name="r">The range to determine whether it is absolute.</param>
