@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using GDAPI.Functions.Extensions;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using GDAPI.Functions.Extensions;
 using static System.Convert;
 
 namespace GDAPI.Objects.General
 {
     /// <summary>Represents a source-target range of the form A-B > C-D, where A &lt;= B and C &lt;= D.</summary>
-    public class SourceTargetRange
+    public class SourceTargetRange : IEnumerable<SourceTargetPair>
     {
         /// <summary>The value that determines whether a property is invalid.</summary>
         public const int InvalidValue = -1;
@@ -83,6 +85,33 @@ namespace GDAPI.Objects.General
         /// <summary>Determines whether a value is within the source's range.</summary>
         /// <param name="value">The value to determine whether it's within the source's range.</param>
         public bool IsWithinSourceRange(int value) => sourceFrom <= value && value <= sourceTo;
+        /// <summary>Determines whether a value is within the target's range.</summary>
+        /// <param name="value">The value to determine whether it's within the target's range.</param>
+        public bool IsWithinTargetRange(int value) => targetFrom <= value && value <= TargetTo;
+
+        /// <summary>Gets the resulting target value for a provided source value. That is, if the source value is contained within the source range, this function returns its respective target value, otherwise returns the provided value itself.</summary>
+        /// <param name="source">The source value whose target value to get.</param>
+        public int GetTargetFor(int source)
+        {
+            if (!IsWithinSourceRange(source))
+                return source;
+            return source - sourceFrom + targetFrom;
+        }
+        /// <summary>Gets the resulting source value for a provided target value. That is, if the target value is contained within the target range, this function returns its respective source value, otherwise returns the provided value itself.</summary>
+        /// <param name="target">The target value whose source value to get.</param>
+        public int GetSourceFor(int target)
+        {
+            if (!IsWithinTargetRange(target))
+                return target;
+            return target - targetFrom + sourceFrom;
+        }
+
+        /// <summary>Determines whether an offset is valid, that is, being non-negative and less or equal to the range.</summary>
+        /// <param name="offset">The offset from the starting point of each range.</param>
+        public bool IsValidOffset(int offset) => offset >= 0 && offset <= Range;
+        /// <summary>Gets a <seealso cref="SourceTargetPair"/> that matches the source and the target.</summary>
+        /// <param name="offset">The zero-based offset from the starting point of each range.</param>
+        public SourceTargetPair GetSourceTargetPairAt(int offset) => new SourceTargetPair(sourceFrom + offset, targetFrom + offset);
 
         /// <summary>Determines whether any of the source from, source to and target from values is equal to <seealso cref="InvalidValue"/>.</summary>
         public bool IsAnyValueInvalid() => sourceFrom == InvalidValue || sourceTo == InvalidValue || targetFrom == InvalidValue;
@@ -115,6 +144,9 @@ namespace GDAPI.Objects.General
                 && targetFrom == TargetFrom
                 && targetTo == TargetTo;
         }
+
+        public IEnumerator<SourceTargetPair> GetEnumerator() => new SourceTargetRangeEnumerator(this);
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>Parses a string of the form "A-B > C-D" into a <seealso cref="SourceTargetRange"/>.</summary>
         /// <param name="str">The string to parse into a <seealso cref="SourceTargetRange"/>. The string must be of the form "A-B > C-D", where A-B can simply be A if A = B and C-D can respectively be C if C = D.</param>
@@ -182,7 +214,6 @@ namespace GDAPI.Objects.General
             }
             return result;
         }
-
         public override string ToString() => $"{SourceToString()} > {TargetToString()}";
         /// <summary>Returns the string representation of this <seealso cref="SourceTargetRange"/> with the option to include a space between the ranges and the right arrow.</summary>
         /// <param name="addSpace">Determines whether the spaces will be added or not.</param>
@@ -199,6 +230,28 @@ namespace GDAPI.Objects.General
         }
 
         private static string ToString(int from, int to) => $"{from}{(to - from > 0 ? $"-{to}" : "")}";
+
+        private class SourceTargetRangeEnumerator : IEnumerator<SourceTargetPair>
+        {
+            private SourceTargetRange range;
+            private int offset = -1;
+
+            public SourceTargetPair Current => range.GetSourceTargetPairAt(offset);
+            object IEnumerator.Current => Current;
+
+            public SourceTargetRangeEnumerator(SourceTargetRange sourceTargetRange) => range = sourceTargetRange;
+
+            public void Dispose() { }
+            public bool MoveNext()
+            {
+                offset++;
+                return range.IsValidOffset(offset);
+            }
+            public void Reset()
+            {
+                offset = -1;
+            }
+        }
     }
 
     /// <summary>Represents a function that contains the new state of the <seealso cref="SourceTargetRange"/> instance that was changed.</summary>
