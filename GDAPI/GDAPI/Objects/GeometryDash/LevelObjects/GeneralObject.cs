@@ -1,22 +1,14 @@
 ﻿using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
-using GDAPI.Information.GeometryDash;
 using GDAPI.Objects.DataStructures;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
-using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects;
-using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
 using GDAPI.Objects.GeometryDash.Reflection;
-using GDAPI.Objects.KeyedObjects;
 using GDAPI.Objects.Reflection;
-using Microsoft.CSharp;
-using NAudio.CoreAudioApi;
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using static System.Convert;
 
@@ -306,6 +298,15 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             set => MathRotationDegrees = value * 180 / Math.PI;
         }
 
+        /// <summary>Gets this object's used Group IDs.</summary>
+        public LevelObjectGroupIDUsage UsedGroupIDs => LevelObjectGroupIDUsage.GroupIDsFromObject(this);
+        /// <summary>Gets this object's used Color IDs.</summary>
+        public LevelObjectIDUsage UsedColorIDs => LevelObjectIDUsage.ColorIDsFromObject(this);
+        /// <summary>Gets this object's used Item IDs.</summary>
+        public LevelObjectIDUsage UsedItemIDs => LevelObjectIDUsage.ItemIDsFromObject(this);
+        /// <summary>Gets this object's used Block IDs.</summary>
+        public LevelObjectIDUsage UsedBlockIDs => LevelObjectIDUsage.BlockIDsFromObject(this);
+
         /// <summary>Creates a new instance of the <seealso cref="GeneralObject"/> class with the object ID property set to 1.</summary>
         public GeneralObject()
         {
@@ -338,6 +339,21 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             X = x;
             Y = y;
             Rotation = rotation;
+        }
+
+        /// <summary>Gets this object's used IDs of a specified type.</summary>
+        /// <param name="type">The ID type of the used IDs.</param>
+        /// <returns>The proper <seealso cref="LevelObjectIDUsage"/> corresponding to the used IDs of this object of the specified type, if valid, otherwise <see langword="null"/>.</returns>
+        public LevelObjectIDUsage GetUsedIDsFromType(LevelObjectIDType type)
+        {
+            return type switch
+            {
+                LevelObjectIDType.Group => UsedGroupIDs,
+                LevelObjectIDType.Color => UsedColorIDs,
+                LevelObjectIDType.Item => UsedItemIDs,
+                LevelObjectIDType.Block => UsedBlockIDs,
+                _ => default,
+            };
         }
 
         /// <summary>Returns a clone of this <seealso cref="GeneralObject"/>.</summary>

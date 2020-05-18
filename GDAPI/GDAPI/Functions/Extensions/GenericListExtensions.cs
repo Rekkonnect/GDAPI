@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GDAPI.Functions.Extensions
 {
@@ -18,6 +19,36 @@ namespace GDAPI.Functions.Extensions
             var result = new List<List<T>>();
             for (int i = 0; i < l.Count; i++)
                 result.Add(new List<T>(l[i]));
+            return result;
+        }
+
+        /// <summary>Clones a list, sorts by the default comparer and then returns the cloned list.</summary>
+        /// <typeparam name="T">The type of the list elements.</typeparam>
+        /// <param name="l">The list to clone and sort.</param>
+        public static List<T> CloneSort<T>(this List<T> l)
+        {
+            var result = l.Clone();
+            result.Sort();
+            return result;
+        }
+        /// <summary>Clones a list, sorts by a provided <seealso cref="IComparer{T}"/> and then returns the cloned list.</summary>
+        /// <typeparam name="T">The type of the list elements.</typeparam>
+        /// <param name="l">The list to clone and sort.</param>
+        /// <param name="comparer">The <seealso cref="IComparer{T}"/> implementation to use when comparing elements, or <see langword="null"/> to use the default comparer.</param>
+        public static List<T> CloneSort<T>(this List<T> l, IComparer<T> comparer)
+        {
+            var result = l.Clone();
+            result.Sort(comparer);
+            return result;
+        }
+        /// <summary>Clones a list, sorts by a provided <seealso cref="Comparison{T}"/> and then returns the cloned list.</summary>
+        /// <typeparam name="T">The type of the list elements.</typeparam>
+        /// <param name="l">The list to clone and sort.</param>
+        /// <param name="comparison">The <seealso cref="Comparison{T}"/> to use when comparing elements.</param>
+        public static List<T> CloneSort<T>(this List<T> l, Comparison<T> comparison)
+        {
+            var result = l.Clone();
+            result.Sort(comparison);
             return result;
         }
         #endregion
