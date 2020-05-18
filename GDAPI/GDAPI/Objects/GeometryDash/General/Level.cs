@@ -73,6 +73,10 @@ namespace GDAPI.Objects.GeometryDash.General
         [CommonMergedProperty]
         [LevelStringMappable("k41")]
         public int Password { get; set; }
+        /// <summary>The copied level ID of the level.</summary>
+        [CommonMergedProperty]
+        [LevelStringMappable("k42")]
+        public int CopiedLevelID { get; set; }
         /// <summary>The binary version of the game the level was created on.</summary>
         [LevelStringMappable("k50")]
         public int BinaryVersion { get; set; }
@@ -253,7 +257,10 @@ namespace GDAPI.Objects.GeometryDash.General
 
         #region Constructors
         /// <summary>Creates a new empty instance of the <see cref="Level"/> class.</summary>
-        public Level() { }
+        public Level()
+        {
+            ColorChannels = new LevelColorChannels();
+        }
         /// <summary>Creates a new instance of the <see cref="Level"/> class from a raw string containing a level and gets its info.</summary>
         /// <param name="level">The raw string containing the level.</param>
         /// <param name="initializeBackgroundLevelStringLoading">Determines whether loading the infromation from the level string will be initialized on the background.</param>

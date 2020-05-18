@@ -1,14 +1,16 @@
-﻿using System.IO;
-using GDAPI.Attributes;
+﻿using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.ColorChannels
 {
     /// <summary>Represents a color channel in a level.</summary>
-    public class ColorChannel
+    public class ColorChannel : IEquatable<ColorChannel>
     {
         /// <summary>The red color value of the <seealso cref="ColorChannel"/>.</summary>
         [ColorStringMappable(1)]
@@ -55,9 +57,9 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
 
         /// <summary>Initializes a new empty instance of the <seealso cref="ColorChannel"/> class. For private usage only.</summary>
         private ColorChannel() : this(0) { }
-        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with the default values.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with the default values, them being the white color and the rest being 0.</summary>
         public ColorChannel(int colorChannelID) : this(colorChannelID, 255, 255, 255) { }
-        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with a specified color.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with a specified color, and the default values for the rest.</summary>
         public ColorChannel(int colorChannelID, int red, int green, int blue)
         {
             ColorChannelID = colorChannelID;
@@ -78,18 +80,40 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
             CopyOpacity = false;
         }
 
+        /// <summary>Sets the <seealso cref="ColorChannelID"/> to a new value, while also adjusting the <seealso cref="CopiedColorID"/> property of other <seealso cref="ColorChannel"/>s that depend on this one.</summary>
+        /// <param name="value">The new value to set to the <seealso cref="ColorChannelID"/> property.</param>
+        /// <param name="potentialDependants">A <seealso cref="List{T}"/> containing <seealso cref="ColorChannel"/>s that may potentially copy this one's color. <seealso cref="ColorChannel"/>s that do not depend on this one are unaffected.</param>
+        public void SetColorChannelID(int value, List<ColorChannel> potentialDependants)
+        {
+            if (value == ColorChannelID)
+                return;
+
+            foreach (var p in potentialDependants)
+                if (p.CopiedColorID == ColorChannelID)
+                    p.CopiedColorID = value;
+            ColorChannelID = value;
+        }
+
+        public void AssignPropertiesFrom(ColorChannel other)
+        {
+            ColorChannelID = other.ColorChannelID;
+            Red = other.Red;
+            Green = other.Green;
+            Blue = other.Blue;
+            CopiedPlayerColor = other.CopiedPlayerColor;
+            Blending = other.Blending;
+            CopiedColorID = other.CopiedColorID;
+            Opacity = other.Opacity;
+            CopiedColorHSV = other.CopiedColorHSV.Clone();
+            CopyOpacity = other.CopyOpacity;
+        }
         public ColorChannel Clone()
         {
-            var result = new ColorChannel(ColorChannelID, Red, Green, Blue);
-            result.CopiedPlayerColor = result.CopiedPlayerColor;
-            result.Blending = Blending;
-            result.CopiedColorID = result.CopiedColorID;
-            result.Opacity = Opacity;
-            result.CopiedColorHSV = CopiedColorHSV.Clone();
-            result.CopyOpacity = CopyOpacity;
+            var result = new ColorChannel();
+            result.AssignPropertiesFrom(this);
             return result;
         }
-        
+
         /// <summary>Parses the color channel string into a <seealso cref="ColorChannel"/> object.</summary>
         /// <param name="colorChannel">The color channel string to parse.</param>
         public static ColorChannel Parse(string colorChannel)
@@ -175,5 +199,9 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         // IMPORTANT: This may need to be changed as more information about the color channel string is discovered (especially for property IDs 8, 11, 12, 13, 15, 18 which are currently hardcoded because of that)
         /// <summary>Returns the string of the <seealso cref="ColorChannel"/>.</summary>
         public override string ToString() => $"1_{Red}_2_{Green}_3_{Blue}_4_{(int)CopiedPlayerColor}_5_{(Blending ? 1 : 0)}_6_{ColorChannelID}_7_{Opacity}_8_1_9_{CopiedColorID}_10_{CopiedColorHSV}_11_255_12_255_13_255_15_1_17_{(CopyOpacity ? 1 : 0)}_18_0";
+
+        public bool Equals(ColorChannel other) => GetHashCode() == other?.GetHashCode();
+        public override bool Equals(object obj) => Equals(obj as ColorChannel);
+        public override int GetHashCode() => ColorChannelID.GetHashCode();
     }
 }

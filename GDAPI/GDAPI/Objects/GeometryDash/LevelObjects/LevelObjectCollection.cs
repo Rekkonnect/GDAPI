@@ -11,15 +11,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using static GDAPI.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
 
-
 namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
     /// <summary>Represents a collection of level objects.</summary>
-    public class LevelObjectCollection : IEnumerable<GeneralObject>
+    public class LevelObjectCollection : IList<GeneralObject>
     {
         private int triggerCount = -1;
         private int colorTriggerCount = -1;
@@ -32,6 +32,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         private NestedLists<GeneralObject> unevaluatedObjects = new NestedLists<GeneralObject>();
 
         private List<GeneralObject> objects;
+
+        bool ICollection<GeneralObject>.IsReadOnly => false;
 
         /// <summary>The count of the level objects in the collection.</summary>
         public int Count => objects.Count;
@@ -136,7 +138,10 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             Objects = new List<GeneralObject> { obj };
         }
         /// <summary>Initializes a new instance of the <seealso cref="LevelObjectCollection"/> class.</summary>
-        /// <param name="objects">The list of objects to use.</param>
+        /// <param name="objects">The <seealso cref="IEnumerable{T}"/> of objects to use.</param>
+        public LevelObjectCollection(IEnumerable<GeneralObject> objects) : this(objects.ToList()) { }
+        /// <summary>Initializes a new instance of the <seealso cref="LevelObjectCollection"/> class.</summary>
+        /// <param name="objects">The <seealso cref="List{T}"/> of objects to use.</param>
         public LevelObjectCollection(List<GeneralObject> objects)
         {
             Objects = objects;
@@ -144,73 +149,68 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         /// <summary>Adds an object to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="o">The object to add.</param>
-        public LevelObjectCollection Add(GeneralObject o)
+        public void Add(GeneralObject o)
         {
             AddToCounters(o);
             objects.Add(o);
             RegisterUnevaluatedObject(o);
-            return this;
         }
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="addedObjects">The objects to add.</param>
-        public LevelObjectCollection AddRange(IEnumerable<GeneralObject> addedObjects)
+        public void AddRange(IEnumerable<GeneralObject> addedObjects)
         {
             AddToCounters(addedObjects);
             objects.AddRange(addedObjects);
             RegisterUnevaluatedObjects(addedObjects);
-            return this;
         }
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="objects">The objects to add.</param>
-        public LevelObjectCollection AddRange(LevelObjectCollection objects) => AddRange(objects.Objects);
+        public void AddRange(LevelObjectCollection objects) => AddRange(objects.Objects);
         /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="objects">The objects to add.</param>
-        public LevelObjectCollection AddRange(params GeneralObject[] objects) => AddRange((IEnumerable<GeneralObject>)objects);
+        public void AddRange(params GeneralObject[] objects) => AddRange((IEnumerable<GeneralObject>)objects);
         /// <summary>Inserts an object to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index to insert the object at.</param>
         /// <param name="o">The object to insert.</param>
-        public LevelObjectCollection Insert(int index, GeneralObject o)
+        public void Insert(int index, GeneralObject o)
         {
             AddToCounters(o);
             objects.Insert(index, o);
             RegisterUnevaluatedObject(o);
-            return this;
         }
         /// <summary>Inserts a collection of objects to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index of the first object to insert at.</param>
         /// <param name="insertedObjects">The objects to insert.</param>
-        public LevelObjectCollection InsertRange(int index, List<GeneralObject> insertedObjects)
+        public void InsertRange(int index, List<GeneralObject> insertedObjects)
         {
             AddToCounters(insertedObjects);
             objects.InsertRange(index, insertedObjects);
             RegisterUnevaluatedObjects(insertedObjects);
-            return this;
         }
         /// <summary>Inserts a collection of objects to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index of the first object to insert at.</param>
         /// <param name="objects">The objects to insert.</param>
-        public LevelObjectCollection InsertRange(int index, LevelObjectCollection objects) => InsertRange(index, objects.Objects);
+        public void InsertRange(int index, LevelObjectCollection objects) => InsertRange(index, objects.Objects);
         /// <summary>Removes an object from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="o">The object to remove.</param>
-        public LevelObjectCollection Remove(GeneralObject o)
+        public bool Remove(GeneralObject o)
         {
             RemoveFromCounters(o);
-            objects.Remove(o);
+            bool result = objects.Remove(o);
             ClearPropertyCache();
-            return this;
+            return result;
         }
         /// <summary>Removes an object from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index of the object to remove.</param>
-        public LevelObjectCollection RemoveAt(int index)
+        public void RemoveAt(int index)
         {
             RemoveFromCounters(objects[index]);
             objects.RemoveAt(index);
             ClearPropertyCache();
-            return this;
         }
         /// <summary>Removes a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="removedObjects">The objects to remove.</param>
-        public LevelObjectCollection RemoveRange(List<GeneralObject> removedObjects)
+        public void RemoveRange(List<GeneralObject> removedObjects)
         {
             foreach (var o in removedObjects)
             {
@@ -218,19 +218,17 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                 objects.Remove(o);
             }
             ClearPropertyCache();
-            return this;
         }
         /// <summary>Removes a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="objects">The objects to remove.</param>
-        public LevelObjectCollection RemoveRange(LevelObjectCollection objects) => RemoveRange(objects.Objects);
+        public void RemoveRange(LevelObjectCollection objects) => RemoveRange(objects.Objects);
         /// <summary>Clears the <seealso cref="LevelObjectCollection"/>.</summary>
-        public LevelObjectCollection Clear()
+        public void Clear()
         {
             ObjectCounts.Clear();
             GroupCounts.Clear();
             objects.Clear();
             SetPropertyCacheToDefault();
-            return this;
         }
         /// <summary>Clones the <seealso cref="LevelObjectCollection"/> and returns the cloned instance.</summary>
         public LevelObjectCollection Clone()
@@ -242,6 +240,22 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             result.allAvailableProperties = new PropertyAccessInfoDictionary(allAvailableProperties);
             result.commonProperties = new PropertyAccessInfoDictionary(commonProperties);
             return result;
+        }
+
+        /// <summary>Determines whether an object is contained in this <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="obj">The object to be searched.</param>
+        public bool Contains(GeneralObject obj) => objects.Contains(obj);
+        /// <summary>Returns the index of the first instance of an object if it is contained in this <seealso cref="LevelObjectCollection"/>, otherwise -1.</summary>
+        /// <param name="obj">The object to be searched.</param>
+        public int IndexOf(GeneralObject obj) => objects.IndexOf(obj);
+
+        /// <summary>Copies this <seealso cref="LevelObjectCollection"/> into an array starting at the specified index.</summary>
+        /// <param name="array">The array to copy this <seealso cref="LevelObjectCollection"/>'s elements into.</param>
+        /// <param name="arrayIndex">The starting index in the array of the first element from this <seealso cref="LevelObjectCollection"/>.</param>
+        public void CopyTo(GeneralObject[] array, int arrayIndex)
+        {
+            for (int i = 0; i < Count; i++)
+                array[arrayIndex + i] = this[i];
         }
 
         /// <summary>Attempts to get the common value of an object property from this collection of objects given its ID.</summary>
@@ -1558,6 +1572,31 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             foreach (var o in objects)
                 foreach (var key in selector(o))
                     HandleEntryInsertion(result, key, o);
+            return result;
+        }
+
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Group IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedGroupIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Group);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Color IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedColorIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Color);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Item IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedItemIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Item);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used Block IDs (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedBlockIDs() => GetObjectsByUsedIDs(LevelObjectIDType.Block);
+        /// <summary>Creates and returns a <seealso cref="SortedDictionary{TKey, TValue}"/> categorized by the objects' used IDs of a specified type (one object may belong in more than one categories).</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SortedDictionary<int, LevelObjectCollection> GetObjectsByUsedIDs(LevelObjectIDType type)
+        {
+            var result = new SortedDictionary<int, LevelObjectCollection>();
+
+            foreach (var o in this)
+                foreach (var id in o.GetUsedIDsFromType(type))
+                    result.AddElementOrAddCollection(id, o);
+
             return result;
         }
         #endregion
