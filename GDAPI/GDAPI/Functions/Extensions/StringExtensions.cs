@@ -279,6 +279,16 @@ namespace GDAPI.Functions.Extensions
             int length = endIndex - startIndex;
             return s.Substring(startIndex, length);
         }
+        /// <summary>Returns a substring from the first instance of the beginning matched string until the end, optionally including the matched string.</summary>
+        /// <param name="s">The string whose substring to return.</param>
+        /// <param name="from">The beginning matching string to begin the substring from.</param>
+        /// <param name="includeMatched">Determines whether the matched string will be included in the result. It is <see langword="true"/> by default.</param>
+        public static string SubstringFrom(this string s, string from, bool includeMatched = true) => s.Substring(s.IndexOf(from) + (includeMatched ? 0 : from.Length));
+        /// <summary>Returns a substring from the start until the first instance of the ending matched string, optionally including the matched string.</summary>
+        /// <param name="s">The string whose substring to return.</param>
+        /// <param name="until">The ending matching string to end the substring at.</param>
+        /// <param name="includeMatched">Determines whether the matched string will be included in the result. It is <see langword="true"/> by default.</param>
+        public static string SubstringUntil(this string s, string until, bool includeMatched = true) => s.Substring(0, s.IndexOf(until) + (includeMatched ? until.Length : 0));
         /// <summary>Replaces a part of the string with a new one.</summary>
         /// <param name="originalString">The original string.</param>
         /// <param name="stringToReplaceWith">The new string to replace to the part of the original one.</param>
