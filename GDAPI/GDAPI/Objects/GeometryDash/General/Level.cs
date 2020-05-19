@@ -1,21 +1,24 @@
-﻿using System;
+﻿using GDAPI.Application;
+using GDAPI.Attributes;
+using GDAPI.Enumerations.GeometryDash;
+using GDAPI.Functions.Crypto;
+using GDAPI.Functions.Extensions;
+using GDAPI.Functions.GeometryDash;
+using GDAPI.Objects.General;
+using GDAPI.Objects.GeometryDash.ColorChannels;
+using GDAPI.Objects.GeometryDash.GamesaveStrings;
+using GDAPI.Objects.GeometryDash.LevelObjects;
+using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GDAPI.Application;
-using GDAPI.Attributes;
-using GDAPI.Enumerations.GeometryDash;
-using GDAPI.Functions.Extensions;
-using GDAPI.Functions.GeometryDash;
-using GDAPI.Objects.General;
-using GDAPI.Objects.GeometryDash.ColorChannels;
-using GDAPI.Objects.GeometryDash.LevelObjects;
-using GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
-using static System.Convert;
 using static GDAPI.Functions.GeometryDash.Gamesave;
 using static GDAPI.Information.GeometryDash.SongInformation;
+using static GDAPI.Objects.GeometryDash.LevelObjects.LevelObjectCollection;
+using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -24,9 +27,9 @@ namespace GDAPI.Objects.GeometryDash.General
     {
         private Task loadLS;
 
-        private string unprocessedLevelString = DefaultLevelString; // Initialize in case there is no k4 property in the raw level
+        private LevelString unprocessedLevelString = (LevelString)DefaultLevelString; // Initialize in case there is no k4 property in the raw level
+        private LevelString cachedLevelString;
         private bool canLoadLevelString;
-        private string cachedLevelString;
 
         /// <summary>Indicates if the entire level has been successfully loaded.</summary>
         public bool IsFullyLoaded => loadLS?.Status >= TaskStatus.RanToCompletion;
@@ -236,10 +239,10 @@ namespace GDAPI.Objects.GeometryDash.General
         [LevelStringMappable("k4")]
         public string LevelString
         {
-            get => cachedLevelString ?? (cachedLevelString = GetLevelString());
+            get => cachedLevelString ?? (cachedLevelString = (LevelString)GetLevelString());
             set
             {
-                unprocessedLevelString = value ?? DefaultLevelString;
+                unprocessedLevelString = (LevelString)(value ?? DefaultLevelString);
                 if (canLoadLevelString)
                     LoadLevelStringData();
             }
@@ -360,15 +363,15 @@ namespace GDAPI.Objects.GeometryDash.General
         }
         #endregion
 
-        /// <summary>Returns a <see langword="string"/> that represents the current object.</summary>
+        /// <summary>Returns a <seealso cref="string"/> that represents the current object.</summary>
         public override string ToString() => RawLevel;
 
         #region Private stuff
         private async Task LoadLevelStringData() => await PerformTaskWithInvocableEvent(loadLS = RunLoadLevelStringData(), LevelStringLoaded);
         private async Task RunLoadLevelStringData()
         {
-            TryDecryptLevelString(unprocessedLevelString, out var decryptedLevelString);
-            GetLevelStringInformation(cachedLevelString = decryptedLevelString);
+            unprocessedLevelString.TryDecrypt(out var c, false);
+            GetLevelStringInformation(cachedLevelString = (LevelString)c);
             unprocessedLevelString = null; // Free some memory; not too bad
         }
 
@@ -378,7 +381,7 @@ namespace GDAPI.Objects.GeometryDash.General
             string[] split = infoString.Split(',');
             for (int i = 0; i < split.Length; i += 2)
                 GetLevelStringParameterInformation(split[i], split[i + 1]);
-            LevelObjects = GetObjects(GetObjectString(levelString));
+            LevelObjects = ParseObjects(GetObjectString(levelString));
         }
         private void GetLevelStringParameterInformation(string key, string value)
         {
@@ -451,7 +454,7 @@ namespace GDAPI.Objects.GeometryDash.General
                     Name = value;
                     break;
                 case "k3": // Level Description
-                    Description = Encoding.UTF8.GetString(Base64Decrypt(value));
+                    Description = Encoding.UTF8.GetString(Convert.FromBase64String(value.ConvertBase64URLToNormal()));
                     break;
                 case "k4": // Level String
                     LevelString = value;

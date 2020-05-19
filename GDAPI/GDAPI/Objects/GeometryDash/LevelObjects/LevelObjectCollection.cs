@@ -1,4 +1,5 @@
-﻿using GDAPI.Enumerations.GeometryDash;
+﻿using GDAPI.Attributes;
+using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
 using GDAPI.Objects.DataStructures;
@@ -9,8 +10,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using static GDAPI.Information.GeometryDash.LevelObjectInformation;
+using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
@@ -344,6 +348,38 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <param name="newValue">The new value of the property to set to all the objects.</param>
         /// <exception cref="InvalidOperationException"/>
         public void SetCommonPropertyWithID<T>(ObjectProperty ID, T newValue) => SetCommonPropertyWithID((int)ID, newValue);
+
+        /// <summary>Gets a <seealso cref="GeneralObject"/> instance containing all the common properties of this <seealso cref="LevelObjectCollection"/>'s objects, for a specific object ID.</summary>
+        /// <param name="objectID">The object ID whose common object properties to get.</param>
+        /// <returns>The common <seealso cref="GeneralObject"/> containing the common properties.</returns>
+        public GeneralObject GetCommonObject(short objectID)
+        {
+            var common = LevelObjectFactory.GetNewObjectInstance(objectID);
+
+            for (int i = Count; i >= 0; i--)
+                if (this[i].ObjectID != objectID)
+                    RemoveAt(i);
+            if (Count > 1)
+            {
+                var properties = common.GetType().GetProperties();
+                foreach (var p in properties)
+                    if (p.GetCustomAttributes<ObjectStringMappableAttribute>(false).Any())
+                    {
+                        var v = p.GetValue(this[0]);
+                        bool isCommon = true;
+                        foreach (var o in this)
+                            if (isCommon = (p.GetValue(o) != v))
+                                break;
+                        if (isCommon)
+                            p.SetValue(common, v);
+                    }
+                return common;
+            }
+            else if (Count == 1)
+                return this[0];
+            else
+                return null;
+        }
 
         private PropertyAccessInfo GetPropertyAccessInfo(int ID, out int objectIndex)
         {
@@ -1564,6 +1600,95 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return result;
         }
         #endregion
+
+        /// <summary>Parses an object string into a <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="objectString">The object strign to parse.</param>
+        /// <returns>The parsed <seealso cref="LevelObjectCollection"/>.</returns>
+        public static LevelObjectCollection ParseObjects(string objectString)
+        {
+            List<GeneralObject> objects = new List<GeneralObject>();
+            while (objectString.Length > 0 && objectString[objectString.Length - 1] == ';')
+                objectString = objectString.Remove(objectString.Length - 1);
+            if (objectString.Length > 0)
+            {
+                string[][] objectProperties = objectString.Split(';').SplitAsJagged(',');
+                for (int i = 0; i < objectProperties.Length; i++)
+                {
+                    try
+                    {
+                        var objectInfo = objectProperties[i];
+                        var instance = LevelObjectFactory.GetNewObjectInstance(ToInt16(objectInfo[1]));
+                        objects.Add(instance); // Get IDs of the selected objects
+                        for (int j = 3; j < objectInfo.Length; j += 2)
+                        {
+                            try
+                            {
+                                int propertyID = ToInt32(objectInfo[j - 1]);
+                                switch (GetPropertyIDAttribute(propertyID))
+                                {
+                                    case IGenericAttribute<int> _:
+                                        instance.SetPropertyWithID(propertyID, ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<bool> _:
+                                        instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(objectInfo[j])));
+                                        break;
+                                    case IGenericAttribute<double> _:
+                                        instance.SetPropertyWithID(propertyID, ToDouble(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<string> _:
+                                        instance.SetPropertyWithID(propertyID, objectInfo[j]);
+                                        break;
+                                    case IGenericAttribute<HSVAdjustment> _:
+                                        instance.SetPropertyWithID(propertyID, objectInfo[j].ToString());
+                                        break;
+                                    case IGenericAttribute<int[]> _:
+                                        instance.SetPropertyWithID(propertyID, objectInfo[j].ToString().Split('.').ToInt32Array());
+                                        break;
+                                    case IGenericAttribute<Easing> _:
+                                        instance.SetPropertyWithID(propertyID, (Easing)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<InstantCountComparison> _:
+                                        instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<PickupItemPickupMode> _:
+                                        instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<PulseMode> _:
+                                        instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<PulseTargetType> _:
+                                        instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<TargetPosCoordinates> _:
+                                        instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(objectInfo[j]));
+                                        break;
+                                    case IGenericAttribute<TouchToggleMode> _:
+                                        instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(objectInfo[j]));
+                                        break;
+                                }
+                            }
+                            catch (FormatException) // If the property is not just a number; most likely a Start Pos object
+                            {
+                                // After logging the exceptions in the console, the exception is ignorable
+                            }
+                            catch (KeyNotFoundException e)
+                            {
+                                int propertyID = ToInt32(objectInfo[j - 1]);
+                                if (propertyID == 36)
+                                    continue;
+                                Console.WriteLine(e.Message);
+                            }
+                        }
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // So far this only happens when attempting to abstractly create a yellow teleportation portal
+                    }
+                }
+                objectProperties = null;
+            }
+            return new LevelObjectCollection(objects);
+        }
 
         /// <summary>Gets or sets the level object at the specified index.</summary>
         /// <param name="index">The index of the level object.</param>

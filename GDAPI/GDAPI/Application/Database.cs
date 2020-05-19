@@ -1,5 +1,6 @@
 ﻿using GDAPI.Application.Editors;
 using GDAPI.Functions.Extensions;
+using GDAPI.Objects.GeometryDash.GamesaveStrings;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects;
 using System;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static GDAPI.Functions.GeometryDash.Gamesave;
+using static GDAPI.Objects.GeometryDash.LevelObjects.LevelObjectCollection;
 using static System.Environment;
 
 namespace GDAPI.Application
@@ -18,8 +20,8 @@ namespace GDAPI.Application
     {
         private static readonly int Cores = ProcessorCount;
 
-        private string decryptedGamesave;
-        private string decryptedLevelData;
+        private GamesaveString decryptedGamesave;
+        private LevelDataString decryptedLevelData;
 
         private Task[] threadTasks;
         private CancellationTokenSource[] tokens;
@@ -107,6 +109,28 @@ namespace GDAPI.Application
         /// <summary>The stored metadata information of the songs.</summary>
         public SongMetadataCollection SongMetadataInformation { get; set; }
 
+        /// <summary>Gets the raw decrypted gamesave string, as of the time it was last loaded or processed. It may contain outdated data.</summary>
+        protected string RawDecryptedGamesaveString
+        {
+            get => decryptedGamesave?.RawString;
+            set
+            {
+                if (decryptedGamesave != null)
+                    decryptedGamesave.RawString = value;
+            }
+        }
+        /// <summary>Gets the raw decrypted level data string, as of the time it was last loaded or processed. It may contain outdated data.</summary>
+        protected string RawDecryptedLevelDataString
+        {
+            get => decryptedLevelData?.RawString;
+            set
+            {
+                if (decryptedLevelData != null)
+                    decryptedLevelData.RawString = value;
+            }
+        }
+
+        // TODO: Change type to GamesaveString?
         /// <summary>The decrypted form of the game manager.</summary>
         public string DecryptedGamesave
         {
@@ -114,13 +138,14 @@ namespace GDAPI.Application
             {
                 if (decryptedGamesave == null)
                 {
-                    TryDecryptGamesave(File.ReadAllText(GameManagerPath), out decryptedGamesave);
-                    DecryptedGamesave = decryptedGamesave;
+                    decryptedGamesave = (GamesaveString)File.ReadAllText(GameManagerPath);
+                    decryptedGamesave.TryDecrypt(out _, true);
+                    DecryptedGamesave = decryptedGamesave.RawString;
                 }
                 SetFolderNamesInGamesave();
                 SetCustomObjectsInGamesave();
                 SetSongMetadataInGamesave();
-                return decryptedGamesave;
+                return decryptedGamesave.RawString;
             }
             set => Task.Run(() => setDecryptedGamesave = SetDecryptedGamesave(value));
         }
@@ -140,7 +165,7 @@ namespace GDAPI.Application
                         lvlDat = lvlDat.Append(UserLevels[i].RawLevel).Append("</d>");
                     }
                     lvlDat = lvlDat.Append(LevelDataEnd);
-                    decryptedLevelData = lvlDat.ToString();
+                    decryptedLevelData = (LevelDataString)lvlDat.ToString();
                 }
                 return decryptedLevelData;
             }
@@ -255,7 +280,7 @@ namespace GDAPI.Application
         /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
         {
-            decryptedLevelData = DefaultLevelData; // Set the level data to the default
+            RawDecryptedLevelDataString = (LevelDataString)DefaultLevelData; // Set the level data to the default
             // Delete all the level info from the prorgam's memory
             UserLevels.Clear();
             LevelKeyStartIndices.Clear();
@@ -297,9 +322,9 @@ namespace GDAPI.Application
         public void ImportLevel(string level, bool initializeLoading = true)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
-                decryptedLevelData = decryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
+                RawDecryptedLevelDataString = RawDecryptedLevelDataString.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
             level = RemoveLevelIndexKey(level); // Remove the index key of the level
-            decryptedLevelData = decryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
+            RawDecryptedLevelDataString = RawDecryptedLevelDataString.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
             int clonedLevelLength = level.Length + 10; // The length of the inserted level
             LevelKeyStartIndices = LevelKeyStartIndices.InsertAtStart(LevelKeyStartIndices[0]); // Add the new key start position in the array
             for (int i = 1; i < LevelKeyStartIndices.Count; i++)
@@ -347,7 +372,7 @@ namespace GDAPI.Application
         }
         /// <summary>Imports a custom object into the database and adds it to the start of the custom object list.</summary>
         /// <param name="customObject">The raw custom object to import.</param>
-        public void ImportCustomObject(string customObject) => CustomObjects.Insert(0, new CustomLevelObject(GetObjects(customObject)));
+        public void ImportCustomObject(string customObject) => CustomObjects.Insert(0, new CustomLevelObject(ParseObjects(customObject)));
         /// <summary>Imports a custom object from the specified file path and adds it to the start of the custom object list.</summary>
         /// <param name="customObjectPath">The path of the custom object to import.</param>
         public void ImportCustomObjectFromFile(string customObjectPath) => ImportCustomObject(File.ReadAllText(customObjectPath));
@@ -419,7 +444,7 @@ namespace GDAPI.Application
         /// <summary>Updates the level data in the memory and clears the stored decrypted level data string.</summary>
         public void UpdateLevelData()
         {
-            decryptedLevelData = null; // Reset level data and let it be generated later
+            RawDecryptedLevelDataString = null; // Reset level data and let it be generated later
         }
         /// <summary>Writes the level data to the level data file.</summary>
         public void WriteLevelData()
@@ -470,10 +495,8 @@ namespace GDAPI.Application
             LevelDataSetCompleted?.Invoke();
         }
 
-        private async Task SetDecryptedGamesaveField(string gamesave) => decryptedGamesave = await GetDecryptedResult(TryDecryptGamesaveAsync(gamesave));
-        private async Task SetDecryptedLevelDataField(string levelData) => decryptedLevelData = await GetDecryptedResult(TryDecryptLevelDataAsync(levelData));
-
-        private async Task<string> GetDecryptedResult(Task<(bool, string)> task) => (await task).Item2;
+        private async Task SetDecryptedGamesaveField(string gamesave) => await (decryptedGamesave = (GamesaveString)gamesave).TryDecryptAsync(true);
+        private async Task SetDecryptedLevelDataField(string levelData) => await (decryptedLevelData = (LevelDataString)levelData).TryDecryptAsync(true);
 
         private void LoadLevelsInOrder()
         {
@@ -555,19 +578,19 @@ namespace GDAPI.Application
         }
 
         /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
-        private int GetLevelCount() => decryptedLevelData.FindAll("<k>k_").Length;
+        private int GetLevelCount() => RawDecryptedLevelDataString.FindAll("<k>k_").Length;
         /// <summary>Gets the custom objects.</summary>
         private async Task GetCustomObjects()
         {
             CustomObjects = new CustomLevelObjectCollection();
-            int startIndex = decryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+            int startIndex = RawDecryptedGamesaveString.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
                 return;
 
-            int endIndex = decryptedGamesave.Find("</d>", startIndex, decryptedGamesave.Length);
+            int endIndex = RawDecryptedGamesaveString.Find("</d>", startIndex, RawDecryptedGamesaveString.Length);
             int currentIndex = startIndex;
-            while ((currentIndex = decryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
-                CustomObjects.Add(new CustomLevelObject(GetObjects(decryptedGamesave.Substring(currentIndex, decryptedGamesave.Find("</s>", currentIndex, decryptedGamesave.Length) - currentIndex))));
+            while ((currentIndex = RawDecryptedGamesaveString.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
+                CustomObjects.Add(new CustomLevelObject(ParseObjects(RawDecryptedGamesaveString.Substring(currentIndex, RawDecryptedGamesaveString.Find("</s>", currentIndex, RawDecryptedGamesaveString.Length) - currentIndex))));
         }
         /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
         private void GetKeyIndices()
@@ -577,9 +600,9 @@ namespace GDAPI.Application
             for (int i = 0; i < count; i++)
             {
                 if (i > 0)
-                    LevelKeyStartIndices.Add(decryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], decryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
+                    LevelKeyStartIndices.Add(RawDecryptedLevelDataString.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], RawDecryptedLevelDataString.Length) + $"<k>k_{i}</k>".Length);
                 else
-                    LevelKeyStartIndices.Add(decryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
+                    LevelKeyStartIndices.Add(RawDecryptedLevelDataString.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
             }
         }
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
@@ -590,112 +613,112 @@ namespace GDAPI.Application
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
             {
                 if (i < LevelKeyStartIndices.Count - 1)
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length), initializeBackgroundLevelStringLoading));
+                    UserLevels.Add(new Level(RawDecryptedLevelDataString.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length), initializeBackgroundLevelStringLoading));
                 else
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(decryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 8, decryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 9) - LevelKeyStartIndices[i]), initializeBackgroundLevelStringLoading));
+                    UserLevels.Add(new Level(RawDecryptedLevelDataString.Substring(LevelKeyStartIndices[i], Math.Max(RawDecryptedLevelDataString.Find("</d></d></d>", LevelKeyStartIndices[i], RawDecryptedLevelDataString.Length) + 8, RawDecryptedLevelDataString.Find("<d /></d></d>", LevelKeyStartIndices[i], RawDecryptedLevelDataString.Length) + 9) - LevelKeyStartIndices[i]), initializeBackgroundLevelStringLoading));
             }
         }
 
         private async Task GetPlayerName()
         {
-            int playerNameStartIndex = decryptedGamesave.FindFromEnd("<k>playerName</k><s>") + 20;
-            int playerNameEndIndex = decryptedGamesave.FindFromEnd("</s><k>playerUserID</k>");
+            int playerNameStartIndex = RawDecryptedGamesaveString.FindFromEnd("<k>playerName</k><s>") + 20;
+            int playerNameEndIndex = RawDecryptedGamesaveString.FindFromEnd("</s><k>playerUserID</k>");
             int playerNameLength = playerNameEndIndex - playerNameStartIndex;
-            UserName = decryptedGamesave.Substring(playerNameStartIndex, playerNameLength);
+            UserName = RawDecryptedGamesaveString.Substring(playerNameStartIndex, playerNameLength);
         }
         // TODO: Decide whether they're staying or not
         private async Task<string> GetUserID()
         {
-            int userIDStartIndex = decryptedGamesave.FindFromEnd("<k>playerUserID</k><i>") + 22;
-            int userIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>playerFrame</k>");
+            int userIDStartIndex = RawDecryptedGamesaveString.FindFromEnd("<k>playerUserID</k><i>") + 22;
+            int userIDEndIndex = RawDecryptedGamesaveString.FindFromEnd("</i><k>playerFrame</k>");
             int userIDLength = userIDEndIndex - userIDStartIndex;
-            return decryptedGamesave.Substring(userIDStartIndex, userIDLength);
+            return RawDecryptedGamesaveString.Substring(userIDStartIndex, userIDLength);
         }
         private async Task<string> GetAccountID()
         {
-            int accountIDStartIndex = decryptedGamesave.FindFromEnd("<k>GJA_003</k><i>") + 17;
-            int accountIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>KBM_001</k>");
+            int accountIDStartIndex = RawDecryptedGamesaveString.FindFromEnd("<k>GJA_003</k><i>") + 17;
+            int accountIDEndIndex = RawDecryptedGamesaveString.FindFromEnd("</i><k>KBM_001</k>");
             int accountIDLength = accountIDEndIndex - accountIDStartIndex;
             if (accountIDLength > 0)
-                return decryptedGamesave.Substring(accountIDStartIndex, accountIDLength);
+                return RawDecryptedGamesaveString.Substring(accountIDStartIndex, accountIDLength);
             else
                 return "0";
         }
         private async Task GetFolderNames()
         {
             FolderNames = new FolderNameCollection();
-            int foldersStartIndex = decryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
+            int foldersStartIndex = RawDecryptedGamesaveString.FindFromEnd("<k>GLM_19</k><d>") + 16;
             if (foldersStartIndex > 15)
             {
-                int foldersEndIndex = decryptedGamesave.Find("</d>", foldersStartIndex, decryptedGamesave.Length);
+                int foldersEndIndex = RawDecryptedGamesaveString.Find("</d>", foldersStartIndex, RawDecryptedGamesaveString.Length);
                 int currentIndex = foldersStartIndex;
-                while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, foldersEndIndex) + 3) > 2)
+                while ((currentIndex = RawDecryptedGamesaveString.Find("<k>", currentIndex, foldersEndIndex) + 3) > 2)
                 {
-                    int endingIndex = decryptedGamesave.Find("</k>", currentIndex, foldersEndIndex);
-                    int folderIndex = int.Parse(decryptedGamesave.Substring(currentIndex, endingIndex - currentIndex));
+                    int endingIndex = RawDecryptedGamesaveString.Find("</k>", currentIndex, foldersEndIndex);
+                    int folderIndex = int.Parse(RawDecryptedGamesaveString.Substring(currentIndex, endingIndex - currentIndex));
                     int folderNameStartIndex = endingIndex + 7;
-                    int folderNameEndIndex = decryptedGamesave.Find("</s>", folderNameStartIndex, foldersEndIndex);
-                    FolderNames.Add(folderIndex, decryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));
+                    int folderNameEndIndex = RawDecryptedGamesaveString.Find("</s>", folderNameStartIndex, foldersEndIndex);
+                    FolderNames.Add(folderIndex, RawDecryptedGamesaveString.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));
                 }
             }
         }
         private async Task GetSongMetadata()
         {
             SongMetadataInformation = new SongMetadataCollection();
-            int songMetadataStartIndex = decryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
+            int songMetadataStartIndex = RawDecryptedGamesaveString.FindFromEnd("<k>MDLM_001</k><d>") + 18;
             if (songMetadataStartIndex > 15)
             {
                 int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
                 do
                 {
-                    nextDictionaryStartIndex = decryptedGamesave.Find("<d>", nextDictionaryStartIndex + 3, decryptedGamesave.Length);
-                    songMetadataEndIndex = decryptedGamesave.Find("</d>", songMetadataEndIndex + 4, decryptedGamesave.Length);
+                    nextDictionaryStartIndex = RawDecryptedGamesaveString.Find("<d>", nextDictionaryStartIndex + 3, RawDecryptedGamesaveString.Length);
+                    songMetadataEndIndex = RawDecryptedGamesaveString.Find("</d>", songMetadataEndIndex + 4, RawDecryptedGamesaveString.Length);
                 }
                 while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
                 int currentIndex = songMetadataStartIndex;
-                while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
+                while ((currentIndex = RawDecryptedGamesaveString.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
                 {
-                    int startingIndex = decryptedGamesave.Find("</k><d>", currentIndex, songMetadataEndIndex) + 7;
-                    int endingIndex = currentIndex = decryptedGamesave.Find("</d>", startingIndex, songMetadataEndIndex);
-                    SongMetadataInformation.Add(SongMetadata.Parse(decryptedGamesave.Substring(startingIndex, endingIndex - startingIndex)));
+                    int startingIndex = RawDecryptedGamesaveString.Find("</k><d>", currentIndex, songMetadataEndIndex) + 7;
+                    int endingIndex = currentIndex = RawDecryptedGamesaveString.Find("</d>", startingIndex, songMetadataEndIndex);
+                    SongMetadataInformation.Add(SongMetadata.Parse(RawDecryptedGamesaveString.Substring(startingIndex, endingIndex - startingIndex)));
                 }
             }
         }
 
         private void SetCustomObjectsInGamesave()
         {
-            int startIndex = decryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+            int startIndex = RawDecryptedGamesaveString.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
-                decryptedGamesave += $"<k>customObjectDict</k><d>{CustomObjects}</d>";
+                RawDecryptedGamesaveString += $"<k>customObjectDict</k><d>{CustomObjects}</d>";
             else
             {
-                int endIndex = decryptedGamesave.Find("</d>", startIndex, decryptedGamesave.Length);
-                decryptedGamesave = decryptedGamesave.Replace(CustomObjects.ToString(), startIndex, endIndex - startIndex);
+                int endIndex = RawDecryptedGamesaveString.Find("</d>", startIndex, RawDecryptedGamesaveString.Length);
+                RawDecryptedGamesaveString = RawDecryptedGamesaveString.Replace(CustomObjects.ToString(), startIndex, endIndex - startIndex);
             }
         }
         private void SetFolderNamesInGamesave()
         {
-            int foldersStartIndex = decryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
+            int foldersStartIndex = RawDecryptedGamesaveString.FindFromEnd("<k>GLM_19</k><d>") + 16;
             if (foldersStartIndex > 15)
             {
-                int foldersEndIndex = decryptedGamesave.Find("</d>", foldersStartIndex, decryptedGamesave.Length);
-                decryptedGamesave = decryptedGamesave.Replace(FolderNames.ToString(), foldersStartIndex, foldersEndIndex - foldersStartIndex);
+                int foldersEndIndex = RawDecryptedGamesaveString.Find("</d>", foldersStartIndex, RawDecryptedGamesaveString.Length);
+                RawDecryptedGamesaveString = RawDecryptedGamesaveString.Replace(FolderNames.ToString(), foldersStartIndex, foldersEndIndex - foldersStartIndex);
             }
         }
         private void SetSongMetadataInGamesave()
         {
-            int songMetadataStartIndex = decryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
+            int songMetadataStartIndex = RawDecryptedGamesaveString.FindFromEnd("<k>MDLM_001</k><d>") + 18;
             if (songMetadataStartIndex > 15)
             {
                 int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
                 do
                 {
-                    nextDictionaryStartIndex = decryptedGamesave.Find("<d>", nextDictionaryStartIndex + 3, decryptedGamesave.Length);
-                    songMetadataEndIndex = decryptedGamesave.Find("</d>", songMetadataEndIndex + 4, decryptedGamesave.Length);
+                    nextDictionaryStartIndex = RawDecryptedGamesaveString.Find("<d>", nextDictionaryStartIndex + 3, RawDecryptedGamesaveString.Length);
+                    songMetadataEndIndex = RawDecryptedGamesaveString.Find("</d>", songMetadataEndIndex + 4, RawDecryptedGamesaveString.Length);
                 }
                 while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
                 int currentIndex = songMetadataStartIndex;
-                decryptedGamesave = decryptedGamesave.Replace(SongMetadataInformation.ToString(), songMetadataStartIndex, songMetadataEndIndex);
+                RawDecryptedGamesaveString = RawDecryptedGamesaveString.Replace(SongMetadataInformation.ToString(), songMetadataStartIndex, songMetadataEndIndex);
             }
         }
         #endregion
