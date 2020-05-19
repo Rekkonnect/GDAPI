@@ -1,5 +1,4 @@
 ﻿using GDAPI.Functions.Crypto;
-using System;
 
 namespace GDAPI.Objects.GeometryDash.GamesaveStrings
 {

@@ -12,6 +12,8 @@ namespace GDAPI.Objects.GeometryDash.GamesaveStrings
         /// <summary>Gets the length of the raw string.</summary>
         public int Length => RawString.Length;
 
+        /// <summary>Gets a value indicating whether the current gamesave string is decrypted or not.</summary>
+        public bool IsDecrypted => !IsEncrypted;
         /// <summary>Gets a value indicating whether the current gamesave string is encrypted or not.</summary>
         public bool IsEncrypted
         {
@@ -46,11 +48,32 @@ namespace GDAPI.Objects.GeometryDash.GamesaveStrings
         }
         /// <summary>Returns the decrypted version of the gamesave after checking whether the gamesave is encrypted or not asynchronously. Returns a tuple containing the result of the operation.</summary>
         /// <param name="overwriteLocalString">Determines whether to overwrite the locally stored raw string or not, replacing it with the decrypted version.</param>
-        /// <returns>Returns a (bool, string), where the bool is equal to true if the gamesave is encrypted; otherwise false, and the string is equal to the final decrypted form of the gamesave.</returns>
         public async Task<DecryptionResult> TryDecryptAsync(bool overwriteLocalString = false)
         {
             bool result = TryDecrypt(out string decrypted, overwriteLocalString);
             return new DecryptionResult(result, decrypted);
+        }
+
+        /// <summary>Encrypts the gamesave after checking whether the gamesave is encrypted or not, and optionally overwrites the raw string with the encrypted version. Returns true if the gamesave is encrypted; otherwise false.</summary>
+        /// <param name="encrypted">The string to return the encrypted gamesave.</param>
+        /// <param name="overwriteLocalString">Determines whether to overwrite the locally stored raw string or not, replacing it with the encrypted version.</param>
+        /// <returns>Returns true if the gamesave is encrypted; otherwise false.</returns>
+        public bool TryEncrypt(out string encrypted, bool overwriteLocalString = false)
+        {
+            bool isDecrypted = IsDecrypted;
+            encrypted = RawString;
+            if (isDecrypted)
+                encrypted = Encrypt();
+            if (overwriteLocalString)
+                RawString = encrypted;
+            return isDecrypted;
+        }
+        /// <summary>Returns the encrypted version of the gamesave after checking whether the gamesave is encrypted or not asynchronously. Returns a tuple containing the result of the operation.</summary>
+        /// <param name="overwriteLocalString">Determines whether to overwrite the locally stored raw string or not, replacing it with the encrypted version.</param>
+        public async Task<EncryptionResult> TryEncryptAsync(bool overwriteLocalString = false)
+        {
+            bool result = TryEncrypt(out string encrypted, overwriteLocalString);
+            return new EncryptionResult(result, encrypted);
         }
 
         /// <summary>Decrypts the current raw string into its unencrypted form and returns the resulting string. The string must be encrypted; the operation will be performed in all occassions.</summary>

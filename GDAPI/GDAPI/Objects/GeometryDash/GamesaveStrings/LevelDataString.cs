@@ -1,7 +1,4 @@
-﻿using GDAPI.Functions.Crypto;
-using System;
-
-namespace GDAPI.Objects.GeometryDash.GamesaveStrings
+﻿namespace GDAPI.Objects.GeometryDash.GamesaveStrings
 {
     /// <summary>Represents a level data string.</summary>
     public class LevelDataString : DATFileGamesaveString
