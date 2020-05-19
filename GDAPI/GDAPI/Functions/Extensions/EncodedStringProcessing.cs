@@ -35,15 +35,15 @@ namespace GDAPI.Functions.Extensions
             var replaced = original.Replace('-', '+').Replace('_', '/').Replace("\0", string.Empty);
             int remaining = replaced.Length % 4;
             if (remaining > 0)
-                replaced += new string('=', 3 - remaining);
+                replaced += new string('=', 4 - remaining);
             return replaced;
         }
-        /// <summary>Converts the normal base 64 string into a base64url string by replacing its characetrs. Since the padding characters are optional, they are not removed during conversion.</summary>
+        /// <summary>Converts the normal base 64 string into a base64url string by replacing its characetrs. The padding characters are removed.</summary>
         /// <param name="original">The original normal base 64 string to convert.</param>
         /// <returns>The resulting base64url string.</returns>
         public static string ConvertBase64ToBase64URL(this string original)
         {
-            return original.Replace('+', '-').Replace('/', '_');
+            return original.Replace('+', '-').Replace('/', '_').Replace("=", string.Empty);
         }
 
         /// <summary>XORs an entire string and returns the result, based on a given encoding.</summary>
