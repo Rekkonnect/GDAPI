@@ -10,20 +10,20 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>Represents the value of the green color in the guideline.</summary>
         public const float GreenValue = 1f;
         /// <summary>Represents the value of the orange color in the guideline.</summary>
-        public const float OrangeValue = 1.0f;
+        /// <remarks>This can be any value but chosen to be 1.1 for simplicity.</remarks>
+        public const float OrangeValue = 1.1f;
 
         /// <summary>An instance of the yellow guideline color.</summary>
         public static readonly GuidelineColor Yellow = new GuidelineColor(YellowValue);
         /// <summary>An instance of the green guideline color.</summary>
         public static readonly GuidelineColor Green = new GuidelineColor(GreenValue);
         /// <summary>An instance of the orange guideline color.</summary>
-        public static readonly GuidelineColor Orange = new GuidelineColor(OrangeValue + 0.1f);
+        public static readonly GuidelineColor Orange = new GuidelineColor(OrangeValue);
 
         private float col;
 
         /// <summary>Determines whether the guideline color is orange.</summary>
-        /// <remarks>Value will return true IF the color value is higher than 1.0</remarks>
-        public bool IsOrange => col > OrangeValue;
+        public bool IsOrange => col == 0 || (col >= 0.8 && col != YellowValue && col != GreenValue);
         /// <summary>Determines whether the guideline color is yellow.</summary>
         public bool IsYellow => col == YellowValue;
         /// <summary>Determines whether the guideline color is green.</summary>
