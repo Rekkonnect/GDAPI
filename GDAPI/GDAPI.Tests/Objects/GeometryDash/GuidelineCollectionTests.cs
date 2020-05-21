@@ -23,7 +23,7 @@ namespace GDAPI.Tests.Objects.GeometryDash
                 new Guideline(7.25, GuidelineColor.Green),
                 new Guideline(8.112, GuidelineColor.Yellow),
             });
-            Assert.AreEqual("1.5~1~3.2~0.9~4.7~0.8~6~1~7.25~1~8.112~0.9", guidelines.ToString());
+            Assert.AreEqual("1.5~1~3.2~0.9~4.7~1.1~6~1~7.25~1~8.112~0.9", guidelines.ToString());
         }
         [Test]
         public void Parse()
@@ -37,7 +37,7 @@ namespace GDAPI.Tests.Objects.GeometryDash
                 new Guideline(7.25, GuidelineColor.Green),
                 new Guideline(8.112, GuidelineColor.Yellow),
             };
-            var collection = GuidelineCollection.Parse("1.5~1~3.2~0.9~4.7~0.8~6~1~7.25~1~8.112~0.9");
+            var collection = GuidelineCollection.Parse("1.5~1~3.2~0.9~4.7~1.1~6~1~7.25~1~8.112~0.9");
 
             for (int i = 0; i < matchedGuidelines.Length; i++)
                 Assert.IsTrue(collection[i] == matchedGuidelines[i]);

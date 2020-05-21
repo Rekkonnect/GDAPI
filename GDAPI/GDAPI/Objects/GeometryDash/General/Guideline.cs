@@ -10,8 +10,6 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>The color of the guideline.</summary>
         public GuidelineColor Color { get; set; }
 
-        /// <summary>Determines whether the guideline color is transparent.</summary>
-        public bool IsTransparent => Color.IsTransparent;
         /// <summary>Determines whether the guideline color is orange.</summary>
         public bool IsOrange => Color.IsOrange;
         /// <summary>Determines whether the guideline color is yellow.</summary>

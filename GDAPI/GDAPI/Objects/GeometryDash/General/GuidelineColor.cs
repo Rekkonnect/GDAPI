@@ -5,30 +5,25 @@ namespace GDAPI.Objects.GeometryDash.General
     /// <summary>Represents the color of a guideline.</summary>
     public struct GuidelineColor : IComparable<GuidelineColor>
     {
-        /// <summary>Represents the value of the orange color in the guideline.</summary>
-        public const float TransparentValue = 0.7f;
         /// <summary>Represents the value of the yellow color in the guideline.</summary>
-        public const float OrangeValue = 0.8f;
-        /// <summary>Represents the value of the green color in the guideline.</summary>
         public const float YellowValue = 0.9f;
-        /// <summary>Represents the value of the transparent color in the guideline. It is a hidden game feature, where invisible guidelines may be created.</summary>
+        /// <summary>Represents the value of the green color in the guideline.</summary>
         public const float GreenValue = 1f;
+        /// <summary>Represents the value of the orange color in the guideline.</summary>
+        public const float OrangeValue = 1.0f;
 
-        /// <summary>An instance of the transparent guideline color.</summary>
-        public static readonly GuidelineColor Transparent = new GuidelineColor(TransparentValue);
-        /// <summary>An instance of the orange guideline color.</summary>
-        public static readonly GuidelineColor Orange = new GuidelineColor(OrangeValue);
         /// <summary>An instance of the yellow guideline color.</summary>
         public static readonly GuidelineColor Yellow = new GuidelineColor(YellowValue);
         /// <summary>An instance of the green guideline color.</summary>
         public static readonly GuidelineColor Green = new GuidelineColor(GreenValue);
+        /// <summary>An instance of the orange guideline color.</summary>
+        public static readonly GuidelineColor Orange = new GuidelineColor(OrangeValue + 0.1f);
 
         private float col;
 
-        /// <summary>Determines whether the guideline color is transparent.</summary>
-        public bool IsTransparent => col == TransparentValue;
         /// <summary>Determines whether the guideline color is orange.</summary>
-        public bool IsOrange => col == OrangeValue;
+        /// <remarks>Value will return true IF the color value is higher than 1.0</remarks>
+        public bool IsOrange => col > OrangeValue;
         /// <summary>Determines whether the guideline color is yellow.</summary>
         public bool IsYellow => col == YellowValue;
         /// <summary>Determines whether the guideline color is green.</summary>
