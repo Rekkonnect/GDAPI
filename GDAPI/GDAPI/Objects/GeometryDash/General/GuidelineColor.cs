@@ -6,16 +6,12 @@ namespace GDAPI.Objects.GeometryDash.General
     public struct GuidelineColor : IComparable<GuidelineColor>
     {
         /// <summary>Represents the value of the orange color in the guideline.</summary>
-        public const float TransparentValue = 0.7f;
-        /// <summary>Represents the value of the yellow color in the guideline.</summary>
         public const float OrangeValue = 0.8f;
-        /// <summary>Represents the value of the green color in the guideline.</summary>
+        /// <summary>Represents the value of the yellow color in the guideline.</summary>
         public const float YellowValue = 0.9f;
-        /// <summary>Represents the value of the transparent color in the guideline. It is a hidden game feature, where invisible guidelines may be created.</summary>
+        /// <summary>Represents the value of the green color in the guideline.</summary>
         public const float GreenValue = 1f;
 
-        /// <summary>An instance of the transparent guideline color.</summary>
-        public static readonly GuidelineColor Transparent = new GuidelineColor(TransparentValue);
         /// <summary>An instance of the orange guideline color.</summary>
         public static readonly GuidelineColor Orange = new GuidelineColor(OrangeValue);
         /// <summary>An instance of the yellow guideline color.</summary>
@@ -25,10 +21,8 @@ namespace GDAPI.Objects.GeometryDash.General
 
         private float col;
 
-        /// <summary>Determines whether the guideline color is transparent.</summary>
-        public bool IsTransparent => col == TransparentValue;
         /// <summary>Determines whether the guideline color is orange.</summary>
-        public bool IsOrange => col == OrangeValue;
+        public bool IsOrange => col == 0 || (col >= 0.8 && col != YellowValue && col != GreenValue);
         /// <summary>Determines whether the guideline color is yellow.</summary>
         public bool IsYellow => col == YellowValue;
         /// <summary>Determines whether the guideline color is green.</summary>

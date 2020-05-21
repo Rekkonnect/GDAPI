@@ -28,8 +28,6 @@ namespace GDAPI.Objects.GeometryDash.General
             }
         }
 
-        /// <summary>Retrieves the cached count of transparent guidelines in this collection.</summary>
-        public int TransparentGuidelineCount => colors[GuidelineColor.Transparent];
         /// <summary>Retrieves the cached count of orange guidelines in this collection.</summary>
         public int OrangeGuidelineCount => colors[GuidelineColor.Orange];
         /// <summary>Retrieves the cached count of yellow guidelines in this collection.</summary>
@@ -37,8 +35,6 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>Retrieves the cached count of green guidelines in this collection.</summary>
         public int GreenGuidelineCount => colors[GuidelineColor.Green];
 
-        /// <summary>Retrieves a collection consisting of the transparent guidelines from this collection.</summary>
-        public GuidelineCollection TransparentGuidelines => GetColorSpecificGuidelines(GuidelineColor.Transparent);
         /// <summary>Retrieves a collection consisting of the orange guidelines from this collection.</summary>
         public GuidelineCollection OrangeGuidelines => GetColorSpecificGuidelines(GuidelineColor.Orange);
         /// <summary>Retrieves a collection consisting of the yellow guidelines from this collection.</summary>
@@ -157,7 +153,6 @@ namespace GDAPI.Objects.GeometryDash.General
         {
             colors = new Dictionary<GuidelineColor, int>
             {
-                { GuidelineColor.Transparent, 0 },
                 { GuidelineColor.Orange, 0 },
                 { GuidelineColor.Yellow, 0 },
                 { GuidelineColor.Green, 0 },
