@@ -6,29 +6,28 @@ using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.Music;
 using GDAPI.Objects.Presets.GuidelineEditor;
 using GDAPI.Objects.TimingPoints;
+using GDAPI.Objects.General;
 
 namespace GDAPI.Application.Editors
 {
     /// <summary>Provides tools to edit <seealso cref="Guideline"/>s in a level.</summary>
-    public class GuidelineEditor
+    public class GuidelineEditor : BasePluggableEditor
     {
         private List<GuidelineEditorPresetEvent> selectedEvents;
 
-        /// <summary>The level whose <seealso cref="Guideline"/>s to edit.</summary>
-        public readonly Level Level;
         /// <summary>The <seealso cref="GuidelineEditorPreset"/> that is being edited and will be used in guideline editing operations.</summary>
         public GuidelineEditorPreset Preset;
 
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditor"/> class.</summary>
-        /// <param name="level">The level whose <seealso cref="Guideline"/>s to edit.</param>
-        public GuidelineEditor(Level level)
-            : this(level, new GuidelineEditorPreset("New Preset 0")) { }
+        /// <param name="master">The <seealso cref="Bindable{T}"/> containing the master <seealso cref="Editor"/> that this editor is bound to.</param>
+        public GuidelineEditor(Bindable<Editor> master)
+            : this(master, new GuidelineEditorPreset("New Preset 0")) { }
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineEditor"/> class.</summary>
-        /// <param name="level">The level whose <seealso cref="Guideline"/>s to edit.</param>
+        /// <param name="master">The <seealso cref="Bindable{T}"/> containing the master <seealso cref="Editor"/> that this editor is bound to.</param>
         /// <param name="preset">The <seealso cref="GuidelineEditorPreset"/> that is to be edited and will be used in guideline editing operations.</param>
-        public GuidelineEditor(Level level, GuidelineEditorPreset preset)
+        public GuidelineEditor(Bindable<Editor> master, GuidelineEditorPreset preset)
+            : base(master)
         {
-            Level = level;
             Preset = preset;
         }
 
@@ -169,6 +168,13 @@ namespace GDAPI.Application.Editors
             Level.AddGuidelines(guidelines, appendGuidelines);
         }
 
+        // TODO:
+        /*
+         * Aside from being untested, this code was proposed for a change on the repository,
+         * which was rejected with the excuse of being unnecessary, since the current version
+         * already supports correct parsing of the MP3 duration. The original thread where this
+         * code was copied from was saying otherwise, needs verification.
+         */
         private static double GetMP3Duration(string fileName)
         {
             double duration = 0;
