@@ -75,6 +75,14 @@ namespace GDAPI.Objects.General
             return IsBindable && other.linked.Remove(this);
         }
 
+        /// <summary>Determines whether this <seealso cref="Bindable{T}"/> is bound to another <seealso cref="Bindable{T}"/>.</summary>
+        /// <param name="other">The other <seealso cref="Bindable{T}"/> to check whether this is bound to.</param>
+        /// <returns>A value determining whether this <seealso cref="Bindable{T}"/> is bound to the requested <seealso cref="Bindable{T}"/>, if the <seealso cref="IsBindable"/> is set to <see langword="true"/>, otherwise <see langword="false"/>.</returns>
+        public bool IsBoundTo(Bindable<T> other)
+        {
+            return IsBindable && other.linked.Contains(this);
+        }
+
         /// <summary>Initializes and returns a new <seealso cref="Bindable{T}"/> that is bound to this instance.</summary>
         public Bindable<T> CreateNewBindableBoundToThis()
         {
@@ -93,7 +101,7 @@ namespace GDAPI.Objects.General
         {
             return new Bindable<T>(Value, DefaultValue);
         }
-        /// <summary>Copies this <seealso cref="Bindable{T}"/>, binds the copied instance to this and returns the copied instance.</summary>
+        /// <summary>Copies this <seealso cref="Bindable{T}"/>, binds the copied instance to this (if the <seealso cref="IsBindable"/> property is set to <see langword="true"/>) and returns the copied instance.</summary>
         public Bindable<T> CopyBindableAndBindToThis()
         {
             var copied = Copy();
