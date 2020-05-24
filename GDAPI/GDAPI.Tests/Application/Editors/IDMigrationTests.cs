@@ -28,6 +28,7 @@ namespace GDAPI.Tests.Application.Editors
         private LevelObjectCollection allObjects;
         private Level level;
         private Editor editor;
+        private IDMigrationEditor migrationEditor;
 
         [SetUp]
         public void Initialize()
@@ -39,6 +40,7 @@ namespace GDAPI.Tests.Application.Editors
         {
             level = new Level();
             editor = new Editor(level);
+            migrationEditor = new IDMigrationEditor(new Bindable<Editor>(editor));
             ReinitializeLevelObjects();
         }
 
@@ -104,16 +106,16 @@ namespace GDAPI.Tests.Application.Editors
 
             ReinitializeLevelStuff();
 
-            editor.PerformGroupIDMigration(new List<SourceTargetRange> { step0 });
+            migrationEditor.PerformGroupIDMigration(new List<SourceTargetRange> { step0 });
             VerifyGroupIDMigration(step0.TargetFrom);
 
-            editor.PerformColorIDMigration(new List<SourceTargetRange> { step2 });
+            migrationEditor.PerformColorIDMigration(new List<SourceTargetRange> { step2 });
             VerifyColorIDMigration(step2.TargetFrom, step1.TargetFrom);
 
-            editor.PerformItemIDMigration(new List<SourceTargetRange> { step0 });
+            migrationEditor.PerformItemIDMigration(new List<SourceTargetRange> { step0 });
             VerifyItemIDMigration(step0.TargetFrom);
 
-            editor.PerformBlockIDMigration(new List<SourceTargetRange> { step1 });
+            migrationEditor.PerformBlockIDMigration(new List<SourceTargetRange> { step1 });
             VerifyBlockIDMigration(step0.SourceFrom, step1.TargetFrom);
             // TODO: Add more test steps with multiple step ID migrations
 
@@ -243,9 +245,9 @@ namespace GDAPI.Tests.Application.Editors
                 steps.Add(new SourceTargetRange(i + 21, i + 21, i + 901));
             }
 
-            editor.PerformMigration(mode, steps);
+            migrationEditor.PerformMigration(mode, steps);
             InitializeColorChannels();
-            editor.CompactlyReallocateIDs((LevelObjectIDType)mode);
+            migrationEditor.CompactlyReallocateIDs((LevelObjectIDType)mode);
             for (int i = 0; i < 5; i++)
             {
                 int id1 = primaryTargetIDs[i];
@@ -256,7 +258,7 @@ namespace GDAPI.Tests.Application.Editors
 
             // Reset object IDs
             ReinitializeLevelObjects();
-            editor.PerformMigration(mode, steps);
+            migrationEditor.PerformMigration(mode, steps);
             InitializeColorChannels();
 
             // Current ranges are 30, 40, 50, 60, 70 and 901, 902, 903, 904, 905
@@ -268,7 +270,7 @@ namespace GDAPI.Tests.Application.Editors
             // 904 > 5
             // 905 > 6
             var ignoredRanges = new List<Range> { 27..31, 22..24, 899..903, 78..700, 35..45 };
-            editor.CompactlyReallocateIDs((LevelObjectIDType)mode, ignoredRanges);
+            migrationEditor.CompactlyReallocateIDs((LevelObjectIDType)mode, ignoredRanges);
             for (int i = 0; i < 5; i++)
             {
                 int id1 = primaryTargetIDsWithIgnored[i];

@@ -3,6 +3,7 @@ using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
 using GDAPI.Objects.DataStructures;
+using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects.Triggers;
 using GDAPI.Objects.GeometryDash.Reflection;
@@ -257,6 +258,23 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             for (int i = 0; i < Count; i++)
                 array[arrayIndex + i] = this[i];
         }
+
+        #region Location
+        /// <summary>Gets the median point of this <seealso cref="LevelObjectCollection"/>'s objects.</summary>
+        public Point GetMedianPoint()
+        {
+            Point result = new Point();
+            foreach (var o in this)
+                result += o.Location;
+            return result / Count;
+        }
+        /// <summary>Applies an offset to each of this <seealso cref="LevelObjectCollection"/>'s objects' location.</summary>
+        public void ApplyLocationOffset(Point offset)
+        {
+            foreach (var o in this)
+                o.Location += offset;
+        }
+        #endregion
 
         /// <summary>Attempts to get the common value of an object property from this collection of objects given its ID.</summary>
         /// <typeparam name="T">The value type of the property.</typeparam>

@@ -15,6 +15,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>GD API</Title>
     <Copyright>Zyran 2019</Copyright>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
