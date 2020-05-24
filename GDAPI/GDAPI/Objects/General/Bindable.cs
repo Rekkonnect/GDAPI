@@ -78,9 +78,34 @@ namespace GDAPI.Objects.General
         /// <summary>Initializes and returns a new <seealso cref="Bindable{T}"/> that is bound to this instance.</summary>
         public Bindable<T> CreateNewBindableBoundToThis()
         {
-            var result = new Bindable<T>();
-            result.BindTo(this);
-            return result;
+            return new Bindable<T>(default, default, this);
+        }
+        /// <summary>Copies this <seealso cref="Bindable{T}"/> and returns the copied instance.</summary>
+        public Bindable<T> Copy()
+        {
+            return new Bindable<T>(Value, DefaultValue)
+            {
+                IsBindable = IsBindable
+            };
+        }
+        /// <summary>Copies this <seealso cref="Bindable{T}"/> with the <seealso cref="IsBindable"/> property set to <see langword="true"/> and returns the copied instance.</summary>
+        public Bindable<T> CopyWithAllowedBindability()
+        {
+            return new Bindable<T>(Value, DefaultValue);
+        }
+        /// <summary>Copies this <seealso cref="Bindable{T}"/>, binds the copied instance to this and returns the copied instance.</summary>
+        public Bindable<T> CopyBindableAndBindToThis()
+        {
+            var copied = Copy();
+            copied.BindTo(this);
+            return copied;
+        }
+        /// <summary>Copies this <seealso cref="Bindable{T}"/> with the <seealso cref="IsBindable"/> property set to <see langword="true"/>, binds the copied child instance to this one and returns the copied instance.</summary>
+        public Bindable<T> CreateChildBindable()
+        {
+            var copied = CopyWithAllowedBindability();
+            copied.BindTo(this);
+            return copied;
         }
 
         /// <summary>Sets the value of this <seealso cref="Bindable{T}"/> to its default.</summary>
