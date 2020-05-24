@@ -21,27 +21,37 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>The title of the song.</summary>
         [SongMetadataStringMappable(2)]
         public string Title { get; set; }
+        /// <summary>The ID of the artist.</summary>
+        [SongMetadataStringMappable(3)]
+        public int ArtistID { get; set; }
         /// <summary>The artist of the song.</summary>
         [SongMetadataStringMappable(4)]
         public string Artist { get; set; }
         /// <summary>The size of the song in MB.</summary>
         [SongMetadataStringMappable(5)]
         public double SongSizeMB { get; set; }
-        /// <summary>The URL to the song on Newgrounds.</summary>
-        public string URL => $"https://www.newgrounds.com/audio/listen/{ID}";
+        /// <summary>The ID of the YouTube video that is linked to this song.</summary>
+        [SongMetadataStringMappable(6)]
+        public string YouTubeSongVideoID { get; set; }
+        /// <summary>The ID of the YouTube channel of the artist.</summary>
+        [SongMetadataStringMappable(7)]
+        public string YouTubeArtistChannelID { get; set; }
         /// <summary>The download link of the song.</summary>
         [SongMetadataStringMappable(10)]
         public string DownloadLink { get; set; }
 
-        /// <summary>The value of the unknown key 3.</summary>
-        [SongMetadataStringMappable(3)]
-        public int UnknownKey3 { get; set; }
-        /// <summary>The value of the unknown key 7.</summary>
-        [SongMetadataStringMappable(7)]
-        public string UnknownKey7 { get; set; }
         /// <summary>The value of the unknown key 9.</summary>
         [SongMetadataStringMappable(9)]
         public int UnknownKey9 { get; set; }
+
+        /// <summary>The URL to the song on Newgrounds.</summary>
+        public string NewgroundsSongURL => $"https://www.newgrounds.com/audio/listen/{ID}";
+        /// <summary>The URL to the artist on Newgrounds.</summary>
+        public string NewgroundsArtistURL => $"https://{Artist}.newgrounds.com/";
+        /// <summary>The URL to the song video on YouTube.</summary>
+        public string YouTubeSongURL => $"https://www.youtube.com/watch?v={YouTubeSongVideoID}";
+        /// <summary>The URL to the artist channel on YouTube.</summary>
+        public string YouTubeChannelURL => $"https://www.youtube.com/channel/{YouTubeArtistChannelID}";
 
         /// <summary>Initializes a new instance of the <seealso cref="SongMetadata"/> class.</summary>
         public SongMetadata() { }
@@ -60,28 +70,31 @@ namespace GDAPI.Objects.GeometryDash.General
         {
             switch (key)
             {
-                case "1": // Song ID
+                case "1":
                     ID = ToInt32(value);
                     break;
-                case "2": // Title
+                case "2":
                     Title = value;
                     break;
-                case "3": // ?
-                    UnknownKey3 = ToInt32(value);
+                case "3":
+                    ArtistID = ToInt32(value);
                     break;
-                case "4": // Artist
+                case "4":
                     Artist = value;
                     break;
-                case "5": // Song Size (MB)
+                case "5":
                     SongSizeMB = ToDouble(value);
                     break;
-                case "7": // ?
-                    UnknownKey7 = value;
+                case "6":
+                    YouTubeSongVideoID = value;
                     break;
-                case "9": // ?
+                case "7":
+                    YouTubeArtistChannelID = value;
+                    break;
+                case "9":
                     UnknownKey9 = ToInt32(value);
                     break;
-                case "10": // Download Link
+                case "10":
                     DownloadLink = value;
                     break;
                 default: // Not something we care about
@@ -112,6 +125,6 @@ namespace GDAPI.Objects.GeometryDash.General
         private void GetSongMetadataParameterInformation(string key, string value, string valueType) => SetValue(key, value);
 
         /// <summary>Returns the equivalent <seealso cref="string"/> value of this <seealso cref="SongMetadata"/> instance.</summary>
-        public override string ToString() => $"<k>kCEK</k><i>6</i><k>1</k><i>{ID}</i><k>2</k><s>{Title}</s><k>3</k><i>{UnknownKey3}</i><k>4</k><s>{Artist}</s><k>5</k><r>{SongSizeMB}</r><k>7</k><s>{UnknownKey7}</s><k>9</k><i>{UnknownKey9}</i><k>10</k><s>{DownloadLink}</s>";
+        public override string ToString() => $"<k>kCEK</k><i>6</i><k>1</k><i>{ID}</i><k>2</k><s>{Title}</s><k>3</k><i>{ArtistID}</i><k>4</k><s>{Artist}</s><k>5</k><r>{SongSizeMB}</r><k>6</k><s>{YouTubeSongVideoID}</s><k>7</k><s>{YouTubeArtistChannelID}</s><k>9</k><i>{UnknownKey9}</i><k>10</k><s>{DownloadLink}</s>";
     }
 }
