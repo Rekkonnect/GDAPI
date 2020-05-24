@@ -125,6 +125,6 @@ namespace GDAPI.Objects.GeometryDash.General
         private void GetSongMetadataParameterInformation(string key, string value, string valueType) => SetValue(key, value);
 
         /// <summary>Returns the equivalent <seealso cref="string"/> value of this <seealso cref="SongMetadata"/> instance.</summary>
-        public override string ToString() => $"<k>kCEK</k><i>6</i><k>1</k><i>{ID}</i><k>2</k><s>{Title}</s><k>3</k><i>{ArtistID}</i><k>4</k><s>{Artist}</s><k>5</k><r>{SongSizeMB}</r><k>6</k><s>{YouTubeArtistChannelID}</s><k>7</k><s>{YouTubeSongVideoID}</s><k>9</k><i>{UnknownKey9}</i><k>10</k><s>{DownloadLink}</s>";
+        public override string ToString() => $"<k>kCEK</k><i>6</i><k>1</k><i>{ID}</i><k>2</k><s>{Title}</s><k>3</k><i>{ArtistID}</i><k>4</k><s>{Artist}</s><k>5</k><r>{SongSizeMB}</r><k>6</k><s>{YouTubeSongVideoID}</s><k>7</k><s>{YouTubeArtistChannelID}</s><k>9</k><i>{UnknownKey9}</i><k>10</k><s>{DownloadLink}</s>";
     }
 }
