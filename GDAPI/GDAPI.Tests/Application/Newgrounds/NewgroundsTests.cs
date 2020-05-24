@@ -15,6 +15,9 @@ namespace GDAPI.Tests.Application.Newgrounds
         [Test]
         public void GetSongMetadata()
         {
+            const int checkCount = 420;
+            const int checkIterationDelay = 100;
+
             var usableMetadatas = new SongMetadataGetter[usableSongs.Length];
             var unusableMetadatas = new SongMetadataGetter[unusableSongs.Length];
 
@@ -25,8 +28,11 @@ namespace GDAPI.Tests.Application.Newgrounds
             for (int i = 0; i < unusableSongs.Length; i++)
                 unusableMetadatas[i] = new SongMetadataGetter(unusableSongs[i], SongRetrievalComplete);
 
-            while (retrievedSongs < totalSongs)
-                Thread.Sleep(100);
+            for (int i = 0; i < checkCount && retrievedSongs < totalSongs; i++)
+                Thread.Sleep(checkIterationDelay);
+
+            if (retrievedSongs < totalSongs) // test was timed out
+                Assert.Ignore($"The song metadata retrieval timed out after {checkCount * checkIterationDelay / 1000} seconds.");
 
             for (int i = 0; i < usableMetadatas.Length; i++)
                 Assert.IsTrue(usableMetadatas[i].Result.ID == usableSongs[i], $"Unusable song detected: {usableMetadatas[i].Result.ID}");
