@@ -1,7 +1,7 @@
 ﻿namespace GDAPI.Enumerations.GeometryDash
 {
     /// <summary>Represents the player color property of a color channel.</summary>
-    public enum ColorChannelPlayerColor
+    public enum ColorChannelPlayerColor : sbyte
     {
         /// <summary>The value for no selected player color to copy.</summary>
         None = -1,

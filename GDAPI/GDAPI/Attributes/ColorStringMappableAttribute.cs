@@ -15,5 +15,10 @@ namespace GDAPI.Attributes
         {
             Key = key;
         }
+
+        /// <summary>A key getter that is useful as a selector function.</summary>
+        /// <param name="attribute">The attribute instance whose key to get.</param>
+        /// <returns>The key of the provided attribute instance.</returns>
+        public static int GetKey(ColorStringMappableAttribute attribute) => attribute.Key;
     }
 }

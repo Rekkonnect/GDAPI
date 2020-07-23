@@ -1,10 +1,14 @@
 ﻿using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
+using GDAPI.Functions.Extensions;
+using GDAPI.Objects.DataStructures;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.ColorChannels
@@ -12,36 +16,118 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
     /// <summary>Represents a color channel in a level.</summary>
     public class ColorChannel : IEquatable<ColorChannel>
     {
+        private static PropertyInfo[] properties = typeof(ColorChannel).GetProperties();
+        private static Dictionary<int, PropertyInfo> mappableProperties = properties.MapCustomAttributesToMembers<PropertyInfo, ColorStringMappableAttribute, int>(ColorStringMappableAttribute.GetKey);
+
+        private byte red, green, blue;
+        private short colorChannelID, copiedColorID;
+        private float opacity;
+        private BitArray8 bools;
+
         /// <summary>The red color value of the <seealso cref="ColorChannel"/>.</summary>
         [ColorStringMappable(1)]
-        public int Red { get; set; }
+        public int Red
+        {
+            get => red;
+            set => red = (byte)value;
+        }
         /// <summary>The green color value of the <seealso cref="ColorChannel"/>.</summary>
         [ColorStringMappable(2)]
-        public int Green { get; set; }
+        public int Green
+        {
+            get => green;
+            set => green = (byte)value;
+        }
         /// <summary>The blue color value of the <seealso cref="ColorChannel"/>.</summary>
         [ColorStringMappable(3)]
-        public int Blue { get; set; }
+        public int Blue
+        {
+            get => blue;
+            set => blue = (byte)value;
+        }
         /// <summary>The copied player color of the <seealso cref="ColorChannel"/>.</summary>
         [ColorStringMappable(4)]
         public ColorChannelPlayerColor CopiedPlayerColor { get; set; }
         /// <summary>The Blending property of the color channel.</summary>
         [ColorStringMappable(5)]
-        public bool Blending { get; set; }
+        public bool Blending
+        {
+            get => bools[0];
+            set => bools[0] = value;
+        }
         /// <summary>The Color Channel ID of the color channel.</summary>
         [ColorStringMappable(6)]
-        public int ColorChannelID { get; set; }
+        public int ColorChannelID
+        {
+            get => colorChannelID;
+            set => colorChannelID = (short)value;
+        }
         /// <summary>The opacity of the color channel.</summary>
         [ColorStringMappable(7)]
-        public double Opacity { get; set; }
+        public double Opacity
+        {
+            get => opacity;
+            set => opacity = (float)value;
+        }
+        /// <summary>Unknown property 8.</summary>
+        [ColorStringMappable(8)]
+        public bool UnknownProperty8
+        {
+            get => true;
+            set { }
+        }
         /// <summary>The Color Channel ID of the copied color channel.</summary>
         [ColorStringMappable(9)]
-        public int CopiedColorID { get; set; }
+        public int CopiedColorID
+        {
+            get => copiedColorID;
+            set => copiedColorID = (short)value;
+        }
         /// <summary>The HSV adjustment of the copied color channel.</summary>
         [ColorStringMappable(10)]
         public HSVAdjustment CopiedColorHSV { get; set; } = new HSVAdjustment();
+        /// <summary>Unknown property 11.</summary>
+        [ColorStringMappable(11)]
+        public int UnknownProperty11
+        {
+            get => 255;
+            set { }
+        }
+        /// <summary>Unknown property 12.</summary>
+        [ColorStringMappable(12)]
+        public int UnknownProperty12
+        {
+            get => 255;
+            set { }
+        }
+        /// <summary>Unknown property 13.</summary>
+        [ColorStringMappable(13)]
+        public int UnknownProperty13
+        {
+            get => 255;
+            set { }
+        }
+        /// <summary>Unknown property 15.</summary>
+        [ColorStringMappable(15)]
+        public bool UnknownProperty15
+        {
+            get => true;
+            set { }
+        }
         /// <summary>The Copy Opacity property of the color channel.</summary>
         [ColorStringMappable(17)]
-        public bool CopyOpacity { get; set; }
+        public bool CopyOpacity
+        {
+            get => bools[1];
+            set => bools[1] = value;
+        }
+        /// <summary>Unknown property 18.</summary>
+        [ColorStringMappable(18)]
+        public bool UnknownProperty18
+        {
+            get => false;
+            set { }
+        }
 
         /// <summary>Gets or sets the color values <seealso cref="Red"/>, <seealso cref="Green"/>, <seealso cref="Blue"/> represented as a <seealso cref="Objects.General.Color"/> (this does not affect <seealso cref="Opacity"/>).</summary>
         public Color Color
@@ -114,6 +200,7 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
             return result;
         }
 
+        // TODO: Use reflection
         /// <summary>Parses the color channel string into a <seealso cref="ColorChannel"/> object.</summary>
         /// <param name="colorChannel">The color channel string to parse.</param>
         public static ColorChannel Parse(string colorChannel)
@@ -179,8 +266,8 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
             bool isRightNull = ReferenceEquals(right, null);
             if (isLeftNull || isRightNull)
                 return isLeftNull == isRightNull;
-            foreach (var p in typeof(ColorChannel).GetProperties())
-                if (p.GetValue(left) != p.GetValue(right))
+            foreach (var p in mappableProperties)
+                if (p.Value.GetValue(left) != p.Value.GetValue(right))
                     return false;
             return true;
         }
@@ -190,15 +277,25 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
             bool isRightNull = ReferenceEquals(right, null);
             if (isLeftNull || isRightNull)
                 return isLeftNull != isRightNull;
-            foreach (var p in typeof(ColorChannel).GetProperties())
-                if (p.GetValue(left) == p.GetValue(right))
+            foreach (var p in mappableProperties)
+                if (p.Value.GetValue(left) == p.Value.GetValue(right))
                     return false;
             return true;
         }
 
-        // IMPORTANT: This may need to be changed as more information about the color channel string is discovered (especially for property IDs 8, 11, 12, 13, 15, 18 which are currently hardcoded because of that)
         /// <summary>Returns the string of the <seealso cref="ColorChannel"/>.</summary>
-        public override string ToString() => $"1_{Red}_2_{Green}_3_{Blue}_4_{(int)CopiedPlayerColor}_5_{(Blending ? 1 : 0)}_6_{ColorChannelID}_7_{Opacity}_8_1_9_{CopiedColorID}_10_{CopiedColorHSV}_11_255_12_255_13_255_15_1_17_{(CopyOpacity ? 1 : 0)}_18_0";
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            foreach (var m in mappableProperties)
+            {
+                var value = m.Value.GetValue(this);
+                if (value is bool b)
+                    value = b ? 1 : 0;
+                result.Append($"{m.Key}_{value}_");
+            }
+            return result.RemoveLast().ToString();
+        }
 
         public bool Equals(ColorChannel other) => GetHashCode() == other?.GetHashCode();
         public override bool Equals(object obj) => Equals(obj as ColorChannel);
