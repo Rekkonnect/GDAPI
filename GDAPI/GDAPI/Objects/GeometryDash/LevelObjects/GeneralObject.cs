@@ -545,13 +545,15 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             return words.Combine(" ");
         }
 
+        // The equality methods should first take the object ID into consideration, to ensure that both objects have the matching type
+        // to avoid null objects when upcasting them to the same type
+        
         /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
         /// <param name="other">The other object to check whether it equals this object's properties.</param>
         protected virtual bool EqualsInherited(GeneralObject other)
         {
             // Seriously I do not like how this looks, but at least there is some symmetry, which is the most I could think of
-            return objectID == other.objectID
-                && bools == other.bools
+            return bools == other.bools
                 && color1ID == other.color1ID
                 && color2ID == other.color2ID
                 && el1 == other.el1
@@ -569,10 +571,10 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         }
         /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
         /// <param name="other">The other <seealso cref="GeneralObject"/> to check equality against.</param>
-        public bool Equals(GeneralObject other) => EqualsInherited(other);
+        public bool Equals(GeneralObject other) => objectID == other.objectID && EqualsInherited(other);
         /// <summary>Determines whether this object equals another object. Not recommended using at all due to performance issues and overgeneralization of the implementation.</summary>
         /// <param name="obj">The other object to check equality against.</param>
-        public override bool Equals(object obj) => Equals(obj as GeneralObject);
+        public override bool Equals(object obj) => obj is GeneralObject g && Equals(g);
 
         public static bool operator ==(GeneralObject left, GeneralObject right) => left.Equals(right);
         public static bool operator !=(GeneralObject left, GeneralObject right) => !left.Equals(right);
