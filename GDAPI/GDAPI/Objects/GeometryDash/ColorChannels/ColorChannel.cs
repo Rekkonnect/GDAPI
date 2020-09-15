@@ -21,7 +21,7 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
 
         private byte red, green, blue;
         private short colorChannelID, copiedColorID;
-        private float opacity;
+        private float opacity = 1;
         private BitArray8 bools;
 
         /// <summary>The red color value of the <seealso cref="ColorChannel"/>.</summary>
