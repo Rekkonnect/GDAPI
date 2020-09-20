@@ -173,14 +173,15 @@ namespace GDAPI.Objects.GeometryDash.General
         public static GuidelineCollection Parse(string guidelineString)
         {
             var guidelines = new GuidelineCollection();
-            if (!string.IsNullOrEmpty(guidelineString))
-            {
-                if (guidelineString.EndsWith("~"))
-                    guidelineString = guidelineString.Remove(guidelineString.Length - 1);
-                string[] s = guidelineString.Split('~');
-                for (int i = 0; i < s.Length; i += 2)
-                    guidelines.Add(ToDouble(s[i]), ToDouble(s[i + 1]));
-            }
+
+            if (string.IsNullOrEmpty(guidelineString) || guidelineString == "~")
+                return guidelines;
+
+            if (guidelineString.EndsWith('~'))
+                guidelineString = guidelineString.Remove(guidelineString.Length - 1);
+            string[] s = guidelineString.Split('~');
+            for (int i = 0; i < s.Length; i += 2)
+                guidelines.Add(ToDouble(s[i]), ToDouble(s[i + 1]));
             return guidelines;
         }
 
