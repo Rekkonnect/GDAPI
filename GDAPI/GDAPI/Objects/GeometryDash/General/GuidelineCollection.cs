@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using GDAPI.Functions.Extensions;
+using GDAPI.Objects.DataStructures;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GDAPI.Functions.Extensions;
-using GDAPI.Objects.DataStructures;
 using static System.Convert;
 
 namespace GDAPI.Objects.GeometryDash.General
@@ -177,10 +177,8 @@ namespace GDAPI.Objects.GeometryDash.General
             if (string.IsNullOrEmpty(guidelineString) || guidelineString == "~")
                 return guidelines;
 
-            if (guidelineString.EndsWith('~'))
-                guidelineString = guidelineString.Remove(guidelineString.Length - 1);
             string[] s = guidelineString.Split('~');
-            for (int i = 0; i < s.Length; i += 2)
+            for (int i = 0; i < s.Length - 1; i += 2)
                 guidelines.Add(ToDouble(s[i]), ToDouble(s[i + 1]));
             return guidelines;
         }

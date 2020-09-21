@@ -3,7 +3,7 @@
 namespace GDAPI.Objects.GeometryDash.General
 {
     /// <summary>Contains information about a level guideline.</summary>
-    public class Guideline : IComparable<Guideline>
+    public class Guideline : IComparable<Guideline>, IEquatable<Guideline>
     {
         /// <summary>The timestamp of the guideline.</summary>
         public double TimeStamp { get; set; }
@@ -57,6 +57,8 @@ namespace GDAPI.Objects.GeometryDash.General
         public static bool operator ==(Guideline left, Guideline right) => left.TimeStamp == right.TimeStamp && left.Color == right.Color;
         public static bool operator !=(Guideline left, Guideline right) => left.TimeStamp != right.TimeStamp || left.Color != right.Color;
 
+        public bool Equals(Guideline other) => this == other;
+        public override bool Equals(object? obj) => obj is Guideline g && Equals(g);
         /// <summary>Converts the <see cref="Guideline"/> to its string representation in the gamesave.</summary>
         public override string ToString() => $"{TimeStamp}~{Color}";
     }
