@@ -36,7 +36,3 @@ Aside from code performance and functionality, we care about [Code Style](CodeSt
 GDAPI is not endorsed by RobTop. Geometry Dash is a registered trademark of RobTop Games AB.
 
 # [Features to be added](FeaturesToBeAdded.md)
-
-<div align="center">
-    <a href="https://discord.gg/cq2FKbb"><img src="https://canary.discordapp.com/api/guilds/467885469108142100/widget.png?style=banner2" alt="Join Discord Server"/></a>
-</div>
