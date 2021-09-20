@@ -160,8 +160,9 @@ namespace GDAPI.Enumerations.GeometryDash
         /// <summary>Represents the value for the distance of the yellow teleportation portal from the blue teleportation portal.</summary>
         [ObjectPropertyDoubleType]
         YellowTeleportationPortalDistance = 54,
-        /// <summary>Unknown feature with ID 55.</summary>
-        UnknownFeature55 = 55,
+        /// <summary>Represents the Smooth Ease property of the teleportation portal (found in the same place as Group Parent).</summary>
+        [ObjectPropertyBoolType]
+        SmoothEase = 55,
         /// <summary>Represents the Activate Group property of the trigger.</summary>
         [ObjectPropertyBoolType]
         ActivateGroup = 56,
