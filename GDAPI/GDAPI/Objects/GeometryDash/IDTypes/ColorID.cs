@@ -22,6 +22,7 @@ namespace GDAPI.Objects.GeometryDash.IDTypes
 
         public static implicit operator ColorID(int value) => new ColorID(value);
         public static explicit operator int(ColorID value) => value.ID;
+        public static explicit operator SpecialColorID(ColorID value) => value.AsSpecialColorID;
 
         public bool Equals(ColorID other) => ID == other.ID;
         public override bool Equals(object obj) => ((ColorID)obj).ID == ID;

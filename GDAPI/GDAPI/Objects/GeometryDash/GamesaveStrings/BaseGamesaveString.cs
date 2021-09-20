@@ -78,7 +78,7 @@ namespace GDAPI.Objects.GeometryDash.GamesaveStrings
 
         /// <summary>Decrypts the current raw string into its unencrypted form and returns the resulting string. The string must be encrypted; the operation will be performed in all occassions.</summary>
         protected abstract string Decrypt();
-        /// <summary>Encrypts the current raw string into its encrypted form and returns the resulting string. The string must be deencrypted; the operation will be performed in all occassions.</summary>
+        /// <summary>Encrypts the current raw string into its encrypted form and returns the resulting string. The string must be unencrypted; the operation will be performed in all occassions.</summary>
         protected abstract string Encrypt();
 
         /// <summary>Gets the unencrypted samples that determine whether the gamesave string is encrypted or not. They must be large parts of a typical gamesave string that will always be present in the save.</summary>

@@ -1,9 +1,10 @@
 ﻿using GDAPI.Enumerations.GeometryDash;
+using System;
 
 namespace GDAPI.Objects.GeometryDash.IDTypes
 {
     /// <summary>Represents a Group ID.</summary>
-    public struct GroupID : IID
+    public struct GroupID : IID, IEquatable<GroupID>
     {
         public int ID { get; set; }
 
