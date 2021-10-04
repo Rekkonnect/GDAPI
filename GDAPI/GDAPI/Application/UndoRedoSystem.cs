@@ -1,5 +1,4 @@
 ﻿using GDAPI.Application.Editors.Actions;
-using System;
 using System.Collections.Generic;
 using static System.Math;
 
@@ -11,6 +10,7 @@ namespace GDAPI.Application
         private bool multipleActionToggle;
 
         // I know, the naming is terrible on this one (hence the documentation), we need to find a better name
+        // TODO: Majorly refactor this for better clarity
         /// <summary>Determines whether multiple actions will be logged in the undo stack. Setting this to <see langword="false"/> will register all actions.</summary>
         public bool MultipleActionToggle
         {
