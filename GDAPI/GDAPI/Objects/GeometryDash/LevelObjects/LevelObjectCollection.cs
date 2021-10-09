@@ -10,6 +10,7 @@ using GDAPI.Objects.GeometryDash.Reflection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -1635,53 +1636,55 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                     try
                     {
                         var objectInfo = objectProperties[i];
-                        var instance = LevelObjectFactory.GetNewObjectInstance(ToInt16(objectInfo[1]));
+                        var instance = LevelObjectFactory.GetNewObjectInstance(ToInt32(objectInfo[1], CultureInfo.InvariantCulture));
                         objects.Add(instance); // Get IDs of the selected objects
                         for (int j = 3; j < objectInfo.Length; j += 2)
                         {
+                            int propertyID = 0;
+                            var propertyValue = objectInfo[j];
                             try
                             {
-                                int propertyID = ToInt32(objectInfo[j - 1]);
+                                propertyID = ToInt32(objectInfo[j - 1], CultureInfo.InvariantCulture);
                                 switch (GetPropertyIDAttribute(propertyID))
                                 {
                                     case IGenericAttribute<int> _:
-                                        instance.SetPropertyWithID(propertyID, ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<bool> _:
-                                        instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(objectInfo[j])));
+                                        instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(propertyValue, CultureInfo.InvariantCulture)));
                                         break;
                                     case IGenericAttribute<double> _:
-                                        instance.SetPropertyWithID(propertyID, ToDouble(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, ToDouble(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<string> _:
-                                        instance.SetPropertyWithID(propertyID, objectInfo[j]);
+                                        instance.SetPropertyWithID(propertyID, propertyValue);
                                         break;
                                     case IGenericAttribute<HSVAdjustment> _:
-                                        instance.SetPropertyWithID(propertyID, objectInfo[j].ToString());
+                                        instance.SetPropertyWithID(propertyID, propertyValue);
                                         break;
                                     case IGenericAttribute<int[]> _:
-                                        instance.SetPropertyWithID(propertyID, objectInfo[j].ToString().Split('.').ToInt32Array());
+                                        instance.SetPropertyWithID(propertyID, propertyValue.Split('.').ToInt32Array());
                                         break;
                                     case IGenericAttribute<Easing> _:
-                                        instance.SetPropertyWithID(propertyID, (Easing)ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, (Easing)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<InstantCountComparison> _:
-                                        instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<PickupItemPickupMode> _:
-                                        instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<PulseMode> _:
-                                        instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<PulseTargetType> _:
-                                        instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<TargetPosCoordinates> _:
-                                        instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                     case IGenericAttribute<TouchToggleMode> _:
-                                        instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(objectInfo[j]));
+                                        instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                 }
                             }
@@ -1691,8 +1694,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                             }
                             catch (KeyNotFoundException e)
                             {
-                                int propertyID = ToInt32(objectInfo[j - 1]);
-                                if (propertyID == 36)
+                                if (propertyID == (int)ObjectProperty.UnknownFeature36)
                                     continue;
                                 Console.WriteLine(e.Message);
                             }

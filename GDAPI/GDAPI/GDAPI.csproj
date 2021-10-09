@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>GDAPI</AssemblyName>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <SignAssembly>false</SignAssembly>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>AlFas</Authors>
     <PackageProjectUrl>https://github.com/gd-edit/</PackageProjectUrl>
@@ -13,9 +13,11 @@
     <PackageTags>Geometry Dash, GD, GMD, Editor, API, GDE, GDEdit</PackageTags>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Title>GD API</Title>
-    <Copyright>Zyran 2019</Copyright>
+    <Copyright>Zyran 2019-2021</Copyright>
     <Nullable>annotations</Nullable>
+    <Version>1.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

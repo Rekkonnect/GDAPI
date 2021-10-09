@@ -154,7 +154,7 @@ namespace GDAPI.Application
         {
             get
             {
-                if (decryptedLevelData == null)
+                if (decryptedLevelData.IsEmpty)
                 {
                     LevelKeyStartIndices = new List<int>();
                     StringBuilder lvlDat = new StringBuilder(LevelDataStart);

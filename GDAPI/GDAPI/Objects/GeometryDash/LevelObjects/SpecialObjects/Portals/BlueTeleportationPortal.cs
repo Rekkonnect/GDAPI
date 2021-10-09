@@ -29,6 +29,14 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
         [ObjectStringMappable(ObjectProperty.YellowTeleportationPortalDistance)]
         public double YellowTeleportationPortalDistance { get; set; }
 
+        /// <summary>Determines whether the teleportation will smoothly move the camera to the target location (applies the old 2.0 smooth camera movement).</summary>
+        [ObjectStringMappable(ObjectProperty.SmoothEase)]
+        public bool SmoothEase
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
+
         /// <summary>Initializes a new instance of the <seealso cref="BlueTeleportationPortal"/> class.</summary>
         public BlueTeleportationPortal() : base() { }
 
