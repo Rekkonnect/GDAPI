@@ -1640,10 +1640,11 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                         objects.Add(instance); // Get IDs of the selected objects
                         for (int j = 3; j < objectInfo.Length; j += 2)
                         {
-                            int propertyID = ToInt32(objectInfo[j - 1], CultureInfo.InvariantCulture);
+                            int propertyID = 0;
                             var propertyValue = objectInfo[j];
                             try
                             {
+                                propertyID = ToInt32(objectInfo[j - 1], CultureInfo.InvariantCulture);
                                 switch (GetPropertyIDAttribute(propertyID))
                                 {
                                     case IGenericAttribute<int> _:
