@@ -1645,45 +1645,45 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                             try
                             {
                                 propertyID = ToInt32(objectInfo[j - 1], CultureInfo.InvariantCulture);
-                                switch (GetPropertyIDAttribute(propertyID))
+                                switch (GetPropertyIDAttribute(propertyID).TypeCode)
                                 {
-                                    case IGenericAttribute<int> _:
+                                    case ObjectPropertyTypeCode.Int:
                                         instance.SetPropertyWithID(propertyID, ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<bool> _:
+                                    case ObjectPropertyTypeCode.Bool:
                                         instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(propertyValue, CultureInfo.InvariantCulture)));
                                         break;
-                                    case IGenericAttribute<double> _:
+                                    case ObjectPropertyTypeCode.Double:
                                         instance.SetPropertyWithID(propertyID, ToDouble(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<string> _:
+                                    case ObjectPropertyTypeCode.String:
                                         instance.SetPropertyWithID(propertyID, propertyValue);
                                         break;
-                                    case IGenericAttribute<HSVAdjustment> _:
+                                    case ObjectPropertyTypeCode.HSVAdjustment:
                                         instance.SetPropertyWithID(propertyID, propertyValue);
                                         break;
-                                    case IGenericAttribute<int[]> _:
+                                    case ObjectPropertyTypeCode.IntArray:
                                         instance.SetPropertyWithID(propertyID, propertyValue.Split('.').ToInt32Array());
                                         break;
-                                    case IGenericAttribute<Easing> _:
+                                    case ObjectPropertyTypeCode.Easing:
                                         instance.SetPropertyWithID(propertyID, (Easing)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<InstantCountComparison> _:
+                                    case ObjectPropertyTypeCode.InstantCountComparison:
                                         instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<PickupItemPickupMode> _:
+                                    case ObjectPropertyTypeCode.PickupItemPickupMode:
                                         instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<PulseMode> _:
+                                    case ObjectPropertyTypeCode.PulseMode:
                                         instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<PulseTargetType> _:
+                                    case ObjectPropertyTypeCode.PulseTargetType:
                                         instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<TargetPosCoordinates> _:
+                                    case ObjectPropertyTypeCode.TargetPosCoordinates:
                                         instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
-                                    case IGenericAttribute<TouchToggleMode> _:
+                                    case ObjectPropertyTypeCode.TouchToggleMode:
                                         instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
                                         break;
                                 }

@@ -615,10 +615,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                     return ToInt32(b).ToString();
                 case int[] a:
                     var s = new StringBuilder();
-                    for (int i = 0; i < a.Length; i++)
-                        s.Append($"{a[i]}.");
-                    if (s.Length > 0)
-                        s.Remove(s.Length - 1, 1);
+                    s.AppendJoin('.', a);
                     return s.ToString();
                 case Enum _:
                     return ToInt32(thing).ToString();
