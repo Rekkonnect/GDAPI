@@ -5,9 +5,7 @@ using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Information.GeometryDash;
 using static GDAPI.Information.GeometryDash.LevelObjectInformation;
-using static GDAPI.Functions.General.Parsing;
 using static System.Convert;
-using System.Globalization;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -276,13 +274,13 @@ namespace GDAPI.Objects.GeometryDash.General
             string[] parameters = objectString.Split(',').RemoveEmptyElements();
             for (int i = 0; i < parameters.Length; i += 2)
             {
-                int param = ParseInt32(parameters[i]);
+                int param = ToInt32(parameters[i]);
                 if (param == (int)ObjectProperty.GroupIDs)
                     this.Parameters[param] = parameters[i + 1].Split('.').ToInt32Array();
                 if (param == (int)ObjectProperty.Color1HSV || param == (int)ObjectProperty.Color2HSV || param == (int)ObjectProperty.CopiedColorHSVValues)
                 {
                     string[] HSVParams = parameters[i + 1].Split('a');
-                    this.Parameters[param] = new object[] { ParseInt32(HSVParams[0]), ParseDouble(HSVParams[1]), ParseDouble(HSVParams[2]), HSVParams[3] == "1", HSVParams[4] == "1" };
+                    this.Parameters[param] = new object[] { ToInt32(HSVParams[0]), ToDouble(HSVParams[1]), ToDouble(HSVParams[2]), HSVParams[3] == "1", HSVParams[4] == "1" };
                 }
                 else
                     this.Parameters[param] = parameters[i + 1]; // Parse the parameters as their string representations, the parameters should be converted to their appropriate format before usage to prevent errors.
@@ -330,7 +328,7 @@ namespace GDAPI.Objects.GeometryDash.General
                         else if (Parameters[i] is string)
                             parameter += i + "," + Parameters[i] + ",";
                         else if (Parameters[i] is bool)
-                            parameter += i + "," + ToInt32(Parameters[i], CultureInfo.InvariantCulture) + ",";
+                            parameter += i + "," + ToInt32(Parameters[i]) + ",";
                         else if (i == (int)ObjectProperty.GroupIDs)
                         {
                             if ((Parameters[i] as int[]).Length > 0)
@@ -346,7 +344,7 @@ namespace GDAPI.Objects.GeometryDash.General
                         {
                             parameter += i + ",";
                             for (int j = 0; j < (Parameters[i] as Array).Length; j++)
-                                parameter += ToDouble((Parameters[i] as object[])[j], CultureInfo.InvariantCulture) + "a";
+                                parameter += ToDouble((Parameters[i] as object[])[j]) + "a";
                             parameter = parameter.Remove(parameter.Length - 1);
                             parameter += ",";
                         }
