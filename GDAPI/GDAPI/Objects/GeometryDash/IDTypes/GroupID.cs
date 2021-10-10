@@ -1,4 +1,5 @@
 ﻿using GDAPI.Enumerations.GeometryDash;
+using System.Globalization;
 
 namespace GDAPI.Objects.GeometryDash.IDTypes
 {

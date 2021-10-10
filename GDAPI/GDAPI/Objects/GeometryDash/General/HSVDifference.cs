@@ -1,5 +1,6 @@
 ﻿using System;
-using static System.Convert;
+using System.Globalization;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -111,10 +112,10 @@ namespace GDAPI.Objects.GeometryDash.General
         public static HSVAdjustment Parse(string adjustment)
         {
             string[] split = adjustment.Split('a');
-            return new HSVAdjustment(ToDouble(split[0]), ToDouble(split[1]), ToDouble(split[2]), (SVAdjustmentMode)ToInt32(split[3]), (SVAdjustmentMode)ToInt32(split[4]));
+            return new HSVAdjustment(ParseDouble(split[0]), ParseDouble(split[1]), ParseDouble(split[2]), (SVAdjustmentMode)ParseInt32(split[3]), (SVAdjustmentMode)ParseInt32(split[4]));
         }
 
-        public override string ToString() => $"{Hue}a{Saturation}a{Brightness}a{(int)SaturationMode}a{(int)BrightnessMode}";
+        public override string ToString() => $"{Hue.ToString(CultureInfo.InvariantCulture)}a{Saturation.ToString(CultureInfo.InvariantCulture)}a{Brightness.ToString(CultureInfo.InvariantCulture)}a{(int)SaturationMode}a{(int)BrightnessMode}";
 
         // The gay code below is unfortunately necessary
         #region Bullshit

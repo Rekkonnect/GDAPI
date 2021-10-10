@@ -18,7 +18,8 @@ using System.Threading.Tasks;
 using static GDAPI.Functions.GeometryDash.Gamesave;
 using static GDAPI.Information.GeometryDash.SongInformation;
 using static GDAPI.Objects.GeometryDash.LevelObjects.LevelObjectCollection;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
+using System.Globalization;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -310,9 +311,9 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>Clones this level and returns the cloned result.</summary>
         public Level Clone() => new Level(RawLevel.Substring(0));
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>
-        public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{(int)StartingGamemode},kA3,{(int)StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{(int)StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};{LevelObjects}";
+        public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset.ToString(CultureInfo.InvariantCulture)},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{(int)StartingGamemode},kA3,{(int)StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{(int)StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};{LevelObjects}";
         /// <summary>Returns the raw level string of this <seealso cref="Level"/>.</summary>
-        public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{LevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k23</k><s>{(int)Length}</s><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX}</r><k>kI2</k><r>{CameraY}</r><k>kI3</k><r>{CameraZoom}</r>";
+        public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{LevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{Convert.ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k23</k><s>{(int)Length}</s><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX.ToString(CultureInfo.InvariantCulture)}</r><k>kI2</k><r>{CameraY.ToString(CultureInfo.InvariantCulture)}</r><k>kI3</k><r>{CameraZoom}</r>";
         /// <summary>Clears the cached level string data. This has to be manually called upon preparation for changes in the level.</summary>
         public void ClearCachedLevelStringData() => cachedLevelString = null;
 
@@ -377,7 +378,7 @@ namespace GDAPI.Objects.GeometryDash.General
 
         private void GetLevelStringInformation(string levelString)
         {
-            string infoString = levelString.Substring(0, levelString.IndexOf(';'));
+            string infoString = levelString.Substring(0, levelString.IndexOf(';', StringComparison.InvariantCulture));
             string[] split = infoString.Split(',');
             for (int i = 0; i < split.Length; i += 2)
                 GetLevelStringParameterInformation(split[i], split[i + 1]);
@@ -388,19 +389,19 @@ namespace GDAPI.Objects.GeometryDash.General
             switch (key)
             {
                 case "kA2": // Gamemode
-                    StartingGamemode = (Gamemode)ToInt32(value);
+                    StartingGamemode = (Gamemode)ParseInt32(value);
                     break;
                 case "kA3": // Player Size
-                    StartingSize = (PlayerSize)ToInt32(value);
+                    StartingSize = (PlayerSize)ParseInt32(value);
                     break;
                 case "kA4": // Speed
-                    StartingSpeed = (Speed)ToInt32(value);
+                    StartingSpeed = (Speed)ParseInt32(value);
                     break;
                 case "kA6": // Background
-                    BackgroundTexture = ToInt32(value);
+                    BackgroundTexture = ParseInt32(value);
                     break;
                 case "kA7": // Ground
-                    GroundTexture = ToInt32(value);
+                    GroundTexture = ParseInt32(value);
                     break;
                 case "kA8": // Dual Mode
                     DualMode = value == "1"; // Seriously the easiest way to determine whether it's true or not
@@ -412,7 +413,7 @@ namespace GDAPI.Objects.GeometryDash.General
                     InversedGravity = value == "1";
                     break;
                 case "kA13": // Song Offset
-                    SongOffset = ToSingle(value);
+                    SongOffset = ParseSingle(value);
                     break;
                 case "kA14": // Guidelines
                     Guidelines = GuidelineCollection.Parse(value);
@@ -424,10 +425,10 @@ namespace GDAPI.Objects.GeometryDash.General
                     FadeOut = value == "1";
                     break;
                 case "kA17": // Ground Line
-                    GroundLine = ToInt32(value);
+                    GroundLine = ParseInt32(value);
                     break;
                 case "kA18": // Font
-                    Font = ToInt32(value);
+                    Font = ParseInt32(value);
                     break;
                 case "kS38": // Color Channel
                     ColorChannels = LevelColorChannels.Parse(value);
@@ -448,7 +449,7 @@ namespace GDAPI.Objects.GeometryDash.General
             switch (key)
             {
                 case "k1": // Level ID
-                    ID = ToInt32(value);
+                    ID = ParseInt32(value);
                     break;
                 case "k2": // Level Name
                     Name = value;
@@ -463,7 +464,7 @@ namespace GDAPI.Objects.GeometryDash.General
                     CreatorName = value;
                     break;
                 case "k8": // Official Song ID
-                    OfficialSongID = ToInt32(value);
+                    OfficialSongID = ParseInt32(value);
                     break;
                 case "k14": // Level Verified Status
                     VerifiedStatus = valueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
@@ -472,40 +473,40 @@ namespace GDAPI.Objects.GeometryDash.General
                     UploadedStatus = valueType == "t /";
                     break;
                 case "k16": // Level Version
-                    Version = ToInt32(value);
+                    Version = ParseInt32(value);
                     break;
                 case "k18": // Level Attempts
-                    Attempts = ToInt32(value);
+                    Attempts = ParseInt32(value);
                     break;
                 case "k41": // Level Password
-                    Password = ToInt32(value) % 1000000; // If it exists, the password is in the form $"1{password}" (example: 1000023 = 0023)
+                    Password = ParseInt32(value) % 1000000; // If it exists, the password is in the form $"1{password}" (example: 1000023 = 0023)
                     break;
                 case "k45": // Custom Song ID
-                    CustomSongID = ToInt32(value);
+                    CustomSongID = ParseInt32(value);
                     break;
                 case "k46": // Level Revision
-                    Revision = ToInt32(value);
+                    Revision = ParseInt32(value);
                     break;
                 case "k50": // Binary Version
-                    BinaryVersion = ToInt32(value);
+                    BinaryVersion = ParseInt32(value);
                     break;
                 case "k79": // Unlisted
                     Unlisted = valueType == "t /";
                     break;
                 case "k80": // Time Spent
-                    BuildTime = ToInt32(value);
+                    BuildTime = ParseInt32(value);
                     break;
                 case "k84": // Level Folder
-                    Folder = ToInt32(value);
+                    Folder = ParseInt32(value);
                     break;
                 case "kI1": // Camera X
-                    CameraX = ToDouble(value);
+                    CameraX = ParseDouble(value);
                     break;
                 case "kI2": // Camera Y
-                    CameraY = ToDouble(value);
+                    CameraY = ParseDouble(value);
                     break;
                 case "kI3": // Camera Zoom
-                    CameraZoom = ToDouble(value);
+                    CameraZoom = ParseDouble(value);
                     break;
                 default: // Not something we care about
                     break;
@@ -516,7 +517,7 @@ namespace GDAPI.Objects.GeometryDash.General
 
         private static string GenerateLevelString(string name, string description, string levelString, string creatorName, int revision)
         {
-            return $"<k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>0</i><k>k50</k><i>35</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r>";
+            return $"<k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{Convert.ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>0</i><k>k50</k><i>35</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r>";
         }
         private static async Task PerformTaskWithInvocableEvent(Task task, Action invocableEvent)
         {

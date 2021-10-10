@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using GDAPI.Enumerations;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.Music
 {
@@ -237,8 +238,8 @@ namespace GDAPI.Objects.Music
         public unsafe static MeasuredDuration Parse(string s)
         {
             var split = s.Split(':');
-            int measures = ToInt32(split[0]);
-            float fraction = ToSingle(split[1]);
+            int measures = ParseInt32(split[0]);
+            float fraction = ParseSingle(split[1]);
             int beats = (int)fraction;
             fraction -= beats;
             return new MeasuredDuration(measures, beats, fraction);
@@ -250,9 +251,9 @@ namespace GDAPI.Objects.Music
         {
             duration = default;
             var split = s.Split(':');
-            if (!int.TryParse(split[0], out int measures))
+            if (!int.TryParse(split[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int measures))
                 return false;
-            if (!float.TryParse(split[1], out float fraction))
+            if (!float.TryParse(split[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float fraction))
                 return false;
             int beats = (int)fraction;
             fraction -= beats;
@@ -270,7 +271,7 @@ namespace GDAPI.Objects.Music
         public static unsafe int CompareByAbsoluteValue(MeasuredDuration left, MeasuredDuration right) => left.all.CompareTo(right.all);
 
         /// <summary>Returns the string representation of this <seealso cref="MeasuredDuration"/> of the form {Measures}:{Beats}.{Fraction}.</summary>
-        public override string ToString() => $"{m}:{b}.{DecimalPartOf(f.ToString("F3"))}";
+        public override string ToString() => $"{m}:{b}.{DecimalPartOf(f.ToString("F3", CultureInfo.InvariantCulture))}";
 
         private static string DecimalPartOf(string s) => s.Substring(s.IndexOf('.') + 1);
     }

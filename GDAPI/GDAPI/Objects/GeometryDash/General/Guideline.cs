@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -60,6 +61,6 @@ namespace GDAPI.Objects.GeometryDash.General
         public bool Equals(Guideline other) => this == other;
         public override bool Equals(object? obj) => obj is Guideline g && Equals(g);
         /// <summary>Converts the <see cref="Guideline"/> to its string representation in the gamesave.</summary>
-        public override string ToString() => $"{TimeStamp}~{Color}";
+        public override string ToString() => $"{TimeStamp.ToString(CultureInfo.InvariantCulture)}~{Color}";
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.Music;
 using GDAPI.Objects.TimingPoints;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.Presets.GuidelineEditor
 {
@@ -101,7 +101,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
             // Intermediate parameters
             currentLineIndex++;
             var split = lines[currentLineIndex].Split('|');
-            var offset = ToDouble(split[0]);
+            var offset = ParseDouble(split[0]);
             var start = MeasuredTimePosition.Parse(split[1]);
             var end = MeasuredTimePosition.Parse(split[2]);
             currentLineIndex++;

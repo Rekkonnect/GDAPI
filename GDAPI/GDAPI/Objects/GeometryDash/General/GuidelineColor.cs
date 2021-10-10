@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -55,10 +57,10 @@ namespace GDAPI.Objects.GeometryDash.General
 
         /// <summary>Parses the <seealso cref="GuidelineColor"/> from a string representation of a <seealso cref="float"/>.</summary>
         /// <param name="s">The string to parse.</param>
-        public static GuidelineColor Parse(string s) => float.Parse(s);
+        public static GuidelineColor Parse(string s) => ParseSingle(s);
 
         /// <summary>Returns the string representation of this <seealso cref="GuidelineColor"/>'s raw color value.</summary>
-        public override string ToString() => col.ToString();
+        public override string ToString() => col.ToString(CultureInfo.InvariantCulture);
         /// <summary>Determines whether this <seealso cref="GuidelineColor"/> equals another object.</summary>
         /// <param name="obj">The other object to determine equality with.</param>
         public override bool Equals(object obj) => col.Equals(((GuidelineColor)obj).col);
