@@ -12,8 +12,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
 
         /// <summary>The Object ID of the Animate trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Animate;
+        public override int ConstantObjectID => (int)TriggerType.Animate;
 
         /// <summary>The target Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]

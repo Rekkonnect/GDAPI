@@ -13,8 +13,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, easingRate;
 
         /// <summary>The Object ID of the Static Camera trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.StaticCamera;
+        public override int ConstantObjectID => (int)TriggerType.StaticCamera;
 
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]

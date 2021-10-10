@@ -14,8 +14,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float fadeIn, hold, fadeOut;
 
         /// <summary>The Object ID of the Pulse trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Pulse;
+        public override int ConstantObjectID => (int)TriggerType.Pulse;
 
         /// <summary>Determines whether this Pulse trigger is targeting a color channel.</summary>
         public bool IsTargetingColorChannel => PulseTargetType == PulseTargetType.ColorChannel;

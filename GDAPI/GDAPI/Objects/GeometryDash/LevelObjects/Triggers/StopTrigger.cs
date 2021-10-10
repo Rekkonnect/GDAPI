@@ -11,8 +11,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
 
         /// <summary>The Object ID of the Stop trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Stop;
+        public override int ConstantObjectID => (int)TriggerType.Stop;
 
         /// <summary>The target Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]

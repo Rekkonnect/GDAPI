@@ -14,8 +14,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, opacity = 1;
 
         /// <summary>The Object ID of the Color trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Color;
+        public override int ConstantObjectID => (int)TriggerType.Color;
 
         /// <summary>Determines whether this color trigger has a constant target Color ID.</summary>
         public virtual bool HasConstantTargetColorID => false;

@@ -11,8 +11,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         private short targetGroupID;
 
         /// <summary>The object ID of the trigger orb.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)OrbType.TriggerOrb;
+        public override int ConstantObjectID => (int)OrbType.TriggerOrb;
 
         /// <summary>Represents the Target Group ID of the trigger orb.</summary>
         [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]

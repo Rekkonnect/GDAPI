@@ -12,8 +12,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, easingRate, moveX, moveY;
 
         /// <summary>The Object ID of the Move trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Move;
+        public override int ConstantObjectID => (int)TriggerType.Move;
 
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]

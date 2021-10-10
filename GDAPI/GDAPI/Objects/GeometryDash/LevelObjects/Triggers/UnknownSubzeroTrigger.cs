@@ -9,8 +9,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
     public class UnknownSubzeroTrigger : Trigger
     {
         /// <summary>The Object ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.UnknownSubzero;
+        public override int ConstantObjectID => (int)TriggerType.UnknownSubzero;
 
         /// <summary>Initializes a new instance of the <seealso cref="UnknownSubzeroTrigger"/> class.</summary>
         public UnknownSubzeroTrigger() : base() { }

@@ -8,8 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPo
     public class FastestSpeedPortal : SpeedPortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the fastest speed portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)PortalType.FastestSpeed;
+        public override int ConstantObjectID => (int)PortalType.FastestSpeed;
 
         /// <summary>The speed this speed portal sets.</summary>
         public override Speed Speed => Speed.Faster;
