@@ -111,10 +111,11 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <returns>The parsed <seealso cref="SongMetadata"/> instance.</returns>
         public static SongMetadata ParseWebsiteData(string data)
         {
-            if (data == "-2") // song "not allowed for use" or not found
-                return Unknown;
-
             var split = data.Split("~|~");
+            // some error code probably, definitely not a valid response
+            if (split.Length < 2)
+                return Unknown;
+            
             var metadata = new SongMetadata();
             for (int i = 0; i < split.Length; i += 2)
                 metadata.SetValue(split[i], split[i + 1]);
