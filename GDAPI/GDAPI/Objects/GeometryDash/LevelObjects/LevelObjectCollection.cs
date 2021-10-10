@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using static GDAPI.Information.GeometryDash.LevelObjectInformation;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
@@ -1636,7 +1636,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                     try
                     {
                         var objectInfo = objectProperties[i];
-                        var instance = LevelObjectFactory.GetNewObjectInstance(ToInt32(objectInfo[1], CultureInfo.InvariantCulture));
+                        var instance = LevelObjectFactory.GetNewObjectInstance(ParseInt32(objectInfo[1]));
                         objects.Add(instance); // Get IDs of the selected objects
                         for (int j = 3; j < objectInfo.Length; j += 2)
                         {
@@ -1644,17 +1644,17 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                             var propertyValue = objectInfo[j];
                             try
                             {
-                                propertyID = ToInt32(objectInfo[j - 1], CultureInfo.InvariantCulture);
+                                propertyID = ParseInt32(objectInfo[j - 1]);
                                 switch (GetPropertyIDAttribute(propertyID).TypeCode)
                                 {
                                     case ObjectPropertyTypeCode.Int:
-                                        instance.SetPropertyWithID(propertyID, ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, ParseInt32(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.Bool:
-                                        instance.SetPropertyWithID(propertyID, ToBoolean(ToInt32(propertyValue, CultureInfo.InvariantCulture)));
+                                        instance.SetPropertyWithID(propertyID, ParseBoolean(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.Double:
-                                        instance.SetPropertyWithID(propertyID, ToDouble(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, ParseDouble(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.String:
                                         instance.SetPropertyWithID(propertyID, propertyValue);
@@ -1666,25 +1666,25 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                                         instance.SetPropertyWithID(propertyID, propertyValue.Split('.').ToInt32Array());
                                         break;
                                     case ObjectPropertyTypeCode.Easing:
-                                        instance.SetPropertyWithID(propertyID, (Easing)ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, (Easing)ParseInt32(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.InstantCountComparison:
-                                        instance.SetPropertyWithID(propertyID, (InstantCountComparison)ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, (InstantCountComparison)ParseInt32(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.PickupItemPickupMode:
-                                        instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ParseInt32(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.PulseMode:
-                                        instance.SetPropertyWithID(propertyID, (PulseMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, (PulseMode)ParseInt32(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.PulseTargetType:
-                                        instance.SetPropertyWithID(propertyID, (PulseTargetType)ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, (PulseTargetType)ParseInt32(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.TargetPosCoordinates:
-                                        instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ParseInt32(propertyValue));
                                         break;
                                     case ObjectPropertyTypeCode.TouchToggleMode:
-                                        instance.SetPropertyWithID(propertyID, (TouchToggleMode)ToInt32(propertyValue, CultureInfo.InvariantCulture));
+                                        instance.SetPropertyWithID(propertyID, (TouchToggleMode)ParseInt32(propertyValue));
                                         break;
                                 }
                             }
