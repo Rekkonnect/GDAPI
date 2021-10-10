@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -56,7 +57,7 @@ namespace GDAPI.Objects.GeometryDash.General
 
         /// <summary>Parses the <seealso cref="GuidelineColor"/> from a string representation of a <seealso cref="float"/>.</summary>
         /// <param name="s">The string to parse.</param>
-        public static GuidelineColor Parse(string s) => float.Parse(s, CultureInfo.InvariantCulture);
+        public static GuidelineColor Parse(string s) => ParseSingle(s);
 
         /// <summary>Returns the string representation of this <seealso cref="GuidelineColor"/>'s raw color value.</summary>
         public override string ToString() => col.ToString(CultureInfo.InvariantCulture);

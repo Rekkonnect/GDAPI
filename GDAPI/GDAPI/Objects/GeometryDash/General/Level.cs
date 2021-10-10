@@ -413,7 +413,7 @@ namespace GDAPI.Objects.GeometryDash.General
                     InversedGravity = value == "1";
                     break;
                 case "kA13": // Song Offset
-                    SongOffset = ParseFloat(value);
+                    SongOffset = ParseSingle(value);
                     break;
                 case "kA14": // Guidelines
                     Guidelines = GuidelineCollection.Parse(value);

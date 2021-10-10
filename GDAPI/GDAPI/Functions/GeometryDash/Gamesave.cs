@@ -57,7 +57,7 @@ namespace GDAPI.Functions.GeometryDash
         {
             try
             {
-                return ls.Substring(ls.IndexOf(';', System.StringComparison.InvariantCulture) + 1);
+                return ls.Substring(ls.IndexOf(';') + 1);
             }
             catch
             {

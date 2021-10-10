@@ -21,6 +21,6 @@ namespace GDAPI.Objects.GeometryDash.IDTypes
         public bool Equals(GroupID other) => ID == other.ID;
         public override bool Equals(object obj) => ((GroupID)obj).ID == ID;
         public override int GetHashCode() => ((IID)this).GetHashCode();
-        public override string ToString() => ID.ToString(CultureInfo.InvariantCulture);
+        public override string ToString() => ID.ToString();
     }
 }

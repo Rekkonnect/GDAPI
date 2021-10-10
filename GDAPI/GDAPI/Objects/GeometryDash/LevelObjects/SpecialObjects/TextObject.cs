@@ -63,13 +63,9 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             while (encodedData.Length % 4 != 0)
                 encodedData += "=";
-
-            byte[] encodedDataAsBytes = FromBase64String(
-                encodedData.Replace('-', '+')
-                           .Replace('_', '/')
-                           .Replace("\0", string.Empty, System.StringComparison.InvariantCulture)
-            );
-
+            
+            byte[] encodedDataAsBytes = FromBase64String(encodedData.Replace('-', '+').Replace('_', '/').Replace("\0", string.Empty));
+            
             return encodedDataAsBytes;
         }
     }

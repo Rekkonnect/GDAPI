@@ -87,7 +87,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
             var timingPoints = new TimingPointList();
 
             var lines = rawData.GetLines().ToList();
-            lines.RemoveAll(s => s.StartsWith("//", System.StringComparison.InvariantCulture));
+            lines.RemoveAll(s => s.StartsWith("//"));
             int currentLineIndex = 0;
             string currentLine;
 

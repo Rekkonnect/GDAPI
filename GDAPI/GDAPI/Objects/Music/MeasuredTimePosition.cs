@@ -271,7 +271,7 @@ namespace GDAPI.Objects.Music
         {
             var split = s.Split(':');
             int measure = ParseInt32(split[0]);
-            float fraction = ParseFloat(split[1]);
+            float fraction = ParseSingle(split[1]);
             int beat = (int)fraction;
             fraction -= beat;
             return new MeasuredTimePosition(measure, beat, fraction);
@@ -285,7 +285,7 @@ namespace GDAPI.Objects.Music
             var split = s.Split(':');
             if (!int.TryParse(split[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int measure))
                 return false;
-            if (!float.TryParse(split[1], NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out float fraction))
+            if (!float.TryParse(split[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float fraction))
                 return false;
             int beat = (int)fraction;
             fraction -= beat;
@@ -297,7 +297,7 @@ namespace GDAPI.Objects.Music
         public static MeasuredTimePosition ParseAsBeatWithFraction(string s)
         {
             var result = new MeasuredTimePosition();
-            result.BeatWithFraction = ParseFloat(s);
+            result.BeatWithFraction = ParseSingle(s);
             return result;
         }
 
@@ -313,6 +313,6 @@ namespace GDAPI.Objects.Music
         /// <summary>Returns the string representation of this <seealso cref="MeasuredTimePosition"/> of the form {Measure}:{Beat}.{Fraction}.</summary>
         public override string ToString() => $"{m}:{b}.{DecimalPartOf(f.ToString("F3", CultureInfo.InvariantCulture))}";
 
-        private static string DecimalPartOf(string s) => s.Substring(s.IndexOf('.', StringComparison.InvariantCulture) + 1);
+        private static string DecimalPartOf(string s) => s.Substring(s.IndexOf('.') + 1);
     }
 }

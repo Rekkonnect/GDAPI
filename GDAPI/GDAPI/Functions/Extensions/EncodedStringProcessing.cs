@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Text;
 
 namespace GDAPI.Functions.Extensions
@@ -33,7 +32,7 @@ namespace GDAPI.Functions.Extensions
         /// <param name="original">The original base64url string to convert.</param>
         public static string ConvertBase64URLToNormal(this string original)
         {
-            var replaced = original.Replace('-', '+').Replace('_', '/').Replace("\0", string.Empty, StringComparison.InvariantCulture);
+            var replaced = original.Replace('-', '+').Replace('_', '/').Replace("\0", string.Empty);
             int remaining = replaced.Length % 4;
             if (remaining > 0)
                 replaced += new string('=', 4 - remaining);
@@ -44,7 +43,7 @@ namespace GDAPI.Functions.Extensions
         /// <returns>The resulting base64url string.</returns>
         public static string ConvertBase64ToBase64URL(this string original)
         {
-            return original.Replace('+', '-').Replace('/', '_').Replace("=", string.Empty, StringComparison.InvariantCulture);
+            return original.Replace('+', '-').Replace('/', '_').Replace("=", string.Empty);
         }
 
         /// <summary>XORs an entire string and returns the result, based on a given encoding.</summary>

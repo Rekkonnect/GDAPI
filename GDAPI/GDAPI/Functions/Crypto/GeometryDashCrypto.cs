@@ -28,7 +28,7 @@ namespace GDAPI.Functions.Crypto
         {
             string replaced = ls.ConvertBase64URLToNormal();
 
-            if (!replaced.StartsWith("H4sIAAAAAAAA", StringComparison.InvariantCulture))
+            if (!replaced.StartsWith("H4sIAAAAAAAA"))
                 throw new ArgumentException("The level string is not valid.");
 
             byte[] gzipb64 = Convert.FromBase64String(replaced);

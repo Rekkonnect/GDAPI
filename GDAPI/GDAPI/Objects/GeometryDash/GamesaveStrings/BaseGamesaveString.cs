@@ -25,7 +25,7 @@ namespace GDAPI.Objects.GeometryDash.GamesaveStrings
                 int checks = 0;
                 var samples = GetUnencryptedSamples();
                 for (int i = 0; i < samples.Length; i++)
-                    if (RawString.Contains(samples[i], System.StringComparison.InvariantCulture))
+                    if (RawString.Contains(samples[i]))
                         checks++;
                 return checks != samples.Length;
             }
