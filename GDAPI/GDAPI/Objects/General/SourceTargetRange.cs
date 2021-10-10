@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.General
 {
@@ -164,7 +164,7 @@ namespace GDAPI.Objects.General
                     while (split[i, j].Last() == ' ')
                         split[i, j] = split[i, j].Remove(split[i, j].Length - 1, 1);
                 }
-            return new SourceTargetRange(ToInt32(split[0, 0]), ToInt32(split[0, length1 - 1]), ToInt32(split[1, 0]));
+            return new SourceTargetRange(ParseInt32(split[0, 0]), ParseInt32(split[0, length1 - 1]), ParseInt32(split[1, 0]));
         }
         /// <summary>Loads a number of <seealso cref="SourceTargetRange"/>s from a string array.</summary>
         /// <param name="lines">The lines to load the <seealso cref="SourceTargetRange"/>s from.</param>

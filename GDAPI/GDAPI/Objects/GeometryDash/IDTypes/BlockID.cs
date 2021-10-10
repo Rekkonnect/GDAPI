@@ -1,5 +1,6 @@
 ﻿using GDAPI.Enumerations.GeometryDash;
 using System;
+using System.Globalization;
 
 namespace GDAPI.Objects.GeometryDash.IDTypes
 {
@@ -21,6 +22,6 @@ namespace GDAPI.Objects.GeometryDash.IDTypes
         public bool Equals(BlockID other) => ID == other.ID;
         public override bool Equals(object obj) => ((BlockID)obj).ID == ID;
         public override int GetHashCode() => ((IID)this).GetHashCode();
-        public override string ToString() => ID.ToString();
+        public override string ToString() => ID.ToString(CultureInfo.InvariantCulture);
     }
 }

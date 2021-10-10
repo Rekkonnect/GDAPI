@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace GDAPI.Functions.Extensions
 {
@@ -15,12 +16,12 @@ namespace GDAPI.Functions.Extensions
             {
                 int lastShownValue = s[0];
                 int lastValueInCombo = s[0];
-                result += lastShownValue.ToString();
+                result += lastShownValue.ToString(CultureInfo.InvariantCulture);
                 for (int i = 0; i < s.Length; i++)
                 {
                     if (s[i] > lastValueInCombo) // Determines whether the next value is not in a row
                     {
-                        result += (result[result.Length - 1] == '-' ? s[i - 1].ToString() : "") + ", " + s[i].ToString();
+                        result += (result[result.Length - 1] == '-' ? s[i - 1].ToString(CultureInfo.InvariantCulture) : "") + ", " + s[i].ToString(CultureInfo.InvariantCulture);
                         lastValueInCombo = lastShownValue = s[i] + 1;
                     }
                     else if (s[i] == lastValueInCombo) // Determines whether the next value is in a row
@@ -31,7 +32,7 @@ namespace GDAPI.Functions.Extensions
                                 result += "-";
                         }
                         else if (i == s.Length - 1) // Determines whether the current index is the last value
-                            result += s[i].ToString();
+                            result += s[i].ToString(CultureInfo.InvariantCulture);
                         lastValueInCombo = s[i] + 1; // Set the last index in the combo to the current index
                     }
                 }

@@ -17,5 +17,9 @@ namespace GDAPI.Functions.General
         /// <param name="value">The value to parse.</param>
         /// <returns>The represented value.</returns>
         public static bool ParseBoolean(string value) => value is not "0";
+        /// <summary>Parses a <seealso cref="float"/> out of its string representation as found in GD-related content.</summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The represented value.</returns>
+        public static float ParseFloat(string value) => float.Parse(value, CultureInfo.InvariantCulture);
     }
 }

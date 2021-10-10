@@ -8,6 +8,7 @@ using GDAPI.Objects.GeometryDash.Reflection;
 using GDAPI.Objects.Reflection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using static System.Convert;
@@ -541,7 +542,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             // TODO: Consider caching the object type names?
             var words = GetType().Name.GetPascalCaseWords();
             if (lowerLastWord)
-                words[words.Length - 1] = words[words.Length - 1].ToLower();
+                words[words.Length - 1] = words[words.Length - 1].ToLower(CultureInfo.InvariantCulture);
             return words.Combine(" ");
         }
 
@@ -612,7 +613,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             switch (thing)
             {
                 case bool b:
-                    return ToInt32(b).ToString();
+                    return ToInt32(b, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
                 case int[] a:
                     var s = new StringBuilder();
                     for (int i = 0; i < a.Length; i++)
@@ -621,7 +622,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                         s.Remove(s.Length - 1, 1);
                     return s.ToString();
                 case Enum _:
-                    return ToInt32(thing).ToString();
+                    return ToInt32(thing, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
                 // Please tell me there are no more things that break
             }
             return thing.ToString();

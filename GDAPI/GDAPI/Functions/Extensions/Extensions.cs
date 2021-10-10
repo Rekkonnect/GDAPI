@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace GDAPI.Functions.Extensions
@@ -231,7 +232,7 @@ namespace GDAPI.Functions.Extensions
         {
             int[] ar = new int[s.Length];
             for (int i = 0; i < s.Length; i++)
-                ar[i] = Convert.ToInt32(s[i]);
+                ar[i] = Convert.ToInt32(s[i], CultureInfo.InvariantCulture);
             return ar;
         }
         public static int[,] ToInt32Array(this string[,] s)
@@ -241,7 +242,7 @@ namespace GDAPI.Functions.Extensions
             int[,] ar = new int[a, b];
             for (int i = 0; i < a; i++)
                 for (int j = 0; j < b; j++)
-                    ar[a, b] = Convert.ToInt32(s[a, b]);
+                    ar[a, b] = Convert.ToInt32(s[a, b], CultureInfo.InvariantCulture);
             return ar;
         }
         public static double[,] ToDoubleArray(this string[,] s)
@@ -251,14 +252,14 @@ namespace GDAPI.Functions.Extensions
             double[,] ar = new double[a, b];
             for (int i = 0; i < a; i++)
                 for (int j = 0; j < b; j++)
-                    ar[i, j] = Convert.ToDouble(s[i, j]);
+                    ar[i, j] = Convert.ToDouble(s[i, j], CultureInfo.InvariantCulture);
             return ar;
         }
         public static decimal[] ToDecimalArray(this string[] s)
         {
             decimal[] ar = new decimal[s.Length];
             for (int i = 0; i < s.Length; i++)
-                ar[i] = Convert.ToDecimal(s[i]);
+                ar[i] = Convert.ToDecimal(s[i], CultureInfo.InvariantCulture);
             return ar;
         }
         public static decimal[,] ToDecimalArray(this string[,] s)
@@ -268,21 +269,21 @@ namespace GDAPI.Functions.Extensions
             decimal[,] ar = new decimal[a, b];
             for (int i = 0; i < a; i++)
                 for (int j = 0; j < b; j++)
-                    ar[i, j] = Convert.ToDecimal(s[i, j]);
+                    ar[i, j] = Convert.ToDecimal(s[i, j], CultureInfo.InvariantCulture);
             return ar;
         }
         public static bool[] ToBooleanArray(this string[] s)
         {
             bool[] ar = new bool[s.Length];
             for (int i = 0; i < s.Length; i++)
-                ar[i] = Convert.ToBoolean(s[i]);
+                ar[i] = Convert.ToBoolean(s[i], CultureInfo.InvariantCulture);
             return ar;
         }
         public static bool[] ToBooleanArray(this int[] a)
         {
             bool[] ar = new bool[a.Length];
             for (int i = 0; i < a.Length; i++)
-                ar[i] = Convert.ToBoolean(a[i]);
+                ar[i] = Convert.ToBoolean(a[i], CultureInfo.InvariantCulture);
             return ar;
         }
         public static string[] ToStringArray<T>(this T[] a)
@@ -308,7 +309,7 @@ namespace GDAPI.Functions.Extensions
         {
             var result = new List<int>();
             for (int i = 0; i < s.Length; i++)
-                result.Add(Convert.ToInt32(s[i]));
+                result.Add(Convert.ToInt32(s[i], CultureInfo.InvariantCulture));
             return result;
         }
     }

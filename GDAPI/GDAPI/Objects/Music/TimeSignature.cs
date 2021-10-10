@@ -1,7 +1,7 @@
 ﻿using GDAPI.Functions.Extensions;
 using System;
 using System.Runtime.InteropServices;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.Music
 {
@@ -70,7 +70,7 @@ namespace GDAPI.Objects.Music
         public static TimeSignature Parse(string s)
         {
             var split = s.Split('/');
-            return new TimeSignature(ToInt32(split[0]), ToInt32(split[1]));
+            return new TimeSignature(ParseInt32(split[0]), ParseInt32(split[1]));
         }
         /// <summary>Attempts to parse a string into a <seealso cref="TimeSignature"/>. Returns a <seealso cref="bool"/> determining whether the operation succeeded.</summary>
         /// <param name="s">The string to attempt parsing.</param>

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static GDAPI.Functions.GeometryDash.Gamesave;
+using static GDAPI.Functions.General.Parsing;
 using static GDAPI.Objects.GeometryDash.LevelObjects.LevelObjectCollection;
 using static System.Environment;
 
@@ -322,7 +323,7 @@ namespace GDAPI.Application
         public void ImportLevel(string level, bool initializeLoading = true)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
-                RawDecryptedLevelDataString = RawDecryptedLevelDataString.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
+                RawDecryptedLevelDataString = RawDecryptedLevelDataString.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>", StringComparison.InvariantCulture);
             level = RemoveLevelIndexKey(level); // Remove the index key of the level
             RawDecryptedLevelDataString = RawDecryptedLevelDataString.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
             int clonedLevelLength = level.Length + 10; // The length of the inserted level
@@ -572,7 +573,7 @@ namespace GDAPI.Application
             string[] split;
             List<int> nums = new List<int>();
             for (int i = 0; i < UserLevelCount; i++)
-                if ((name = UserLevels[i].Name).Contains("Unnamed ") && (split = name.Split(' ')).Length == 2 && int.TryParse(split[1], out int k))
+                if ((name = UserLevels[i].Name).Contains("Unnamed ", StringComparison.InvariantCulture) && (split = name.Split(' ')).Length == 2 && int.TryParse(split[1], out int k))
                     nums.Add(k);
             return nums.GetNextAvailableNumber();
         }
@@ -655,7 +656,7 @@ namespace GDAPI.Application
                 while ((currentIndex = RawDecryptedGamesaveString.Find("<k>", currentIndex, foldersEndIndex) + 3) > 2)
                 {
                     int endingIndex = RawDecryptedGamesaveString.Find("</k>", currentIndex, foldersEndIndex);
-                    int folderIndex = int.Parse(RawDecryptedGamesaveString.Substring(currentIndex, endingIndex - currentIndex));
+                    int folderIndex = ParseInt32(RawDecryptedGamesaveString.Substring(currentIndex, endingIndex - currentIndex));
                     int folderNameStartIndex = endingIndex + 7;
                     int folderNameEndIndex = RawDecryptedGamesaveString.Find("</s>", folderNameStartIndex, foldersEndIndex);
                     FolderNames.Add(folderIndex, RawDecryptedGamesaveString.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));

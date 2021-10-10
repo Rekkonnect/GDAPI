@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -165,7 +166,7 @@ namespace GDAPI.Functions.Extensions
             while (i > 0 && s[i - 1].IsNumber())
                 i--;
             if (i < s.Length)
-                return int.Parse(s.Substring(i));
+                return int.Parse(s.Substring(i), CultureInfo.InvariantCulture);
             throw new ArgumentException("The string has no number in the end.");
         }
         /// <summary>Removes the number found in the end of the string.</summary>
@@ -210,8 +211,8 @@ namespace GDAPI.Functions.Extensions
         {
             if (s.Length == 0)
                 return true;
-            var splitA = s.ToLower().Split(' ');
-            var splitB = target.ToLower().Split(' ');
+            var splitA = s.ToLower(CultureInfo.InvariantCulture).Split(' ');
+            var splitB = target.ToLower(CultureInfo.InvariantCulture).Split(' ');
             int difference = splitB.Length - splitA.Length;
             bool valid = true;
             if (difference >= 0)
@@ -283,12 +284,12 @@ namespace GDAPI.Functions.Extensions
         /// <param name="s">The string whose substring to return.</param>
         /// <param name="from">The beginning matching string to begin the substring from.</param>
         /// <param name="includeMatched">Determines whether the matched string will be included in the result. It is <see langword="true"/> by default.</param>
-        public static string SubstringFrom(this string s, string from, bool includeMatched = true) => s.Substring(s.IndexOf(from) + (includeMatched ? 0 : from.Length));
+        public static string SubstringFrom(this string s, string from, bool includeMatched = true) => s.Substring(s.IndexOf(from, StringComparison.InvariantCulture) + (includeMatched ? 0 : from.Length));
         /// <summary>Returns a substring from the start until the first instance of the ending matched string, optionally including the matched string.</summary>
         /// <param name="s">The string whose substring to return.</param>
         /// <param name="until">The ending matching string to end the substring at.</param>
         /// <param name="includeMatched">Determines whether the matched string will be included in the result. It is <see langword="true"/> by default.</param>
-        public static string SubstringUntil(this string s, string until, bool includeMatched = true) => s.Substring(0, s.IndexOf(until) + (includeMatched ? until.Length : 0));
+        public static string SubstringUntil(this string s, string until, bool includeMatched = true) => s.Substring(0, s.IndexOf(until, StringComparison.InvariantCulture) + (includeMatched ? until.Length : 0));
         /// <summary>Replaces a part of the string with a new one.</summary>
         /// <param name="originalString">The original string.</param>
         /// <param name="stringToReplaceWith">The new string to replace to the part of the original one.</param>
@@ -368,7 +369,7 @@ namespace GDAPI.Functions.Extensions
         {
             if (s.Length != match.Length)
                 return false;
-            return s.ToLower() == match.ToLower();
+            return s.ToLower(CultureInfo.InvariantCulture) == match.ToLower(CultureInfo.InvariantCulture);
         }
         #endregion
         #endregion
@@ -406,7 +407,7 @@ namespace GDAPI.Functions.Extensions
         public static string[] Replace(this string[] a, string oldString, string newString)
         {
             for (int i = 0; i < a.Length; i++)
-                a[i] = a[i].Replace(oldString, newString);
+                a[i] = a[i].Replace(oldString, newString, StringComparison.InvariantCulture);
             return a;
         }
         /// <summary>Replaces whole words of the strings of an array of strings and returns the new array.</summary>
@@ -430,7 +431,7 @@ namespace GDAPI.Functions.Extensions
             if (a == null)
                 return false;
             for (int i = 0; i < a.Length; i++)
-                if (a[i].Contains(match))
+                if (a[i].Contains(match, StringComparison.InvariantCulture))
                     return true;
             return false;
         }

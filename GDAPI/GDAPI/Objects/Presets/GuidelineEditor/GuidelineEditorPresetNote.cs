@@ -1,6 +1,7 @@
 ﻿using System;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.Music;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.Presets.GuidelineEditor
 {
@@ -26,7 +27,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         public static GuidelineEditorPresetNote Parse(string rawData)
         {
             var m = rawData.Split(':');
-            return new GuidelineEditorPresetNote(MeasuredTimePosition.ParseAsBeatWithFraction(m[0]), float.Parse(m[1]));
+            return new GuidelineEditorPresetNote(MeasuredTimePosition.ParseAsBeatWithFraction(m[0]), ParseFloat(m[1]));
         }
 
         /// <summary>Compares this <seealso cref="GuidelineEditorPresetNote"/> with another and returns the comparison result based on their positions' <seealso cref="MeasuredTimePosition.BeatWithFraction"/>.</summary>

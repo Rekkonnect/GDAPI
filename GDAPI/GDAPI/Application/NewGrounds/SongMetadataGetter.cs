@@ -1,6 +1,7 @@
 ﻿using GDAPI.Objects.GeometryDash.General;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -54,7 +55,7 @@ namespace GDAPI.Application.Newgrounds
         /// <returns>The <seealso cref="FormUrlEncodedContent"/> that was generated.</returns>
         public static FormUrlEncodedContent GetFormContentForRequest(int id)
         {
-            return new FormUrlEncodedContent(new Dictionary<string, string> { { "songID", id.ToString() }, { "secret", "Wmfd2893gb7" } });
+            return new FormUrlEncodedContent(new Dictionary<string, string> { { "songID", id.ToString(CultureInfo.InvariantCulture) }, { "secret", "Wmfd2893gb7" } });
         }
     }
 }
