@@ -49,7 +49,7 @@ namespace GDAPI.Network
         /// <param name="client">The HTTP Client to be using.</param>
         /// <typeparam name="T">The type to convert to when done.</typeparam>
         public T MakeRequest<T>(HttpClient client)
-            where T : WebResult
+            where T : WebResult, new()
         {
             if (client == null)
                 throw new NullReferenceException();
@@ -60,7 +60,7 @@ namespace GDAPI.Network
             
             body.Dispose();
             
-            var webResult = Activator.CreateInstance(typeof(T)) as WebResult;
+            var webResult = new T();
             webResult.ParseWebResponse(result);
             webResult.StatusCode = response.StatusCode;
 
