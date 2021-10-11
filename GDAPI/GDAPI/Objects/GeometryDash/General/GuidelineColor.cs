@@ -19,7 +19,7 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>An instance of the green guideline color.</summary>
         public static readonly GuidelineColor Green = new GuidelineColor(GreenValue);
 
-        private float col;
+        private readonly float col;
 
         /// <summary>Determines whether the guideline color is orange.</summary>
         public bool IsOrange => col == 0 || (col >= 0.8 && col != YellowValue && col != GreenValue);

@@ -14,7 +14,7 @@ namespace GDAPI.Tests.Objects.GeometryDash
 {
     public class LevelObjectIDUsageTests
     {
-        private int[] groupIDs = new int[] { 4, 1, 412, 3 };
+        private readonly int[] groupIDs = new int[] { 4, 1, 412, 3 };
 
         [Test]
         public void GetUsedIDs()

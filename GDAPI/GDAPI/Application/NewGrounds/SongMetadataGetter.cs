@@ -12,7 +12,7 @@ namespace GDAPI.Application.Newgrounds
     {
         private readonly HttpClient client = new HttpClient();
 
-        private Task<SongMetadata> getSongMetadataTask;
+        private readonly Task<SongMetadata> getSongMetadataTask;
 
         /// <summary>Gets the status of the song metadata retrieval task.</summary>
         public TaskStatus Status => getSongMetadataTask?.Status ?? (TaskStatus)(-1);

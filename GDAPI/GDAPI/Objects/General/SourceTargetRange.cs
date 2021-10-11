@@ -233,7 +233,7 @@ namespace GDAPI.Objects.General
 
         private class SourceTargetRangeEnumerator : IEnumerator<SourceTargetPair>
         {
-            private SourceTargetRange range;
+            private readonly SourceTargetRange range;
             private int offset = -1;
 
             public SourceTargetPair Current => range.GetSourceTargetPairAt(offset);

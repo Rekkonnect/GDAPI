@@ -15,14 +15,14 @@ namespace GDAPI.Tests.Application.Editors
 {
     public class IDMigrationTests
     {
-        private GeneralObject[] normalBlocks = new GeneralObject[5];
-        private MoveTrigger[] moveTriggers = new MoveTrigger[5];
-        private PickupItem[] pickupItems = new PickupItem[5];
-        private PickupTrigger[] pickupTriggers = new PickupTrigger[5];
-        private ColorTrigger[] colorTriggers = new ColorTrigger[5];
-        private InstantCountTrigger[] instantCountTriggers = new InstantCountTrigger[5];
-        private CollisionBlock[] collisionBlocks = new CollisionBlock[5];
-        private CollisionTrigger[] collisionTriggers = new CollisionTrigger[5];
+        private readonly GeneralObject[] normalBlocks = new GeneralObject[5];
+        private readonly MoveTrigger[] moveTriggers = new MoveTrigger[5];
+        private readonly PickupItem[] pickupItems = new PickupItem[5];
+        private readonly PickupTrigger[] pickupTriggers = new PickupTrigger[5];
+        private readonly ColorTrigger[] colorTriggers = new ColorTrigger[5];
+        private readonly InstantCountTrigger[] instantCountTriggers = new InstantCountTrigger[5];
+        private readonly CollisionBlock[] collisionBlocks = new CollisionBlock[5];
+        private readonly CollisionTrigger[] collisionTriggers = new CollisionTrigger[5];
 
         private LevelObjectCollection allObjects;
         private Level level;

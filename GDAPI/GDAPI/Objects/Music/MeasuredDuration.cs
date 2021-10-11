@@ -20,7 +20,7 @@ namespace GDAPI.Objects.Music
         private float f;
 
         [FieldOffset(0)]
-        private ulong all;
+        private readonly ulong all;
 
         /// <summary>The measures of the duration.</summary>
         public int Measures

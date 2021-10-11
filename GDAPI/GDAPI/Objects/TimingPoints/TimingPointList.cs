@@ -13,7 +13,7 @@ namespace GDAPI.Objects.TimingPoints
     /// <summary>Contains a list of <seealso cref="TimingPoint"/>s.</summary>
     public class TimingPointList : IEnumerable<TimingPoint>
     {
-        private SortedList<TimingPoint> timingPoints;
+        private readonly SortedList<TimingPoint> timingPoints;
 
         /// <summary>Gets the count of timing points in this <seealso cref="TimingPointList"/>.</summary>
         public int Count => timingPoints.Count;

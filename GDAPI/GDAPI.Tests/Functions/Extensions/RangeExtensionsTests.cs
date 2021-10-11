@@ -8,9 +8,9 @@ namespace GDAPI.Tests.Functions.Extensions
 {
     public class RangeExtensionsTests
     {
-        private List<Range> unsortedRanges = new List<Range> { 0..4, 7..12, 12..15, 1..3, 2..3, 0..1, 16..23, 17..18, 8..10 };
-        private List<int> sortedRangeStarts = new List<int> { 0, 0, 1, 2, 7, 8, 12, 16, 17 };
-        private List<Range> mergedRanges = new List<Range> { 0..4, 7..15, 16..23 };
+        private readonly List<Range> unsortedRanges = new List<Range> { 0..4, 7..12, 12..15, 1..3, 2..3, 0..1, 16..23, 17..18, 8..10 };
+        private readonly List<int> sortedRangeStarts = new List<int> { 0, 0, 1, 2, 7, 8, 12, 16, 17 };
+        private readonly List<Range> mergedRanges = new List<Range> { 0..4, 7..15, 16..23 };
 
         private List<Range<int>> unsortedGenericRanges, mergedGenericRanges;
 

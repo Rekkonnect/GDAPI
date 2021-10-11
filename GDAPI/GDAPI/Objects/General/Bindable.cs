@@ -13,7 +13,7 @@ namespace GDAPI.Objects.General
         // No circular dependency checks are being performed.
 
         private T val;
-        private HashSet<Bindable<T>> linked = new HashSet<Bindable<T>>();
+        private readonly HashSet<Bindable<T>> linked = new HashSet<Bindable<T>>();
 
         /// <summary>Gets or sets the value of this <seealso cref="Bindable{T}"/>. Setting the bindable's value to a different value causes all the bindables that are bound to this one to have their value changed to this one. No circular dependency checks are being performed, so you're fucked if you try out anything crazy.</summary>
         public T Value

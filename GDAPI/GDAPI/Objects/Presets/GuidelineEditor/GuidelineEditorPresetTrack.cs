@@ -13,7 +13,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
     public class GuidelineEditorPresetTrack : IEnumerable<GuidelineEditorPresetEvent>
     {
         /// <summary>The events of the track.</summary>
-        private SortedList<GuidelineEditorPresetEvent> events;
+        private readonly SortedList<GuidelineEditorPresetEvent> events;
 
         /// <summary>Gets the unique patterns that are used in this track.</summary>
         public HashSet<GuidelineEditorPresetPattern> UniquePatterns => new HashSet<GuidelineEditorPresetPattern>(events.Select(e => e.EventPatternInfo.Pattern));

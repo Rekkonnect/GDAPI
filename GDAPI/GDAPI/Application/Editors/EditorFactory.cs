@@ -11,7 +11,7 @@ namespace GDAPI.Application.Editors
     {
         protected static readonly Type[] pluggableEditorConstructorParameterTypes = new Type[] { typeof(Bindable<Editor>) };
 
-        private static Dictionary<Type, PluggableEditorConstructor> constructors = new Dictionary<Type, PluggableEditorConstructor>();
+        private static readonly Dictionary<Type, PluggableEditorConstructor> constructors = new Dictionary<Type, PluggableEditorConstructor>();
 
         static EditorFactory()
         {

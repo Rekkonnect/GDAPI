@@ -16,8 +16,8 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
     /// <summary>Represents a color channel in a level.</summary>
     public class ColorChannel : IEquatable<ColorChannel>
     {
-        private static PropertyInfo[] properties = typeof(ColorChannel).GetProperties();
-        private static Dictionary<int, PropertyInfo> mappableProperties = properties.MapCustomAttributesToMembers<PropertyInfo, ColorStringMappableAttribute, int>(ColorStringMappableAttribute.GetKey);
+        private static readonly PropertyInfo[] properties = typeof(ColorChannel).GetProperties();
+        private static readonly Dictionary<int, PropertyInfo> mappableProperties = properties.MapCustomAttributesToMembers<PropertyInfo, ColorStringMappableAttribute, int>(ColorStringMappableAttribute.GetKey);
 
         private byte red, green, blue;
         private short colorChannelID, copiedColorID;

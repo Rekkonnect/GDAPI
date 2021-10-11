@@ -22,7 +22,7 @@ namespace GDAPI.Objects.Music
         private float f;
 
         [FieldOffset(0)]
-        private ulong all;
+        private readonly ulong all;
 
         /// <summary>The 1-indexed measure of the time position.</summary>
         public int Measure

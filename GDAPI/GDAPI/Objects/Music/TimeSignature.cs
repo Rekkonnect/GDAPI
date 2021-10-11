@@ -15,7 +15,7 @@ namespace GDAPI.Objects.Music
         private ushort d;
 
         [FieldOffset(0)]
-        private uint all;
+        private readonly uint all;
 
         /// <summary>The beats of the time signature.</summary>
         public int Beats

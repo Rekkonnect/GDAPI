@@ -9,7 +9,7 @@ namespace GDAPI.Objects.GeometryDash.ObjectHitboxes
     /// <summary>Represents a dictionary that contains <seealso cref="ObjectHitboxDefinition"/>s and encapsulates useful manipulation functions. All definitions are unique per value, which means that object IDs and hitboxes have to be unique across the entire dictionary.</summary>
     public class ObjectHitboxDefinitionDictionary : IDictionary<List<int>, Hitbox>, ICollection<ObjectHitboxDefinition>
     {
-        private List<ObjectHitboxDefinition> list;
+        private readonly List<ObjectHitboxDefinition> list;
         private List<int> allIDs;
 
         /// <summary>Determines whether the dictionary is read only (it's not).</summary>
@@ -292,7 +292,7 @@ namespace GDAPI.Objects.GeometryDash.ObjectHitboxes
         private class Enumerator : IEnumerator<ObjectHitboxDefinition>
         {
             private int index;
-            private ObjectHitboxDefinitionDictionary dictionary;
+            private readonly ObjectHitboxDefinitionDictionary dictionary;
 
             object IEnumerator.Current => dictionary.list[index];
             public ObjectHitboxDefinition Current => dictionary.list[index];
@@ -306,7 +306,7 @@ namespace GDAPI.Objects.GeometryDash.ObjectHitboxes
         private class KVPEnumerator : IEnumerator<KeyValuePair<List<int>, Hitbox>>
         {
             private int index;
-            private ObjectHitboxDefinitionDictionary dictionary;
+            private readonly ObjectHitboxDefinitionDictionary dictionary;
             private ObjectHitboxDefinition current => dictionary.list[index];
 
             object IEnumerator.Current => dictionary.list[index];

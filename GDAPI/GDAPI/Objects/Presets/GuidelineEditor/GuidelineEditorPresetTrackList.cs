@@ -10,7 +10,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
     /// <summary>Contains a list of <seealso cref="GuidelineEditorPresetTrack"/>s.</summary>
     public class GuidelineEditorPresetTrackList : IEnumerable<GuidelineEditorPresetTrack>
     {
-        private List<GuidelineEditorPresetTrack> tracks;
+        private readonly List<GuidelineEditorPresetTrack> tracks;
 
         /// <summary>Gets the unique patterns that are used in this track.</summary>
         public HashSet<GuidelineEditorPresetPattern> UniquePatterns

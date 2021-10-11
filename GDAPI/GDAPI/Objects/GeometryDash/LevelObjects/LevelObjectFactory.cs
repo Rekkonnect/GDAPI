@@ -16,8 +16,8 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 {
     public static class LevelObjectFactory
     {
-        private static Type[] objectTypes;
-        private static Dictionary<int, Type> propertyTypeInfo;
+        private static readonly Type[] objectTypes;
+        private static readonly Dictionary<int, Type> propertyTypeInfo;
         private static readonly ObjectTypeInfoDictionary objectTypeDictionary;
 
         static LevelObjectFactory()
