@@ -13,6 +13,6 @@
         protected override string[] GetUnencryptedSamples() => samples;
 
         public static implicit operator string(LevelDataString s) => s.RawString;
-        public static explicit operator LevelDataString(string s) => new LevelDataString(s);
+        public static explicit operator LevelDataString(string s) => new(s);
     }
 }

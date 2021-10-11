@@ -15,7 +15,7 @@ namespace GDAPI.Objects.GeometryDash.IDTypes
         public static bool operator ==(BlockID left, BlockID right) => left.Equals(right);
         public static bool operator !=(BlockID left, BlockID right) => !(left == right);
 
-        public static implicit operator BlockID(int value) => new BlockID(value);
+        public static implicit operator BlockID(int value) => new(value);
         public static explicit operator int(BlockID value) => value.ID;
 
         public bool Equals(BlockID other) => ID == other.ID;

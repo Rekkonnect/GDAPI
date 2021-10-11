@@ -10,7 +10,7 @@ namespace GDAPI.Objects.Music
     public struct MeasuredDuration : IComparable<MeasuredDuration>
     {
         /// <summary>Represents the absolute zero duration.</summary>
-        public static readonly MeasuredDuration Zero = new MeasuredDuration(0);
+        public static readonly MeasuredDuration Zero = new(0);
 
         [FieldOffset(6)]
         private short m;
@@ -164,7 +164,7 @@ namespace GDAPI.Objects.Music
         }
 
         /// <summary>Clones this instance of <seealso cref="MeasuredDuration"/> and returns the new one.</summary>
-        public MeasuredDuration Clone() => new MeasuredDuration(all);
+        public MeasuredDuration Clone() => new(all);
 
         /// <summary>Resets the beat fraction to 0.</summary>
         public void ResetBeatFraction() => f = 0;

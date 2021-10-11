@@ -10,9 +10,9 @@ namespace GDAPI.Objects.Music
     public struct MeasuredTimePosition : IComparable<MeasuredTimePosition>
     {
         /// <summary>Denotes the starting position of a musical composition.</summary>
-        public static readonly MeasuredTimePosition Start = new MeasuredTimePosition(1, 1, 0);
+        public static readonly MeasuredTimePosition Start = new(1, 1, 0);
         /// <summary>A standarized constant that denotes the ending position of a musical composition, without knowing its length.</summary>
-        public static readonly MeasuredTimePosition UnknownEnd = new MeasuredTimePosition(short.MinValue, (short)0, 0);
+        public static readonly MeasuredTimePosition UnknownEnd = new(short.MinValue, (short)0, 0);
 
         [FieldOffset(6)]
         private short m;
@@ -193,7 +193,7 @@ namespace GDAPI.Objects.Music
         }
 
         /// <summary>Clones this instance of <seealso cref="MeasuredTimePosition"/> and returns the new one.</summary>
-        public MeasuredTimePosition Clone() => new MeasuredTimePosition(all);
+        public MeasuredTimePosition Clone() => new(all);
 
         /// <summary>Resets the beat fraction to 0, which is the start of the beat.</summary>
         public void ResetToBeatStart() => f = 0;

@@ -10,7 +10,7 @@ namespace GDAPI.Application.Newgrounds
     /// <summary>Handles <seealso cref="SongMetadata"/> retrieval for the specified song ID.</summary>
     public class SongMetadataGetter : IDisposable
     {
-        private readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client = new();
 
         private readonly Task<SongMetadata> getSongMetadataTask;
 

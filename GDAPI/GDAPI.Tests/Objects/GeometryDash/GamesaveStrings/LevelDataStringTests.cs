@@ -6,6 +6,6 @@ namespace GDAPI.Tests.Objects.GeometryDash.GamesaveStrings
     {
         protected override string FileType => "CCLocalLevels";
 
-        protected override LevelDataString GetNewInstance(string s) => new LevelDataString(s);
+        protected override LevelDataString GetNewInstance(string s) => new(s);
     }
 }

@@ -26,11 +26,11 @@ namespace GDAPI.Application
         public string DefaultDescription;
 
         /// <summary>The temporarily stored undoable action that is to be registered upon completing an operation.</summary>
-        public UndoableAction TemporaryUndoableAction = new UndoableAction();
+        public UndoableAction TemporaryUndoableAction = new();
         /// <summary>The stack that contains all actions that are to be undone.</summary>
-        public readonly Stack<UndoableAction> UndoStack = new Stack<UndoableAction>();
+        public readonly Stack<UndoableAction> UndoStack = new();
         /// <summary>The stack that contains all actions that are to be redone.</summary>
-        public readonly Stack<UndoableAction> RedoStack = new Stack<UndoableAction>();
+        public readonly Stack<UndoableAction> RedoStack = new();
 
         /// <summary>Initializes a new instance of the <seealso cref="UndoRedoSystem"/> class.</summary>
         /// <param name="defaultDescription">The default description for the undoable actions.</param>

@@ -12,6 +12,6 @@
         public DecryptionResult(bool success, string decryptedText)
             : base(success, decryptedText) { }
 
-        public static explicit operator DecryptionResult((bool Success, string ResultingText) tuple) => new DecryptionResult(tuple.Success, tuple.ResultingText);
+        public static explicit operator DecryptionResult((bool Success, string ResultingText) tuple) => new(tuple.Success, tuple.ResultingText);
     }
 }

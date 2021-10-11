@@ -13,11 +13,11 @@ namespace GDAPI.Objects.GeometryDash.General
         public const float GreenValue = 1f;
 
         /// <summary>An instance of the orange guideline color.</summary>
-        public static readonly GuidelineColor Orange = new GuidelineColor(OrangeValue);
+        public static readonly GuidelineColor Orange = new(OrangeValue);
         /// <summary>An instance of the yellow guideline color.</summary>
-        public static readonly GuidelineColor Yellow = new GuidelineColor(YellowValue);
+        public static readonly GuidelineColor Yellow = new(YellowValue);
         /// <summary>An instance of the green guideline color.</summary>
-        public static readonly GuidelineColor Green = new GuidelineColor(GreenValue);
+        public static readonly GuidelineColor Green = new(GreenValue);
 
         private readonly float col;
 
@@ -42,9 +42,9 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <param name="other">The other <seealso cref="GuidelineColor"/> to compare this to.</param>
         public int CompareTo(GuidelineColor other) => col.CompareTo(other.col);
 
-        public static implicit operator GuidelineColor(float color) => new GuidelineColor(color);
-        public static implicit operator GuidelineColor(double color) => new GuidelineColor(color);
-        public static implicit operator GuidelineColor(decimal color) => new GuidelineColor(color);
+        public static implicit operator GuidelineColor(float color) => new(color);
+        public static implicit operator GuidelineColor(double color) => new(color);
+        public static implicit operator GuidelineColor(decimal color) => new(color);
 
         public static explicit operator float(GuidelineColor color) => color.col;
         public static explicit operator double(GuidelineColor color) => color.col;

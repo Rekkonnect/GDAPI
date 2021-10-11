@@ -49,7 +49,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         public void AddRange(IEnumerable<GuidelineEditorPresetTrack> t) => tracks.AddRange(t);
 
         /// <summary>Clones this instance and returns the new instance.</summary>
-        public GuidelineEditorPresetTrackList Clone() => new GuidelineEditorPresetTrackList(tracks);
+        public GuidelineEditorPresetTrackList Clone() => new(tracks);
 
         /// <summary>Unifies this list's tracks and returns a new track containing the events of all the tracks that were unified.</summary>
         public GuidelineEditorPresetTrack UnifyTracks()

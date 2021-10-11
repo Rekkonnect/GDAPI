@@ -5,10 +5,10 @@ namespace GDAPI.Objects.General
     /// <summary>Represents an ARGB color.</summary>
     public struct Color
     {
-        public static readonly Color White = new Color(1f);
-        public static readonly Color Black = new Color(0, 0, 0);
-        public static readonly Color BlackTransparent = new Color(0);
-        public static readonly Color Zero = new Color(0);
+        public static readonly Color White = new(1f);
+        public static readonly Color Black = new(0, 0, 0);
+        public static readonly Color BlackTransparent = new(0);
+        public static readonly Color Zero = new(0);
 
         private ColorValue r, g, b, a;
 
@@ -124,7 +124,7 @@ namespace GDAPI.Objects.General
             }
 
             public static implicit operator float(ColorValue v) => v.v;
-            public static implicit operator ColorValue(float f) => new ColorValue(f);
+            public static implicit operator ColorValue(float f) => new(f);
 
             public static bool operator ==(ColorValue left, ColorValue right) => left.v == right.v;
             public static bool operator !=(ColorValue left, ColorValue right) => left.v != right.v;

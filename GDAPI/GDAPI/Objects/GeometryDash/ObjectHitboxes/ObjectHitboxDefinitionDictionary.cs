@@ -310,7 +310,7 @@ namespace GDAPI.Objects.GeometryDash.ObjectHitboxes
             private ObjectHitboxDefinition current => dictionary.list[index];
 
             object IEnumerator.Current => dictionary.list[index];
-            public KeyValuePair<List<int>, Hitbox> Current => new KeyValuePair<List<int>, Hitbox>(current.ObjectIDs, current.Hitbox);
+            public KeyValuePair<List<int>, Hitbox> Current => new(current.ObjectIDs, current.Hitbox);
 
             public KVPEnumerator(ObjectHitboxDefinitionDictionary d) => dictionary = d;
 

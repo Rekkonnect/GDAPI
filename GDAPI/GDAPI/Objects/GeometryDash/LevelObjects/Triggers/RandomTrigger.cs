@@ -187,7 +187,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
             }
 
             /// <summary>Clones this <seealso cref="ChancePoolInfo"/>.</summary>
-            public ChancePoolInfo Clone() => new ChancePoolInfo(ChanceLots.CopyArray());
+            public ChancePoolInfo Clone() => new(ChanceLots.CopyArray());
 
             private bool FindChanceLotInfo(int groupID, out ChanceLotInfo info)
             {

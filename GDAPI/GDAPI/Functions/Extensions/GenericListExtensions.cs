@@ -10,7 +10,7 @@ namespace GDAPI.Functions.Extensions
         /// <summary>Clones a list.</summary>
         /// <typeparam name="T">The type of the list elements.</typeparam>
         /// <param name="l">The list to clone.</param>
-        public static List<T> Clone<T>(this List<T> l) => new List<T>(l);
+        public static List<T> Clone<T>(this List<T> l) => new(l);
         /// <summary>Clones a list of lists.</summary>
         /// <typeparam name="T">The type of the list elements.</typeparam>
         /// <param name="l">The list of lists to clone.</param>

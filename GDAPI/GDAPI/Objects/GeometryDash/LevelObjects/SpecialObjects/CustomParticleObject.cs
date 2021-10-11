@@ -41,19 +41,19 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
         private byte texture;
         private float duration = (float)defaultDuration;
         private Point posVar, gravity;
-        private SymmetricalRange<int> startSize = new SymmetricalRange<int>(defaultStartSize, defaultStartSizeAdjustment);
-        private SymmetricalRange<int> endSize = new SymmetricalRange<int>(defaultEndSize, defaultEndSizeAdjustment);
-        private SymmetricalRange<int> startSpin = new SymmetricalRange<int>(0, 0);
-        private SymmetricalRange<int> endSpin = new SymmetricalRange<int>(0, 0);
-        private SymmetricalRange<float> lifetime = new SymmetricalRange<float>((float)defaultLifetime, (float)defaultLifetimeAdjustment);
-        private SymmetricalRange<float> angle = new SymmetricalRange<float>((float)defaultAngle, (float)defaultAngleAdjustment);
-        private SymmetricalRange<float> speed = new SymmetricalRange<float>((float)defaultSpeed, (float)defaultSpeedAdjustment);
-        private SymmetricalRange<float> accelRad = new SymmetricalRange<float>(0, 0);
-        private SymmetricalRange<float> accelTan = new SymmetricalRange<float>(0, 0);
-        private SymmetricalRange<float> fadeIn = new SymmetricalRange<float>(0, 0);
-        private SymmetricalRange<float> fadeOut = new SymmetricalRange<float>(0, 0);
-        private SymmetricalRange<Color> start = new SymmetricalRange<Color>(Color.White, Color.Zero);
-        private SymmetricalRange<Color> end = new SymmetricalRange<Color>(Color.White, Color.Zero);
+        private SymmetricalRange<int> startSize = new(defaultStartSize, defaultStartSizeAdjustment);
+        private SymmetricalRange<int> endSize = new(defaultEndSize, defaultEndSizeAdjustment);
+        private SymmetricalRange<int> startSpin = new(0, 0);
+        private SymmetricalRange<int> endSpin = new(0, 0);
+        private SymmetricalRange<float> lifetime = new((float)defaultLifetime, (float)defaultLifetimeAdjustment);
+        private SymmetricalRange<float> angle = new((float)defaultAngle, (float)defaultAngleAdjustment);
+        private SymmetricalRange<float> speed = new((float)defaultSpeed, (float)defaultSpeedAdjustment);
+        private SymmetricalRange<float> accelRad = new(0, 0);
+        private SymmetricalRange<float> accelTan = new(0, 0);
+        private SymmetricalRange<float> fadeIn = new(0, 0);
+        private SymmetricalRange<float> fadeOut = new(0, 0);
+        private SymmetricalRange<Color> start = new(Color.White, Color.Zero);
+        private SymmetricalRange<Color> end = new(Color.White, Color.Zero);
 
         /// <summary>The object ID of the custom particle object.</summary>
         public override int ConstantObjectID => (int)SpecialObjectType.CustomParticleObject;

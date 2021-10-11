@@ -20,7 +20,7 @@ namespace GDAPI.Objects.GeometryDash.IDTypes
         public static bool operator ==(ColorID left, ColorID right) => left.Equals(right);
         public static bool operator !=(ColorID left, ColorID right) => !(left == right);
 
-        public static implicit operator ColorID(int value) => new ColorID(value);
+        public static implicit operator ColorID(int value) => new(value);
         public static explicit operator int(ColorID value) => value.ID;
         public static explicit operator SpecialColorID(ColorID value) => value.AsSpecialColorID;
 

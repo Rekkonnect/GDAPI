@@ -15,7 +15,7 @@ namespace GDAPI.Application.Editors
         public UndoRedoSystem LevelActions { get; } = new UndoRedoSystem();
 
         #region IPlugeeComponent
-        private readonly Dictionary<Type, IPluggableEditor> pluggedEditors = new Dictionary<Type, IPluggableEditor>();
+        private readonly Dictionary<Type, IPluggableEditor> pluggedEditors = new();
 
         public void Plug(IPluggableEditor component)
         {

@@ -85,7 +85,7 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>The time spent in the editor building the level.</summary>
         public TimeSpan TotalBuildTime
         {
-            get => new TimeSpan(0, 0, BuildTime);
+            get => new(0, 0, BuildTime);
             set => BuildTime = (int)value.TotalSeconds;
         }
         /// <summary>Determines whether the level has been verified or not.</summary>
@@ -299,7 +299,7 @@ namespace GDAPI.Objects.GeometryDash.General
             return metadata.Find(s => s.ID == CustomSongID);
         }
         /// <summary>Clones this level and returns the cloned result.</summary>
-        public Level Clone() => new Level(RawLevel.Substring(0));
+        public Level Clone() => new(RawLevel.Substring(0));
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>
         public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{(int)StartingGamemode},kA3,{(int)StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{(int)StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};{LevelObjects}";
         /// <summary>Returns the raw level string of this <seealso cref="Level"/>.</summary>

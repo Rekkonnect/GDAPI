@@ -25,7 +25,7 @@ namespace GDAPI.Application.Editors
 
         #region ID Migration
         /// <summary>The ID migration info of this editor instance that will be used when performing ID migration operations.</summary>
-        public readonly IDMigrationInfo IDMigrationInfo = new IDMigrationInfo();
+        public readonly IDMigrationInfo IDMigrationInfo = new();
 
         public event Action IDMigrationOperationInitialized;
         public event ProgressReporter IDMigrationProgressReported;

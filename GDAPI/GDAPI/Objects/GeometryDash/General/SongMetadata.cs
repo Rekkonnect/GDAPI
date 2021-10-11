@@ -121,7 +121,7 @@ namespace GDAPI.Objects.GeometryDash.General
 
         /// <summary>Parses the data into a <seealso cref="SongMetadata"/> instance.</summary>
         /// <param name="data">The data to parse into a <seealso cref="SongMetadata"/> instance.</param>
-        public static SongMetadata Parse(string data) => new SongMetadata(data);
+        public static SongMetadata Parse(string data) => new(data);
 
         /// <summary>Parses <seealso cref="SongMetadata"/> information rendered as a website response.</summary>
         /// <param name="data">The website response rendered data to parse.</param>

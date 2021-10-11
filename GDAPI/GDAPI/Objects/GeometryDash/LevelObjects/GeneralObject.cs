@@ -19,7 +19,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
     public class GeneralObject
     {
         private short[] groupIDs = new short[0]; // Create a ComparableArray<T> class and use it instead
-        private BitArray16 bools = new BitArray16();
+        private BitArray16 bools = new();
         private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
         private float rotation, scaling = 1, transformationScalingX = 1, transformationScalingY = 1, transformationScalingCenterX, transformationScalingCenterY;
 
@@ -278,7 +278,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
         /// <summary>Gets or sets a <seealso cref="Point"/> instance with the location of the object.</summary>
         public Point Location
         {
-            get => new Point(X, Y);
+            get => new(X, Y);
             set
             {
                 X = value.X;

@@ -51,16 +51,14 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         public Dictionary<ColorChannel, List<ColorChannel>> GetCopiedColorChannelReferenceDictionary()
         {
             var result = new Dictionary<ColorChannel, List<ColorChannel>>();
+
+            for (int i = 1; i <= colors.Length; i++)
+                result.Add(this[i], new());
+
             for (int i = 1; i <= colors.Length; i++)
             {
-                if (this[i] == null)
-                    continue;
-                result.Add(this[i], new List<ColorChannel>());
-            }
-            for (int i = 1; i <= colors.Length; i++)
-            {
-                var copied = this[i]?.CopiedColorID ?? 0;
-                if (copied == 0)
+                var copied = this[i].CopiedColorID;
+                if (copied is 0)
                     continue;
                 result[this[copied]].Add(this[i]);
             }
@@ -100,7 +98,7 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
             var result = new StringBuilder();
             foreach (var c in colors)
             {
-                if (c == null)
+                if (c is null)
                     continue;
                 result.Append($"{c}|");
             }

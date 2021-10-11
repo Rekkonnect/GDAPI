@@ -37,9 +37,9 @@ namespace GDAPI.Tests.Application.Editors
 
         private void InitializeLevelEditorInstances()
         {
-            level = new Level();
-            editor = new Editor(level);
-            migrationEditor = new IDMigrationEditor(new Bindable<Editor>(editor));
+            level = new();
+            editor = new(level);
+            migrationEditor = new(new(editor));
             ReinitializeLevelObjects();
         }
 
@@ -61,35 +61,37 @@ namespace GDAPI.Tests.Application.Editors
         private void InitializeObjects()
         {
             for (int i = 0; i < 5; i++)
+            {
                 normalBlocks[i] = new GeneralObject(1)
                 {
                     GroupIDs = new int[] { i + 1 },
                     Color1ID = i + 1,
                     Color2ID = i + 21,
                 };
-            for (int i = 0; i < 5; i++)
+
                 moveTriggers[i] = new MoveTrigger(0, i + 1);
-            for (int i = 0; i < 5; i++)
+
                 pickupItems[i] = new PickupItem(1275)
                 {
                     TargetItemID = i + 1,
                 };
-            for (int i = 0; i < 5; i++)
+
                 pickupTriggers[i] = new PickupTrigger(i + 1, 0);
-            for (int i = 0; i < 5; i++)
+
                 colorTriggers[i] = new ColorTrigger(i + 1)
                 {
                     CopiedColorID = i + 21,
                 };
-            for (int i = 0; i < 5; i++)
+
                 instantCountTriggers[i] = new InstantCountTrigger(i + 1, i + 1, 0);
-            for (int i = 0; i < 5; i++)
+
                 collisionBlocks[i] = new CollisionBlock
                 {
                     BlockID = i + 1,
                 };
-            for (int i = 0; i < 5; i++)
+
                 collisionTriggers[i] = new CollisionTrigger(i + 1, i + 21, i + 1);
+            }
 
             allObjects = new LevelObjectCollection(normalBlocks.Concat(moveTriggers).Concat(pickupItems).Concat(pickupTriggers).Concat(colorTriggers).Concat(instantCountTriggers).Concat(collisionBlocks).Concat(collisionTriggers));
         }

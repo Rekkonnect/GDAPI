@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
     public abstract class Trigger : ConstantIDObject
     {
         /// <summary>Contains the <seealso cref="bool"/> values of the trigger. Indices 0, 1, 2 are reserved for Touch Triggered, Spawn Triggered and Multi Trigger respectively, which means any inherited class may use indices [3, 7].</summary>
-        protected BitArray8 TriggerBools = new BitArray8();
+        protected BitArray8 TriggerBools = new();
         
         /// <summary>The Touch Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectProperty.TouchTriggered, false)]

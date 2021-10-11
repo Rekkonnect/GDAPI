@@ -10,6 +10,6 @@ namespace GDAPI.Objects.IDMigration
         public string FileName { get; set; }
 
         /// <summary>The step list of this ID migration.</summary>
-        public List<SourceTargetRange> Steps = new List<SourceTargetRange>();
+        public List<SourceTargetRange> Steps = new();
     }
 }

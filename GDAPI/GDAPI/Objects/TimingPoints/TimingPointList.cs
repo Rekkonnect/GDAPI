@@ -72,7 +72,7 @@ namespace GDAPI.Objects.TimingPoints
         }
 
         /// <summary>Clones this instance and returns the new instance.</summary>
-        public TimingPointList Clone() => new TimingPointList(timingPoints);
+        public TimingPointList Clone() => new(timingPoints);
 
         /// <summary>Gets the timing point that is applied at the specified absolute time.</summary>
         /// <param name="absoluteTime">The absolute time at which the current timing point applies.</param>

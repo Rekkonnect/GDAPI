@@ -8,7 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
     public abstract class SpecialObject : GeneralObject
     {
         /// <summary>The <seealso cref="bool"/>s of the special objects.</summary>
-        protected BitArray8 SpecialObjectBools = new BitArray8();
+        protected BitArray8 SpecialObjectBools = new();
         /// <summary>The name as a string of the special object. Only override if the class does not represent a single object.</summary>
         protected virtual string SpecialObjectTypeName => "special object";
 

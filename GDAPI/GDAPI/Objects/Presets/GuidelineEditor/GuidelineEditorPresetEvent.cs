@@ -46,7 +46,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         public MeasuredTimePosition GetEnd(TimeSignature timeSignature) => TimePosition.Add(Duration, timeSignature);
 
         /// <summary>Clones this <seealso cref="GuidelineEditorPresetEvent"/> instance and returns the new instance.</summary>
-        public GuidelineEditorPresetEvent Clone() => new GuidelineEditorPresetEvent(TimePosition, EventPatternInfo.Clone(), Duration);
+        public GuidelineEditorPresetEvent Clone() => new(TimePosition, EventPatternInfo.Clone(), Duration);
 
         /// <summary>Compares this <seealso cref="GuidelineEditorPresetEvent"/>'s time position with another's.</summary>
         /// <param name="other">The other <seealso cref="GuidelineEditorPresetEvent"/> whose time position to compare this event's to.</param>

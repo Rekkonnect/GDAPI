@@ -27,7 +27,7 @@ namespace GDAPI.Application
         private CancellationTokenSource[] tokens;
         private List<int> levelIndicesToLoad;
         private int nextAvailableLevelIndex;
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         private readonly LevelCollection loadedLevels;
 

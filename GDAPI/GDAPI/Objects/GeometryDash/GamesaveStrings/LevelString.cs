@@ -20,6 +20,6 @@ namespace GDAPI.Objects.GeometryDash.GamesaveStrings
         protected override string[] GetUnencryptedSamples() => samples;
 
         public static implicit operator string(LevelString s) => s.RawString;
-        public static explicit operator LevelString(string s) => new LevelString(s);
+        public static explicit operator LevelString(string s) => new(s);
     }
 }

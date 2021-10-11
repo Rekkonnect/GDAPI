@@ -35,7 +35,7 @@ namespace GDAPI.Objects.Music
         /// <summary>Gets the <seealso cref="MeasuredDuration"/> of a <seealso cref="TimeSpan"/> based on the current BPM value and a <seealso cref="TimeSignature"/>.</summary>
         /// <param name="duration">The <seealso cref="TimeSpan"/> that represents the duration that will be converted.</param>
         /// <param name="timeSignature">The <seealso cref="TimeSignature"/> that determines the measure's beat count.</param>
-        public MeasuredDuration GetMeasuredDuration(TimeSpan duration, TimeSignature timeSignature) => new MeasuredDuration((float)(duration.TotalMinutes * Value), timeSignature);
+        public MeasuredDuration GetMeasuredDuration(TimeSpan duration, TimeSignature timeSignature) => new((float)(duration.TotalMinutes * Value), timeSignature);
 
         /// <summary>Compares this <seealso cref="BPM"/> to another, based on their raw value.</summary>
         /// <param name="other">The other <seealso cref="BPM"/> to compare this to.</param>
@@ -51,12 +51,12 @@ namespace GDAPI.Objects.Music
         public static bool operator <=(BPM left, BPM right) => left.Value <= right.Value;
         public static bool operator >=(BPM left, BPM right) => left.Value >= right.Value;
 
-        public static implicit operator BPM(double value) => new BPM(value);
+        public static implicit operator BPM(double value) => new(value);
         public static explicit operator double(BPM value) => value.Value;
 
         /// <summary>Parses a string into a <seealso cref="BPM"/>.</summary>
         /// <param name="s">The string to parse into a <seealso cref="BPM"/>.</param>
-        public static BPM Parse(string s) => new BPM(double.Parse(s));
+        public static BPM Parse(string s) => new(double.Parse(s));
         /// <summary>Attempts to parse a string into a <seealso cref="BPM"/>. Returns a <seealso cref="bool"/> determining whether the operation succeeded.</summary>
         /// <param name="s">The string to parse into a <seealso cref="BPM"/>.</param>
         /// <param name="bpm">The <seealso cref="BPM"/> that will be parsed. If the string is unparsable, the value is <see langword="default"/>.</param>

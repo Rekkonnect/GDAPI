@@ -13,6 +13,6 @@
         protected override string[] GetUnencryptedSamples() => samples;
 
         public static implicit operator string(GamesaveString s) => s.RawString;
-        public static explicit operator GamesaveString(string s) => new GamesaveString(s);
+        public static explicit operator GamesaveString(string s) => new(s);
     }
 }
