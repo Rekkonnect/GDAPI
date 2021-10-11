@@ -23,6 +23,9 @@ namespace GDAPI.Functions.Extensions
         /// <param name="data">The object to convert into a dictionary</param>
         public static Dictionary<string, object> ToDictionary(this object data)
         {
+            if (data == null)
+                return new Dictionary<string, object>();
+            
             var props = data.GetType().GetProperties();
             return props.ToDictionary(prop => prop.Name, prop => prop.GetValue(data));
         }
