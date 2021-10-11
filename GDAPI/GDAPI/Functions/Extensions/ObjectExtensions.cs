@@ -21,7 +21,7 @@ namespace GDAPI.Functions.Extensions
 
         /// <summary>Converts any object into a dictionary containing it's properties and values.</summary>
         /// <param name="data">The object to convert into a dictionary</param>
-        public static Dictionary<string, object> ToDictionary(this object data)
+        public static Dictionary<string, object> ToDictionary(this object? data)
         {
             if (data == null)
                 return new Dictionary<string, object>();

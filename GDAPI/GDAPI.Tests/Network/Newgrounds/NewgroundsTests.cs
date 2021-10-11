@@ -1,9 +1,9 @@
-﻿using GDAPI.Application.Newgrounds;
+﻿using System.Threading;
+using GDAPI.Network.Newgrounds;
 using GDAPI.Objects.GeometryDash.General;
 using NUnit.Framework;
-using System.Threading;
 
-namespace GDAPI.Tests.Application.Newgrounds
+namespace GDAPI.Tests.Network.Newgrounds
 {
     public class NewgroundsTests
     {
@@ -18,15 +18,15 @@ namespace GDAPI.Tests.Application.Newgrounds
             const int checkCount = 420;
             const int checkIterationDelay = 100;
 
-            var usableMetadatas = new SongMetadataGetter[usableSongs.Length];
-            var unusableMetadatas = new SongMetadataGetter[unusableSongs.Length];
+            var usableMetadatas = new SongMetadataFetcher[usableSongs.Length];
+            var unusableMetadatas = new SongMetadataFetcher[unusableSongs.Length];
 
             int retrievedSongs = 0;
 
             for (int i = 0; i < usableSongs.Length; i++)
-                usableMetadatas[i] = new SongMetadataGetter(usableSongs[i], SongRetrievalComplete);
+                usableMetadatas[i] = new SongMetadataFetcher(usableSongs[i], SongRetrievalComplete);
             for (int i = 0; i < unusableSongs.Length; i++)
-                unusableMetadatas[i] = new SongMetadataGetter(unusableSongs[i], SongRetrievalComplete);
+                unusableMetadatas[i] = new SongMetadataFetcher(unusableSongs[i], SongRetrievalComplete);
 
             for (int i = 0; i < checkCount && retrievedSongs < totalSongs; i++)
                 Thread.Sleep(checkIterationDelay);

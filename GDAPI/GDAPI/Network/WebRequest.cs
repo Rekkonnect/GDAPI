@@ -15,13 +15,13 @@ namespace GDAPI.Network
         protected abstract string Path { get; }
         
         /// <summary>The full URL path.</summary>
-        public virtual Uri FullPath => new (string.Concat("https://www.boomlings.com/", Path));
+        public virtual Uri FullPath { get; }
         
         /// <summary>Default properties this web request should always use. (e.g. secret)</summary>
         protected abstract object DefaultProperties { get; }
         
         /// <summary>Custom and or dynamic properties to be used.</summary>
-        public object Properties { get; }
+        public object? Properties { get; }
         
         /// <summary>The method to be using when attempting to make the request.</summary>
         public readonly WebRequestMethod Method;
@@ -29,9 +29,9 @@ namespace GDAPI.Network
         /// <summary>Instantiates this web request.</summary>
         /// <param name="method">The method to be using.</param>
         /// <param name="properties">The properties to be using. Note that in GET or DELETE requests, this will be unused.</param>
-        protected WebRequest(WebRequestMethod method, object properties = null!)
+        protected WebRequest(WebRequestMethod method, object? properties = null!)
         {
-            Properties = properties!;
+            Properties = properties;
             Method = method;
         }
 
