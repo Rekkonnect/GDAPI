@@ -17,21 +17,23 @@ namespace GDAPI.Tests.Network
         [TestCase(4)]
         public void TestEnqueueRequest(int times)
         {
+            var client = new NetworkClient();
+
             for (var i = 0; i < times; i++)
             {
                 var req = new TestWebRequest(WebRequestMethod.Post, new { idx = i });
-                NetworkClient.Enqueue(req);
+                client.Enqueue(req);
             }
 
             for (var i = 0; i < times; i++)
             {
-                var res = NetworkClient.Dequeue<TestWebResult>();
+                var res = client.Dequeue<TestWebResult>();
                 Assert.IsNotNull(res);
                 Assert.AreEqual(HttpStatusCode.OK, res.StatusCode);
                 Assert.AreEqual(i.ToString(), res.Data.form.idx);
             }
         }
-        
+
         public class TestWebRequest : WebRequest
         {
             public TestWebRequest(WebRequestMethod method, object properties = null)
