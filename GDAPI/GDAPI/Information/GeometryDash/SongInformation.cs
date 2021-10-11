@@ -1,5 +1,9 @@
-﻿using GDAPI.Objects.GeometryDash;
-using GDAPI.Objects.GeometryDash.General;
+﻿using GDAPI.Objects.GeometryDash.General;
+using System;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Reflection;
+using static GDAPI.Objects.GeometryDash.General.SongMetadata;
 
 namespace GDAPI.Information.GeometryDash
 {
@@ -7,159 +11,82 @@ namespace GDAPI.Information.GeometryDash
     public static class SongInformation
     {
         /// <summary>The names of the offical songs.</summary>
-        public static readonly string[] OfficialSongNames =
-        {
-            "Stereo Madness",
-            "Back On Track",
-            "Polargeist",
-            "Dry Out",
-            "Base After Base",
-            "Can't Let Go",
-            "Jumper",
-            "Time Machine",
-            "Cycles",
-            "xStep",
-            "Clutterfunk",
-            "Theory of Everything",
-            "Electroman Adventures",
-            "Clubstep",
-            "Electrodynamix",
-            "Hexagon Force",
-            "Blast Processing",
-            "Theory of Everything 2",
-            "Geometrical Dominator",
-            "Deadlocked",
-            "Fingerbang",
-        };
+        public static readonly ImmutableArray<string> OfficialSongNames = GetAttributedFields<TitleAttribute>();
+        /// <summary>The names of the offical songs' artists.</summary>
+        public static readonly ImmutableArray<string> OfficialArtistNames = GetAttributedFields<TitleAttribute>();
+
+        [Title]
+        private const string
+            StereoMadness = "Stereo Madness",
+            BackOnTrack = "Back On Track",
+            Polargeist = "Polargeist",
+            DryOut = "Dry Out",
+            BaseAfterBase = "Base After Base",
+            CantLetGo = "Can't Let Go",
+            Jumper = "Jumper",
+            TimeMachine = "Time Machine",
+            Cycles = "Cycles",
+            xStep = "xStep",
+            Clutterfunk = "Clutterfunk",
+            TheoryOfEverything = "Theory of Everything",
+            ElectromanAdventures = "Electroman Adventures",
+            Clubstep = "Clubstep",
+            Electrodynamix = "Electrodynamix",
+            HexagonForce = "Hexagon Force",
+            BlastProcessing = "Blast Processing",
+            TheoryOfEverything2 = "Theory of Everything 2",
+            GeometricalDominator = "Geometrical Dominator",
+            Deadlocked = "Deadlocked",
+            Fingerbang = "Fingerbang";
+
+        [Artist]
+        private const string
+            ForeverBound = "ForeverBound",
+            DJVI = "DJVI",
+            Step = "Step",
+            Waterflame = "Waterflame",
+            DjNate = "Dj-Nate",
+            F777 = "F-777",
+            MDK = "MDK";
+
         /// <summary>The song metadata of the offical songs.</summary>
         public static readonly SongMetadata[] OfficialSongMetadata =
         {
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "ForeverBound",
-                Title = "Stereo Madness",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "DJVI",
-                Title = "Back On Track",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Step",
-                Title = "Polargeist",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "DJVI",
-                Title = "Dry Out",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "DJVI",
-                Title = "Base After Base",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "DJVI",
-                Title = "Can't Let Go",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Waterflame",
-                Title = "Jumper",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Waterflame",
-                Title = "Time Machine",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "DJVI",
-                Title = "Cycles",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "DJVI",
-                Title = "xStep",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Waterflame",
-                Title = "Clutterfunk",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Dj-Nate",
-                Title = "Theory of Everything",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Waterflame",
-                Title = "Electroman Adventures",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Dj-Nate",
-                Title = "Clubstep",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Dj-Nate",
-                Title = "Electrodynamix",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Waterflame",
-                Title = "Hexagon Force",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Waterflame",
-                Title = "Blast Process",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Dj-Nate",
-                Title = "Theory of Everything 2",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "Waterflame",
-                Title = "Geometrical Dominator",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "F-777",
-                Title = "Deadlocked",
-            },
-            new SongMetadata
-            {
-                ID = -1,
-                Artist = "MDK",
-                Title = "Fingerbang",
-            },
+            CreateOfficialSongMetadata(ForeverBound, StereoMadness),
+            CreateOfficialSongMetadata(DJVI, BackOnTrack),
+            CreateOfficialSongMetadata(Step, Polargeist),
+            CreateOfficialSongMetadata(DJVI, DryOut),
+            CreateOfficialSongMetadata(DJVI, BaseAfterBase),
+            CreateOfficialSongMetadata(DJVI, CantLetGo),
+            CreateOfficialSongMetadata(Waterflame, Jumper),
+            CreateOfficialSongMetadata(Waterflame, TimeMachine),
+            CreateOfficialSongMetadata(DJVI, Cycles),
+            CreateOfficialSongMetadata(DJVI, xStep),
+            CreateOfficialSongMetadata(Waterflame, Clutterfunk),
+            CreateOfficialSongMetadata(DjNate, TheoryOfEverything),
+            CreateOfficialSongMetadata(Waterflame, ElectromanAdventures),
+            CreateOfficialSongMetadata(DjNate, Clubstep),
+            CreateOfficialSongMetadata(DjNate, Electrodynamix),
+            CreateOfficialSongMetadata(Waterflame, HexagonForce),
+            CreateOfficialSongMetadata(Waterflame, BlastProcessing),
+            CreateOfficialSongMetadata(DjNate, TheoryOfEverything2),
+            CreateOfficialSongMetadata(Waterflame, GeometricalDominator),
+            CreateOfficialSongMetadata(F777, Deadlocked),
+            CreateOfficialSongMetadata(MDK, Fingerbang),
         };
+
+        private static ImmutableArray<string> GetAttributedFields<TAttribute>()
+            where TAttribute : Attribute
+        {
+            return typeof(SongInformation).GetFields()
+                .Where(f => f.GetCustomAttributes<TAttribute>().Any())
+                .Select(f => f.GetRawConstantValue() as string)
+                .ToImmutableArray();
+        }
+
+        [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+        private sealed class TitleAttribute : Attribute { }
+        [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+        private sealed class ArtistAttribute : Attribute { }
     }
 }
