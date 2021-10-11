@@ -1,8 +1,6 @@
 ﻿using GDAPI.Functions.Extensions;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Convert;
 
 namespace GDAPI.Objects.General
@@ -19,19 +17,31 @@ namespace GDAPI.Objects.General
         public int SourceFrom
         {
             get => sourceFrom;
-            set => SourceTargetRangeChanged?.Invoke(sourceFrom = value, sourceTo, targetFrom, TargetTo);
+            set
+            {
+                sourceFrom = value;
+                InvokeChangedEvent();
+            }
         }
         /// <summary>Gets or sets the source's ending value.</summary>
         public int SourceTo
         {
             get => sourceTo;
-            set => SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo = value, targetFrom, TargetTo);
+            set
+            {
+                sourceTo = value;
+                InvokeChangedEvent();
+            }
         }
         /// <summary>Gets or sets the target's starting value.</summary>
         public int TargetFrom
         {
             get => targetFrom;
-            set => SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom = value, TargetTo);
+            set
+            {
+                targetFrom = value;
+                InvokeChangedEvent();
+            }
         }
         /// <summary>Gets or sets the target's ending value.</summary>
         public int TargetTo
@@ -50,7 +60,7 @@ namespace GDAPI.Objects.General
                 else if (!IsAnyValueInvalid())
                     AdjustSourceTo(value - TargetTo, false);
 
-                SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom, value);
+                InvokeChangedEvent(value);
             }
         }
 
@@ -111,7 +121,7 @@ namespace GDAPI.Objects.General
         public bool IsValidOffset(int offset) => offset >= 0 && offset <= Range;
         /// <summary>Gets a <seealso cref="SourceTargetPair"/> that matches the source and the target.</summary>
         /// <param name="offset">The zero-based offset from the starting point of each range.</param>
-        public SourceTargetPair GetSourceTargetPairAt(int offset) => new SourceTargetPair(sourceFrom + offset, targetFrom + offset);
+        public SourceTargetPair GetSourceTargetPairAt(int offset) => new(sourceFrom + offset, targetFrom + offset);
 
         /// <summary>Determines whether any of the source from, source to and target from values is equal to <seealso cref="InvalidValue"/>.</summary>
         public bool IsAnyValueInvalid() => sourceFrom == InvalidValue || sourceTo == InvalidValue || targetFrom == InvalidValue;
@@ -127,10 +137,10 @@ namespace GDAPI.Objects.General
         }
 
         /// <summary>Clones this <seealso cref="SourceTargetRange"/> and returns the cloned object.</summary>
-        public SourceTargetRange Clone() => new SourceTargetRange(SourceFrom, SourceTo, TargetFrom);
+        public SourceTargetRange Clone() => new(SourceFrom, SourceTo, TargetFrom);
 
         /// <summary>Inverts this <seealso cref="SourceTargetRange"/> by inverting the target and the source (the individual ranges remain the same).</summary>
-        public SourceTargetRange Invert() => new SourceTargetRange(TargetFrom, TargetTo, SourceFrom);
+        public SourceTargetRange Invert() => new(TargetFrom, TargetTo, SourceFrom);
 
         /// <summary>Determines whether the object has the specified values.</summary>
         /// <param name="sourceFrom">The desired value of the source from property.</param>
@@ -145,6 +155,15 @@ namespace GDAPI.Objects.General
                 && targetTo == TargetTo;
         }
 
+        private void InvokeChangedEvent()
+        {
+            InvokeChangedEvent(TargetTo);
+        }
+        private void InvokeChangedEvent(int targetTo)
+        {
+            SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom, targetTo);
+        }
+
         public IEnumerator<SourceTargetPair> GetEnumerator() => new SourceTargetRangeEnumerator(this);
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -152,6 +171,7 @@ namespace GDAPI.Objects.General
         /// <param name="str">The string to parse into a <seealso cref="SourceTargetRange"/>. The string must be of the form "A-B > C-D", where A-B can simply be A if A = B and C-D can respectively be C if C = D.</param>
         public static SourceTargetRange Parse(string str)
         {
+            // TODO: Regex
             string[,] split = str.Split('>').Split('-');
             int length0 = split.GetLength(0);
             int length1 = split.GetLength(1);
@@ -159,10 +179,7 @@ namespace GDAPI.Objects.General
             for (int i = 0; i < length0; i++)
                 for (int j = 0; j < length1; j++)
                 {
-                    while (split[i, j].First() == ' ')
-                        split[i, j] = split[i, j].Remove(0, 1);
-                    while (split[i, j].Last() == ' ')
-                        split[i, j] = split[i, j].Remove(split[i, j].Length - 1, 1);
+                    split[i, j] = split[i, j].Trim();
                 }
             return new SourceTargetRange(ToInt32(split[0, 0]), ToInt32(split[0, length1 - 1]), ToInt32(split[1, 0]));
         }
@@ -177,9 +194,8 @@ namespace GDAPI.Objects.General
                     list.Add(Parse(s));
             return list;
         }
-        /// <summary>Loads a number of <seealso cref="SourceTargetRange"/>s from a string array.</summary>
-        /// <param name="lines">The lines to load the <seealso cref="SourceTargetRange"/>s from.</param>
-        /// <param name="ignoreEmptyLines">Determines whether empty lines will be ignored during parsing. There is almost no reason to set that to <see langword="false"/> unless you're a weirdo.</param>
+        /// <summary>Converts a number of <seealso cref="SourceTargetRange"/>s into a <seealso cref="string"/>[].</summary>
+        /// <param name="ranges">The <seealso cref="SourceTargetRange"/>s to convert into a <seealso cref="string"/>[].</param>
         public static string[] ConvertRangesToStringArray(List<SourceTargetRange> ranges)
         {
             string[] result = new string[ranges.Count];
