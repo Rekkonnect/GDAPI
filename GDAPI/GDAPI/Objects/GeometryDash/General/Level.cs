@@ -1,7 +1,6 @@
 ﻿using GDAPI.Application;
 using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
-using GDAPI.Functions.Crypto;
 using GDAPI.Functions.Extensions;
 using GDAPI.Functions.GeometryDash;
 using GDAPI.Objects.General;
@@ -105,17 +104,7 @@ namespace GDAPI.Objects.GeometryDash.General
         [LevelStringMappable("k23")]
         public LevelLength Length => EnumConverters.GetLevelLength(TimeLength.TotalSeconds);
         /// <summary>The length of the level as a <seealso cref="TimeSpan"/> object.</summary>
-        public TimeSpan TimeLength
-        {
-            get
-            {
-                double max = 0;
-                foreach (var m in LevelObjects)
-                    if (m.X > max)
-                        max = m.X;
-                return new TimeSpan((long)(SpeedSegments.ConvertXToTime(max) * 10000000));
-            }
-        }
+        public TimeSpan TimeLength => TimeSpan.FromSeconds(SpeedSegments.ConvertXToTime(LevelObjects.Max(o => o.X)));
 
         // Level properties
         /// <summary>The official song ID used in the level.</summary>
@@ -301,10 +290,12 @@ namespace GDAPI.Objects.GeometryDash.General
         public SongMetadata GetSongMetadata(SongMetadataCollection metadata)
         {
             if (CustomSongID == 0)
+            {
                 if (OfficialSongID >= 0 && OfficialSongID < OfficialSongMetadata.Length)
                     return OfficialSongMetadata[OfficialSongID];
-                else
-                    return SongMetadata.Unknown;
+
+                return SongMetadata.Unknown;
+            }
             return metadata.Find(s => s.ID == CustomSongID);
         }
         /// <summary>Clones this level and returns the cloned result.</summary>
