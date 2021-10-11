@@ -1,4 +1,6 @@
-﻿namespace GDAPI.Network
+﻿using System.Net;
+
+namespace GDAPI.Network
 {
     /// <summary>Base class for a web result.</summary>
     public abstract class WebResult
@@ -9,5 +11,8 @@
         //             Since both web responses and object format are fairly similar, we can re-use the object format parsing
         //             and use that instead of having to write this function for each web result.
         public abstract void ParseWebResponse(string response);
+        
+        /// <summary>Status code given by the server.</summary>
+        public HttpStatusCode StatusCode { get; internal set; }
     }
 }

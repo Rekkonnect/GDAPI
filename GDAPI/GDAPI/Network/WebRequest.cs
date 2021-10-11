@@ -15,7 +15,7 @@ namespace GDAPI.Network
         protected abstract string Path { get; }
         
         /// <summary>The full URL path.</summary>
-        public Uri FullPath => new (string.Concat("https://www.boomlings.com/", Path));
+        public virtual Uri FullPath => new (string.Concat("https://www.boomlings.com/", Path));
         
         /// <summary>Default properties this web request should always use. (e.g. secret)</summary>
         protected abstract object DefaultProperties { get; }
@@ -48,20 +48,21 @@ namespace GDAPI.Network
         /// <summary>Sends the web request to the server.</summary>
         /// <param name="client">The HTTP Client to be using.</param>
         /// <typeparam name="T">The type to convert to when done.</typeparam>
-        public async Task<T> MakeRequest<T>(HttpClient client)
+        public T MakeRequest<T>(HttpClient client)
             where T : WebResult
         {
             if (client == null)
                 throw new NullReferenceException();
 
             var body = new FormUrlEncodedContent(PropertiesAsDictionary());
-            var response = await ExecuteSuitableMethod(client, body).ConfigureAwait(true);
-            var result = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
-
+            var response = ExecuteSuitableMethod(client, body).Result;
+            var result = response.Content.ReadAsStringAsync().Result;
+            
             body.Dispose();
             
             var webResult = Activator.CreateInstance(typeof(T)) as WebResult;
-            webResult?.ParseWebResponse(result);
+            webResult.ParseWebResponse(result);
+            webResult.StatusCode = response.StatusCode;
 
             return ((T) webResult)!;
         }
