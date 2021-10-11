@@ -1,5 +1,4 @@
 ﻿using GDAPI.Application.Editors;
-using GDAPI.Enumerations;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.General;
@@ -176,22 +175,22 @@ namespace GDAPI.Tests.Application.Editors
         [Test]
         public void GroupIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Groups, AssertGroupIDReallocation);
+            RunIDReallocationTest(LevelObjectIDType.Group, AssertGroupIDReallocation);
         }
         [Test]
         public void ColorIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Colors, AssertColorIDReallocation, AssertExtraColorIDReallication);
+            RunIDReallocationTest(LevelObjectIDType.Color, AssertColorIDReallocation, AssertExtraColorIDReallication);
         }
         [Test]
         public void ItemIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Items, AssertItemIDReallocation);
+            RunIDReallocationTest(LevelObjectIDType.Item, AssertItemIDReallocation);
         }
         [Test]
         public void BlockIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Blocks, AssertBlockIDReallocation);
+            RunIDReallocationTest(LevelObjectIDType.Block, AssertBlockIDReallocation);
         }
 
         private void AssertGroupIDReallocation(int i, int id1, int id2)
@@ -234,7 +233,7 @@ namespace GDAPI.Tests.Application.Editors
             }
         }
 
-        private void RunIDReallocationTest(IDMigrationMode mode, PostReallocationAssertion assertion, PostReallocationExtra extra = null)
+        private void RunIDReallocationTest(LevelObjectIDType mode, PostReallocationAssertion assertion, PostReallocationExtra extra = null)
         {
             ReinitializeLevelObjects();
 

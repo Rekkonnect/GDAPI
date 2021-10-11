@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using GDAPI.Enumerations;
+﻿using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Objects.General;
+using System.Collections.Generic;
 
 namespace GDAPI.Objects.IDMigration
 {
@@ -9,10 +9,10 @@ namespace GDAPI.Objects.IDMigration
     {
         private readonly IDMigrationModeInfo[] modes = new IDMigrationModeInfo[4];
 
-        private IDMigrationMode selectedIDMigrationMode;
+        private LevelObjectIDType selectedIDMigrationMode;
 
         /// <summary>Gets or sets the currently selected ID migration mode.</summary>
-        public IDMigrationMode SelectedIDMigrationMode
+        public LevelObjectIDType SelectedIDMigrationMode
         {
             get => selectedIDMigrationMode;
             set => CurrentlySelectedIDMigrationModeInfo = this[selectedIDMigrationMode = value];
@@ -29,7 +29,7 @@ namespace GDAPI.Objects.IDMigration
 
         /// <summary>Initializes a new instance of the <seealso cref="IDMigrationInfo"/> class.</summary>
         /// <param name="defaultMode">The default ID migration mode to initialize this ID migration info object with.</param>
-        public IDMigrationInfo(IDMigrationMode defaultMode = default)
+        public IDMigrationInfo(LevelObjectIDType defaultMode = default)
         {
             InitializeModes();
             SelectedIDMigrationMode = defaultMode;
@@ -55,7 +55,7 @@ namespace GDAPI.Objects.IDMigration
 
         /// <summary>Gets the <seealso cref="IDMigrationModeInfo"/> object of the specified mode.</summary>
         /// <param name="mode">The ID migration mode to get the <seealso cref="IDMigrationModeInfo"/> object of.</param>
-        public IDMigrationModeInfo this[IDMigrationMode mode] => modes[(int)mode];
+        public IDMigrationModeInfo this[LevelObjectIDType mode] => modes[(int)mode];
 
         private void InitializeModes()
         {
