@@ -10,33 +10,33 @@ namespace GDAPI.Functions.General
         public static void WriteAllLinesWithoutUselessNewLine(string path, string[] contents)
         {
             var result = new StringBuilder();
-            for (int i = 0; i < contents.Length; i++)
-                result.Append(contents[i] + "\n");
-            result.Remove(result.Length - 1, 1);
+            foreach (string line in contents)
+                result.Append(line).Append('\n');
+            result.RemoveLast();
             WriteAllText(path, result.ToString());
         }
         public static void WriteAllLinesWithoutUselessNewLine(string path, StringBuilder[] contents)
         {
             var result = new StringBuilder();
-            for (int i = 0; i < contents.Length; i++)
-                result.Append(contents[i] + "\n");
-            result.Remove(result.Length - 1, 1);
+            foreach (var line in contents)
+                result.Append(line).Append('\n');
+            result.RemoveLast();
             WriteAllText(path, result.ToString());
         }
         public static void WriteAllLinesWithoutUselessNewLine(string path, List<string> contents)
         {
             var result = new StringBuilder();
-            for (int i = 0; i < contents.Count; i++)
-                result.Append(contents[i] + "\n");
-            result.Remove(result.Length - 1, 1);
+            foreach (string line in contents)
+                result.Append(line).Append('\n');
+            result.RemoveLast();
             WriteAllText(path, result.ToString());
         }
         public static void WriteAllLinesWithoutUselessNewLine(string path, List<StringBuilder> contents)
         {
             var result = new StringBuilder();
-            for (int i = 0; i < contents.Count; i++)
-                result.Append(contents[i] + "\n");
-            result.Remove(result.Length - 1, 1);
+            foreach (var line in contents)
+                result.Append(line).Append('\n');
+            result.RemoveLast();
             WriteAllText(path, result.ToString());
         }
     }

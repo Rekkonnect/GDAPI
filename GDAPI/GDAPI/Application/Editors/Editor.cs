@@ -1,10 +1,12 @@
 ﻿using GDAPI.Application.Editors.Actions;
+using GDAPI.Functions.Extensions;
 using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using GDAPI.Objects.GeometryDash.LevelObjects;
 using GDAPI.Objects.PluggableComponents;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GDAPI.Application.Editors
 {
@@ -125,11 +127,7 @@ namespace GDAPI.Application.Editors
         /// <param name="predicate">The predicate to determine the resulting object collection.</param>
         public LevelObjectCollection GetObjects(Predicate<GeneralObject> predicate)
         {
-            var result = new LevelObjectCollection();
-            foreach (var o in Level.LevelObjects)
-                if (predicate(o))
-                    result.Add(o);
-            return result;
+            return new(Level.LevelObjects.Where(predicate.ToFuncDelegate()));
         }
         #endregion
 

@@ -12,34 +12,27 @@ namespace GDAPI.Functions.GeometryDash
         /// <param name="seconds">The seconds of the length of the level to get the <seealso cref="LevelLength"/> value of.</param>
         public static LevelLength GetLevelLength(double seconds)
         {
-            if (seconds >= MinXLLength)
-                return LevelLength.XL;
-            if (seconds >= MinLongLength)
-                return LevelLength.Long;
-            if (seconds >= MinMediumLength)
-                return LevelLength.Medium;
-            if (seconds >= MinSmallLength)
-                return LevelLength.Small;
-            return LevelLength.Tiny;
+            return seconds switch
+            {
+                >= MinXLLength     => LevelLength.XL,
+                >= MinLongLength   => LevelLength.Long,
+                >= MinMediumLength => LevelLength.Medium,
+                >= MinSmallLength  => LevelLength.Small,
+                _ => LevelLength.Tiny,
+            };
         }
         /// <summary>Returns the respective time length range, given a <seealso cref="LevelLength"/>.</summary>
         /// <param name="length">The <seealso cref="LevelLength"/> whose respective time length range to return.</param>
         public static Range<double> GetLevelLengthRange(LevelLength length)
         {
-            switch (length)
+            return length switch
             {
-                case LevelLength.XL:
-                    return XLLengthRange;
-                case LevelLength.Long:
-                    return LongLengthRange;
-                case LevelLength.Medium:
-                    return MediumLengthRange;
-                case LevelLength.Small:
-                    return SmallLengthRange;
-                case LevelLength.Tiny:
-                default:
-                    return TinyLengthRange;
-            }
+                LevelLength.XL     => XLLengthRange,
+                LevelLength.Long   => LongLengthRange,
+                LevelLength.Medium => MediumLengthRange,
+                LevelLength.Small  => SmallLengthRange,
+                _ => TinyLengthRange,
+            };
         }
         #endregion
 
@@ -48,29 +41,17 @@ namespace GDAPI.Functions.GeometryDash
         /// <param name="stars">The star rating of the level to get the <seealso cref="LevelDifficulty"/> value of.</param>
         public static LevelDifficulty GetLevelDifficulty(int stars)
         {
-            switch (stars)
+            return stars switch
             {
-                case 0:
-                default:
-                    return LevelDifficulty.NA;
-                case 1:
-                    return LevelDifficulty.Auto;
-                case 2:
-                    return LevelDifficulty.Easy;
-                case 3:
-                    return LevelDifficulty.Normal;
-                case 4:
-                case 5:
-                    return LevelDifficulty.Hard;
-                case 6:
-                case 7:
-                    return LevelDifficulty.Harder;
-                case 8:
-                case 9:
-                    return LevelDifficulty.Insane;
-                case 10:
-                    return LevelDifficulty.Demon;
-            }
+                1      => LevelDifficulty.Auto,
+                2      => LevelDifficulty.Easy,
+                3      => LevelDifficulty.Normal,
+                4 or 5 => LevelDifficulty.Hard,
+                6 or 7 => LevelDifficulty.Harder,
+                8 or 9 => LevelDifficulty.Insane,
+                10     => LevelDifficulty.Demon,
+                _      => LevelDifficulty.NA,
+            };
         }
         #endregion
     }
