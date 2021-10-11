@@ -45,7 +45,7 @@ namespace GDAPI.Objects.GeometryDash.General
         }
 
         /// <summary>Overwrites this instance's <seealso cref="PrimaryID"/> to the provided object's primary ID for the specified type.</summary>
-        /// <typeparam name="TPrimaryID">The type of primary ID to use.</typeparam>
+        /// <typeparam name="T">The type of primary ID to use.</typeparam>
         /// <param name="p">The object whose primary ID to get.</param>
         public void AddPrimaryID<T>(IHasPrimaryID<T> p)
             where T : IID
@@ -53,7 +53,7 @@ namespace GDAPI.Objects.GeometryDash.General
             PrimaryID = p.PrimaryID.ID;
         }
         /// <summary>Overwrites this instance's <seealso cref="SecondaryID"/> to the provided object's secondary ID for the specified type.</summary>
-        /// <typeparam name="TSecondaryID">The type of secondary ID to use.</typeparam>
+        /// <typeparam name="T">The type of secondary ID to use.</typeparam>
         /// <param name="s">The object whose secondary ID to get.</param>
         public void AddSecondaryID<T>(IHasSecondaryID<T> s)
             where T : IID
