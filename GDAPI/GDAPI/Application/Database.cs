@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static GDAPI.Functions.GeometryDash.Gamesave;
+using static GDAPI.Functions.General.Parsing;
 using static GDAPI.Objects.GeometryDash.LevelObjects.LevelObjectCollection;
 using static System.Environment;
 
@@ -655,7 +656,7 @@ namespace GDAPI.Application
                 while ((currentIndex = RawDecryptedGamesaveString.Find("<k>", currentIndex, foldersEndIndex) + 3) > 2)
                 {
                     int endingIndex = RawDecryptedGamesaveString.Find("</k>", currentIndex, foldersEndIndex);
-                    int folderIndex = int.Parse(RawDecryptedGamesaveString.Substring(currentIndex, endingIndex - currentIndex));
+                    int folderIndex = ParseInt32(RawDecryptedGamesaveString.Substring(currentIndex, endingIndex - currentIndex));
                     int folderNameStartIndex = endingIndex + 7;
                     int folderNameEndIndex = RawDecryptedGamesaveString.Find("</s>", folderNameStartIndex, foldersEndIndex);
                     FolderNames.Add(folderIndex, RawDecryptedGamesaveString.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));

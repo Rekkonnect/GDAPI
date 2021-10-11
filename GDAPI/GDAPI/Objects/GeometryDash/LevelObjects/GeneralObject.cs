@@ -8,6 +8,7 @@ using GDAPI.Objects.GeometryDash.Reflection;
 using GDAPI.Objects.Reflection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using static System.Convert;
@@ -541,7 +542,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
             // TODO: Consider caching the object type names?
             var words = GetType().Name.GetPascalCaseWords();
             if (lowerLastWord)
-                words[words.Length - 1] = words[words.Length - 1].ToLower();
+                words[words.Length - 1] = words[words.Length - 1].ToLowerInvariant();
             return words.Combine(" ");
         }
 

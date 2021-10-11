@@ -8,14 +8,14 @@
     <LangVersion>9.0</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>AlFas</Authors>
-    <PackageProjectUrl>https://github.com/gd-edit/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gd-edit/GDAPI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/AlFasGD/GDAPI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AlFasGD/GDAPI</RepositoryUrl>
     <PackageTags>Geometry Dash, GD, GMD, Editor, API, GDE, GDEdit</PackageTags>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Title>GD API</Title>
-    <Copyright>Zyran 2019-2021</Copyright>
+    <Copyright>AlFas 2019-2021</Copyright>
     <Nullable>annotations</Nullable>
     <Version>1.2.1</Version>
   </PropertyGroup>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -165,7 +166,7 @@ namespace GDAPI.Functions.Extensions
             while (i > 0 && s[i - 1].IsNumber())
                 i--;
             if (i < s.Length)
-                return int.Parse(s.Substring(i));
+                return int.Parse(s.Substring(i), CultureInfo.InvariantCulture);
             throw new ArgumentException("The string has no number in the end.");
         }
         /// <summary>Removes the number found in the end of the string.</summary>
@@ -210,8 +211,8 @@ namespace GDAPI.Functions.Extensions
         {
             if (s.Length == 0)
                 return true;
-            var splitA = s.ToLower().Split(' ');
-            var splitB = target.ToLower().Split(' ');
+            var splitA = s.ToLowerInvariant().Split(' ');
+            var splitB = target.ToLowerInvariant().Split(' ');
             int difference = splitB.Length - splitA.Length;
             bool valid = true;
             if (difference >= 0)
@@ -368,7 +369,7 @@ namespace GDAPI.Functions.Extensions
         {
             if (s.Length != match.Length)
                 return false;
-            return s.ToLower() == match.ToLower();
+            return s.ToLowerInvariant() == match.ToLowerInvariant();
         }
         #endregion
         #endregion

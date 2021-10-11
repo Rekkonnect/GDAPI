@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.GeometryDash.General
 {
@@ -179,7 +179,7 @@ namespace GDAPI.Objects.GeometryDash.General
 
             string[] s = guidelineString.Split('~');
             for (int i = 0; i < s.Length - 1; i += 2)
-                guidelines.Add(ToDouble(s[i]), ToDouble(s[i + 1]));
+                guidelines.Add(ParseDouble(s[i]), ParseDouble(s[i + 1]));
             return guidelines;
         }
 

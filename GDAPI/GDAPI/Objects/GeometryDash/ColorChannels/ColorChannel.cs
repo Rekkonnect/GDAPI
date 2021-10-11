@@ -6,10 +6,11 @@ using GDAPI.Objects.General;
 using GDAPI.Objects.GeometryDash.General;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.GeometryDash.ColorChannels
 {
@@ -209,33 +210,33 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
             ColorChannel result = new ColorChannel();
             for (int i = 0; i < split.Length; i += 2)
             {
-                int key = ToInt32(split[i]);
+                int key = ParseInt32(split[i]);
                 string value = split[i + 1];
                 switch (key)
                 {
                     case 1:
-                        result.Red = ToInt32(value);
+                        result.Red = ParseInt32(value);
                         break;
                     case 2:
-                        result.Green = ToInt32(value);
+                        result.Green = ParseInt32(value);
                         break;
                     case 3:
-                        result.Blue = ToInt32(value);
+                        result.Blue = ParseInt32(value);
                         break;
                     case 4:
-                        result.CopiedPlayerColor = (ColorChannelPlayerColor)ToInt32(value);
+                        result.CopiedPlayerColor = (ColorChannelPlayerColor)ParseInt32(value);
                         break;
                     case 5:
                         result.Blending = value == "1";
                         break;
                     case 6:
-                        result.ColorChannelID = ToInt32(value);
+                        result.ColorChannelID = ParseInt32(value);
                         break;
                     case 7:
-                        result.Opacity = ToDouble(value);
+                        result.Opacity = ParseDouble(value);
                         break;
                     case 9:
-                        result.CopiedColorID = ToInt32(value);
+                        result.CopiedColorID = ParseInt32(value);
                         break;
                     case 10:
                         result.CopiedColorHSV = HSVAdjustment.Parse(value);
@@ -253,7 +254,7 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
                     default: // We need to know more about that suspicious new thing so we keep a log of it
                         Directory.CreateDirectory("ulscsk");
                         if (!File.Exists($@"ulscsk\{key}.key"))
-                            File.WriteAllText($@"ulscsk\{key}.key", key.ToString());
+                            File.WriteAllText($@"ulscsk\{key}.key", key.ToString(CultureInfo.InvariantCulture));
                         break;
                 }
             }

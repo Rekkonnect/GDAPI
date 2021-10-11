@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using GDAPI.Enumerations;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.Music
 {
@@ -269,8 +270,8 @@ namespace GDAPI.Objects.Music
         public static MeasuredTimePosition Parse(string s)
         {
             var split = s.Split(':');
-            int measure = ToInt32(split[0]);
-            float fraction = ToSingle(split[1]);
+            int measure = ParseInt32(split[0]);
+            float fraction = ParseSingle(split[1]);
             int beat = (int)fraction;
             fraction -= beat;
             return new MeasuredTimePosition(measure, beat, fraction);
@@ -282,9 +283,9 @@ namespace GDAPI.Objects.Music
         {
             timePosition = default;
             var split = s.Split(':');
-            if (!int.TryParse(split[0], out int measure))
+            if (!int.TryParse(split[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int measure))
                 return false;
-            if (!float.TryParse(split[1], out float fraction))
+            if (!float.TryParse(split[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float fraction))
                 return false;
             int beat = (int)fraction;
             fraction -= beat;
@@ -296,7 +297,7 @@ namespace GDAPI.Objects.Music
         public static MeasuredTimePosition ParseAsBeatWithFraction(string s)
         {
             var result = new MeasuredTimePosition();
-            result.BeatWithFraction = float.Parse(s);
+            result.BeatWithFraction = ParseSingle(s);
             return result;
         }
 
@@ -310,7 +311,7 @@ namespace GDAPI.Objects.Music
         public static unsafe int CompareByAbsolutePosition(MeasuredTimePosition left, MeasuredTimePosition right) => left.all.CompareTo(right.all);
 
         /// <summary>Returns the string representation of this <seealso cref="MeasuredTimePosition"/> of the form {Measure}:{Beat}.{Fraction}.</summary>
-        public override string ToString() => $"{m}:{b}.{DecimalPartOf(f.ToString("F3"))}";
+        public override string ToString() => $"{m}:{b}.{DecimalPartOf(f.ToString("F3", CultureInfo.InvariantCulture))}";
 
         private static string DecimalPartOf(string s) => s.Substring(s.IndexOf('.') + 1);
     }

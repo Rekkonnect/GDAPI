@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.Music
 {
@@ -56,7 +58,7 @@ namespace GDAPI.Objects.Music
 
         /// <summary>Parses a string into a <seealso cref="BPM"/>.</summary>
         /// <param name="s">The string to parse into a <seealso cref="BPM"/>.</param>
-        public static BPM Parse(string s) => new(double.Parse(s));
+        public static BPM Parse(string s) => new(ParseDouble(s));
         /// <summary>Attempts to parse a string into a <seealso cref="BPM"/>. Returns a <seealso cref="bool"/> determining whether the operation succeeded.</summary>
         /// <param name="s">The string to parse into a <seealso cref="BPM"/>.</param>
         /// <param name="bpm">The <seealso cref="BPM"/> that will be parsed. If the string is unparsable, the value is <see langword="default"/>.</param>
@@ -70,7 +72,7 @@ namespace GDAPI.Objects.Music
         }
 
         /// <summary>Returns the string representation of this <seealso cref="BPM"/>.</summary>
-        public override string ToString() => Value.ToString();
+        public override string ToString() => Value.ToString(CultureInfo.InvariantCulture);
         /// <summary>Determines whether this <seealso cref="BPM"/> equals another object.</summary>
         /// <param name="obj">The other object to determine equality with.</param>
         public override bool Equals(object obj) => Value == ((BPM)obj).Value || Value == (double)obj; // This is probably never going to check whether the object is a double

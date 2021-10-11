@@ -1,6 +1,6 @@
 ﻿using System;
 using GDAPI.Objects.Music;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.TimingPoints
 {
@@ -66,7 +66,7 @@ namespace GDAPI.Objects.TimingPoints
         public static AbsoluteTimingPoint Parse(string s)
         {
             var split = s.Split('|');
-            return new AbsoluteTimingPoint(ToDouble(split[0]), ToDouble(split[1]), TimeSignature.Parse(split[2]));
+            return new AbsoluteTimingPoint(ParseDouble(split[0]), ParseDouble(split[1]), TimeSignature.Parse(split[2]));
         }
 
         /// <summary>Attempts to parse a string representation of an absolute timing point into a <seealso cref="AbsoluteTimingPoint"/> and returns a <seealso cref="bool"/> indicating whether the operation was successful or not.</summary>

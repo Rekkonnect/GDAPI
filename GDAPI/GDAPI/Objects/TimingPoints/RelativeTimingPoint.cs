@@ -1,6 +1,6 @@
 ﻿using System;
 using GDAPI.Objects.Music;
-using static System.Convert;
+using static GDAPI.Functions.General.Parsing;
 
 namespace GDAPI.Objects.TimingPoints
 {
@@ -40,7 +40,7 @@ namespace GDAPI.Objects.TimingPoints
         public static RelativeTimingPoint Parse(string s)
         {
             var split = s.Split('|');
-            return new RelativeTimingPoint(MeasuredTimePosition.Parse(split[0]), ToDouble(split[1]), TimeSignature.Parse(split[2]));
+            return new RelativeTimingPoint(MeasuredTimePosition.Parse(split[0]), ParseDouble(split[1]), TimeSignature.Parse(split[2]));
         }
 
         /// <summary>Attempts to parse a string representation of a relative timing point into a <seealso cref="RelativeTimingPoint"/> and returns a <seealso cref="bool"/> indicating whether the operation was successful or not.</summary>
