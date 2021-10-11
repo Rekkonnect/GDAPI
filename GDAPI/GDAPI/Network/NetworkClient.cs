@@ -20,7 +20,7 @@ namespace GDAPI.Network
         /// <summary>Dequeues and executes a web request.</summary>
         /// <typeparam name="T">The type of result it should convert into.</typeparam>
         public static T? Dequeue<T>()
-            where T : WebResult
+            where T : WebResult, new()
             => requestQueue.TryDequeue(out var request) ? request.MakeRequest<T>(client) : null;
     }
 }
