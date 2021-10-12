@@ -8,8 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
     public class GreenSizePortal : Portal
     {
         /// <summary>The object ID of the green size portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)PortalType.GreenSize;
+        public override int ConstantObjectID => (int)PortalType.GreenSize;
 
         /// <summary>Initializes a new instance of the <seealso cref="GreenSizePortal"/> class.</summary>
         public GreenSizePortal() : base() { }

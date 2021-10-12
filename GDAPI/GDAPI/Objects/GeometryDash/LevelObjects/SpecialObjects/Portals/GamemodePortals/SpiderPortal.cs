@@ -8,8 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.Gamemod
     public class SpiderPortal : CheckableGamemodePortal
     {
         /// <summary>The object ID of the spider portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)PortalType.Spider;
+        public override int ConstantObjectID => (int)PortalType.Spider;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Spider;
 

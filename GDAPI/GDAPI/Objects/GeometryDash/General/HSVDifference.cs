@@ -194,7 +194,7 @@ namespace GDAPI.Objects.GeometryDash.General
             public H(short value) : base(value) { }
 
             /// <summary>Clones this instance and returns a new instance with the same value.</summary>
-            public H Clone() => new H(Value);
+            public H Clone() => new(Value);
         }
         private abstract class SV : BoundedFloat
         {

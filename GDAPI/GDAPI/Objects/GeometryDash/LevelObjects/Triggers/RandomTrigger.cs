@@ -19,8 +19,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private ChancePoolInfo chancePool;
 
         /// <summary>The Object ID of the Random trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Random;
+        public override int ConstantObjectID => (int)TriggerType.Random;
 
         /// <summary>The target Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]
@@ -188,7 +187,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
             }
 
             /// <summary>Clones this <seealso cref="ChancePoolInfo"/>.</summary>
-            public ChancePoolInfo Clone() => new ChancePoolInfo(ChanceLots.CopyArray());
+            public ChancePoolInfo Clone() => new(ChanceLots.CopyArray());
 
             private bool FindChanceLotInfo(int groupID, out ChanceLotInfo info)
             {

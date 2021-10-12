@@ -16,8 +16,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
         public readonly BlueTeleportationPortal LinkedTeleportationPortal;
 
         /// <summary>The object ID of the yellow teleportation portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)PortalType.YellowTeleportation;
+        public override int ConstantObjectID => (int)PortalType.YellowTeleportation;
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowTeleportationPortal"/> class.</summary>
         public YellowTeleportationPortal(BlueTeleportationPortal p)

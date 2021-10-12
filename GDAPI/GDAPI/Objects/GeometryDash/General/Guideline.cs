@@ -59,6 +59,7 @@ namespace GDAPI.Objects.GeometryDash.General
         public static bool operator !=(Guideline left, Guideline right) => left.TimeStamp != right.TimeStamp || left.Color != right.Color;
 
         public bool Equals(Guideline other) => this == other;
+        public override int GetHashCode() => HashCode.Combine(TimeStamp, Color);
         public override bool Equals(object? obj) => obj is Guideline g && Equals(g);
         /// <summary>Converts the <see cref="Guideline"/> to its string representation in the gamesave.</summary>
         public override string ToString() => $"{TimeStamp.ToString(CultureInfo.InvariantCulture)}~{Color}";

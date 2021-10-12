@@ -7,10 +7,10 @@ namespace GDAPI.Tests.Application.Newgrounds
 {
     public class NewgroundsTests
     {
-        private static int[] usableSongs = new int[] { 905921, 911107, 910549, 901476, 885164 }; // on NG
-        private static int[] unusableSongs = new int[] { 123657, 6554, 645654, 46587, 90154667 }; // not on NG
+        private static readonly int[] usableSongs = new int[] { 905921, 911107, 910549, 901476, 885164 }; // on NG
+        private static readonly int[] unusableSongs = new int[] { 123657, 6554, 645654, 46587, 90154667 }; // not on NG
 
-        private static int totalSongs = usableSongs.Length + unusableSongs.Length;
+        private static readonly int totalSongs = usableSongs.Length + unusableSongs.Length;
 
         [Test]
         public void GetSongMetadata()

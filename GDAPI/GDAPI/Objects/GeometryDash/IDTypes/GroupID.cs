@@ -1,10 +1,11 @@
 ﻿using GDAPI.Enumerations.GeometryDash;
+using System;
 using System.Globalization;
 
 namespace GDAPI.Objects.GeometryDash.IDTypes
 {
     /// <summary>Represents a Group ID.</summary>
-    public struct GroupID : IID
+    public struct GroupID : IID, IEquatable<GroupID>
     {
         public int ID { get; set; }
 
@@ -15,7 +16,7 @@ namespace GDAPI.Objects.GeometryDash.IDTypes
         public static bool operator ==(GroupID left, GroupID right) => left.Equals(right);
         public static bool operator !=(GroupID left, GroupID right) => !(left == right);
 
-        public static implicit operator GroupID(int value) => new GroupID(value);
+        public static implicit operator GroupID(int value) => new(value);
         public static explicit operator int(GroupID value) => value.ID;
 
         public bool Equals(GroupID other) => ID == other.ID;

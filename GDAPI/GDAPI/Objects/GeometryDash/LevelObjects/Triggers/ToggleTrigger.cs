@@ -11,8 +11,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
 
         /// <summary>The Object ID of the Alpha trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Toggle;
+        public override int ConstantObjectID => (int)TriggerType.Toggle;
 
         /// <summary>The target Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectProperty.TargetGroupID, 0)]

@@ -9,8 +9,8 @@ namespace GDAPI.Objects.DataStructures
     public class SortedList<T> : IEnumerable<T>, ICollection<T>, IReadOnlyList<T>
         where T : IComparable<T>
     {
-        private Comparison<T> comparison;
-        private List<T> list;
+        private readonly Comparison<T> comparison;
+        private readonly List<T> list;
 
         /// <summary>Determines whether this list is read-only. It is not, mind you.</summary>
         public bool IsReadOnly => false;

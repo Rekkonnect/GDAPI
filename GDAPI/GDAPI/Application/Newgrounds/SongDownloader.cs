@@ -8,7 +8,7 @@ namespace GDAPI.Application.Newgrounds
     /// <summary>Handles downloading a Newgrounds song.</summary>
     public class SongDownloader
     {
-        private readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client = new();
 
         private Task download;
 

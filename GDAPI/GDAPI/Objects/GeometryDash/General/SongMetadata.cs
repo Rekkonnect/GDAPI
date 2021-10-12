@@ -8,10 +8,13 @@ namespace GDAPI.Objects.GeometryDash.General
     /// <summary>Contains the metadata of a song.</summary>
     public class SongMetadata
     {
+        private const int UnknownID = -1;
+        private const int OfficialSongID = -2;
+
         /// <summary>Returns a <seealso cref="SongMetadata"/> that indicates an unknown song.</summary>
-        public static SongMetadata Unknown => new SongMetadata
+        public static SongMetadata Unknown => new()
         {
-            ID = -1,
+            ID = UnknownID,
             Title = "Unknown",
             Artist = "Unknown",
         };
@@ -53,6 +56,9 @@ namespace GDAPI.Objects.GeometryDash.General
         public string YouTubeSongURL => $"https://www.youtube.com/watch?v={YouTubeSongVideoID}";
         /// <summary>The URL to the artist channel on YouTube.</summary>
         public string YouTubeChannelURL => $"https://www.youtube.com/channel/{YouTubeArtistChannelID}";
+
+        /// <summary>Returns whether the metadata reflects an official song.</summary>
+        public bool IsOfficial => ID == OfficialSongID;
 
         /// <summary>Initializes a new instance of the <seealso cref="SongMetadata"/> class.</summary>
         public SongMetadata() { }
@@ -103,9 +109,20 @@ namespace GDAPI.Objects.GeometryDash.General
             }
         }
 
+        /// <summary>Creates a new <seealso cref="SongMetadata"/> instance for an official song.</summary>
+        /// <param name="artist">The artist of the official song.</param>
+        /// <param name="title">The title of the official song.</param>
+        /// <returns>A new <seealso cref="SongMetadata"/> instance reflecting an official song.</returns>
+        public static SongMetadata CreateOfficialSongMetadata(string artist, string title) => new()
+        {
+            ID = OfficialSongID,
+            Artist = artist,
+            Title = title,
+        };
+
         /// <summary>Parses the data into a <seealso cref="SongMetadata"/> instance.</summary>
         /// <param name="data">The data to parse into a <seealso cref="SongMetadata"/> instance.</param>
-        public static SongMetadata Parse(string data) => new SongMetadata(data);
+        public static SongMetadata Parse(string data) => new(data);
 
         /// <summary>Parses <seealso cref="SongMetadata"/> information rendered as a website response.</summary>
         /// <param name="data">The website response rendered data to parse.</param>

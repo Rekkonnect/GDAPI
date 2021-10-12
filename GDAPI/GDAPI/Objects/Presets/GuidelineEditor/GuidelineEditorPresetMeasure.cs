@@ -26,7 +26,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         }
 
         /// <summary>Clones this instance and returns the new instance.</summary>
-        public GuidelineEditorPresetMeasure Clone() => new GuidelineEditorPresetMeasure(Notes);
+        public GuidelineEditorPresetMeasure Clone() => new(Notes);
 
         /// <summary>Parses a <seealso cref="GuidelineEditorPresetMeasure"/> from raw data.</summary>
         /// <param name="rawData">The raw data of the <seealso cref="GuidelineEditorPresetMeasure"/> that will be parsed.</param>

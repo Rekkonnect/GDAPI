@@ -8,7 +8,7 @@ namespace GDAPI.Objects.DataStructures
     /// <typeparam name="T">The type of the objects to store in the lists.</typeparam>
     public class NestedLists<T> : IEnumerable<T>
     {
-        private List<List<T>> lists = new List<List<T>>();
+        private readonly List<List<T>> lists = new();
 
         /// <summary>The count of the objects in the list.</summary>
         public int ListCount => lists.Count;

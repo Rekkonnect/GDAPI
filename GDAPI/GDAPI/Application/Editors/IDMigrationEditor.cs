@@ -25,23 +25,23 @@ namespace GDAPI.Application.Editors
 
         #region ID Migration
         /// <summary>The ID migration info of this editor instance that will be used when performing ID migration operations.</summary>
-        public readonly IDMigrationInfo IDMigrationInfo = new IDMigrationInfo();
+        public readonly IDMigrationInfo IDMigrationInfo = new();
 
         public event Action IDMigrationOperationInitialized;
         public event ProgressReporter IDMigrationProgressReported;
         public event Action IDMigrationOperationCompleted;
 
         /// <summary>The steps of the Group ID migration mode.</summary>
-        public List<SourceTargetRange> GroupSteps => GetIDMigrationSteps(IDMigrationMode.Groups);
+        public List<SourceTargetRange> GroupSteps => GetIDMigrationSteps(LevelObjectIDType.Group);
         /// <summary>The steps of the Color ID migration mode.</summary>
-        public List<SourceTargetRange> ColorSteps => GetIDMigrationSteps(IDMigrationMode.Colors);
+        public List<SourceTargetRange> ColorSteps => GetIDMigrationSteps(LevelObjectIDType.Color);
         /// <summary>The steps of the Item ID migration mode.</summary>
-        public List<SourceTargetRange> ItemSteps => GetIDMigrationSteps(IDMigrationMode.Items);
+        public List<SourceTargetRange> ItemSteps => GetIDMigrationSteps(LevelObjectIDType.Item);
         /// <summary>The steps of the Block ID migration mode.</summary>
-        public List<SourceTargetRange> BlockSteps => GetIDMigrationSteps(IDMigrationMode.Blocks);
+        public List<SourceTargetRange> BlockSteps => GetIDMigrationSteps(LevelObjectIDType.Block);
 
         /// <summary>Gets or sets the currently selected ID migration mode.</summary>
-        public IDMigrationMode SelectedIDMigrationMode
+        public LevelObjectIDType SelectedIDMigrationMode
         {
             get => IDMigrationInfo.SelectedIDMigrationMode;
             set => IDMigrationInfo.SelectedIDMigrationMode = value;
@@ -64,18 +64,18 @@ namespace GDAPI.Application.Editors
         public void PerformMigration(List<SourceTargetRange> steps) => GetIDMigrationCustomStepsDelegate()(steps);
         /// <summary>Performs the ID migration for a specified mode using the respective steps of the mode.</summary>
         /// <param name="mode">The mode of the ID migration to perform.</param>
-        public void PerformMigration(IDMigrationMode mode) => PerformMigration(mode, GetIDMigrationSteps(mode));
+        public void PerformMigration(LevelObjectIDType mode) => PerformMigration(mode, GetIDMigrationSteps(mode));
         /// <summary>Performs the ID migration for a specified mode using custom steps.</summary>
         /// <param name="mode">The mode of the ID migration to perform.</param>
         /// <param name="steps">The custom steps to use in the ID migration operation.</param>
-        public void PerformMigration(IDMigrationMode mode, List<SourceTargetRange> steps) => GetIDMigrationCustomStepsDelegate(mode)(steps);
+        public void PerformMigration(LevelObjectIDType mode, List<SourceTargetRange> steps) => GetIDMigrationCustomStepsDelegate(mode)(steps);
 
         /// <summary>Gets the <seealso cref="IDMigrationModeInfo"/> object for a specified mode.</summary>
         /// <param name="mode">The mode to get the <seealso cref="IDMigrationModeInfo"/> object for.</param>
-        public IDMigrationModeInfo GetIDMigrationModeInfo(IDMigrationMode mode) => IDMigrationInfo[mode];
+        public IDMigrationModeInfo GetIDMigrationModeInfo(LevelObjectIDType mode) => IDMigrationInfo[mode];
         /// <summary>Gets the ID migration steps for a specified mode.</summary>
         /// <param name="mode">The mode to get the steps for.</param>
-        public List<SourceTargetRange> GetIDMigrationSteps(IDMigrationMode mode) => IDMigrationInfo[mode].Steps;
+        public List<SourceTargetRange> GetIDMigrationSteps(LevelObjectIDType mode) => IDMigrationInfo[mode].Steps;
 
         /// <summary>Adds a new ID migration step to the currently selected mode's ranges.</summary>
         /// <param name="range">The ID migration step to add to the currently selected ID migration.</param>
@@ -233,26 +233,26 @@ namespace GDAPI.Application.Editors
         }
 
         private Action GetIDMigrationDelegate() => GetIDMigrationDelegate(SelectedIDMigrationMode);
-        private Action GetIDMigrationDelegate(IDMigrationMode mode)
+        private Action GetIDMigrationDelegate(LevelObjectIDType mode)
         {
             return mode switch
             {
-                IDMigrationMode.Groups => PerformGroupIDMigration,
-                IDMigrationMode.Colors => PerformColorIDMigration,
-                IDMigrationMode.Items => PerformItemIDMigration,
-                IDMigrationMode.Blocks => PerformBlockIDMigration,
+                LevelObjectIDType.Group => PerformGroupIDMigration,
+                LevelObjectIDType.Color => PerformColorIDMigration,
+                LevelObjectIDType.Item => PerformItemIDMigration,
+                LevelObjectIDType.Block => PerformBlockIDMigration,
                 _ => throw new InvalidEnumArgumentException("My disappointment is immeasurable and my day is ruined."),
             };
         }
         private Action<List<SourceTargetRange>> GetIDMigrationCustomStepsDelegate() => GetIDMigrationCustomStepsDelegate(SelectedIDMigrationMode);
-        private Action<List<SourceTargetRange>> GetIDMigrationCustomStepsDelegate(IDMigrationMode mode)
+        private Action<List<SourceTargetRange>> GetIDMigrationCustomStepsDelegate(LevelObjectIDType mode)
         {
             return mode switch
             {
-                IDMigrationMode.Groups => PerformGroupIDMigration,
-                IDMigrationMode.Colors => PerformColorIDMigration,
-                IDMigrationMode.Items => PerformItemIDMigration,
-                IDMigrationMode.Blocks => PerformBlockIDMigration,
+                LevelObjectIDType.Group => PerformGroupIDMigration,
+                LevelObjectIDType.Color => PerformColorIDMigration,
+                LevelObjectIDType.Item => PerformItemIDMigration,
+                LevelObjectIDType.Block => PerformBlockIDMigration,
                 _ => throw new InvalidEnumArgumentException("My disappointment is immeasurable and my day is ruined."),
             };
         }

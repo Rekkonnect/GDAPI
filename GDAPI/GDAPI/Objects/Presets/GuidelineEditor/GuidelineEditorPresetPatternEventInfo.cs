@@ -25,7 +25,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         }
 
         /// <summary>Clones this <seealso cref="GuidelineEditorPresetEventPatternInfo"/> instance and returns the new instance.</summary>
-        public GuidelineEditorPresetEventPatternInfo Clone() => new GuidelineEditorPresetEventPatternInfo(Pattern, PatternStart);
+        public GuidelineEditorPresetEventPatternInfo Clone() => new(Pattern, PatternStart);
 
         /// <summary>Parses a <seealso cref="GuidelineEditorPresetEventPatternInfo"/> from raw data.</summary>
         /// <param name="s">The raw data of the pattern that will be parsed.</param>

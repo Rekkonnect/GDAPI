@@ -8,8 +8,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers
     public class LineColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the Line Color trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Line;
+        public override int ConstantObjectID => (int)TriggerType.Line;
         
         /// <summary>The target Color ID of the trigger.</summary>
         public override int ConstantTargetColorID => (int)SpecialColorID.Line;

@@ -13,8 +13,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f;
 
         /// <summary>The Object ID of the Zoom trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Zoom;
+        public override int ConstantObjectID => (int)TriggerType.Zoom;
 
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]

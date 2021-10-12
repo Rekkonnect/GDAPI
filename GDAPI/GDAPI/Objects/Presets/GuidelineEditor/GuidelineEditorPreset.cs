@@ -21,7 +21,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         public MeasuredTimePosition EndingPosition = MeasuredTimePosition.UnknownEnd;
 
         /// <summary>Gets a copy of the list of tracks of this instance.</summary>
-        public GuidelineEditorPresetTrackList Tracks = new GuidelineEditorPresetTrackList();
+        public GuidelineEditorPresetTrackList Tracks = new();
         /// <summary>Gets the unique patterns that are used in this track.</summary>
         public HashSet<GuidelineEditorPresetPattern> UniquePatterns => Tracks.UniquePatterns;
         /// <summary>The timing points of the preset.</summary>
@@ -75,7 +75,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         }
 
         /// <summary>Clones this instance of <seealso cref="GuidelineEditorPreset"/>.</summary>
-        public GuidelineEditorPreset Clone() => new GuidelineEditorPreset(Name, Offset, StartingPosition, EndingPosition, Tracks, TimingPoints);
+        public GuidelineEditorPreset Clone() => new(Name, Offset, StartingPosition, EndingPosition, Tracks, TimingPoints);
 
         /// <summary>Parses a <seealso cref="GuidelineEditorPreset"/> from raw data wtih a specified name.</summary>
         /// <param name="name">The name of the preset.</param>

@@ -13,10 +13,10 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
     public class GuidelineEditorPresetTrack : IEnumerable<GuidelineEditorPresetEvent>
     {
         /// <summary>The events of the track.</summary>
-        private SortedList<GuidelineEditorPresetEvent> events;
+        private readonly SortedList<GuidelineEditorPresetEvent> events;
 
         /// <summary>Gets the unique patterns that are used in this track.</summary>
-        public HashSet<GuidelineEditorPresetPattern> UniquePatterns => new HashSet<GuidelineEditorPresetPattern>(events.Select(e => e.EventPatternInfo.Pattern));
+        public HashSet<GuidelineEditorPresetPattern> UniquePatterns => new(events.Select(e => e.EventPatternInfo.Pattern));
         /// <summary>Gets the event count in this track.</summary>
         public int EventCount => events.Count;
 
@@ -69,7 +69,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         }
         /// <summary>Gets the duration of the track based on the <seealso cref="TimingPointList"/> of the <seealso cref="GuidelineEditorPreset"/>.</summary>
         /// <param name="timingPoints">The <seealso cref="TimingPointList"/> of the <seealso cref="GuidelineEditorPreset"/>.</param>
-        public MeasuredDuration GetTrackDuration(TimingPointList timingPoints) => new MeasuredDuration(GetEnd(timingPoints));
+        public MeasuredDuration GetTrackDuration(TimingPointList timingPoints) => new(GetEnd(timingPoints));
 
         /// <summary>Gets the event of this track at the specified index.</summary>
         /// <param name="index">The index of the event to get.</param>

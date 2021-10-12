@@ -11,8 +11,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects
         private short blockID;
 
         /// <summary>The object ID of the collision block.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)SpecialObjectType.CollisionBlock;
+        public override int ConstantObjectID => (int)SpecialObjectType.CollisionBlock;
 
         /// <summary>The Block ID of the collision block.</summary>
         [ObjectStringMappable(ObjectProperty.BlockID, 0)]

@@ -8,7 +8,7 @@ namespace GDAPI.Application
     /// <summary>Contains information about an action that can be undone.</summary>
     public class UndoableAction
     {
-        private readonly List<GeneralEditorAction> editorActions = new List<GeneralEditorAction>();
+        private readonly List<GeneralEditorAction> editorActions = new();
 
         /// <summary>The description of the undoable action.</summary>
         public string Description { get; set; }

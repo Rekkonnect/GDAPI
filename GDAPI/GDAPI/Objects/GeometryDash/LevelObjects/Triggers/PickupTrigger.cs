@@ -11,8 +11,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private short targetItemID;
 
         /// <summary>The Object ID of the Pickup trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Pickup;
+        public override int ConstantObjectID => (int)TriggerType.Pickup;
 
         /// <summary>The target Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectProperty.ItemID, 0)]

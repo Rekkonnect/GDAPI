@@ -15,7 +15,7 @@ namespace GDAPI.Objects.Music
         private ushort d;
 
         [FieldOffset(0)]
-        private uint all;
+        private readonly uint all;
 
         /// <summary>The beats of the time signature.</summary>
         public int Beats
@@ -62,7 +62,7 @@ namespace GDAPI.Objects.Music
         public static bool operator ==(TimeSignature left, TimeSignature right) => left.all == right.all;
         public static bool operator !=(TimeSignature left, TimeSignature right) => left.all != right.all;
 
-        public static implicit operator TimeSignature((int, int) tuple) => new TimeSignature(tuple);
+        public static implicit operator TimeSignature((int, int) tuple) => new(tuple);
         public static implicit operator (int, int)(TimeSignature timeSignature) => (timeSignature.Beats, timeSignature.Denominator);
 
         /// <summary>Parses a string of the form {Beats}/{Denominator} into a <seealso cref="TimeSignature"/>.</summary>

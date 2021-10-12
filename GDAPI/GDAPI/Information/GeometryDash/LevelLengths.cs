@@ -28,14 +28,14 @@ namespace GDAPI.Information.GeometryDash
         public const double MaxTinyLength = 10;
 
         /// <summary>The time length range for the XL level length.</summary>
-        public static readonly Range<double> XLLengthRange = new Range<double>(MinXLLength, MaxXLLength);
+        public static readonly Range<double> XLLengthRange = new(MinXLLength, MaxXLLength);
         /// <summary>The time length range for the Long level length.</summary>
-        public static readonly Range<double> LongLengthRange = new Range<double>(MinLongLength, MaxLongLength);
+        public static readonly Range<double> LongLengthRange = new(MinLongLength, MaxLongLength);
         /// <summary>The time length range for the Medium level length.</summary>
-        public static readonly Range<double> MediumLengthRange = new Range<double>(MinMediumLength, MaxMediumLength);
+        public static readonly Range<double> MediumLengthRange = new(MinMediumLength, MaxMediumLength);
         /// <summary>The time length range for the Small level length.</summary>
-        public static readonly Range<double> SmallLengthRange = new Range<double>(MinSmallLength, MaxSmallLength);
+        public static readonly Range<double> SmallLengthRange = new(MinSmallLength, MaxSmallLength);
         /// <summary>The time length range for the Tiny level length.</summary>
-        public static readonly Range<double> TinyLengthRange = new Range<double>(MinTinyLength, MaxTinyLength);
+        public static readonly Range<double> TinyLengthRange = new(MinTinyLength, MaxTinyLength);
     }
 }

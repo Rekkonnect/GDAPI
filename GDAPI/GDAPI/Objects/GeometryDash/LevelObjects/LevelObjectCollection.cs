@@ -31,7 +31,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
 
         private int commonPropertiesUnevaluatedIndex;
         private int allAvailablePropertiesUnevaluatedIndex;
-        private NestedLists<GeneralObject> unevaluatedObjects = new NestedLists<GeneralObject>();
+        private readonly NestedLists<GeneralObject> unevaluatedObjects = new();
 
         private List<GeneralObject> objects;
 
@@ -1645,45 +1645,45 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects
                             try
                             {
                                 propertyID = ParseInt32(objectInfo[j - 1]);
-                                switch (GetPropertyIDAttribute(propertyID))
+                                switch (GetPropertyIDAttribute(propertyID).TypeCode)
                                 {
-                                    case IGenericAttribute<int> _:
+                                    case ObjectPropertyTypeCode.Int:
                                         instance.SetPropertyWithID(propertyID, ParseInt32(propertyValue));
                                         break;
-                                    case IGenericAttribute<bool> _:
+                                    case ObjectPropertyTypeCode.Bool:
                                         instance.SetPropertyWithID(propertyID, ParseBoolean(propertyValue));
                                         break;
-                                    case IGenericAttribute<double> _:
+                                    case ObjectPropertyTypeCode.Double:
                                         instance.SetPropertyWithID(propertyID, ParseDouble(propertyValue));
                                         break;
-                                    case IGenericAttribute<string> _:
+                                    case ObjectPropertyTypeCode.String:
                                         instance.SetPropertyWithID(propertyID, propertyValue);
                                         break;
-                                    case IGenericAttribute<HSVAdjustment> _:
+                                    case ObjectPropertyTypeCode.HSVAdjustment:
                                         instance.SetPropertyWithID(propertyID, propertyValue);
                                         break;
-                                    case IGenericAttribute<int[]> _:
+                                    case ObjectPropertyTypeCode.IntArray:
                                         instance.SetPropertyWithID(propertyID, propertyValue.Split('.').ToInt32Array());
                                         break;
-                                    case IGenericAttribute<Easing> _:
+                                    case ObjectPropertyTypeCode.Easing:
                                         instance.SetPropertyWithID(propertyID, (Easing)ParseInt32(propertyValue));
                                         break;
-                                    case IGenericAttribute<InstantCountComparison> _:
+                                    case ObjectPropertyTypeCode.InstantCountComparison:
                                         instance.SetPropertyWithID(propertyID, (InstantCountComparison)ParseInt32(propertyValue));
                                         break;
-                                    case IGenericAttribute<PickupItemPickupMode> _:
+                                    case ObjectPropertyTypeCode.PickupItemPickupMode:
                                         instance.SetPropertyWithID(propertyID, (PickupItemPickupMode)ParseInt32(propertyValue));
                                         break;
-                                    case IGenericAttribute<PulseMode> _:
+                                    case ObjectPropertyTypeCode.PulseMode:
                                         instance.SetPropertyWithID(propertyID, (PulseMode)ParseInt32(propertyValue));
                                         break;
-                                    case IGenericAttribute<PulseTargetType> _:
+                                    case ObjectPropertyTypeCode.PulseTargetType:
                                         instance.SetPropertyWithID(propertyID, (PulseTargetType)ParseInt32(propertyValue));
                                         break;
-                                    case IGenericAttribute<TargetPosCoordinates> _:
+                                    case ObjectPropertyTypeCode.TargetPosCoordinates:
                                         instance.SetPropertyWithID(propertyID, (TargetPosCoordinates)ParseInt32(propertyValue));
                                         break;
-                                    case IGenericAttribute<TouchToggleMode> _:
+                                    case ObjectPropertyTypeCode.TouchToggleMode:
                                         instance.SetPropertyWithID(propertyID, (TouchToggleMode)ParseInt32(propertyValue));
                                         break;
                                 }

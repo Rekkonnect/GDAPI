@@ -17,8 +17,8 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
     /// <summary>Represents a color channel in a level.</summary>
     public class ColorChannel : IEquatable<ColorChannel>
     {
-        private static PropertyInfo[] properties = typeof(ColorChannel).GetProperties();
-        private static Dictionary<int, PropertyInfo> mappableProperties = properties.MapCustomAttributesToMembers<PropertyInfo, ColorStringMappableAttribute, int>(ColorStringMappableAttribute.GetKey);
+        private static readonly PropertyInfo[] properties = typeof(ColorChannel).GetProperties();
+        private static readonly Dictionary<int, PropertyInfo> mappableProperties = properties.MapCustomAttributesToMembers<PropertyInfo, ColorStringMappableAttribute, int>(ColorStringMappableAttribute.GetKey);
 
         private byte red, green, blue;
         private short colorChannelID, copiedColorID;
@@ -133,7 +133,7 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         /// <summary>Gets or sets the color values <seealso cref="Red"/>, <seealso cref="Green"/>, <seealso cref="Blue"/> represented as a <seealso cref="Objects.General.Color"/> (this does not affect <seealso cref="Opacity"/>).</summary>
         public Color Color
         {
-            get => new Color(Red, Green, Blue);
+            get => new(Red, Green, Blue);
             set
             {
                 Red = value.IntR;
@@ -263,8 +263,8 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
 
         public static bool operator ==(ColorChannel left, ColorChannel right)
         {
-            bool isLeftNull = ReferenceEquals(left, null);
-            bool isRightNull = ReferenceEquals(right, null);
+            bool isLeftNull = left is null;
+            bool isRightNull = right is null;
             if (isLeftNull || isRightNull)
                 return isLeftNull == isRightNull;
             foreach (var p in mappableProperties)
@@ -274,8 +274,8 @@ namespace GDAPI.Objects.GeometryDash.ColorChannels
         }
         public static bool operator !=(ColorChannel left, ColorChannel right)
         {
-            bool isLeftNull = ReferenceEquals(left, null);
-            bool isRightNull = ReferenceEquals(right, null);
+            bool isLeftNull = left is null;
+            bool isRightNull = right is null;
             if (isLeftNull || isRightNull)
                 return isLeftNull != isRightNull;
             foreach (var p in mappableProperties)

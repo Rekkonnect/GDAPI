@@ -25,7 +25,7 @@ namespace GDAPI.Objects.Presets.GuidelineEditor
         }
 
         /// <summary>Clones this instance of <seealso cref="GuidelineEditorPresetPattern"/>.</summary>
-        public GuidelineEditorPresetPattern Clone() => new GuidelineEditorPresetPattern(Name, Measures.Clone());
+        public GuidelineEditorPresetPattern Clone() => new(Name, Measures.Clone());
 
         /// <summary>Parses a <seealso cref="GuidelineEditorPresetPattern"/> from raw data with a specified name.</summary>
         /// <param name="rawData">The raw data of the pattern that will be parsed.</param>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GDAPI.Objects.GeometryDash.ObjectSets
 {
@@ -30,6 +31,7 @@ namespace GDAPI.Objects.GeometryDash.ObjectSets
     }
     
     /// <summary>Represents the points of a rectangle.</summary>
+    [Flags]
     public enum RectanglePoints
     {
         /// <summary>No points.</summary>
@@ -62,6 +64,7 @@ namespace GDAPI.Objects.GeometryDash.ObjectSets
         All = VerticalSides | HorizontalSides,
     }
     /// <summary>Represents the points of a slope.</summary>
+    [Flags]
     public enum SlopePoints
     {
         /// <summary>No points.</summary>

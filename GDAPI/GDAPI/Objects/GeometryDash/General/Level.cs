@@ -1,7 +1,6 @@
 ﻿using GDAPI.Application;
 using GDAPI.Attributes;
 using GDAPI.Enumerations.GeometryDash;
-using GDAPI.Functions.Crypto;
 using GDAPI.Functions.Extensions;
 using GDAPI.Functions.GeometryDash;
 using GDAPI.Objects.General;
@@ -87,7 +86,7 @@ namespace GDAPI.Objects.GeometryDash.General
         /// <summary>The time spent in the editor building the level.</summary>
         public TimeSpan TotalBuildTime
         {
-            get => new TimeSpan(0, 0, BuildTime);
+            get => new(0, 0, BuildTime);
             set => BuildTime = (int)value.TotalSeconds;
         }
         /// <summary>Determines whether the level has been verified or not.</summary>
@@ -106,17 +105,7 @@ namespace GDAPI.Objects.GeometryDash.General
         [LevelStringMappable("k23")]
         public LevelLength Length => EnumConverters.GetLevelLength(TimeLength.TotalSeconds);
         /// <summary>The length of the level as a <seealso cref="TimeSpan"/> object.</summary>
-        public TimeSpan TimeLength
-        {
-            get
-            {
-                double max = 0;
-                foreach (var m in LevelObjects)
-                    if (m.X > max)
-                        max = m.X;
-                return new TimeSpan((long)(SpeedSegments.ConvertXToTime(max) * 10000000));
-            }
-        }
+        public TimeSpan TimeLength => TimeSpan.FromSeconds(SpeedSegments.ConvertXToTime(LevelObjects.Max(o => o.X)));
 
         // Level properties
         /// <summary>The official song ID used in the level.</summary>
@@ -302,14 +291,16 @@ namespace GDAPI.Objects.GeometryDash.General
         public SongMetadata GetSongMetadata(SongMetadataCollection metadata)
         {
             if (CustomSongID == 0)
+            {
                 if (OfficialSongID >= 0 && OfficialSongID < OfficialSongMetadata.Length)
                     return OfficialSongMetadata[OfficialSongID];
-                else
-                    return SongMetadata.Unknown;
+
+                return SongMetadata.Unknown;
+            }
             return metadata.Find(s => s.ID == CustomSongID);
         }
         /// <summary>Clones this level and returns the cloned result.</summary>
-        public Level Clone() => new Level(RawLevel.Substring(0));
+        public Level Clone() => new(RawLevel.Substring(0));
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>
         public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset.ToString(CultureInfo.InvariantCulture)},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{(int)StartingGamemode},kA3,{(int)StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{(int)StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};{LevelObjects}";
         /// <summary>Returns the raw level string of this <seealso cref="Level"/>.</summary>

@@ -1,5 +1,4 @@
 ﻿using GDAPI.Application.Editors;
-using GDAPI.Enumerations;
 using GDAPI.Enumerations.GeometryDash;
 using GDAPI.Functions.Extensions;
 using GDAPI.Objects.General;
@@ -16,14 +15,14 @@ namespace GDAPI.Tests.Application.Editors
 {
     public class IDMigrationTests
     {
-        private GeneralObject[] normalBlocks = new GeneralObject[5];
-        private MoveTrigger[] moveTriggers = new MoveTrigger[5];
-        private PickupItem[] pickupItems = new PickupItem[5];
-        private PickupTrigger[] pickupTriggers = new PickupTrigger[5];
-        private ColorTrigger[] colorTriggers = new ColorTrigger[5];
-        private InstantCountTrigger[] instantCountTriggers = new InstantCountTrigger[5];
-        private CollisionBlock[] collisionBlocks = new CollisionBlock[5];
-        private CollisionTrigger[] collisionTriggers = new CollisionTrigger[5];
+        private readonly GeneralObject[] normalBlocks = new GeneralObject[5];
+        private readonly MoveTrigger[] moveTriggers = new MoveTrigger[5];
+        private readonly PickupItem[] pickupItems = new PickupItem[5];
+        private readonly PickupTrigger[] pickupTriggers = new PickupTrigger[5];
+        private readonly ColorTrigger[] colorTriggers = new ColorTrigger[5];
+        private readonly InstantCountTrigger[] instantCountTriggers = new InstantCountTrigger[5];
+        private readonly CollisionBlock[] collisionBlocks = new CollisionBlock[5];
+        private readonly CollisionTrigger[] collisionTriggers = new CollisionTrigger[5];
 
         private LevelObjectCollection allObjects;
         private Level level;
@@ -38,9 +37,9 @@ namespace GDAPI.Tests.Application.Editors
 
         private void InitializeLevelEditorInstances()
         {
-            level = new Level();
-            editor = new Editor(level);
-            migrationEditor = new IDMigrationEditor(new Bindable<Editor>(editor));
+            level = new();
+            editor = new(level);
+            migrationEditor = new(new(editor));
             ReinitializeLevelObjects();
         }
 
@@ -62,35 +61,37 @@ namespace GDAPI.Tests.Application.Editors
         private void InitializeObjects()
         {
             for (int i = 0; i < 5; i++)
+            {
                 normalBlocks[i] = new GeneralObject(1)
                 {
                     GroupIDs = new int[] { i + 1 },
                     Color1ID = i + 1,
                     Color2ID = i + 21,
                 };
-            for (int i = 0; i < 5; i++)
+
                 moveTriggers[i] = new MoveTrigger(0, i + 1);
-            for (int i = 0; i < 5; i++)
+
                 pickupItems[i] = new PickupItem(1275)
                 {
                     TargetItemID = i + 1,
                 };
-            for (int i = 0; i < 5; i++)
+
                 pickupTriggers[i] = new PickupTrigger(i + 1, 0);
-            for (int i = 0; i < 5; i++)
+
                 colorTriggers[i] = new ColorTrigger(i + 1)
                 {
                     CopiedColorID = i + 21,
                 };
-            for (int i = 0; i < 5; i++)
+
                 instantCountTriggers[i] = new InstantCountTrigger(i + 1, i + 1, 0);
-            for (int i = 0; i < 5; i++)
+
                 collisionBlocks[i] = new CollisionBlock
                 {
                     BlockID = i + 1,
                 };
-            for (int i = 0; i < 5; i++)
+
                 collisionTriggers[i] = new CollisionTrigger(i + 1, i + 21, i + 1);
+            }
 
             allObjects = new LevelObjectCollection(normalBlocks.Concat(moveTriggers).Concat(pickupItems).Concat(pickupTriggers).Concat(colorTriggers).Concat(instantCountTriggers).Concat(collisionBlocks).Concat(collisionTriggers));
         }
@@ -176,22 +177,22 @@ namespace GDAPI.Tests.Application.Editors
         [Test]
         public void GroupIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Groups, AssertGroupIDReallocation);
+            RunIDReallocationTest(LevelObjectIDType.Group, AssertGroupIDReallocation);
         }
         [Test]
         public void ColorIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Colors, AssertColorIDReallocation, AssertExtraColorIDReallication);
+            RunIDReallocationTest(LevelObjectIDType.Color, AssertColorIDReallocation, AssertExtraColorIDReallication);
         }
         [Test]
         public void ItemIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Items, AssertItemIDReallocation);
+            RunIDReallocationTest(LevelObjectIDType.Item, AssertItemIDReallocation);
         }
         [Test]
         public void BlockIDReallocation()
         {
-            RunIDReallocationTest(IDMigrationMode.Blocks, AssertBlockIDReallocation);
+            RunIDReallocationTest(LevelObjectIDType.Block, AssertBlockIDReallocation);
         }
 
         private void AssertGroupIDReallocation(int i, int id1, int id2)
@@ -234,7 +235,7 @@ namespace GDAPI.Tests.Application.Editors
             }
         }
 
-        private void RunIDReallocationTest(IDMigrationMode mode, PostReallocationAssertion assertion, PostReallocationExtra extra = null)
+        private void RunIDReallocationTest(LevelObjectIDType mode, PostReallocationAssertion assertion, PostReallocationExtra extra = null)
         {
             ReinitializeLevelObjects();
 

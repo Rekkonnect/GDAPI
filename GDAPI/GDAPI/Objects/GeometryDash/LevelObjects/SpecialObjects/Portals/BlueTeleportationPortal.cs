@@ -14,7 +14,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
         {
             get
             {
-                if (linkedYellowTeleportationPortal == null)
+                if (linkedYellowTeleportationPortal is null)
                     linkedYellowTeleportationPortal = new YellowTeleportationPortal(this);
                 return linkedYellowTeleportationPortal;
             }
@@ -22,8 +22,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
         }
 
         /// <summary>The object ID of the blue teleportation portal.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)PortalType.BlueTeleportation;
+        public override int ConstantObjectID => (int)PortalType.BlueTeleportation;
 
         /// <summary>The distance of the Y location between the yellow and this teleportation portals.</summary>
         [ObjectStringMappable(ObjectProperty.YellowTeleportationPortalDistance)]

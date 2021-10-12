@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace GDAPI.Functions.General
 {
@@ -16,7 +17,7 @@ namespace GDAPI.Functions.General
             {
                 if (chars[i] == '%')
                 {
-                    result.Append(int.Parse(chars[(i + 1)..(i + 2)], System.Globalization.NumberStyles.HexNumber));
+                    result.Append(int.Parse(chars[(i + 1)..(i + 2)], NumberStyles.HexNumber));
                     i += 2;
                 }
                 else

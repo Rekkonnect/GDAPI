@@ -12,8 +12,7 @@ namespace GDAPI.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, easingRate;
 
         /// <summary>The Object ID of the Rotate trigger.</summary>
-        [ObjectStringMappable(ObjectProperty.ObjectID)]
-        public override int ObjectID => (int)TriggerType.Rotate;
+        public override int ConstantObjectID => (int)TriggerType.Rotate;
 
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectProperty.Duration, 0.5d)]

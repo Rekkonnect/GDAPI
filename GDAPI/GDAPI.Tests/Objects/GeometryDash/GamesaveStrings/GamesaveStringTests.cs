@@ -6,6 +6,6 @@ namespace GDAPI.Tests.Objects.GeometryDash.GamesaveStrings
     {
         protected override string FileType => "CCGameManager";
 
-        protected override GamesaveString GetNewInstance(string s) => new GamesaveString(s);
+        protected override GamesaveString GetNewInstance(string s) => new(s);
     }
 }
