@@ -1,4 +1,5 @@
-﻿using GDAPI.Functions.Extensions;
+﻿using Garyon.DataStructures;
+using GDAPI.Functions.Extensions;
 using GDAPI.Objects.DataStructures;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace GDAPI.Objects.GeometryDash.General
     public class GuidelineCollection : IEnumerable<Guideline>
     {
         private SortedList<Guideline> guidelines;
-        private Dictionary<GuidelineColor, int> colors;
+        private FlexibleDictionary<GuidelineColor, int> colors;
 
         /// <summary>The count of the guideline collection.</summary>
         public int Count => guidelines.Count;
@@ -101,7 +102,6 @@ namespace GDAPI.Objects.GeometryDash.General
             return this;
         }
         /// <summary>Clears the <seealso cref="GuidelineCollection"/> and returns the instance of the <seealso cref="GuidelineCollection"/>.</summary>
-        /// <param name="index">The index of the guideline to remove from the <seealso cref="GuidelineCollection"/>.</param>
         public GuidelineCollection Clear()
         {
             guidelines.Clear();
@@ -151,7 +151,7 @@ namespace GDAPI.Objects.GeometryDash.General
         }
         private void InitializeColorDictionary()
         {
-            colors = new Dictionary<GuidelineColor, int>
+            colors = new()
             {
                 { GuidelineColor.Orange, 0 },
                 { GuidelineColor.Yellow, 0 },

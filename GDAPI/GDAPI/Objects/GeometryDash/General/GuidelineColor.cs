@@ -8,12 +8,16 @@ namespace GDAPI.Objects.GeometryDash.General
     public struct GuidelineColor : IComparable<GuidelineColor>
     {
         /// <summary>Represents the value of the orange color in the guideline.</summary>
+        public const float DefaultOrangeValue = 0;
+        /// <summary>Represents the value of the orange color in the guideline.</summary>
         public const float OrangeValue = 0.8f;
         /// <summary>Represents the value of the yellow color in the guideline.</summary>
         public const float YellowValue = 0.9f;
         /// <summary>Represents the value of the green color in the guideline.</summary>
-        public const float GreenValue = 1f;
+        public const float GreenValue = 1;
 
+        /// <summary>An instance of the orange guideline color.</summary>
+        public static readonly GuidelineColor DefaultOrange = new(DefaultOrangeValue);
         /// <summary>An instance of the orange guideline color.</summary>
         public static readonly GuidelineColor Orange = new(OrangeValue);
         /// <summary>An instance of the yellow guideline color.</summary>
@@ -24,7 +28,7 @@ namespace GDAPI.Objects.GeometryDash.General
         private readonly float col;
 
         /// <summary>Determines whether the guideline color is orange.</summary>
-        public bool IsOrange => col == 0 || (col >= 0.8 && col != YellowValue && col != GreenValue);
+        public bool IsOrange => col is DefaultOrangeValue or (>= OrangeValue and not YellowValue and not GreenValue);
         /// <summary>Determines whether the guideline color is yellow.</summary>
         public bool IsYellow => col == YellowValue;
         /// <summary>Determines whether the guideline color is green.</summary>
