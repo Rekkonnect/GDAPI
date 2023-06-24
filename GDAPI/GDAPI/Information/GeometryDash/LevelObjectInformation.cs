@@ -21,6 +21,9 @@ namespace GDAPI.Information.GeometryDash
             var attributeTypes = baseAttributeType.Assembly.GetTypes().Where(t => t.BaseType == baseAttributeType);
             foreach (var field in type.GetFields())
             {
+                if (!field.IsLiteral)
+                    continue;
+
                 ObjectPropertyTypeAttribute a = null;
                 for (int i = 0; i < attributeTypes.Count() && a == null; i++)
                     a = field.GetCustomAttributes(baseAttributeType, false).FirstOrDefault() as ObjectPropertyTypeAttribute;
