@@ -102,10 +102,15 @@ namespace GDAPI.Objects.GeometryDash.General
         [LevelStringMappable("k79")]
         public bool Unlisted { get; set; }
         /// <summary>The length of the level.</summary>
+        /// <remarks>To calculate the length, use <seealso cref="CalculateLength"/>.</remarks>
         [LevelStringMappable("k23")]
-        public LevelLength Length => EnumConverters.GetLevelLength(TimeLength.TotalSeconds);
+        public LevelLength Length { get; set; }
+
         /// <summary>The length of the level as a <seealso cref="TimeSpan"/> object.</summary>
-        public TimeSpan TimeLength => TimeSpan.FromSeconds(SpeedSegments.ConvertXToTime(LevelObjects.Max(o => o.X)));
+        public TimeSpan CalculateTimeLength()
+        {
+            return TimeSpan.FromSeconds(SpeedSegments.ConvertXToTime(LevelObjects.Max(o => o.X)));
+        }
 
         // Level properties
         /// <summary>The official song ID used in the level.</summary>
@@ -270,6 +275,8 @@ namespace GDAPI.Objects.GeometryDash.General
         #endregion
 
         #region Functions
+        public LevelLength CalculateLength() => EnumConverters.GetLevelLength(CalculateTimeLength().TotalSeconds);
+
         /// <summary>Initializes the process of loading the level string data. If this has already happened, no task is run.</summary>
         public async Task InitializeLoadingLevelString()
         {
