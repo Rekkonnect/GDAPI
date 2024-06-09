@@ -1,18 +1,8 @@
-<div align="center">
-<h1>GDAPI</h1>
-      <a href="https://ci.appveyor.com/project/AltenGD/gd-edit"><img src="https://ci.appveyor.com/api/projects/status/rr383gfmmby75c2p?svg=true" alt="Join Discord Server"/></a>
-      
-[![GitHub license](https://img.shields.io/github/license/gd-edit/GDAPI.svg?style=flat-square)](https://github.com/gd-edit/GDAPI/blob/master/LICENSE) 
-[![GitHub stars](https://img.shields.io/github/stars/gd-edit/GDAPI.svg?style=flat-square)](https://github.com/gd-edit/GDAPI/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/gd-edit/GDAPI.svg?style=flat-square)](https://github.com/gd-edit/GDAPI/network)
-[![GitHub issues](https://img.shields.io/github/issues/gd-edit/GDAPI.svg?style=flat-square)](https://github.com/gd-edit/GDAPI/issues)
-</div>
+# Archival
+
+This project was left behind. 2.2 features weren't integrated, performance wasn't up to par and features were incomplete or missing. The architecture was also bound to undergo a rework. I lost complete motivation and have since moved on from the game, and as such this project remains untouched. If you wish to enhance this project, feel free to fork it and make your own modifications and releases on NuGet, abiding to the declared license.
 
 ---
-
-# Contributing
-
-Aside from code performance and functionality, we care about [Code Style](CodeStyle.md) as well, it's important that you check it out, as, during PR approvals, abiding to those rules is also taken into consideration. Refusing to comply with those will result in forced pushes from project admins.
 
 # Current features
 
